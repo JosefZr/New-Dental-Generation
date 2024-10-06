@@ -1,7 +1,9 @@
+import { Routes, Route } from 'react-router-dom';
+import {Intro} from "./components"
 export default function App() {
   return (
-    <h1 className="text-5xl font-normal text-red-600  underline">
-      handgloves aether
-    </h1>
+      <Routes>
+        <Route path='/' element={<Intro/>}/>
+      </Routes>
   )
 }

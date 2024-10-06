@@ -1,0 +1,35 @@
+{
+  "name": "next-dental-generation",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000N\u0000e\u0000w\u0000-\u0000D\u0000e\u0000n\u0000t\u0000a\u0000l\u0000-\u0000G\u0000e\u0000n\u0000e\u0000r\u0000a\u0000t\u0000i\u0000o\u0000n\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon backend/server.js",
+    "start": "node backend/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "type": "module",
+  "license": "ISC",
+  "dependencies": {
+    "@stripe/stripe-js": "^4.7.0",
+    "axios": "^1.7.7",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.5.0",
+    "cookie-parser": "^1.0.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "framer-motion": "^11.11.1",
+    "ioredis": "^5.4.1",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.447.0",
+    "mongoose": "^8.7.0",
+    "nodemon": "^3.1.7",
+    "react-confetti": "^6.1.0",
+    "react-hot-toast": "^2.4.1",
+    "react-router-dom": "^6.26.2",
+    "recharts": "^2.12.7",
+    "stripe": "^17.1.0",
+    "zustand": "^5.0.0-rc.2"
+  }
+}
