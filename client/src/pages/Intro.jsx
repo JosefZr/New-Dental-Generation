@@ -35,7 +35,7 @@ const HeroHeading = styled.h1`
   background-color: var(--white);
   text-transform: uppercase;
   -webkit-text-fill-color: transparent;
-  background-image: url("../../public/backs/heading-texture_1heading-texture.webp");
+  background-image: url("/backs/heading-texture_1heading-texture.webp");
   background-clip: text;
   margin-top: 0.5rem;
   font-size: 3.88rem;
