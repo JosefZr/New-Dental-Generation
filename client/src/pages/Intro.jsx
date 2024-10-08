@@ -3,6 +3,8 @@ import { Loader, NavBar } from "../components";
 import styled, { keyframes } from "styled-components";
 import { useTranslation } from "react-i18next";
 import { size } from '@/lib/mediaQuerys';
+import { Link } from "react-router-dom"; // Import Link for navigation
+
 const dropUp = keyframes`
   0% {
     transform: translateY(100%); // Start off-screen above
@@ -53,7 +55,7 @@ const ContentWrapper = styled.div`
   align-items: center;
 `;
 
-const SubParagraph = styled.button`
+const SubParagraph = styled(Link)` // Use Link instead of button
     color: var(--white);
     text-align: center;
     text-transform: none;
@@ -61,14 +63,17 @@ const SubParagraph = styled.button`
     background-image: none;
     background-clip: border-box;
     margin-bottom: 0;
-    /* font-family: Inter Variablefont Slnt Wght, sans-serif; */
     font-size: 1.5rem;
     font-weight: 300;
     line-height: 1;
-    @media screen and(max-width: ${size.laptopL}){
+    cursor: pointer; // Add cursor style here
+    &:hover {
+      color: gold; // Change text color on hover
+    }
+    @media screen and(max-width: ${size.laptopL}) {
       font-size: 1.6rem;
     }
-    @media screen and(max-width: ${size.laptop}){
+    @media screen and(max-width: ${size.laptop}) {
       font-size: 1.2rem;
     }
 `;
@@ -98,17 +103,17 @@ export default function Intro() {
     <>
       <Loader isFading={isFading} />
       {showNavBar && (
-        <main className="main">
+        <main className="main ">
           <ContentWrapper>
             <NavBar />
             <Content className="gap-5 ">
               <HeroHeading>{t('identifing')}</HeroHeading>
-              <div className=" flex flex-col gap-2 ">
-                <SubParagraph className=" cursor-pointer hover:text-gold" onClick={()=>window.location.href="/dentist"}>Dentist</SubParagraph>
-                <SubParagraph className=" cursor-pointer hover:text-gold" onClick={()=>window.location.href="/dental-lab"}>Dental Lab</SubParagraph>
-                <SubParagraph className=" cursor-pointer hover:text-gold" onClick={()=>window.location.href="/dental-store"}>Dental store</SubParagraph>
+              <div className="flex flex-col gap-2">
+                <SubParagraph to="/Dentist">dentist</SubParagraph>
+                <SubParagraph to="/Dental-lab">dental Lab</SubParagraph>
+                <SubParagraph to="/Dental-store">dental Store</SubParagraph>
               </div>
-              <SubParagraph className=" cursor-pointer hover:text-gold" onClick={()=>window.location.href="/patient"}>Patient</SubParagraph>
+              <SubParagraph to="/Patient">Patient</SubParagraph>
             </Content>
           </ContentWrapper>
         </main>
