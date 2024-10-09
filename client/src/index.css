@@ -4,8 +4,9 @@
 
 :root {
   --gold-text: #bc9c22;
-  --white:white;
+  --white:#fffff6;
   --black:black;
+  --light-gray: #5E5E5E  ;
 
     --size-mobile-s: 320px;
     --size-mobile-m: 375px;
@@ -21,7 +22,7 @@ body {
   font-size: 1rem;
   line-height: 1.5;
   color: var(--black);
-  background-color: var(--white);
+  background-color: var(--black);
 }
 /* Specific styling when RTL is active */
 [dir="rtl"] {
@@ -41,11 +42,22 @@ body {
   top: 0;
   left: 0;
   width: 100%;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
   height: 100%;
   background-image: url("/backs/OPENING.svg");
   opacity: 1;
   transition: opacity 1s ease-out;
   z-index: 9999;
+}
+@media screen and (max-width: 767px) {
+  .loading {
+    background-image: url("/backs/OPENING-2.svg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+  }
 }
 
 .loading.fade-out {
@@ -223,7 +235,17 @@ body {
     font-size: 1.8rem;
   }
 }
-
+@media screen and (max-width: 425px) {
+  .hero-heading {
+    font-size: 1.4rem;
+  }
+}
+.intro-wrapper{
+  min-height: 85vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .content-wrapper{
   min-height: 100vh;
   display: flex;

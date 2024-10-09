@@ -45,6 +45,11 @@ const Content = styled.div`
     margin-left: 40px;
     margin-right: 40px;
   }
+  @media screen and (max-width: ${size.mobileL}) {
+    margin-top: -2rem;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 `;
 
 const SubParagraph = styled(Link)` // Use Link instead of button
@@ -56,11 +61,18 @@ const SubParagraph = styled(Link)` // Use Link instead of button
     background-clip: border-box;
     margin-bottom: 0;
     font-size: 1.5rem;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1;
+    text-transform: capitalize;
+    font-family: Clashdisplay Variable, sans-serif;
+    line-height: 1.25;
+    padding: 0.75rem 2rem;
+    transition: border 0.2s, background-color 0.2s;
+
     cursor: pointer; // Add cursor style here
     &:hover {
       color: gold; // Change text color on hover
+      background-color: #c2c2c22b;
     }
     @media screen and(max-width: ${size.laptopL}) {
       font-size: 1.6rem;
@@ -78,11 +90,11 @@ export default function Intro() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsFading(true);
-    }, 1500);
+    }, 2500);
 
     const navBarTimer = setTimeout(() => {
       setShowNavBar(true);
-    }, 1600);
+    }, 2800);
 
     return () => {
       clearTimeout(timer);
@@ -93,24 +105,24 @@ export default function Intro() {
   const { t } = useTranslation();
 
   return (
-    <>
+    <div className=" bg-black">
       <Loader isFading={isFading} />
       {showNavBar && (
         <main className="main ">
-          <div className="content-wrapper">
+          <div className="intro-wrapper">
             <NavBar/>
             <Content className=" gap-5 ">
               <h1 className=" hero-heading">{t('identifing')}</h1>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col ">
                 <SubParagraph to="/Dentist">dentist</SubParagraph>
                 <SubParagraph to="/Dental-lab">dental Lab</SubParagraph>
                 <SubParagraph to="/Dental-store">dental Store</SubParagraph>
               </div>
-              <SubParagraph to="/Patient">Patient</SubParagraph>
+              <SubParagraph className=" mt-5" to="/Patient">Patient</SubParagraph>
             </Content>
           </div>
         </main>
       )}
-    </>
+    </div>
   );
 }

@@ -64,7 +64,6 @@ const NavLeft = styled.div`
 
   @media screen and (max-width: ${size.tablet}) {
     justify-content: space-between;
-    width: 100%;
   }
 `;
 
@@ -113,9 +112,13 @@ const LoginButton = styled.a`
   font-family: Clashdisplay Variable, sans-serif;
   font-weight: 600;
   line-height: 1.25;
+  color: var(--white);
   text-transform: uppercase;
   transition: all 0.2s;
-
+  @media screen and (max-width: ${size.mobileL}) {
+    padding: .8rem .75rem;
+    line-height: 1;
+  }
   &:hover {
     opacity: 1;
     color: var(--white);
@@ -146,7 +149,7 @@ export default function NavBar() {
     useEffect(() => {
         const navBarTimer = setTimeout(() => {
         setShowNavBar(true);
-        }, 1600);
+        }, 50);
 
         return () => {
         clearTimeout(navBarTimer);
@@ -163,7 +166,7 @@ export default function NavBar() {
                     <NavLeft>
                     <Boss href="https://icons8.com/icon/11214/businessman" target="_blank" rel="noopener noreferrer">
                         <img 
-                        src='https://img.icons8.com/?size=100&id=11214&format=png&color=ffffff' 
+                        src='https://img.icons8.com/?size=100&id=11214&format=png&color=5E5E5E' 
                         width="30px" 
                         alt='Businessman icon' 
                         className='hover:text-gold' 
