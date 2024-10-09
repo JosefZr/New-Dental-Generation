@@ -9,5 +9,5 @@ export {
     Patient,
     DentalLab,
     DentalStore,
-    Intro
+    Intro,
 }

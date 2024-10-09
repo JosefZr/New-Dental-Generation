@@ -6,8 +6,9 @@ const StyledSelect = styled.select`
   background-color: #c2c2c22b;
   border: 1px solid #c2c2c2bb;
   color: var(--white);
-  padding: 0.5rem;
+  padding: 9px 0.4rem;
   cursor: pointer;
+  color: black;
 
   option {
     background-color: #c2c2c22b;

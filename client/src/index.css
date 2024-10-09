@@ -1,16 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 :root {
   --gold-text: #bc9c22;
-  --white:white
+  --white:white;
+  --black:black;
+
+    --size-mobile-s: 320px;
+    --size-mobile-m: 375px;
+    --size-mobile-l: 425px;
+    --size-tablet: 768px;
+    --size-laptop: 991px;
+    --size-laptop-m: 1024px;
+    --size-laptop-l: 1440px;
+    --size-desktop: 2560px;
 }
 body {
   font-family: 'Jost', sans-serif;
   font-size: 1rem;
   line-height: 1.5;
-  color: var(--white);
-  background-color: #1a1a1a;
+  color: var(--black);
+  background-color: var(--white);
 }
 /* Specific styling when RTL is active */
 [dir="rtl"] {
@@ -149,7 +160,37 @@ body {
     margin-right: auto !important;
     margin-left: auto !important;
 }
-
+.padding-section-large {
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
+@media screen and (max-width: 991px) {
+  .padding-section-large {
+      padding-top: 6rem;
+      padding-bottom: 6rem;
+  }
+}
+.padding-global {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  position: relative;
+}
+@media screen and (max-width: 767px) {
+  .padding-global {
+      padding: .25rem 1.25rem;
+  }
+}
+.padding-section-medium{
+  padding-top: 3rem;
+    padding-bottom: 4rem;
+    position: relative;
+}
+@media screen and (max-width: 991px) {
+  .padding-section-medium {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
 
 
 /*start the landing section  */
@@ -164,4 +205,43 @@ body {
   overflow: auto;
   position: relative;
 }
+
+.hero-heading{
+  background-color: var(--white);
+  text-transform: uppercase;
+  -webkit-text-fill-color: transparent;
+  background-image: url("/backs/heading-texture_1heading-texture.webp");
+  background-clip: text;
+  margin-top: 0.5rem;
+  font-size: 3.88rem;
+  font-weight: 600;
+  line-height: 1;
+  
+}
+@media screen and (max-width: 991px) {
+  .hero-heading {
+    font-size: 1.8rem;
+  }
+}
+
+.content-wrapper{
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 /*end the landing section  */
+
+
+/* start time line section */
+.vflex-center-8 {
+  grid-column-gap: .5rem;
+  grid-row-gap: .5rem;
+  align-items: center;
+}
+
+.w-layout-vflex {
+  flex-direction: column;
+  display: flex;
+}
+/* end time line section */

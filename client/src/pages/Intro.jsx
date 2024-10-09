@@ -15,7 +15,21 @@ const dropUp = keyframes`
     opacity: 1;
   }
 `;
-
+// const heroContent = styled.div`
+//   text-align: center;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+//     margin-top: -2rem;
+//     margin-left: auto;
+//     margin-right: auto;
+//     display: flex;
+//     @media screen and (max-width: ${size.laptop}) {
+//       margin-top: -2rem;
+//       margin-left: 40px;
+//       margin-right: 40px;
+//   }
+// `
 const Content = styled.div`
   text-align: center;
   margin-top: -2rem;
@@ -31,28 +45,6 @@ const Content = styled.div`
     margin-left: 40px;
     margin-right: 40px;
   }
-`;
-
-const HeroHeading = styled.h1`
-  background-color: var(--white);
-  text-transform: uppercase;
-  -webkit-text-fill-color: transparent;
-  background-image: url("/backs/heading-texture_1heading-texture.webp");
-  background-clip: text;
-  margin-top: 0.5rem;
-  font-size: 3.88rem;
-  font-weight: 600;
-  line-height: 1;
-  @media screen and (max-width: ${size.laptop}) {
-    font-size: 1.8rem;
-  }
-`;
-
-const ContentWrapper = styled.div`
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;
 
 const SubParagraph = styled(Link)` // Use Link instead of button
@@ -78,6 +70,7 @@ const SubParagraph = styled(Link)` // Use Link instead of button
     }
 `;
 
+
 export default function Intro() {
   const [isFading, setIsFading] = useState(false);
   const [showNavBar, setShowNavBar] = useState(false);
@@ -89,7 +82,7 @@ export default function Intro() {
 
     const navBarTimer = setTimeout(() => {
       setShowNavBar(true);
-    }, 2000);
+    }, 1600);
 
     return () => {
       clearTimeout(timer);
@@ -104,10 +97,10 @@ export default function Intro() {
       <Loader isFading={isFading} />
       {showNavBar && (
         <main className="main ">
-          <ContentWrapper>
-            <NavBar />
-            <Content className="gap-5 ">
-              <HeroHeading>{t('identifing')}</HeroHeading>
+          <div className="content-wrapper">
+            <NavBar/>
+            <Content className=" gap-5 ">
+              <h1 className=" hero-heading">{t('identifing')}</h1>
               <div className="flex flex-col gap-2">
                 <SubParagraph to="/Dentist">dentist</SubParagraph>
                 <SubParagraph to="/Dental-lab">dental Lab</SubParagraph>
@@ -115,7 +108,7 @@ export default function Intro() {
               </div>
               <SubParagraph to="/Patient">Patient</SubParagraph>
             </Content>
-          </ContentWrapper>
+          </div>
         </main>
       )}
     </>
