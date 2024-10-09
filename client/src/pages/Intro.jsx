@@ -60,13 +60,12 @@ const SubParagraph = styled(Link)` // Use Link instead of button
     background-image: none;
     background-clip: border-box;
     margin-bottom: 0;
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 400;
     line-height: 1;
     text-transform: capitalize;
-    font-family: Clashdisplay Variable, sans-serif;
     line-height: 1.25;
-    padding: 0.75rem 2rem;
+    padding: 0.75rem 1.75rem;
     transition: border 0.2s, background-color 0.2s;
 
     cursor: pointer; // Add cursor style here
@@ -117,8 +116,8 @@ export default function Intro() {
                 <SubParagraph to="/Dentist">dentist</SubParagraph>
                 <SubParagraph to="/Dental-lab">dental Lab</SubParagraph>
                 <SubParagraph to="/Dental-store">dental Store</SubParagraph>
+                <SubParagraph className=" mt-10" to="/Patient">Patient</SubParagraph>
               </div>
-              <SubParagraph className=" mt-5" to="/Patient">Patient</SubParagraph>
             </Content>
           </div>
         </main>

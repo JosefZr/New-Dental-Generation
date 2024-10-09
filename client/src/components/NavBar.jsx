@@ -74,7 +74,7 @@ const Boss = styled.a`
   justify-content: center;
   color: var(--gold-text);
   border: 1px solid black;
-  padding: 0.4rem;
+  padding: 0.2rem;
   font-size: 0.88rem;
   font-weight: 500;
   line-height: 1;
@@ -108,7 +108,7 @@ const NavRight = styled.div`
 const LoginButton = styled.a`
   opacity: 0.4;
   border: 1px solid #a3a3a3;
-  padding: 0.75rem 2rem;
+  padding: 0.75rem 1.5rem;
   font-family: Clashdisplay Variable, sans-serif;
   font-weight: 600;
   line-height: 1.25;
@@ -166,8 +166,8 @@ export default function NavBar() {
                     <NavLeft>
                     <Boss href="https://icons8.com/icon/11214/businessman" target="_blank" rel="noopener noreferrer">
                         <img 
-                        src='https://img.icons8.com/?size=100&id=11214&format=png&color=5E5E5E' 
-                        width="30px" 
+                        src='https://img.icons8.com/?size=100&id=11214&format=png&color=bc9c22' 
+                        width="40px" 
                         alt='Businessman icon' 
                         className='hover:text-gold' 
                         />
