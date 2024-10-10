@@ -74,7 +74,7 @@ const Boss = styled.div`
     justify-content: center;
     align-items: center;
     /* margin-left: 0.5rem; */
-    color:var(--gold-text);
+    color:var(--gold);
     border: 1px solid #00000018;
     padding: .4rem;
     font-size: .88rem;
@@ -84,7 +84,7 @@ const Boss = styled.div`
     display: flex;
     position: relative;
     &:hover{
-        background-color: #c2c2c2bb;
+        background-color: #c2c2c27d;
         border: 1px solid #c2c2c22b;
     }
     @media screen and (max-width: ${size.tablet}){
@@ -116,7 +116,7 @@ const LoginButton = styled.a`
     transition: all .1s;
     &:hover{
         opacity: 1;
-        background-color:var(--gold-text);
+        background-color:var(--gold);
     }
     @media screen and (max-width: ${size.mobileM}){
         padding: .5rem .9rem;

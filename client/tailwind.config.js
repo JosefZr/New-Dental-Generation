@@ -15,7 +15,9 @@ export default {
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
-			"gold":"var(--gold-text)",
+			"my-gold":"var(--gold)",
+			"my-gray": "var(--gray)",
+			"my-white":"var(--white)", 
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'

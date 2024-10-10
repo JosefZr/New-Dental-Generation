@@ -34,7 +34,7 @@ export default function Subscribers() {
             ))}
         </div>
         <span className="text-sm font-semibold">
-            113,000+ <span className="font-medium text-slate-900">like-minded students</span>
+            15,000+ <span className="font-medium text-slate-900">like-minded students</span>
         </span>
         </div>
     )

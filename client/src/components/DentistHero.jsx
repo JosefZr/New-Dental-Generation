@@ -1,4 +1,4 @@
-import { CtaButton } from "@/components";
+import { CtaButton, Logo } from "@/components";
 import { size } from "@/lib/mediaQuerys";
 import styled, { keyframes } from "styled-components";
 
@@ -25,44 +25,43 @@ const HeroSection = styled.section`
   
 `
 const HeroHeading = styled.h1`
-  color: black;
+  color: var(--gray);
   text-transform: uppercase;
   /* -webkit-text-fill-color: transparent; */
   background-image: url("/backs/heading-texture_1heading-texture.webp");
   background-clip: text;
-  margin-top: 7rem;
-  font-size: 3.88rem;
+  /* margin-top: 7rem; */
+  font-size: 3rem;
   font-weight: 600;
   line-height: 1;
 @media screen and (max-width: 991px) {
     font-size: 1.8rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
 
   }
 `
-
 const Content = styled.div`
   text-align: center;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top:-2rem;
+  margin-top: 2rem;
   margin-left: auto;
   margin-right: auto;
   display: flex;
+  gap: 10px;
   animation: ${dropUp} 0.5s ease-out forwards;
   opacity: 1;
   transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1);
 
   @media screen and (max-width: ${size.laptop}) {
-    margin-top: 2rem;
     margin-left: 40px;
     margin-right: 40px;
   }
   @media screen and (max-width: ${size.tablet}) {
     margin-top: 2rem;
-        margin-left: 0;
-        margin-right: 0;
+    margin-left: 0;
+    margin-right: 0;
   }
 `;
 const VideoWrapper = styled.div`
@@ -75,7 +74,7 @@ const VideoWrapper = styled.div`
     margin-top: 2rem;
     margin-bottom: 2.3rem;
     position: relative;
-    box-shadow: 0 0 0 7px #060e15a3, 0 0 0 8px #ffffff3d;
+    box-shadow: 0 0 0 3px var(--gold), 0 0 0 8px #ffffff3d;
     @media screen and (max-width: ${size.laptopL}) {
       width: 72%;
     }
@@ -89,7 +88,7 @@ const VideoWrapper = styled.div`
     }
 `
 const SubParagraph = styled.h2` // Use Link instead of button
-    color: black;
+    color: var(--gray);
     text-align: center;
     text-transform: none;
     -webkit-text-fill-color: inherit;
@@ -107,12 +106,14 @@ const SubParagraph = styled.h2` // Use Link instead of button
       font-size: 1.2rem;
     }
 `;
+
 export default function DentistHero() {
   return (
     <HeroSection>
       <div className="relative container-large  w-full max-w-7xl">
         <div className="padding-section-medium">
           <Content>
+            <Logo/>
             <HeroHeading>EXCLUSIVE FOR DENTISTS</HeroHeading>
             <VideoWrapper>
                 <div className=" aspect-video relative">

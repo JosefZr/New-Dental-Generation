@@ -5,7 +5,7 @@ import LanguageSwitcher from "./LanguageSwitcher"
 import GlobalNavbar from "@/components/GlobalNavbar";
 import CtaButton from "./CtaButton";
 import Subscribers from "./Subscribers";
-
+import Logo from "./Logo";
 export  {
     Intro,
     Loader,
@@ -13,5 +13,6 @@ export  {
     LanguageSwitcher,
     GlobalNavbar,
     CtaButton,
-    Subscribers
+    Subscribers,
+    Logo
 }

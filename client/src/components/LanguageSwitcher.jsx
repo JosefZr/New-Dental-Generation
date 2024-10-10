@@ -5,7 +5,7 @@ import i18n from '@/i18n';
 const StyledSelect = styled.select`
   background-color: #c2c2c22b;
   border: 1px solid #c2c2c2bb;
-  color: var(--white);
+  color: var(--black);
   padding: 9px 0.4rem;
   cursor: pointer;
 
