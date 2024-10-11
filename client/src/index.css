@@ -230,44 +230,42 @@ body {
   place-content: center;
   border-right: 5px solid white;
   border-left: 5px solid rgba(128, 128, 128, 0.147);
-  /* transform: rotate(-45deg); */
+  /* transform: rotate(-25deg); */
   transition: all 0.5s ease-in-out;
 }
 
 .button .bloom-container .button-container-main .button-inner {
-  height: 70px;
+  height: 60px;
   aspect-ratio: 1;
   border-radius: 50%;
   background-image: url("../public/backs/logo.jpg");
   background-size: cover;
   background-position: center;
+  background-size: 200%;
   position: relative;
-  box-shadow: rgba(100, 100, 111, 0.5) -10px 5px 10px 0px;
+  box-shadow: rgba(100, 100, 111, 0.5) -10px 5px 15px 0px;
   transition: all 0.5s ease-in-out;
 }
-
-/* .button .bloom-container .button-container-main .button-inner .back {
+/* 
+.button .bloom-container .button-container-main .button-inner .back {
   position: absolute;
   inset: 0;
   border-radius: 50%;
   background: linear-gradient(
     60deg,
-    rgb(1, 85, 103) 0%,
-    rgb(147, 245, 255) 100%
+   rgb(245, 255, 255) 0%,
+    rgb(185, 225, 200) 100%
   );
-} */
+}
 
-/* .button .bloom-container .button-container-main .button-inner .front {
+.button .bloom-container .button-container-main .button-inner .front {
   position: absolute;
   inset: 5px;
   border-radius: 50%;
-  background: linear-gradient(
-    60deg,
-    rgb(0, 103, 140) 0%,
-    rgb(58, 209, 233) 100%
-  );
+  background: linear-gradient(60deg, rgb(0, 0, 0));
   display: grid;
   place-content: center;
+  transform: rotate(20deg);
 } */
 
 .button .bloom-container .button-container-main .button-inner .front .svg {
@@ -286,7 +284,7 @@ body {
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.888) 100%
+    rgba(255, 255, 255, 0.411) 100%
   );
   transform: translate(0%, -50%) rotate(0deg);
   transform-origin: bottom center;
@@ -475,7 +473,7 @@ body {
   flex-direction: column;
   display: flex;
 }
+
+
+
 /* end time line section */
-
-
-

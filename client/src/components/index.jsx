@@ -6,6 +6,7 @@ import GlobalNavbar from "@/components/GlobalNavbar";
 import CtaButton from "./CtaButton";
 import Subscribers from "./Subscribers";
 import Logo from "./Logo";
+import TimeLine from "./TimeLine";
 export  {
     Intro,
     Loader,
@@ -14,5 +15,7 @@ export  {
     GlobalNavbar,
     CtaButton,
     Subscribers,
-    Logo
+    Logo,
+    TimeLine
+
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import i18n from '@/i18n';
@@ -5,7 +6,6 @@ import i18n from '@/i18n';
 const StyledSelect = styled.select`
   background-color: #c2c2c22b;
   border: 1px solid #c2c2c2bb;
-  color: var(--black);
   padding: 9px 0.4rem;
   cursor: pointer;
 
@@ -20,7 +20,7 @@ const StyledSelect = styled.select`
   }
 `;
 
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({intro}) {
 
   const handleLanguageChange = (event) => {
     console.log(i18n);  // Debugging: Check if i18n is initialized
@@ -36,7 +36,7 @@ export default function LanguageSwitcher() {
   }, [i18n.language]);
 
   return (
-    <StyledSelect onChange={handleLanguageChange} defaultValue={i18n.language}>
+    <StyledSelect  onChange={handleLanguageChange} defaultValue={i18n.language} className={`${intro && " text-white"}`}>
       <option value="en">English</option>
       <option value="fr">Français</option>
       <option value="ar">العربية</option>

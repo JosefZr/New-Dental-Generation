@@ -72,7 +72,7 @@ const Boss = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--gold-text);
+  color: var(--gold);
   border: 1px solid black;
   padding: 0.2rem;
   font-size: 0.88rem;
@@ -122,7 +122,7 @@ const LoginButton = styled.a`
   &:hover {
     opacity: 1;
     color: var(--white);
-    background-color: var(--gold-text);
+    background-color: var(--gold);
   }
 `;
 
@@ -166,7 +166,7 @@ export default function NavBar() {
                     <NavLeft>
                     <Boss href="https://icons8.com/icon/11214/businessman" target="_blank" rel="noopener noreferrer">
                         <img 
-                        src='https://img.icons8.com/?size=100&id=11214&format=png&color=bc9c22' 
+                        src='https://img.icons8.com/?size=100&id=11214&format=png&color=5E5E5E' 
                         width="40px" 
                         alt='Businessman icon' 
                         className='hover:text-gold' 
@@ -177,7 +177,7 @@ export default function NavBar() {
                     <LoginButton className='uppercase'>{t('login')}</LoginButton>
                     </NavRight>
                     <NavCenter>
-                    <LanguageSwitcher />
+                    <LanguageSwitcher intro ="intro"/>
                     </NavCenter>
                 </Content>
                 </div>

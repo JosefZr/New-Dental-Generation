@@ -154,13 +154,13 @@ export default function GlobalNavbar() {
                             >
                                 <input className="hidden peer" type="checkbox" />
                                 <div
-                                className="w-[50%] h-[2px] bg-gold rounded-sm transition-all duration-300 origin-left translate-y-[0.45rem] peer-checked:rotate-[-45deg]"
+                                className="w-[50%] h-[2px] bg-my-gold rounded-sm transition-all duration-300 origin-left translate-y-[0.45rem] peer-checked:rotate-[-45deg]"
                                 ></div>
                                 <div
-                                className="w-[50%] h-[2px] bg-gold rounded-md transition-all duration-300 origin-center peer-checked:hidden"
+                                className="w-[50%] h-[2px] bg-my-gold rounded-md transition-all duration-300 origin-center peer-checked:hidden"
                                 ></div>
                                 <div
-                                className="w-[50%] h-[2px] bg-gold rounded-md transition-all duration-300 origin-left -translate-y-[0.45rem] peer-checked:rotate-[45deg]"
+                                className="w-[50%] h-[2px] bg-my-gold rounded-md transition-all duration-300 origin-left -translate-y-[0.45rem] peer-checked:rotate-[45deg]"
                                 ></div>
                             </div>
                             </label>

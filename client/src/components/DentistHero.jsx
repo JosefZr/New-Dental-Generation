@@ -114,7 +114,7 @@ export default function DentistHero() {
         <div className="padding-section-medium">
           <Content>
             <Logo/>
-            <HeroHeading>EXCLUSIVE FOR DENTISTS</HeroHeading>
+            <HeroHeading>FOCUS MORE. STRESS LESS.</HeroHeading>
             <VideoWrapper>
                 <div className=" aspect-video relative">
                 <iframe
