@@ -33,6 +33,57 @@ body {
 [dir="ltr"] {
   text-align: left;
 }
+@keyframes dropUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.reveal-up {
+  opacity: 0; /* Ensure it's initially hidden */
+}
+
+.reveal-up.activation {
+  animation: dropUp 0.5s ease-out forwards;
+}
+.reveal-vertical {
+  transform: translateY(10px);
+  opacity: 0;
+  transition-delay: 2s;
+  transition: opacity 0.8s ease-out, transform .5s ease-out;
+}
+
+.reveal-vertical.activation {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.reveal-horizontal-left {
+  opacity: 0;
+  transition-delay: 1s;
+  transition: opacity 0.8s ease-out,;
+}
+
+.reveal-horizontal-left.activation {
+  opacity: 1;
+
+}
+
+.reveal-horizontal-right {
+  transform: translateX(50px);
+  opacity: 0;
+  transition: opacity 0.8s ease-out, transform 1s ease-out;
+}
+
+.reveal-horizontal-right.activation {
+  transform: translateX(0);
+  opacity: 1;
+}
 /* Loader styles */
 .loading {
   display: flex;
@@ -49,7 +100,7 @@ body {
   background-image: url("/backs/OPENING.svg");
   opacity: 1;
   transition: opacity 1s ease-out;
-  z-index: 9999;
+  z-index: 9999; 
 }
 @media screen and (max-width: 767px) {
   .loading {
@@ -203,7 +254,12 @@ body {
     padding-bottom: 4rem;
   }
 }
-
+@media screen and (max-width: 767px) {
+  .padding-section-medium {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
 /* start the logo */
 /* From Uiverse.io by Smit-Prajapati */ 
 .button {
@@ -238,12 +294,12 @@ body {
   height: 60px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background-image: url("../public/backs/logo.jpg");
+  background-image: url("/backs/logo.jpg");
   background-size: cover;
   background-position: center;
   background-size: 200%;
   position: relative;
-  box-shadow: rgba(100, 100, 111, 0.5) -10px 5px 15px 0px;
+  box-shadow: rgba(100, 100, 111, 0.5) 0px 10px 15px 0px;
   transition: all 0.5s ease-in-out;
 }
 /* 
@@ -380,7 +436,6 @@ body {
   color: var(--main-color);
   padding: 1rem 3rem;
   font-weight: 700;
-  font-size: 1.5rem;
   transition: background-size 0.2s ease-in-out;
 }
 @media screen and (max-width:991px){
@@ -463,6 +518,12 @@ body {
 
 
 /* start time line section */
+.hflex-center-16 {
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
+  align-items: center;
+  display: flex;
+}
 .vflex-center-8 {
   grid-column-gap: .5rem;
   grid-row-gap: .5rem;
@@ -473,7 +534,165 @@ body {
   flex-direction: column;
   display: flex;
 }
-
-
-
+.w-layout-hflex {
+  flex-direction: row;
+  align-items: flex-start;
+  display: flex;
+}
+.hflex-center-8 {
+  grid-column-gap: .5rem;
+  grid-row-gap: .5rem;
+  flex-direction: row;
+  align-items: center;
+}
+@media screen and (max-width: 767px) {
+  .hflex-center-8 {
+    align-items: flex-start;
+    display: flex;
+  }
+}
 /* end time line section */
+
+
+/* start table  */
+/* From Uiverse.io by Spacious74 */ 
+.outer {
+  width: 100%;
+  padding-top: 2rem;
+  height: 250px;
+  border-radius: 10px;
+  padding: 1px;
+  background: radial-gradient(circle 230px at 0% 0%, #f2f2f2, #e0e0e0);
+  position: relative;
+}
+
+.dot {
+  width: 5px;
+  aspect-ratio: 1;
+  position: absolute;
+  background-color: #000;
+  box-shadow: 0 0 0px #333;
+  border-radius: 100px;
+  z-index: 2;
+  right: 10%;
+  top: 10%;
+  animation: moveDot 6s linear infinite;
+}
+
+@keyframes moveDot {
+  0%,
+  100% {
+    top: 10%;
+    right: 10%;
+  }
+  25% {
+    top: 10%;
+    right: calc(100% - 35px);
+  }
+  50% {
+    top: calc(100% - 30px);
+    right: calc(100% - 35px);
+  }
+  75% {
+    top: calc(100% - 30px);
+    right: 10%;
+  }
+}
+
+.card {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border-radius: 9px;
+  border: solid 1px #aaa;
+  background-size: 20px 20px;
+  background: radial-gradient(circle 280px at 0% 0%, #ffffff, #d6d6d600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-direction: column;
+  color: #000;
+}
+
+.ray {
+  width: 220px;
+  height: 45px;
+  border-radius: 100px;
+  position: absolute;
+  background-color: #e6e6e6;
+  opacity: 0.6;
+  box-shadow: 0 0 50px #fff;
+  filter: blur(10px);
+  transform-origin: 10%;
+  top: 0%;
+  left: 0;
+  transform: rotate(40deg);
+}
+
+.card .text {
+  font-weight: bolder;
+  font-size: 4rem;
+  background: linear-gradient(45deg, #ffffff 4%, #000, #ffffff);
+  background-clip: text;
+  color: transparent;
+}
+
+.line {
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  background-color: #f8f1f1;
+}
+
+.topl {
+  top: 10%;
+  background: linear-gradient(90deg, #e0e0e0 30%, #f2f2f2 70%);
+}
+
+.bottoml {
+  bottom: 10%;
+}
+
+.leftl {
+  left: 10%;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, #d6d6d6 30%, #f7f7f7 70%);
+}
+
+.rightl {
+  right: 10%;
+  width: 1px;
+  height: 100%;
+}
+.relative {
+  z-index: 2;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+.is-good{
+  transition: margin .3s cubic-bezier(.455, .03, .515, .955), filter .2s;
+    overflow: hidden;
+}
+.is-bad{
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+@media screen and (max-width:991px){
+  .cta.is-bad {
+    height: 45rem;
+  }
+}
+@media screen and (max-width:767px){
+  .cta.is-bad {
+    height: 42rem;
+    margin-top: 0;
+    overflow: hidden;
+  }
+}
+/* end table */

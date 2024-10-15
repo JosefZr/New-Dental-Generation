@@ -23,7 +23,6 @@ const StyledSelect = styled.select`
 export default function LanguageSwitcher({intro}) {
 
   const handleLanguageChange = (event) => {
-    console.log(i18n);  // Debugging: Check if i18n is initialized
     i18n.changeLanguage(event.target.value);  // Should be a valid function
   };
 

@@ -7,6 +7,16 @@ import CtaButton from "./CtaButton";
 import Subscribers from "./Subscribers";
 import Logo from "./Logo";
 import TimeLine from "./TimeLine";
+import RightTimelineContent from "./RightTimelineContent";
+import TimeLineSection from "./TimeLineSection";
+import Cadre from "./Cadre";
+import CtaPreniumCard from "./CtaPreniumCard";
+import Vs from "./Vs";
+import CtaHeaders from "./CtaHeaders";
+import CtaBasicCard from "./CtaBasic";
+import EmployeeBtn from "./EmployeeBtn";
+import Path from "./Path";
+import FinalSection from "./FinalSection";
 export  {
     Intro,
     Loader,
@@ -16,6 +26,15 @@ export  {
     CtaButton,
     Subscribers,
     Logo,
-    TimeLine
-
+    TimeLine,
+    RightTimelineContent,
+    TimeLineSection,
+    Cadre,
+    CtaPreniumCard,
+    Vs,
+    CtaHeaders,
+    CtaBasicCard,
+    EmployeeBtn,
+    Path,
+    FinalSection
 }

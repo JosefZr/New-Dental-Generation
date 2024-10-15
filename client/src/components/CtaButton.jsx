@@ -14,26 +14,19 @@ const Button = styled.div`
     line-height: 1;
 
 `
-// const ButtonText = styled.div`
-//     /* background-color: #41391a; */
-//     padding: .9rem 1.8rem;
-//     transition: padding .2s;
-//     @media screen and (max-width: ${size.laptopL}){
-//         /* background-color: #41391a; */
-//         padding: .9rem 1.8rem;
-//         transition: padding .2s;
-//     }
-    
-// `
-
-export default function CtaButton() {
+// eslint-disable-next-line react/prop-types
+export default function CtaButton({withSubscribers, isSmall}) {
     return (
         <ButtonWrap>
             <Button>
-            <button className="cta-button">Build_Your_Dental_Network</button>
+            <button className={`cta-button ${isSmall && 'text-lg'}`}>Build_Your_Dental_Network</button>
 
             </Button>
-            <Subscribers/>
+            {withSubscribers ==="true" ? (
+                <Subscribers/>
+            ):("")
+            }
+            
 
         </ButtonWrap>
     )

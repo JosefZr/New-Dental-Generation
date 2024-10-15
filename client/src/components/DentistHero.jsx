@@ -1,5 +1,6 @@
 import { CtaButton, Logo } from "@/components";
 import { size } from "@/lib/mediaQuerys";
+import { useTranslation } from "react-i18next";
 import styled, { keyframes } from "styled-components";
 
 const dropUp = keyframes`
@@ -13,16 +14,15 @@ const dropUp = keyframes`
   }
 `;
 const HeroSection = styled.section`
-  background-image: url("/backs/dentist-landing-1.svg");
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-image: url("/backs/dentist-landing-1.svg");
+    background-repeat: repeat;
+    background-size: auto;
+    background-position: center;
+
     /* background-attachment: fixed; */
-    background-position: center; 
     position: relative;
     display: flex;
-  justify-content: center;
-  align-items: center;
-  
+    justify-content: center;
 `
 const HeroHeading = styled.h1`
   color: var(--gray);
@@ -108,13 +108,16 @@ const SubParagraph = styled.h2` // Use Link instead of button
 `;
 
 export default function DentistHero() {
+  const {t} = useTranslation();
   return (
     <HeroSection>
       <div className="relative container-large  w-full max-w-7xl">
         <div className="padding-section-medium">
           <Content>
             <Logo/>
-            <HeroHeading>FOCUS MORE. STRESS LESS.</HeroHeading>
+            <HeroHeading>{t("hero.title")}</HeroHeading>
+            <SubParagraph>{t("hero.description")}</SubParagraph>
+
             <VideoWrapper>
                 <div className=" aspect-video relative">
                 <iframe
@@ -129,8 +132,7 @@ export default function DentistHero() {
 
                 </div>
             </VideoWrapper>
-            <CtaButton/>
-            <SubParagraph>As a dentist, your time is valuable, and managing your clinic can be challenging.</SubParagraph>
+            <CtaButton withSubscribers='true'/>
           </Content>
         </div>
       </div>
