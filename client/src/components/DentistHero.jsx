@@ -1,6 +1,5 @@
 import { CtaButton, Logo } from "@/components";
 import { size } from "@/lib/mediaQuerys";
-import { useTranslation } from "react-i18next";
 import styled, { keyframes } from "styled-components";
 
 const dropUp = keyframes`
@@ -15,8 +14,8 @@ const dropUp = keyframes`
 `;
 const HeroSection = styled.section`
     background-image: url("/backs/dentist-landing-1.svg");
-    background-repeat: repeat;
-    background-size: auto;
+    background-repeat: no-repeat;
+    background-size: cover;
     background-position: center;
 
     /* background-attachment: fixed; */
@@ -25,9 +24,12 @@ const HeroSection = styled.section`
     justify-content: center;
 `
 const HeroHeading = styled.h1`
-  color: var(--gray);
+  background-color: white;
   text-transform: uppercase;
-  /* -webkit-text-fill-color: transparent; */
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-text-fill-color: transparent;
   background-image: url("/backs/heading-texture_1heading-texture.webp");
   background-clip: text;
   /* margin-top: 7rem; */
@@ -35,7 +37,7 @@ const HeroHeading = styled.h1`
   font-weight: 600;
   line-height: 1;
 @media screen and (max-width: 991px) {
-    font-size: 1.8rem;
+    font-size: 2.8rem;
     margin-top: 1rem;
 
   }
@@ -45,7 +47,7 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 2rem;
+  margin-top: -2rem;
   margin-left: auto;
   margin-right: auto;
   display: flex;
@@ -107,16 +109,16 @@ const SubParagraph = styled.h2` // Use Link instead of button
     }
 `;
 
-export default function DentistHero() {
-  const {t} = useTranslation();
+// eslint-disable-next-line react/prop-types
+export default function DentistHero({title,description}) {
   return (
     <HeroSection>
       <div className="relative container-large  w-full max-w-7xl">
         <div className="padding-section-medium">
           <Content>
             <Logo/>
-            <HeroHeading>{t("hero.title")}</HeroHeading>
-            <SubParagraph>{t("hero.description")}</SubParagraph>
+            <HeroHeading>{title}</HeroHeading>
+            <SubParagraph>{description}</SubParagraph>
 
             <VideoWrapper>
                 <div className=" aspect-video relative">

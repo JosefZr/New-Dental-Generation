@@ -10,9 +10,7 @@ const SectionPath = styled.section`
   background-image: url("/backs/path.svg");
   background-repeat: repeat;
   background-size: cover;
-  /* background-attachment: fixed; */
-  background-position: center; 
-  margin: 0 auto;
+  background-position: center;
 `
 const Container = styled.div`
   z-index: 2;
@@ -33,7 +31,7 @@ const LinePoint = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 55.6vw;
+    width: 50.6vw;
     max-width: 46rem;
     display: flex;
 `
@@ -50,7 +48,7 @@ const LineChoice = styled.div`
   @media screen and (max-width: ${size.laptop}){
     grid-column-gap: 2rem;
     grid-row-gap: 2rem;
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: center;
     margin-top: 1.5rem;
     position: relative;
@@ -90,7 +88,7 @@ const IconPoint = styled.div`
 `
 const GlowLine = styled.div`
   z-index: 0;
-  background-image: radial-gradient(circle closest-corner at 50% 50%, var(--white) 70%, #050815);
+  background-image: radial-gradient(circle closest-corner at 50% 50%, var(--black) 70%, #050815);
   opacity: 1;
   filter: blur(8px);
   border-radius: 50vw;
@@ -118,45 +116,48 @@ export default function Path() {
                 <CtaHeaders/>
                 <Cadre/>
                 <LinePoint>
-                <svg xmlns="http://www.w3.org/2000/svg" width="95%" height="100%" viewBox="0 0 596 31" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
-                    <path opacity="0.25" d="M0 30.5H596" stroke="currentColor"></path>
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 596 31" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
+                    <path opacity="0.25" d="M0 30.5H596" stroke="var(--white)"></path>
                     <line x1="298.5" x2="298.5" y2="30" stroke="url(#paint0_linear_857_903)"></line>
                     <defs>
                       <linearGradient id="paint0_linear_857_903" x1="297" y1="30" x2="297" y2="0" gradientUnits="userSpaceOnUse">
-                        <stop stopColor="gray" stopOpacity="0.25"></stop>
-                        <stop offset="1" stopColor="gray" stopOpacity="0"></stop>
+                        <stop stopColor="var(--white)" stopOpacity="0.25"></stop>
+                        <stop offset="1" stopColor="var(--white)" stopOpacity="0"></stop>
                       </linearGradient>
                     </defs>
-                </svg>
-                  <line x1="298.5" x2="298.5" y2="30" stroke="url(--black)"></line>
+                  </svg>
+                  <line x1="298.5" x2="298.5" y2="30" stroke="var(--white)"></line>
                 </LinePoint>
                 <LineChoice>
                   <PathItem>
                     <div className=" relative overflow-visible">
                       <IconPoint>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 13 113" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
-                          <circle opacity="0.25" cx="6.5" cy="106.5" r="6" stroke="currentColor"></circle>
-                          <circle opacity="0.25" cx="6.5" cy="106.5" r="1.5" fill="currentColor"></circle>
-                          <line opacity="0.25" x1="6.5" y1="2.18557e-08" x2="6.5" y2="100" stroke="currentColor"></line>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 13 113" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img" >
+                          <circle opacity="0.25" cx="6.5" cy="106.5" r="6" stroke="var(--gold)"></circle>
+                          <circle opacity="0.25" cx="6.5" cy="106.5" r="1.5" fill="var(--gold)"></circle>
+                          <line opacity="0.25" x1="6.5" y1="2.18557e-08" x2="6.5" y2="100" stroke="var(--gold)"></line>
                         </svg>
                         </IconPoint>
                       <GlowLine/>
                     </div>
                       <CtaPreniumCard/>
+                      {/* <Image src="https://www.jointherealworld.com/revamp/images/CTA-bg.svg">
+                      </Image> */}
                   </PathItem>
                   <Vs/>
                   <PathItem>
                     <div className=" relative overflow-visible">
                       <IconPoint>
                         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 13 113" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
-                          <circle opacity="0.25" cx="6.5" cy="106.5" r="6" stroke="currentColor"></circle>
-                          <circle opacity="0.25" cx="6.5" cy="106.5" r="1.5" fill="currentColor"></circle>
-                          <line opacity="0.25" x1="6.5" y1="2.18557e-08" x2="6.5" y2="100" stroke="currentColor"></line>
+                          <circle opacity="0.25" cx="6.5" cy="106.5" r="6" stroke="var(--white)"></circle>
+                          <circle opacity="0.25" cx="6.5" cy="106.5" r="1.5" fill="var(--white)"></circle>
+                          <line opacity="0.25" x1="6.5" y1="2.18557e-08" x2="6.5" y2="100" stroke="var(--white)"></line>
                         </svg>
                       </IconPoint>
                       <GlowLine/>
                     </div>
                     <CtaBasicCard/>
+                    
                   </PathItem>
                 </LineChoice>
               </PathContent>

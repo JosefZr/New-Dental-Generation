@@ -1,17 +1,14 @@
 import { CtaButton, TimeLine } from "@/components";
 import useReveal from "@/hooks/useReveal";
 import { size } from "@/lib/mediaQuerys";
-import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
 const SectionTimeLine = styled.section`
-    background-image: url("/backs/one.svg");
-    background-repeat: repeat;
-    background-size: contain;
-    /* background-attachment: fixed; */
-    background-position: center; 
+    background-image: url("https://www.jointherealworld.com/revamp/images/cubes-bg.svg");
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
     position: relative;
-    align-items: center;
 `;
 
 const TitleGrey = styled.div`
@@ -46,7 +43,7 @@ const H2 = styled.h2`
   margin-bottom: 0;
   font-size: 2.75rem;
   font-weight: 600;
-  color: var(--gray);
+  color: var(--white);
   line-height: 1.1;
   @media screen and (max-width: ${size.tablet}) {
     font-size: 1.8rem;
@@ -96,8 +93,8 @@ const IconCercel = styled.div`
 `;
 
 
-export default function TimeLineSection() {
-  const {t} = useTranslation();
+// eslint-disable-next-line react/prop-types
+export default function TimeLineSection({p,GetTimelineData}) {
   useReveal('vertical');
   useReveal('horizontal');
 
@@ -107,12 +104,12 @@ export default function TimeLineSection() {
           <div className="padding-global">
             <div className="container-large">
               <div className="w-layout-vflex vflex-center-8">
-                  <TitleGrey className="reveal-horizontal-left reveal-vertical">{t("services.p")}</TitleGrey>
+                  <TitleGrey className="reveal-horizontal-left reveal-vertical">{p}</TitleGrey>
                   <H2 className="reveal-vertical">YOUR DENTAL NETWORK</H2>
               </div>
             </div>
           </div>
-          <TimeLine/>
+          <TimeLine GetTimelineData= {GetTimelineData}/>
           <CtaButton />
 
 

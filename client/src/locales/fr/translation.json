@@ -10,27 +10,27 @@
       "content":{
         "private":{
           "title": "Communauté Dentaire Privée",
-          "description": "Confidentialité Totale : Un espace sécurisé pour les professionnels dentaires. Connexions Professionnelles : Connectez-vous avec d'autres dentistes pour des conseils ou de l'aide. Marché en Ligne : Comparez les prix et commandez des matériaux auprès de plusieurs magasins."
+          "description": "Confidentialité totale et sécurisée pour les professionnels. Connectez-vous avec d'autres dentistes pour conseils et aide. Comparez et commandez des matériaux facilement."
         },
         "plan":{
-          "title": "Planifiez Comme un Pro",
-          "description": "Planification Quotidienne : Organisez facilement vos tâches et rendez-vous. Gestion des Fournitures : Suivez vos achats de matériel dentaire."
+          "title": "Planification Pro",
+          "description": "Organisez vos tâches et rendez-vous. Gérez vos fournitures et achats dentaires."
         },
         "finance":{
-          "title": "Gérez Vos Finances",
-          "description": "Suivi des dépenses : Suivez vos coûts de matériaux.Gestion des revenus : Surveillez vos gains quotidiens, hebdomadaires ou annuels. Rappels de paiement : Enregistrez les paiements des patients et envoyez des rappels si nécessaire."
+          "title": "Gestion des Finances",
+          "description": "Suivi des dépenses et revenus. Rappels automatiques pour les paiements patients."
         },
         "opportunity":{
-          "title": "Votre Assistant Dentaire",
-          "description":"Archives des patients Dossiers complets : Stocker et accéder aux antécédents détaillés des patients. Récupération facile : Trouvez rapidement les traitements, les rendez-vous et les notes passés. Stockage sécurisé : Protégez les informations sensibles avec un accès crypté. Inscrivez vos patients et suivez les paiements avec des rappels automatiques. Restez organisé sans effort. Gestion des patients : Programmez des rappels pour les besoins des patients et les traitements."
+          "title": "Opportunités pour Dentistes Experts",
+          "description":"Offrez des conférences en ligne.Transformez votre expertise en revenus  avec des formations et du mentorat payants."
         },
         "courses":{
-          "title":"Formations Avancés en Dentisterie",
-          "description":"Accédez à des videos en sous titrage français , anglais …, par example des webinaires d’anglais, formation d’implantologie… Actualités Dentaires: Restez à jour avec les dernières tendances et actualités dentaires."
+          "title":"Formations Dentaires Avancées",
+          "description":"Webinaires et cours spécialisés avec sous-titres. Restez à jour avec les dernières tendances et actualités du secteur dentaire."
         },
         "growth":{
-          "title": "Support à la Croissance de Votre Cabinet",
-          "description":"Aide professionnelle pour développer votre présence en ligne et sur les réseaux sociaux,site web à des prix spéciaux."
+          "title": "Support Business",
+          "description":"Aide à développer votre présence en ligne."
         }
     } 
     },
@@ -42,25 +42,27 @@
       "desc": "Connectez-vous avec d'autres dentistes et explorez de nouvelles opportunités de carrière avec notre plan Zirconium.",
       "desc2":"Communauté Dentaire Internationale (Bientôt Disponible)",
       "table":"Cette plateforme vous fait gagner du temps, vous permettant de gérer votre pratique dentaire depuis votre téléphone 📱 ou votre ordinateur portable 💻—à tout moment, n'importe où.",
+      
       "free":{
         "title":"Mode Gratuit",
-        "checks":"Planifiez Tout : Gérez des tâches de base. Cours Avancés en Dentisterie 🎓.  Actualités Dentaires 🦷. Support à la Croissance de l'Entreprise : Tarifs spéciaux pour le mode Zirconium. ",
+        "checks":"Advanced dental courses. International chat.Plan basic tasks. Dental news.",
         "cta":"Rejoignez gratuitement"
       },
       "paid":{
-        "title":"Plan Zirconium",
-        "checks":"Gagnez du temps.  Confidentialité et sécurité.Améliorez votre professionnalisme.  Accès aux ventes.  Gestion financière.  Connectez-vous avec d'autres dentistes. Listes de contrôle avancées. Fonctionnalité Mystère.",
+        "title":"PLAN Zirconium ",
+        "checks":"Connectez-vous avec d'autres dentistes. Améliorez votre professionnalisme. Listes des tâches avancées. Confidentialité & sécurité. Fonctionnalité mystère.Gestion financière. Accès aux ventes. Gagnez du temps.",
         "cta":"Annulez à tout moment, sans risque.",
         "cta2":"14,5 € /mois pour toujours.",
         "cta3":"  Verrouillez votre prix avant qu'il n'augmente."
       }
     },
     "increasing":{
-    "title": "Y aura une augmentation ",
-    "from":"De",
+    "title": "Prix en Augmentation Bientôt",
+    "from":"Profitez de",
     "month":"mois",
-    "dentist":"",
-    "lock":"Verrouillez votre prix maintenant "
+    "to":"avant que cela passe à",
+    "dentist":"Bénéficiez d'un essai gratuit de 6 jours pour découvrir toutes les fonctionnalités. Rejoignez les dentistes qui construisent déjà leur réseau !",
+    "lock":"Sécurisez votre prix maintenant avant l'augmentation ! "
   }
 }
   

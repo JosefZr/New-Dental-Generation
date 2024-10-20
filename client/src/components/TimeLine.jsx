@@ -1,63 +1,11 @@
 import styled, { keyframes } from "styled-components"
-import { MdGroups } from "react-icons/md";
 import { FaCheck} from "react-icons/fa";
 import { size } from "@/lib/mediaQuerys";
-import { GiTakeMyMoney } from "react-icons/gi";
-import { FaMoneyBillTrendUp, FaRegChessKnight, FaRegChessQueen } from "react-icons/fa6";
-import { useTranslation } from "react-i18next";
+
 import useReveal from "@/hooks/useReveal";
 // Timeline Data
 
-export const GetTimelineData = ( ) => {
-  const { t } = useTranslation();
 
-  const transformDescriptionToTable = (description) => {
-    // Split the description by '.' and filter out any empty strings
-    return description
-      .split('.')
-      .map(item => item.trim())
-      .filter(item => item.length > 0);
-  };
-
-  return [
-    {
-      logo: <MdGroups className="h-10 w-12" />,
-      left: "/images/1.svg",
-      title: t("services.content.private.title"),
-      descriptions: transformDescriptionToTable(t("services.content.private.description")),
-    },
-    {
-      logo: <FaRegChessKnight className="h-10 w-12" />,
-      left: "/images/2.svg",
-      title: t("services.content.plan.title"),
-      descriptions: transformDescriptionToTable(t("services.content.plan.description")),
-    },
-    {
-      logo: <GiTakeMyMoney className="h-10 w-12" />,
-      left: "/images/3.svg",
-      title: t("services.content.finance.title"),
-      descriptions: transformDescriptionToTable(t("services.content.finance.description")),
-    },
-    {
-      logo: <FaRegChessQueen className="h-10 w-12" />,
-      left: "/images/5.svg",
-      title: t("services.content.opportunity.title"),
-      descriptions: transformDescriptionToTable(t("services.content.opportunity.description")),
-    },
-    {
-      logo: <FaRegChessKnight className="h-10 w-12" />,
-      left: "/images/4.svg",
-      title: t("services.content.courses.title"),
-      descriptions: transformDescriptionToTable(t("services.content.courses.description")),
-    },
-    {
-      logo: <FaMoneyBillTrendUp className="h-10 w-12" />,
-      left: "/images/6.svg",
-      title: t("services.content.growth.title"),
-      descriptions: transformDescriptionToTable(t("services.content.growth.description")),
-    },
-  ];
-};
 
 
 const TimelineGrid = styled.div`
@@ -69,6 +17,8 @@ const TimelineGrid = styled.div`
   place-content: center;
   place-items: center;
   width: 100%;
+  margin: 0 auto;
+  max-width: 80rem;
   margin-bottom: 3rem;
   display: grid;
   position: relative;
@@ -105,6 +55,7 @@ const TimelineLeftWrap = styled.div`
   background-position: center;
   background-image: ${({ bg }) => `url(${bg})`};
   background-size: contain; 
+  color:var(--white);
   background-repeat: no-repeat;
   background-attachment: local;
   flex-direction: row;
@@ -176,7 +127,7 @@ const Title = styled.div`
   flex-direction: row;
   align-items: center;
   display: flex;
-  color: var(--gray);
+  color: var(--white);
 `;
 
 const Logo = styled.div`
@@ -188,13 +139,16 @@ const Logo = styled.div`
 `;
 
 const H3 = styled.div`
-  background-clip: text;
-  margin-top: 0;
-  margin-bottom: 0;
-  font-family: Clashdisplay Variable, sans-serif;
-  font-size: 2rem;
-  font-weight: 600;
-  line-height: 1.2;z-index: 5;
+-webkit-text-fill-color: transparent;
+    background-image: linear-gradient(165deg, #fff 35%, #fff3);
+    -webkit-background-clip: text;
+    background-clip: text;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-family: Clashdisplay Variable, sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.2;
 `;
 
 const TimelineItem = styled.div`
@@ -211,8 +165,8 @@ const TimelineItemCheck = styled.div`
   grid-row-gap: 0.8rem;
   -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
-  background-color: #ffffffb4;
-  border: 1px solid black;
+  background-color: #ffffff12;
+  border: 1px solid #ffffff36;
   border-radius: 100vw;
   align-items: center;
   max-width: 34rem;
@@ -234,6 +188,7 @@ const Check = styled.div`
   width: 1.625rem;
   height: 1.1875rem;
   display: flex;
+  color: var(--white);
   @media screen and (max-width: ${size.laptop}){
     flex: none;
     width: 1.4rem;
@@ -242,11 +197,12 @@ const Check = styled.div`
 `;
 
 const P = styled.p`
-  color: var(--black);
+  color: var(--whiteGray);
   margin-bottom: 0;
   line-height: 1.6;
 `;
-export default function TimeLine() {
+// eslint-disable-next-line react/prop-types
+export default function TimeLine({GetTimelineData}) {
   useReveal('horizontal');
   const timeline = GetTimelineData();
   return (
@@ -255,7 +211,7 @@ export default function TimeLine() {
         <TimelineGrid key={index}>
           {data.left && (
             <TimelineLeftWrap bg={data.left}>
-                  <CloudSVG
+              <CloudSVG
                 viewBox="0 0 220 130" // Adjust viewBox for a larger cloud
                 style={{
                   top: '40%', // Position the first cloud

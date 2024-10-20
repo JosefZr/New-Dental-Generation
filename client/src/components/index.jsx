@@ -17,6 +17,8 @@ import CtaBasicCard from "./CtaBasic";
 import EmployeeBtn from "./EmployeeBtn";
 import Path from "./Path";
 import FinalSection from "./FinalSection";
+import Footer from "./Footer";
+import Faq from "./Faq";
 export  {
     Intro,
     Loader,
@@ -36,5 +38,7 @@ export  {
     CtaBasicCard,
     EmployeeBtn,
     Path,
-    FinalSection
+    FinalSection,
+    Footer,
+    Faq
 }

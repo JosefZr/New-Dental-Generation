@@ -34,7 +34,7 @@ const H2 = styled.h2`
   margin-bottom: 0;
   font-size: 2.75rem;
   font-weight: 600;
-  color: var(--gray);
+  color: var(--smallTittle);
   line-height: 1.1;
   @media screen and (max-width: ${size.tablet}) {
     font-size: 1.8rem;
@@ -72,7 +72,7 @@ export default function CtaHeaders() {
                     </Svg>
                     <H2>{t('plans.title4')}</H2>
                 </div>
-                <p className="text-my-gray mb-0 leading-7">{t("plans.desc")}</p>
+                <p className="text-my-white-gray mb-0 leading-7">{t("plans.desc")}</p>
                 <p className="text-black font-semibold">{t("plans.desc2")}</p>
             </div>
     </>

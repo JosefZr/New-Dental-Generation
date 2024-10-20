@@ -3,10 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --gold: #bc9c22;
-  --white:#fffff6;
-  --black:black;
-  --gray: #5E5E5E  ;
+  --gold: #BC9C22;
+  --smallGold:#BC9C22;
+  --white:#EBEBEB;
+  --black:#060e15;
+  --gray: #5E5E5E;
+  --whiteGray:#EBEBEB;
+  --smallTittle:#FFFFF6;
 
     --size-mobile-s: 320px;
     --size-mobile-m: 375px;
@@ -21,8 +24,12 @@ body {
   font-family: 'Jost', sans-serif;
   font-size: 1rem;
   line-height: 1.5;
-  color: var(--black);
+  color: var(--white);
   background-color: var(--black);
+  /* background-image: url("../public/backs/full.svg");
+  background-repeat: no-repeat;
+  background-size: cover; */
+
 }
 /* Specific styling when RTL is active */
 [dir="rtl"] {
@@ -403,7 +410,7 @@ body {
   /* Updated colors for a yellow theme */
   --main-color: rgb(118, 103, 8); /* Bright yellow */
   --main-bg-color: rgba(255, 223, 0, 0.36); /* Semi-transparent yellow */
-  --pattern-color: rgba(0, 0, 0, 0.073); /* Light pattern color */
+  --pattern-color: rgba(255, 255, 255, 0.03); /* Light pattern color */
 
   /* Change this rotation value if you want to adjust the hue */
   filter: hue-rotate(0deg);
@@ -433,7 +440,7 @@ body {
     )
     1;
   border-width: 1px 0 1px 0;
-  color: var(--main-color);
+  color: var(--white);
   padding: 1rem 3rem;
   font-weight: 700;
   transition: background-size 0.2s ease-in-out;

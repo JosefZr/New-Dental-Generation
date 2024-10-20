@@ -1,66 +1,145 @@
 {
   "identifing": " Identify Who You Are ",
   "login": "log in",
-  "hero":{
-    "title":"FOCUS MORE. STRESS LESS.",
-    "description":"As a dentist, your time is valuable, and managing your clinic can be tough."
-  },
-  "services":{
-    "p":"Connecting dentists, Labs and Stores for smarter collaboration.",
-    "content":{
-      "private":{
-        "title": "Private Dental Community",
-        "description": "Full privacy: A secure and private space for dental professionals. Professional connections: Connect with dentists for advice, collaboration, or help. Online marketplace: Compare prices and order materials from multiple stores."
-      },
-      "plan":{
-        "title": "Plan Like a Pro",
-        "description": "Daily planning: Easily schedule tasks and patient appointments. Supply management: Track and manage your dental materials."
-      },
-      "finance":{
-        "title": "Manage Your Finances",
-        "description": "Expense tracking: Monitor material costs. Income management: Track your earnings daily, weekly, or yearly. Payment reminders: Track patients and payments with automatic reminders."
-      },
-      "opportunity":{
-        "title": "Top Dentist Opportunity",
-        "description":"Showcase Your Expertise: As a top dentist, you will have the opportunity to give online lectures and share your knowledge with other dental professionals. Grow Your Reputation: Build a strong presence and gain recognition by offering valuable insights and high-level courses through our platform. Exclusive Benefits for Top Dentists Monetize Your Knowledge: Offer paid lectures, workshops, or mentoring sessions for dentists looking to advance their skills."
-      },
-      "courses":{
-        "title":"Advanced Dental Courses",
-        "description":"Learn more: Courses in English and specialized topics like Implant Dentistry with French, arabic subtitles. Dental News : Get the latest trends and news in the dental world."
-      },
-      "growth":{
-        "title": "Business Growth Support",
-        "description":"Expert help to grow your online presence and social media, with special pricing."
-      }
-    }
-  },
-  "plans":{
-    "title":"Regular Updates",
-    "title2":"Your Dental Assistant",
-    "title3":"Mystery Feature ",
-    "title4":"Job Opportunities",
-    "desc": "Connect with dentists and explore career opportunities with our Zirconium plan.",
-    "desc2":"Share cases and collaborate with dentists worldwide.",
-    "table":"This platform saves you time, letting you manage your dental practice from your phone 📱 or laptop 💻—anytime, anywhere.",
-    "free":{
-      "title":"Free Plan Access",
-      "checks":"Plan Everything: Manage basic tasks.  Advanced Dental Courses 🎓.  Dental News 🦷. Business Growth Support: Special pricing for the Zirconium plan. International Dental Community. ",
-      "cta":"Join for free"
+  "dentist":{
+    "hero":{
+      "title":"FOCUS MORE. STRESS LESS.",
+      "description":"As a dentist, your time is valuable, and managing your clinic can be tough."
     },
-    "paid":{
-      "title":"Zirconium Plan",
-      "checks":"Save time. Privacy and security. Enhance professionalism.  Sales access. Money management. Connect with other dentists.Advanced checklists. Mystery Feature. ",
-      "cta":"Cancel anytime, risk free.",
-      "cta2":"14.5 € /month forever",
-      "cta3":"Lock in your price before it increases."
+    "services":{
+      "p":"Connecting dentists, Labs and Stores for smarter collaboration.",
+      "content":{
+        "private":{
+          "title": "Private Dental Community",
+          "description": "Secure, private space for dental professionals. Connect for advice, collaboration, or support. Compare prices and order materials in the marketplace."
+        },
+        "plan":{
+          "title": "Plan Like a Pro",
+          "description": "Schedule tasks and appointments with ease. Manage dental materials and track supplies. "
+        },
+        "finance":{
+          "title": "Manage Your Finances",
+          "description": " Monitor material costs. Track earnings daily, weekly, or yearly. Automatic payment reminders. "
+        },
+        "opportunity":{
+          "title": "Top Dentist Opportunity",
+          "description":" Share expertise through online lectures. Build your reputation with high-level courses.  Monetize your knowledge with paid workshops and mentoring."
+        },
+        "courses":{
+          "title":"Advanced Dental Courses",
+          "description":"English courses on specialized topics like Implant Dentistry, with French and Arabic subtitles. Stay updated with the latest dental trends and news."
+        },
+        "growth":{
+          "title": "Business Growth Support",
+          "description":"Get expert help with online presence and social media, with exclusive pricing. "
+        }
+      }
+    },
+    "plans":{
+      "title":"Regular Updates",
+      "title2":"Your Dental Assistant",
+      "title3":"Mystery Feature ",
+      "title4":"Job Opportunities",
+      "desc": "Connect with dentists and explore career opportunities with our Zirconium plan.",
+      "desc2":"Share cases and collaborate with dentists worldwide.",
+      "table":"This platform saves you time, letting you manage your dental practice from your phone 📱 or laptop 💻—anytime, anywhere.",
+      "free":{
+        "title":"Free Plan",
+        "checks":"International Dental Community.Advanced Dental Courses. Daily checklist.Dental News.",
+        "cta":"Join for free"
+      },
+      "paid":{
+        "title":"The Zirconium Plan",
+        "checks":"Connect with other dentists.Enhance professionalism.Advanced checklists.Money management. Privacy and security. Mystery Feature. Sales access. Save time.",
+        "cta":"Cancel anytime, risk free.",
+        "cta2":"14.5 € /month forever",
+        "cta3":"Lock in your price before it increases."
+      }
+    },
+    "increasing":{
+      "title": "Price increasing Soon ",
+      "from":"Get",
+      "to": "before it goes up to",
+      "month":"month ",
+      "dentist":"Enjoy a 6-day free trial to discover all features.Join dentists building their networks!",
+      "lock":"Secure your price now before the increase!"
     }
-  },
-  "increasing":{
-    "title": "Price increasing Soon ",
-    "from":"From ",
-    "month":"a month",
-    "dentist":"Dentits have already built their network",
-    "lock":"Lock in your Price Now before it increases"
-  }
+},
+"store":{
+    "hero":{
+      "title":"INCREASE VISIBILITY. GAIN TRUST. ",
+      "description":"More Growth. More Clients. Guaranteed."
+    },
+    "services":{
+      "p":"As a dental store, reaching dentists directly is the key to grow your business.",
+      "content":{
+        "access":{
+          "title": "Access a Network of Active Dentists",
+          "description": "Expand your customer base by being visible to dentists in need of quality supplies and materials."
+        },
+        "simplified":{
+          "title": "Simplified Ordering",
+          "description": " Dentists can easily browse your inventory, contact you, and place orders. "
+        },
+        "competitive":{
+          "title": "Competitive Pricing",
+          "description": "Stand out with competitive prices and let dentists compare your products. Join the competition to attract new customers and boost your sales."
+        },
+        "trust":{
+          "title": "Build Trust",
+          "description":"Strengthen relationships with dentists who will return for reliable products and services."
+        },
+        "Plan":{
+          "title":"Plan Like a Pro",
+          "description":"Track daily tasks and deliveries with reminders to stay organized. "
+        },
+        "management":{
+          "title": "Financial Management",
+          "description":"Track expenses, manage income, and set payment reminders effortlessly."
+        },
+        "growth":{
+          "title":"Business Growth Support",
+          "description":"Get expert help to grow your online presence with special offers."
+        },
+        "setup":{
+          "title": "Quick Setup",
+          "description":" Start selling in less than 24 hours."
+        },
+        "notifications":{
+          "title": "Real-Time Notifications",
+          "description":"Get instant notifications when dentists place orders or inquire about your services, helping you respond faster and provide better customer service."
+        }
+      }
+    },
+    "plans":{
+      "title":"Regular Updates",
+      "title2":"Your Dental Assistant",
+      "title3":"Mystery Feature ",
+      "title4":"Job Opportunities",
+      "desc": "Connect with dentists and explore career opportunities with our Zirconium plan.",
+      "desc2":"Share cases and collaborate with dentists worldwide.",
+      "table":"This platform saves you time, letting you manage your dental practice from your phone 📱 or laptop 💻—anytime, anywhere.",
+      "free":{
+        "title":"Free Plan",
+        "checks":"International Dental Community.Advanced Dental Courses. Daily checklist.Dental News.",
+        "cta":"Join for free"
+      },
+      "paid":{
+        "title":"The Zirconium Plan",
+        "checks":"Connect with other dentists.Enhance professionalism.Advanced checklists.Money management. Privacy and security. Mystery Feature. Sales access. Save time.",
+        "cta":"Cancel anytime, risk free.",
+        "cta2":"14.5 € /month forever",
+        "cta3":"Lock in your price before it increases."
+      }
+    },
+    "increasing":{
+      "title": "Price increasing Soon ",
+      "from":"Get",
+      "to": "before it goes up to",
+      "month":"month ",
+      "dentist":"Enjoy a 6-day free trial to discover all features.Join dentists building their networks!",
+      "lock":"Secure your price now before the increase!"
+    }
 }
   
+}

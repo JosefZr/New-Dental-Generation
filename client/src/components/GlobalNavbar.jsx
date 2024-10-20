@@ -169,7 +169,7 @@ export default function GlobalNavbar() {
                             </Boss>
                         </NavLeft>
                         <NavCenter>
-                            <LanguageSwitcher/>
+                            <LanguageSwitcher intro ={true}/>
                         </NavCenter>
                         <NavRight>
                             <LoginButton className=' uppercase'>{t('login')}</LoginButton>
