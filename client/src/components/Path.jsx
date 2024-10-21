@@ -106,15 +106,16 @@ const GlowLine = styled.div`
   }
 `
 
-export default function Path() {
+// eslint-disable-next-line react/prop-types
+export default function Path({GetChecks,actor}) {
   return (
     <SectionPath>
         <div className="padding-global">
           <Container className="container-large">
             <div className="padding-section-medium">
               <PathContent>
-                <CtaHeaders/>
-                <Cadre/>
+                <CtaHeaders actor={actor}/>
+                <Cadre actor={actor}/>
                 <LinePoint>
                 <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 596 31" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
                     <path opacity="0.25" d="M0 30.5H596" stroke="var(--white)"></path>
@@ -140,7 +141,7 @@ export default function Path() {
                         </IconPoint>
                       <GlowLine/>
                     </div>
-                      <CtaPreniumCard/>
+                      <CtaPreniumCard actor={actor} />
                       {/* <Image src="https://www.jointherealworld.com/revamp/images/CTA-bg.svg">
                       </Image> */}
                   </PathItem>
@@ -156,7 +157,7 @@ export default function Path() {
                       </IconPoint>
                       <GlowLine/>
                     </div>
-                    <CtaBasicCard/>
+                    <CtaBasicCard actor={actor} GetChecks={GetChecks}/>
                     
                   </PathItem>
                 </LineChoice>

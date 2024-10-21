@@ -1,11 +1,94 @@
 import styled, { keyframes } from "styled-components"
-import { FaCheck} from "react-icons/fa";
 import { size } from "@/lib/mediaQuerys";
-
+import { GiTakeMyMoney } from "react-icons/gi";
+import { useTranslation } from "react-i18next";
 import useReveal from "@/hooks/useReveal";
+import { FaMoneyBillTrendUp, FaRegChessKnight, FaRegChessQueen,FaRegHandshake } from "react-icons/fa6";
+import { SiLeaderprice,SiSimplelogin } from "react-icons/si"
+import { FaCheck, FaUsers} from "react-icons/fa";
+import { LiaUniversitySolid } from "react-icons/lia";
 // Timeline Data
 
+export const GetTimelineData = ( actor) => {
+  const { t } = useTranslation();
 
+  const transformDescriptionToTable = (description) => {
+    // Split the description by '.' and filter out any empty strings
+    return description
+      .split('.')
+      .map(item => item.trim())
+      .filter(item => item.length > 0);
+  };
+  if(actor ==="store" || actor ==="lab"){
+    return [
+      {
+        logo: <LiaUniversitySolid className="h-10 w-12" />,
+        left: "/store/4.svg",
+        title: t(`${actor}.services.content.access.title`),
+        descriptions: transformDescriptionToTable(t(`${actor}.services.content.access.description`)),
+      },
+      {
+        logo: <SiSimplelogin className="h-10 w-12" />,
+        left: "/store/3.svg",
+        title: t(`${actor}.services.content.simplified.title`),
+        descriptions: transformDescriptionToTable(t(`${actor}.services.content.simplified.description`)),
+      },
+      {
+        logo: <SiLeaderprice className="h-10 w-12" />,
+        left: "/store/1.svg",
+        title: t(`${actor}.services.content.competitive.title`),
+        descriptions: transformDescriptionToTable(t(`${actor}.services.content.competitive.description`)),
+      },
+      {
+        logo: <FaRegHandshake className="h-10 w-12" />,
+        left: "/store/5.svg",
+        title: t(`${actor}.services.content.trust.title`),
+        descriptions: transformDescriptionToTable(t(`${actor}.services.content.trust.description`)),
+      },
+    ];
+  }
+  else{
+    return [
+      {
+        logo: <FaRegChessQueen className="h-10 w-12" />,
+        left: "/images/5.svg",
+        title: t(`${actor}.services.content.opportunity.title`),
+        descriptions: transformDescriptionToTable(t(`${actor}.services.content.opportunity.description`)),
+      },
+      {
+        logo: <FaMoneyBillTrendUp className="h-10 w-12" />,
+        left: "/images/6.svg",
+        title: t(`${actor}.services.content.growth.title`),
+        descriptions: transformDescriptionToTable(t(`${actor}.services.content.growth.description`)),
+      },
+      {
+        logo: <GiTakeMyMoney className="h-10 w-12" />,
+        left: "/images/3.svg",
+        title: t(`${actor}.services.content.finance.title`),
+        descriptions: transformDescriptionToTable(t(`${actor}.services.content.finance.description`)),
+      },
+      {
+        logo: <FaRegChessKnight className="h-10 w-12" />,
+        left: "/images/2.svg",
+        title: t(`${actor}.services.content.plan.title`),
+        descriptions: transformDescriptionToTable(t(`${actor}.services.content.plan.description`)),
+      },
+      {
+        logo: <FaUsers className="h-10 w-12" />,
+        left: "/images/1.svg",
+        title: t(`${actor}.services.content.private.title`),
+        descriptions: transformDescriptionToTable(t(`${actor}.services.content.private.description`)),
+      },
+      
+      {
+        logo: <LiaUniversitySolid className="h-10 w-12" />,
+        left: "/images/4.svg",
+        title: t(`${actor}.services.content.courses.title`),
+        descriptions: transformDescriptionToTable(t(`${actor}.services.content.courses.description`)),
+      },
+    ];
+  }
+};
 
 
 const TimelineGrid = styled.div`
@@ -27,7 +110,7 @@ const TimelineGrid = styled.div`
     padding-left: 1.25rem;
   }
   @media screen and (max-width: ${size.mobileL}){
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
   }
   @media screen and (max-width: ${size.mobileM}){
@@ -95,11 +178,15 @@ const TimelineRightWrap = styled.div`
   grid-column-gap: 1rem;
   grid-row-gap: 1rem;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
   width: 100%;
   padding-left: 3.5rem;
   padding-right: 2.5rem;
   display: flex;  
+  @media screen and (max-width: ${size.laptop}){
+    align-items: center;
+
+  }
   @media screen and (max-width: ${size.laptopM}){
     padding-left: 0rem;
     padding-right: 0rem;
@@ -111,12 +198,12 @@ const TimelineContent = styled.div`
   grid-column-gap: 1rem;
   grid-row-gap: 1rem;
   flex-direction: column;
-  padding-left: 3.5rem;
-  padding-right: 2.5rem;
+  /* padding-left: 3.5rem;
+  padding-right: 2.5rem; */
   display: grid;
   @media screen and (max-width: ${size.laptop}){
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    /* padding-left: 1.5rem;
+    padding-right: 1.5rem; */
   }
 
 `;
@@ -202,9 +289,9 @@ const P = styled.p`
   line-height: 1.6;
 `;
 // eslint-disable-next-line react/prop-types
-export default function TimeLine({GetTimelineData}) {
+export default function TimeLine({actor}) {
   useReveal('horizontal');
-  const timeline = GetTimelineData();
+  const timeline = GetTimelineData(actor);
   return (
     <div className=" mx-auto">
       {timeline.map((data, index) => (

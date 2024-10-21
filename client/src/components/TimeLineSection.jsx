@@ -1,6 +1,7 @@
 import { CtaButton, TimeLine } from "@/components";
 import useReveal from "@/hooks/useReveal";
 import { size } from "@/lib/mediaQuerys";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
 const SectionTimeLine = styled.section`
@@ -31,19 +32,20 @@ const TitleGrey = styled.div`
 `;
 
 const H2 = styled.h2`
+  background-color: var(--smallTittle);
   text-align: center;
   text-transform: uppercase;
-  background-image: url("/backs/5.svg"),
-  linear-gradient(125deg, #fff 85%, #fff0);
-  background-position: 0 0, 0 0;
-  background-size: auto, auto;
-  -webkit-background-clip: text;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-text-fill-color: transparent;
+  background-image: url(/backs/heading-texture_1heading-texture.webp);
+  background-clip: text;
   background-clip: text;
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 2.75rem;
+  font-size: 3rem;
   font-weight: 600;
-  color: var(--white);
+  color: var(--whiteGray);
   line-height: 1.1;
   @media screen and (max-width: ${size.tablet}) {
     font-size: 1.8rem;
@@ -94,7 +96,8 @@ const IconCercel = styled.div`
 
 
 // eslint-disable-next-line react/prop-types
-export default function TimeLineSection({p,GetTimelineData}) {
+export default function TimeLineSection({actor}) {
+  const {t} = useTranslation();
   useReveal('vertical');
   useReveal('horizontal');
 
@@ -104,12 +107,12 @@ export default function TimeLineSection({p,GetTimelineData}) {
           <div className="padding-global">
             <div className="container-large">
               <div className="w-layout-vflex vflex-center-8">
-                  <TitleGrey className="reveal-horizontal-left reveal-vertical">{p}</TitleGrey>
+                  <TitleGrey className="reveal-horizontal-left reveal-vertical">{t(`${actor}.services.p`)}</TitleGrey>
                   <H2 className="reveal-vertical">YOUR DENTAL NETWORK</H2>
               </div>
             </div>
           </div>
-          <TimeLine GetTimelineData= {GetTimelineData}/>
+          <TimeLine actor={actor}/>
           <CtaButton />
 
 

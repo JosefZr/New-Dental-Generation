@@ -5,7 +5,7 @@ import { size } from "@/lib/mediaQuerys";
 import { useTranslation } from "react-i18next";
 import { GiLaurels } from "react-icons/gi";
 
-export const GetChecks = () => {
+export const GetChecks = (actor) => {
   const { t } = useTranslation();
 
   const transformDescriptionToTable = (description) => {
@@ -15,7 +15,7 @@ export const GetChecks = () => {
       .filter((item) => item.length > 0);
   };
 
-  return transformDescriptionToTable(t("plans.free.checks"));
+  return transformDescriptionToTable(t(`${actor}.plans.free.checks`));
 };
 
 const Cta = styled.div`
@@ -125,24 +125,25 @@ const CtaPrice = styled.div`
     margin-right: 17px;
   }
 `
-export default function CtaBasicCard() {
+// eslint-disable-next-line no-unused-vars, react/prop-types
+export default function CtaBasicCard({actor}) {
   const {t} = useTranslation();
-  const checks = GetChecks()
+  const checks = GetChecks(actor)
   return (
     <Cta>
         <div className="vflex-center-8 w-layout-vflex">
         <IconImbedCustom>
           <GiLaurels className=" h-12 w-auto"/>
         </IconImbedCustom>
-        <H3>{t("plans.free.title")}</H3>
+        <H3>{t(`${actor}.plans.free.title`)}</H3>
         </div>
         <IconLine>
         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 200 2" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
             <line opacity="0.3" x1="-0.000549316" y1="1.29199" x2="199.999" y2="1.29199" stroke="currentColor"></line>
         </svg>
         </IconLine>
-        <CtaPrice className="w-layout-hflex font-medium text-5xl py-5 ">
-        <h1 className=" text-my-small-white-title opacity-70">Add Title Here</h1>
+        <CtaPrice className="w-layout-hflex font-medium text-4xl ">
+        <h1 className=" text-my-small-white-title opacity-70 capitalize">{t("dentist.plans.free.head")}</h1>
         </CtaPrice>
         <CtaChecks>
         {checks.map((check, index) => (
@@ -159,7 +160,7 @@ export default function CtaBasicCard() {
         </IconLine>
         
         <div className=" w-[80%] max-w-[40rem] mt-10 mb-10">
-        <EmployeeBtn />
+        <EmployeeBtn actor={actor} />
         </div>
     </Cta>
   )

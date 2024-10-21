@@ -116,7 +116,6 @@ export default function Intro() {
                 <SubParagraph to="/Dentist">dentist</SubParagraph>
                 <SubParagraph to="/Dental-lab">dental Lab</SubParagraph>
                 <SubParagraph to="/Dental-store">dental Store</SubParagraph>
-                <SubParagraph className=" mt-10" to="/Patient">Patient</SubParagraph>
               </div>
             </Content>
           </div>

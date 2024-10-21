@@ -12,7 +12,7 @@ export default function Faq() {
         <FaqSection className=" padding-global bg-transparent">
             <div className=" container-large">
                 <div className=" padding-section-large">
-                <div className="divide-y  rounded-xl border   divide-gray-800 border-gray-800 bg-gray-900 max-w-5xl mx-auto">
+                <div className="divide-y  rounded-xl border   divide-gray-800 border-gray-800 bg-transparent max-w-5xl mx-auto">
             <details className="group p-6 [&_summary::-webkit-details-marker]:hidden" open>
                 <summary className="flex cursor-pointer items-center justify-between gap-1.5  text-white">
                     <h2 className="text-lg font-medium">Lorem ipsum dolor sit amet consectetur adipisicing?</h2>

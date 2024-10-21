@@ -1,7 +1,9 @@
 {
     "identifing": "Identifiez qui vous étes ",
     "login": "se connecter",
-    "hero":{
+    "cta":"Construisez_Votre_Réseau_Dentaire",  
+    "dentist":{
+  "hero":{
       "title":"FOCUS MORE. STRESS LESS.",
       "description":"En tant que dentiste, votre temps est précieux, et la gestion de votre clinique peut être exigeante."
     },
@@ -18,7 +20,7 @@
         },
         "finance":{
           "title": "Gestion des Finances",
-          "description": "Suivi des dépenses et revenus. Rappels automatiques pour les paiements patients."
+          "description": "Suivi des dépenses et revenus. Rappels automatiques pour les paiements ."
         },
         "opportunity":{
           "title": "Opportunités pour Dentistes Experts",
@@ -36,16 +38,17 @@
     },
     "plans":{
       "title":"Mises à Jour Régulières",
-      "title2":"Fonctionnalité Mystère",
+      "title2":"",
       "title3":"Opportunités d’Emploi",
       "title4":"",
       "desc": "Connectez-vous avec d'autres dentistes et explorez de nouvelles opportunités de carrière avec notre plan Zirconium.",
       "desc2":"Communauté Dentaire Internationale (Bientôt Disponible)",
-      "table":"Cette plateforme vous fait gagner du temps, vous permettant de gérer votre pratique dentaire depuis votre téléphone 📱 ou votre ordinateur portable 💻—à tout moment, n'importe où.",
+      "table":"Cette plateforme vous fait gagner du temps, vous permettant de gérer votre pratique dentaire depuis votre téléphone ou votre ordinateur portable à tout moment, n'importe où.",
       
       "free":{
         "title":"Mode Gratuit",
-        "checks":"Advanced dental courses. International chat.Plan basic tasks. Dental news.",
+        "head":"rester un amateur",
+        "checks":"Planifiez Tout : Gérez des tâches de base. Cours Avancés en Dentisterie .Actualités Dentaires. Support à la Croissance de l'Entreprise : Tarifs spéciaux pour le mode Zirconium.",
         "cta":"Rejoignez gratuitement"
       },
       "paid":{
@@ -64,5 +67,148 @@
     "dentist":"Bénéficiez d'un essai gratuit de 6 jours pour découvrir toutes les fonctionnalités. Rejoignez les dentistes qui construisent déjà leur réseau !",
     "lock":"Sécurisez votre prix maintenant avant l'augmentation ! "
   }
+},
+"store":{
+    "hero":{
+      "title":"AUGMENTER LA VISIBILITÉ. GAGNER LA CONFIANCE. ",
+      "description":"Plus de croissance. Plus de clients. Garanties."
+    },
+    "services":{
+      "p":"En vous connectant directement à un réseau de dentistes qui recherchent activement des fournitures dentaires de qualité.",
+      "content":{
+        "access":{
+          "title": "Accès direct aux dentistes",
+          "description": "Élargissez votre clientèle en étant visible pour les dentistes à la recherche de fournitures et de matériaux de qualité."
+        },
+        "simplified":{
+          "title": "Commande simplifiée",
+          "description": "Les dentistes peuvent facilement parcourir votre inventaire, vous contacter et passer commande. "
+        },
+        "competitive":{
+          "title": "Prix compétitifs",
+          "description": " Démarquez-vous avec des prix compétitifs et permettez aux dentistes de comparer vos produits."
+        },
+        "trust":{
+          "title": "Renforcez la confiance",
+          "description":" Développez des relations de confiance avec des dentistes qui reviendront pour des produits fiables."
+        }
+      }
+    },
+    "plusServices":{
+      "plan":{
+        "title": "Planifiez comme un pro",
+        "description": "Suivez les tâches quotidiennes et les livraisons avec des rappels pour rester organisé."
+      },
+      "financial":{
+        "title": "Gestion financière",
+        "description": "Suivez les dépenses, gérez vos revenus et définissez des rappels de paiement facilement."
+      },
+      "growth":{
+        "title": "Soutien à la croissance de l’entreprise",
+        "description": "Obtenez de l'aide d'experts pour développer votre présence en ligne avec des offres spéciales."
+      },
+      "setup":{
+        "title": "Mise en place rapide",
+        "description": "Commencez à vendre en moins de 24 heures."
+      },
+      "notifications":{
+        "title": "Notifications en temps réel ",
+        "description": " Recevez des notifications instantanées lorsque des dentistes passent commande ou demandent des informations, vous aidant à répondre plus rapidement."
+      }
+    },
+    "plans":{
+      "title":"Mises à Jour Régulières",
+      "title2":"Fonctionnalité Mystère",
+      "desc": "Cette plateforme vous fait gagner du temps",
+      "desc2":"vous permettant de gérer votre entreprise dentaire depuis votre téléphone 📱 ou votre ordinateur portable 💻, à tout moment, où que vous soyez.",
+      "table":"Votre magasin sera visible par des centaines de dentistes actifs et de cliniques, facilitant ainsi la comparaison et l'achat de vos produits directement.",
+      "paid":{
+        "title":"The Zirconium Plan",
+        "checks":"Connect with other dentists.Enhance professionalism.Advanced checklists.Money management. Privacy and security. Mystery Feature. Sales access. Save time.",
+        "cta":"Cancel anytime, risk free.",
+        "cta2":"14.5 € /month forever",
+        "cta3":"Lock in your price before it increases."
+      }
+    },
+    "increasing":{
+      "title": "Price increasing Soon ",
+      "from":"Get",
+      "to": "before it goes up to",
+      "month":"month ",
+      "dentist":"Enjoy a 6-day free trial to discover all features.Join dentists building their networks!",
+      "lock":"Secure your price now before the increase!"
+    }
+},
+"lab":{
+    "hero":{
+      "title":"AUGMENTER LA VISIBILITÉ. GAGNER LA CONFIANCE. ",
+      "description":"Plus de croissance. Plus de clients. Garanties."
+    },
+    "services":{
+      "p":"En vous connectant directement à un réseau de dentistes qui recherchent activement des fournitures dentaires de qualité.",
+      "content":{
+        "access":{
+          "title": "Accès direct aux dentistes",
+          "description": " Connectez-vous avec des dentistes qui ont besoin de vos services et construisez des relations durables."
+        },
+        "simplified":{
+          "title": "Plus de commandes, plus rapidement",
+          "description": "Recevez des commandes claires et détaillées pour améliorer la productivité. Achetez tout ce dont vous avez besoin chez un comptoire dentaire. "
+        },
+        "competitive":{
+          "title": "Communication efficace",
+          "description": " Collaborez directement avec les dentistes via la plateforme, sans les tracas des appels téléphoniques ou des visites."
+        },
+        "trust":{
+          "title": "Visibilité et confiance",
+          "description":"  Augmentez votre visibilité et gagnez la confiance des dentistes qui recherchent des laboratoires de qualité."
+        }
+      }
+    },
+    "plusServices":{
+      "plan":{
+        "title": "Planifiez comme un pro",
+        "description": "Suivez les tâches quotidiennes et les livraisons avec des rappels pour rester organisé."
+      },
+      "financial":{
+        "title": "Gestion financière",
+        "description": "Suivez les dépenses, gérez vos revenus et définissez des rappels de paiement facilement."
+      },
+      "growth":{
+        "title": "Soutien à la croissance de l’entreprise",
+        "description": "Obtenez de l'aide d'experts pour développer votre présence en ligne avec des offres spéciales."
+      },
+      "setup":{
+        "title": "Mise en place rapide",
+        "description": "Commencez à vendre en moins de 24 heures."
+      },
+      "notifications":{
+        "title": "Notifications en temps réel ",
+        "description": " Recevez des notifications instantanées lorsque des dentistes passent commande ou demandent des informations, vous aidant à répondre plus rapidement."
+      }
+    },
+    "plans":{
+      "title":"Mises à Jour Régulières",
+      "desc": "Cette plateforme vous fait gagner du temps",
+      "desc2":"vous permettant de gérer votre entreprise dentaire depuis votre téléphone 📱 ou votre ordinateur portable 💻, à tout moment, où que vous soyez.",
+      "table":"Votre labo sera visible par des centaines de dentistes actifs et de cliniques, facilitant ainsi la comparaison et te contacter directement.",
+      "paid":{
+        "title":"The Zirconium Plan",
+        "checks":"Connect with other dentists.Enhance professionalism.Advanced checklists.Money management. Privacy and security. Mystery Feature. Sales access. Save time.",
+        "cta":"Cancel anytime, risk free.",
+        "cta2":"14.5 € /month forever",
+        "cta3":"Lock in your price before it increases."
+      }
+    },
+    "increasing":{
+      "title": "Price increasing Soon ",
+      "from":"Get",
+      "to": "before it goes up to",
+      "month":"month ",
+      "dentist":"Enjoy a 6-day free trial to discover all features.Join dentists building their networks!",
+      "lock":"Secure your price now before the increase!"
+    }
+}
+  
 }
   

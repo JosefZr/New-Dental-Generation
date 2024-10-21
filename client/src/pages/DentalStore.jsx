@@ -1,4 +1,4 @@
-import { Faq, FinalSection, Footer, GlobalNavbar, Path, TimeLineSection } from "@/components";
+import { Faq, FinalSection, Footer, GlobalNavbar, Headers, Path, TimeLineSection } from "@/components";
 import DentistHero from "@/components/DentistHero";
 import { useTranslation } from "react-i18next";
 import { FaMoneyBillTrendUp, FaRegChessKnight, FaRegChessQueen } from "react-icons/fa6";
@@ -74,15 +74,15 @@ export const GetTimelineData = ( ) => {
   ];
 };
 export default function DentalStore() {
-  const {t} = useTranslation();
 
   return (
     <div >
       <GlobalNavbar/>
-      <DentistHero title={t("store.hero.title")} description={t("store.hero.description")}/>
-      <TimeLineSection p={t("store.services.p")} GetTimelineData ={GetTimelineData}/>
-      <Path/>
-      <FinalSection/>
+      <DentistHero actor="store"/>
+      <TimeLineSection actor="store" />
+      <Headers/>
+      <Path actor="dentist"/>
+      <FinalSection actor="dentist"/>
       <Faq/>
       <Footer/>
     </div>

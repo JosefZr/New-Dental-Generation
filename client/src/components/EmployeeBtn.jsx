@@ -14,11 +14,12 @@ const Employee = styled.button`
     font-weight: 500;
     display: flex;
 `
-export default function EmployeeBtn() {
+// eslint-disable-next-line react/prop-types
+export default function EmployeeBtn({actor}) {
   const {t} = useTranslation()
   return (
     <Employee>
-      {t("plans.free.cta")}
+      {t(`${actor}.plans.free.cta`)}
     </Employee>
   )
 }

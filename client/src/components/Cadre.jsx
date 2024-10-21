@@ -1,8 +1,7 @@
-import useReavealUp from "@/hooks/useReveal";
 import useReveal from "@/hooks/useRevealUp";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-
+import { MdPhonelink } from "react-icons/md";
 const Wrap = styled.div`
   width: 100%;
   margin-top: 1rem;
@@ -17,9 +16,9 @@ const Wrap = styled.div`
   }
 `;
 
-export default function Cadre() {
-  const { t } = useTranslation();
-  
+// eslint-disable-next-line react/prop-types
+export default function Cadre({actor}) {
+  const {t}= useTranslation()
   // Hook to trigger the animation
   useReveal('up');
 
@@ -28,9 +27,10 @@ export default function Cadre() {
       <div className="outer">
         <div className="dot"></div>
         <div className="card">
+          <MdPhonelink className=" w-10 h-10"/>
           <div className="ray"></div>
-          <div className="text"></div>
-          <div className="max-w-[80%]">{t("plans.table")}</div>
+          <div className="text "></div>
+          <div className="   max-[991px]:text-lg">{t(`${actor}.plans.table`)}</div>
           <div className="line topl"></div>
           <div className="line leftl"></div>
           <div className="line bottoml"></div>

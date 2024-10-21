@@ -6,6 +6,7 @@
   --gold: #BC9C22;
   --smallGold:#BC9C22;
   --white:#EBEBEB;
+  --darkBlue:#0d0f18;
   --black:#060e15;
   --gray: #5E5E5E;
   --whiteGray:#EBEBEB;
@@ -358,23 +359,19 @@ body {
   height: 1px;
   width: 1px;
   position: absolute;
-  background: white;
+  background: rgb(19, 1, 1);
 }
 
 .button .bloom-container .bloom1 {
   top: 10px;
   right: 20px;
-  box-shadow:
-    rgb(255, 255, 255) 0px 0px 10px 10px,
-    rgb(255, 255, 255) 0px 0px 20px 20px;
+
 }
 
 .button .bloom-container .bloom2 {
   bottom: 10px;
   left: 20px;
-  box-shadow:
-    rgba(255, 255, 255, 0.5) 0px 0px 10px 10px,
-    rgba(255, 255, 255, 0.5) 0px 0px 30px 20px;
+ 
 }
 
 .button .bloom-container:hover {
@@ -564,20 +561,32 @@ body {
 /* start table  */
 /* From Uiverse.io by Spacious74 */ 
 .outer {
-  width: 100%;
+  margin: 0 auto;
   padding-top: 2rem;
-  height: 250px;
+  height: 300px;
+  margin: 0 5rem;
+  max-width: 1024px;
+  background-color: var(--blackBlue);
   border-radius: 10px;
   padding: 1px;
-  background: radial-gradient(circle 230px at 0% 0%, #f2f2f2, #e0e0e0);
+  opacity: 1;
   position: relative;
 }
-
+@media screen and (max-width:767px){
+  .outer{
+    margin: 0 1rem;
+  }
+}
+@media screen and (max-width:400px){
+  .outer{
+    margin: 0 auto;
+  }
+}
 .dot {
   width: 5px;
   aspect-ratio: 1;
   position: absolute;
-  background-color: #000;
+  background-color: var(--gold);
   box-shadow: 0 0 0px #333;
   border-radius: 100px;
   z-index: 2;
@@ -611,15 +620,16 @@ body {
   width: 100%;
   height: 100%;
   border-radius: 9px;
-  border: solid 1px #aaa;
+  border: solid 1px #aaaaaa14;
   background-size: 20px 20px;
-  background: radial-gradient(circle 280px at 0% 0%, #ffffff, #d6d6d600);
+  background: radial-gradient(circle 280px at 0% 0%, #ffffff19, #d6d6d606);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   flex-direction: column;
-  color: #000;
+  font-size: 1.5rem;
+  color:var(--whiteGray);
 }
 
 .ray {
@@ -627,10 +637,10 @@ body {
   height: 45px;
   border-radius: 100px;
   position: absolute;
-  background-color: #e6e6e6;
+  background-color: #e6e6e6ac;
   opacity: 0.6;
-  box-shadow: 0 0 50px #fff;
-  filter: blur(10px);
+  box-shadow: 0 0 50px #ffffff38;
+  filter: blur(20px);
   transform-origin: 10%;
   top: 0%;
   left: 0;
@@ -649,12 +659,12 @@ body {
   width: 100%;
   height: 1px;
   position: absolute;
-  background-color: #f8f1f1;
+  background-color: #f8f1f11e;
 }
 
 .topl {
   top: 10%;
-  background: linear-gradient(90deg, #e0e0e0 30%, #f2f2f2 70%);
+  background: linear-gradient(90deg, #e0e0e026 30%, #f2f2f237 70%);
 }
 
 .bottoml {
@@ -665,7 +675,7 @@ body {
   left: 10%;
   width: 1px;
   height: 100%;
-  background: linear-gradient(180deg, #d6d6d6 30%, #f7f7f7 70%);
+  background: linear-gradient(180deg, #d6d6d642 30%, #f7f7f728 70%);
 }
 
 .rightl {

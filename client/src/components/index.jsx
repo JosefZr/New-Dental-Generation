@@ -19,6 +19,7 @@ import Path from "./Path";
 import FinalSection from "./FinalSection";
 import Footer from "./Footer";
 import Faq from "./Faq";
+import Headers from "./Headers"
 export  {
     Intro,
     Loader,
@@ -40,5 +41,6 @@ export  {
     Path,
     FinalSection,
     Footer,
-    Faq
+    Faq,
+    Headers
 }

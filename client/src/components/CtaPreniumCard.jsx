@@ -7,7 +7,7 @@ import { size } from "@/lib/mediaQuerys";
 import { useTranslation } from "react-i18next";
 import { GiLaurelCrown } from "react-icons/gi";
 
-export const GetChecks = () => {
+export const GetChecks = (actor) => {
   const { t } = useTranslation();
 
   const transformDescriptionToTable = (description) => {
@@ -17,7 +17,7 @@ export const GetChecks = () => {
       .filter((item) => item.length > 0);
   };
 
-  return transformDescriptionToTable(t("plans.paid.checks"));
+  return transformDescriptionToTable(t(`${actor}.plans.paid.checks`));
 };
 
 const Cta = styled.div`
@@ -89,7 +89,7 @@ const IconLine = styled.div`
   color:var(--whiteGray);
 `
 const H3 = styled.h3`
-  color: var(--smallTittle);
+  color: var(--gold);
   margin-top: 0;
   margin-bottom: 0;
   font-family: Clashdisplay Variable, sans-serif;
@@ -131,16 +131,17 @@ const SVGPrice = styled.div`
   display: flex;
 `
 
-export default function CtaPreniumCard() {
+// eslint-disable-next-line react/prop-types
+export default function CtaPreniumCard({actor}) {
   const {t} = useTranslation();
-  const checks = GetChecks()
+  const checks = GetChecks(actor)
   return (
     <Cta>
         <div className="vflex-center-8 w-layout-vflex">
         <IconImbedCustom>
           <GiLaurelCrown className=" h-14 w-auto text-my-gold"/>
         </IconImbedCustom>
-        <H3>{t("plans.paid.title")}</H3>
+        <H3>{t(`${actor}.plans.paid.title`)}</H3>
         </div>
         <IconLine>
         <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 200 2" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
@@ -148,7 +149,7 @@ export default function CtaPreniumCard() {
         </svg>
         </IconLine>
         <CtaPrice className="w-layout-hflex font-medium text-5xl ">
-        <h1 className=" text-my-white line-through  ">€35</h1>
+        <h1 className=" text-my-white line-through  ">€29</h1>
         <h1 className=" text-my-gold">€14.5</h1>
         </CtaPrice>
         <CtaChecks>
@@ -167,13 +168,13 @@ export default function CtaPreniumCard() {
         <CtaChecks className="text-xl font-medium text-my-small-white-title">
         <div className="w-layout-hflex hflex-center-8 items-end ">
             <FaRegWindowClose className=" self-center"/>
-            <h3>{t("plans.paid.cta")}</h3>
+            <h3>{t(`${actor}.plans.paid.cta`)}</h3>
         </div>
         <SVGPrice className=" text-my-gold w-full ">
             <GiTakeMyMoney className=" self-center h-10 w-7"/>
-            <h3 className="text-nowrap ">{t("plans.paid.cta2")}</h3>
+            <h3 className="text-nowrap ">{t(`${actor}.plans.paid.cta2`)}</h3>
         </SVGPrice>
-        <data className=" opacity-70 ">{t("plans.paid.cta3")}</data>
+        <data className=" opacity-70 ">{t(`${actor}.plans.paid.cta3`)}</data>
         </CtaChecks>
         <div className=" w-fit lg:max-w-[36rem] mt-10">
         <CtaButton isSmall={true}/>
