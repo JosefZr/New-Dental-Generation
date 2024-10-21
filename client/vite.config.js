@@ -1,19 +1,22 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import legacy from '@vitejs/plugin-legacy';
 import path from 'path';
 
 export default defineConfig({
-  base: '/', // Ensures proper routing
-  plugins: [
-    react(),
-    legacy({
-      targets: ['defaults', 'not IE 11'],
-    }),
-  ],
+  plugins: [react()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+    },
+  },
+  server: {
+    historyApiFallback: true, // Ensures routes fallback to index.html
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: undefined, // Optional, ensures all chunks are handled correctly
+      },
     },
   },
 });
