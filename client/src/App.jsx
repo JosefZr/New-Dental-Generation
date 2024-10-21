@@ -10,4 +10,4 @@ export default function App() {
         <Route path='/dental-store' element={<DentalStore/>}/>
       </Routes>
   )
-}
+} 

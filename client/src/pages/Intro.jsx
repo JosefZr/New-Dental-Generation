@@ -113,9 +113,9 @@ export default function Intro() {
             <Content className=" gap-5 ">
               <h1 className=" hero-heading">{t('identifing')}</h1>
               <div className="flex flex-col ">
-                <SubParagraph to="/Dentist">dentist</SubParagraph>
-                <SubParagraph to="/Dental-lab">dental Lab</SubParagraph>
-                <SubParagraph to="/Dental-store">dental Store</SubParagraph>
+                <SubParagraph to="/dentist">dentist</SubParagraph>
+                <SubParagraph to="/dental-lab">dental Lab</SubParagraph>
+                <SubParagraph to="/dental-store">dental Store</SubParagraph>
               </div>
             </Content>
           </div>
