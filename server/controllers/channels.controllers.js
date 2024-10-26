@@ -1,7 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
-import ChannelService from "../services/channel.service.js";
+import ChannelService from "../services/channels.services.js";
 import { successResponse } from "../utils/Response.js";
-import ApiError from "../utils/ApiError.js";
+import { ApiError } from "../utils/ApiError.js";
 
 // Create a new channel
 export const createChannel = expressAsyncHandler(async (req, res) => {
