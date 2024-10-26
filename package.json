@@ -1,5 +1,24 @@
 {
+  "name": "new-dental-generation",
+  "version": "1.0.0",
+  "main": "server/server.js",
+  "scripts": {
+    "dev": "nodemon server/server.js",
+    "start": "node server/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
   "dependencies": {
-    "react-icons": "^5.3.0"
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.7.3",
+    "react-icons": "^5.3.0",
+    "stripe": "^17.2.1"
   }
 }
