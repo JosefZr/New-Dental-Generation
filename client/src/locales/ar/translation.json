@@ -123,16 +123,11 @@
       "desc2":"سيكون متجرك مرئيًا لمئات الأطباء والعيادات، مما يسهل عليهم العثور على منتجاتك ومقارنتها وطلبها مباشرة",
       "table":"توفر لك هذه المنصة الوقت، مما يسمح لك بإدارة عملك السني من هاتفك  أو الكمبيوتر المحمول  في أي وقت ومن أي مكان.",
       "free":{
-        "title":"Free Plan",
-        "checks":"International Dental Community.Advanced Dental Courses. Daily checklist.Dental News.",
+        "title":"Exclusive Offer for Dental Stores",
+        "title2":"40 Days Free Access: Get full access to the platform for free.",
+        "after":"After 40 Days: Only €14.5/month.",
+        "checks":"Reach new clients instantly. Manage orders and supplies efficiently. Access exclusive discounts on materials. Boost your visibility in the dental community.",
         "cta":"Join for free"
-      },
-      "paid":{
-        "title":"The Zirconium Plan",
-        "checks":"Connect with other dentists.Enhance professionalism.Advanced checklists.Money management. Privacy and security. Mystery Feature. Sales access. Save time.",
-        "cta":"Cancel anytime, risk free.",
-        "cta2":"14.5 € /month forever",
-        "cta3":"Lock in your price before it increases."
       }
     },
     "increasing":{
@@ -199,16 +194,11 @@
       "desc2":"سيكون متجرك مرئيًا لمئات الأطباء والعيادات، مما يسهل عليهم العثور على منتجاتك ومقارنتها وطلبها مباشرة",
       "table":"توفر لك هذه المنصة الوقت، مما يسمح لك بإدارة عملك السني من هاتفك أو الكمبيوتر المحمول في أي وقت ومن أي مكان.",
       "free":{
-        "title":"Free Plan",
-        "checks":"International Dental Community.Advanced Dental Courses. Daily checklist.Dental News.",
+        "title":"Exclusive Offer for Dental Stores",
+        "title2":"40 Days Free Access: Get full access to the platform for free.",
+        "after":"After 40 Days: Only €14.5/month.",
+        "checks":"Reach new clients instantly. Manage orders and supplies efficiently. Access exclusive discounts on materials. Boost your visibility in the dental community.",
         "cta":"Join for free"
-      },
-      "paid":{
-        "title":"The Zirconium Plan",
-        "checks":"Connect with other dentists.Enhance professionalism.Advanced checklists.Money management. Privacy and security. Mystery Feature. Sales access. Save time.",
-        "cta":"Cancel anytime, risk free.",
-        "cta2":"14.5 € /month forever",
-        "cta3":"Lock in your price before it increases."
       }
     },
     "increasing":{

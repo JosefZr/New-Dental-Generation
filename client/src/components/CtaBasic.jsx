@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { EmployeeBtn } from "@/components";
 import styled from "styled-components"
 import { FaCheck } from "react-icons/fa6";
@@ -125,7 +126,6 @@ const CtaPrice = styled.div`
     margin-right: 17px;
   }
 `
-// eslint-disable-next-line no-unused-vars, react/prop-types
 export default function CtaBasicCard({actor}) {
   const {t} = useTranslation();
   const checks = GetChecks(actor)

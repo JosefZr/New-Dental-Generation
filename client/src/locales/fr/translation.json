@@ -122,12 +122,12 @@
       "desc": "Cette plateforme vous fait gagner du temps",
       "desc2":"vous permettant de gérer votre entreprise dentaire depuis votre téléphone 📱 ou votre ordinateur portable 💻, à tout moment, où que vous soyez.",
       "table":"Votre magasin sera visible par des centaines de dentistes actifs et de cliniques, facilitant ainsi la comparaison et l'achat de vos produits directement.",
-      "paid":{
-        "title":"The Zirconium Plan",
-        "checks":"Connect with other dentists.Enhance professionalism.Advanced checklists.Money management. Privacy and security. Mystery Feature. Sales access. Save time.",
-        "cta":"Cancel anytime, risk free.",
-        "cta2":"14.5 € /month forever",
-        "cta3":"Lock in your price before it increases."
+      "free":{
+        "title":"Exclusive Offer for Dental Stores",
+        "title2":"40 Days Free Access: Get full access to the platform for free.",
+        "after":"After 40 Days: Only €14.5/month.",
+        "checks":"Reach new clients instantly. Manage orders and supplies efficiently. Access exclusive discounts on materials. Boost your visibility in the dental community.",
+        "cta":"Join for free"
       }
     },
     "increasing":{
@@ -192,12 +192,12 @@
       "desc": "Cette plateforme vous fait gagner du temps",
       "desc2":"vous permettant de gérer votre entreprise dentaire depuis votre téléphone 📱 ou votre ordinateur portable 💻, à tout moment, où que vous soyez.",
       "table":"Votre labo sera visible par des centaines de dentistes actifs et de cliniques, facilitant ainsi la comparaison et te contacter directement.",
-      "paid":{
-        "title":"The Zirconium Plan",
-        "checks":"Connect with other dentists.Enhance professionalism.Advanced checklists.Money management. Privacy and security. Mystery Feature. Sales access. Save time.",
-        "cta":"Cancel anytime, risk free.",
-        "cta2":"14.5 € /month forever",
-        "cta3":"Lock in your price before it increases."
+      "free":{
+        "title":"Exclusive Offer for Dental Stores",
+        "title2":"40 Days Free Access: Get full access to the platform for free.",
+        "after":"After 40 Days: Only €14.5/month.",
+        "checks":"Reach new clients instantly. Manage orders and supplies efficiently. Access exclusive discounts on materials. Boost your visibility in the dental community.",
+        "cta":"Join for free"
       }
     },
     "increasing":{

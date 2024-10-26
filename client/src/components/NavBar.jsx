@@ -3,6 +3,7 @@ import { size } from '@/lib/mediaQuerys';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // Keyframe for the drop-down animation
 const dropDown = keyframes`
@@ -163,16 +164,18 @@ export default function NavBar() {
             <PaddingGlobal>
                 <div className="container-large">
                 <Content>
-                    <NavLeft>
-                    <Boss href="https://icons8.com/icon/11214/businessman" target="_blank" rel="noopener noreferrer">
-                        <img 
-                        src='https://img.icons8.com/?size=100&id=11214&format=png&color=5E5E5E' 
-                        width="40px" 
-                        alt='Businessman icon' 
-                        className='hover:text-gold' 
-                        />
-                    </Boss>
-                    </NavLeft>
+                    <Link to="/chat">
+                      <NavLeft>
+                        <Boss href="https://icons8.com/icon/11214/businessman" target="_blank" rel="noopener noreferrer">
+                            <img 
+                            src='https://img.icons8.com/?size=100&id=11214&format=png&color=5E5E5E' 
+                            width="40px" 
+                            alt='Businessman icon' 
+                            className='hover:text-gold' 
+                            />
+                        </Boss>
+                      </NavLeft>
+                    </Link>
                     <NavRight>
                     <LoginButton className='uppercase'>{t('login')}</LoginButton>
                     </NavRight>

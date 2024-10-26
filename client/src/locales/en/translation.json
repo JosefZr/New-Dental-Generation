@@ -9,6 +9,7 @@
     },
     "services":{
       "p":"Connecting dentists, Labs and Stores for smarter collaboration.",
+      "subText":"",
       "content":{
         "private":{
           "title": "Private Dental Community",
@@ -74,6 +75,7 @@
     },
     "services":{
       "p":"As a dental store, reaching dentists directly is the key to grow your business.",
+      "subText":"",
       "content":{
         "access":{
           "title": "Access a Network of Active Dentists",
@@ -118,24 +120,19 @@
     "plans":{
       "title":"Regular Updates",
       "title2":"",
-      "desc": "Connect with dentists and explore career opportunities with our Zirconium plan.",
-      "desc2":"Share cases and collaborate with dentists worldwide.",
+      "desc": "",
+      "desc2":"Your store will be visible to hundreds of active dentists and clinics, making it easy for them to find, compare, and order your products directly.",
       "table":"This platform saves you time, letting you manage your dental practice from your phone  or laptop  anytime, anywhere.",
       "free":{
-        "title":"Free Plan",
-        "checks":"International Dental Community.Advanced Dental Courses. Daily checklist.Dental News.",
+        "title":"Exclusive Offer for Dental Stores",
+        "title2":"40 Days Free Access: Get full access to the platform for free.",
+        "after":"After 40 Days: Only €14.5/month.",
+        "checks":"Reach new clients instantly. Manage orders and supplies efficiently. Access exclusive discounts on materials. Boost your visibility in the dental community.",
         "cta":"Join for free"
-      },
-      "paid":{
-        "title":"The Zirconium Plan",
-        "checks":"Connect with other dentists.Enhance professionalism.Advanced checklists.Money management. Privacy and security. Mystery Feature. Sales access. Save time.",
-        "cta":"Cancel anytime, risk free.",
-        "cta2":"14.5 € /month forever",
-        "cta3":"Lock in your price before it increases."
       }
     },
     "increasing":{
-      "title": "Price increasing Soon ",
+      "title": "Join the Competition",
       "from":"Get",
       "to": "before it goes up to",
       "month":"month ",
@@ -146,10 +143,11 @@
   "lab":{
     "hero":{
       "title":"INCREASE VISIBILITY. GAIN TRUST.",
-      "description":"As a dentist, your time is valuable, and managing your clinic can be tough."
+      "description":"More Growth. More Clients. Guaranteed."
     },
     "services":{
-      "p":"As a dental store, reaching dentists directly is the key to grow your business.",
+      "p":"Connect directly with dentists actively searching for high-quality dental lab services.",
+      "subText":"Efficiency and quality are essential to your lab's success. Get connected directly with dentists who need prosthetics, crowns, bridges, and more..",
       "content":{
         "access":{
           "title": "Direct Access to Dentists",
@@ -157,11 +155,11 @@
         },
         "simplified":{
           "title": "More Orders, Faster",
-          "description": "Receive clear, detailed orders to boost productivity and reduce back-and-forth."
+          "description": "Receive clear, detailed orders to boost productivity and reduce back-and-forth. Buy whatever you need from a dental store."
         },
         "competitive":{
-          "title": "Buy whatever you need from a dental store. ",
-          "description": " Efficient Communication: Collaborate with dentists directly on the platform without the hassle of phone calls, personal visits or emails."
+          "title": "Efficient Communication ",
+          "description": "Collaborate with dentists directly on the platform without the hassle of phone calls, personal visits or emails."
         },
         "trust":{
           "title": " Visibility and Trust",
@@ -194,20 +192,15 @@
     "plans":{
       "title":"Regular Updates",
       "title2":"",
-      "desc": "Your lab services will be visible to hundreds of active dentists and clinics, making it easy for them to find, compare, and contact you directly.",
-      "desc2":"Share cases and collaborate with dentists worldwide.",
+      "desc": "",
+      "desc2":"Your lab services will be visible to hundreds of active dentists and clinics, making it easy for them to find, compare, and contact you directly.",
       "table":"This platform saves you time, letting you manage your dental practice from your phone  or laptop  anytime, anywhere.",
       "free":{
-        "title":"Free Plan",
-        "checks":"International Dental Community.Advanced Dental Courses. Daily checklist.Dental News.",
+        "title":"Exclusive Offer for Dental Labs",
+        "title2":"40 Days Free Access: Get full access to the platform for free.",
+        "after":"After 40 Days: Only €14.5/month.",
+        "checks":"Reach new clients instantly. Manage orders and supplies efficiently. Access exclusive discounts on materials. Boost your visibility in the dental community.",
         "cta":"Join for free"
-      },
-      "paid":{
-        "title":"The Zirconium Plan",
-        "checks":"Connect with other dentists.Enhance professionalism.Advanced checklists.Money management. Privacy and security. Mystery Feature. Sales access. Save time.",
-        "cta":"Cancel anytime, risk free.",
-        "cta2":"14.5 € /month forever",
-        "cta3":"Lock in your price before it increases."
       }
     },
     "increasing":{

@@ -21,6 +21,11 @@ export default {
 			"my-white":"var(--white)", 
 			"my-small-white-title":"var(--smallTittle)",
 			"my-white-gray":"var(--whiteGray)",
+			"my-dark-blue":"var(--darkBlue)",
+			"my-black":"var(--black)",
+			"my-murcery":"var(--murcery)",
+			"my-tin":"var(--tin)",
+			"my-beige":"var(--beige)",
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'

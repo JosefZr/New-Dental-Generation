@@ -1,47 +1,50 @@
 import styled from "styled-components"
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTrigger,
+  } from "@/components/ui/dialog"
+  
 import { GiTakeMyMoney } from "react-icons/gi";
 import { useTranslation } from "react-i18next";
 import { FaMoneyBillTrendUp, FaRegChessKnight } from "react-icons/fa6";
 import { MdOutlinePhonelinkSetup } from "react-icons/md";
 import { MdOutlineNotificationsActive } from "react-icons/md";
 import CtaButton from "./CtaButton";
+import { Plus } from "@/components";
 const getExtraServices = (t)=>{
     return[
         {
-            logo:<MdOutlineNotificationsActive className=" h-10 w-12"/>,
+            logo:<MdOutlineNotificationsActive className=" h-10 w-12 max-[400px]:h-5 max-[400px]:w-6"/>,
             title:t("store.plusServices.notifications.title"),
             description:t("store.plusServices.notifications.description"),
         },
         {
-            logo:<GiTakeMyMoney className=" h-10 w-12"/>,
+            logo:<GiTakeMyMoney className=" h-10 w-12  max-[400px]:h-5 max-[400px]:w-6"/>,
             title:t("store.plusServices.financial.title"),
             description:t("store.plusServices.financial.description"),
         },
         {
-            logo:<FaMoneyBillTrendUp className=" h-10 w-12"/>,
+            logo:<FaMoneyBillTrendUp className=" h-10 w-12  max-[400px]:h-5 max-[400px]:w-6"/>,
             title:t("store.plusServices.growth.title"),
             description:t("store.plusServices.growth.description"),
         },
         {
-            logo:<FaRegChessKnight className=" h-10 w-12"/>,
+            logo:<FaRegChessKnight className=" h-10 w-12  max-[400px]:h-5 max-[400px]:w-6"/>,
             title:t("store.plusServices.plan.title"),
             description:t("store.plusServices.plan.description"),
         },
         
         {
-            logo:<MdOutlinePhonelinkSetup className=" h-10 w-12"/>,
+            logo:<MdOutlinePhonelinkSetup className=" h-10 w-12  max-[400px]:h-5 max-[400px]:w-6"/>,
             title:t("store.plusServices.setup.title"),
             description:t("store.plusServices.setup.description"),
         }
     ]
 }
 const HeaderSection = styled.section`
-    background-image: url(/backs/final.svg);
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    background-color: black;
+    margin-top: 3rem;
 `
 const Content = styled.div`
     grid-column-gap: 1.75rem;
@@ -52,6 +55,10 @@ const Content = styled.div`
     align-items: center;
     margin-bottom: 4rem;
     display: flex;
+    position: relative;
+    @media screen and (max-width:520px){
+        gap: 1rem;
+    }
 `
 const H2 = styled.h2`
     text-align: center;
@@ -68,6 +75,12 @@ const H2 = styled.h2`
     font-size: 1.8rem;
     font-weight: 600;
     line-height: 1.1;
+    @media screen and (max-width:520px){
+        font-size: 1.2rem;
+    }
+    @media screen and (max-width:400px){
+        font-size: 1.2rem;
+    }
 `
 const Description = styled.p`
     color: var(--whiteGray);
@@ -87,25 +100,31 @@ export default function Headers() {
     const extra = getExtraServices(t)
     return (
         <HeaderSection>
-            <div className=" container-large">
-                <div className=" padding-section-medium">
-                    <Content>
-                            {extra.map((service, index)=>{
-                                return(
-                                <div key={index} className="vflex-center-16 w-layout-vflex  items-center">
-                                    <div  className="hflex-center-16">
-                                        {service.logo}
-                                        <H2>{service.title}</H2>
-                                    </div>
-                                    <p className="text-my-white-gray mb-0 leading-7">{service.description}</p>
-                                </div>
-                                )
-                            })}
-                    </Content>
-                    <CtaButton cta={true}/>
-
-                </div>
-            </div>
+                    
+                    <Dialog >
+                        <DialogTrigger className=" w-full"><Plus/></DialogTrigger>
+                        <DialogContent className=" bg-black border-my-gray max-w-[60%] max-[991px]:max-w-[80%] max-sm:max-w-[95%]">
+                            {/* <DialogTitle>Are you absolutely sure?</DialogTitle>
+                            <DialogDescription>
+                                This action cannot be undone. This will permanently delete your account
+                                and remove your data from our servers.
+                            </DialogDescription> */}
+                                        <Content className="w-full">
+                                        {extra.map((service, index)=>{
+                                            return(
+                                            <div key={index} className="vflex-center-16 w-layout-vflex text-wrap items-center">
+                                                <div  className="hflex-center-16">
+                                                    {service.logo}
+                                                    <H2 >{service.title}</H2>
+                                                </div>
+                                                <p className="text-my-white-gray mb-0 leading-7 max-[520px]:leading-4 max-[400px]:text-sm  text-wrap">{service.description}</p>
+                                            </div>
+                                            )
+                                        })}
+                                </Content>
+                                <CtaButton cta={true}/>
+                        </DialogContent>
+                        </Dialog>
         </HeaderSection>
     )
 }

@@ -20,6 +20,9 @@ import FinalSection from "./FinalSection";
 import Footer from "./Footer";
 import Faq from "./Faq";
 import Headers from "./Headers"
+import Plus from "./Plus";
+import PathStore from "./PathStore";
+import CtaStore from "./CtaStore";
 export  {
     Intro,
     Loader,
@@ -42,5 +45,8 @@ export  {
     FinalSection,
     Footer,
     Faq,
-    Headers
+    Headers,
+    Plus,
+    PathStore,
+    CtaStore
 }

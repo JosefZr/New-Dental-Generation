@@ -55,11 +55,11 @@ const H2 = styled.h2`
 export default function CtaHeaders({actor}) {
   const {t} = useTranslation()
   return (
-    <><div className="vflex-center-8 w-layout-vflex">
+    <><div className="vflex-center-8 w-layout-vflex ">
             <TitleGrey className=" uppercase">{t(`${actor}.plans.title`)}</TitleGrey>
             <H2>{t(`${actor}.plans.title2`)}</H2>
         </div>
-        <div>
+        <div className="">
                 {/* <div className="hflex-center-16 justify-center">
                     <Svg>
                         <TbWorldBolt className=" h-10 w-12 text-my-gray" />
@@ -73,7 +73,7 @@ export default function CtaHeaders({actor}) {
                     <H2>{t('plans.title4')}</H2>
                 </div> */}
                 <p className="text-my-white-gray mb-0 leading-7">{t(`${actor}.plans.desc`)}</p>
-                <p className="text-my-small-white-title font-semibold">{t(`${actor}.plans.desc2`)}</p>
+                <p className="text-my-small-white-title font-semibold max-w-[80%] mx-auto">{t(`${actor}.plans.desc2`)}</p>
             </div>
     </>
     )

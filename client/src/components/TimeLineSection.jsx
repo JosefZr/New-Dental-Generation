@@ -1,4 +1,4 @@
-import { CtaButton, TimeLine } from "@/components";
+import { CtaButton, Headers, TimeLine } from "@/components";
 import useReveal from "@/hooks/useReveal";
 import { size } from "@/lib/mediaQuerys";
 import { useTranslation } from "react-i18next";
@@ -61,7 +61,16 @@ const TimeLineGrid = styled.div`
 
   position: relative;
 `
+const SubText = styled.p`
+  font-size: 1.88rem;
+line-height: 2rem;
 
+  max-width: 80%;
+  text-align: center;
+  font-weight: 500;
+  color: var(--whiteGray);
+  padding-bottom: 4rem;
+` 
 
 const MidleInside = styled.div`
   background-image: linear-gradient(to top, #fff, #ffffff80 55%, #ffffff1f 79%, #fff0);
@@ -107,6 +116,7 @@ export default function TimeLineSection({actor}) {
           <div className="padding-global">
             <div className="container-large">
               <div className="w-layout-vflex vflex-center-8">
+                  <SubText >{t(`${actor}.services.subText`)}</SubText>
                   <TitleGrey className="reveal-horizontal-left reveal-vertical">{t(`${actor}.services.p`)}</TitleGrey>
                   <H2 className="reveal-vertical">YOUR DENTAL NETWORK</H2>
               </div>
@@ -114,6 +124,7 @@ export default function TimeLineSection({actor}) {
           </div>
           <TimeLine actor={actor}/>
           <CtaButton />
+          <Headers/>
 
 
           {/* <MidleInside>

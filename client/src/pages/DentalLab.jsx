@@ -1,4 +1,4 @@
-import { Faq, FinalSection, Footer, GlobalNavbar, Path, TimeLineSection } from "@/components";
+import { Faq, FinalSection, Footer, GlobalNavbar, PathStore, TimeLineSection } from "@/components";
 import DentistHero from "@/components/DentistHero";
 
 export default function DentalLab() {
@@ -7,7 +7,7 @@ export default function DentalLab() {
       <GlobalNavbar/>
       <DentistHero actor="lab"/>
       <TimeLineSection actor="lab" />
-      <Path actor="dentist"/>
+      <PathStore actor="lab"/>
       <FinalSection actor="dentist"/>
       <Faq/>
       <Footer/>

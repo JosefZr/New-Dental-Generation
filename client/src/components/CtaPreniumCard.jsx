@@ -23,6 +23,8 @@ export const GetChecks = (actor) => {
 const Cta = styled.div`
     background-image: url("https://www.jointherealworld.com/revamp/images/CTA-bg.svg") !important;
     background-position: center;
+    /* background-color: #ffffff1a; */
+    opacity: .7;
     background-repeat: no-repeat;
     background-size: cover;
     grid-column-gap: 2rem;

@@ -11,7 +11,11 @@
   --gray: #5E5E5E;
   --whiteGray:#EBEBEB;
   --smallTittle:#FFFFF6;
-
+  
+  --murcery:#EBEBEB;
+  --tin:#919191;
+  --beige:#EDE8D0;
+  
     --size-mobile-s: 320px;
     --size-mobile-m: 375px;
     --size-mobile-l: 425px;
@@ -554,6 +558,11 @@ body {
     align-items: flex-start;
     display: flex;
   }
+}
+.pay_wrap {
+  grid-column-gap: .5rem;
+  grid-row-gap: .5rem;
+  align-items: center;
 }
 /* end time line section */
 
