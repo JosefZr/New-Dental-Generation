@@ -47,17 +47,29 @@ export const deleteChannel = expressAsyncHandler(async (req, res) => {
   successResponse(res, null, "Channel deleted successfully", 204); // No content, just a message
 });
 
-// Get a single channel by ID
-//export const getChannelById = expressAsyncHandler(async (req, res) => {
-//  const channel = await ChannelService.getChannelById(req.params.id);
-//  if (!channel) {
-//    throw new ApiError("Channel not found", 404);
-//  }
-//  successResponse(res, channel, "Channel retrieved successfully");
-//});
+//Get a single channel by ID
+export const getChannelById = expressAsyncHandler(async (req, res) => {
+  const channel = await ChannelService.getChannelById(
+    req.params.id,
+    req.body.page,
+    req.body.limit
+  );
+  if (!channel) {
+    throw new ApiError("Channel not found", 404);
+  }
+  successResponse(res, channel, "Channel retrieved successfully");
+});
 
 // Get all channels
 export const getAllChannels = expressAsyncHandler(async (req, res) => {
   const channels = await ChannelService.getAllChannels();
   successResponse(res, channels, "Channels retrieved successfully");
+});
+
+// Join a channel by the user
+export const joinChannel = expressAsyncHandler(async (req, res) => {
+  const { userId, channelId } = req.body;
+
+  const updatedChannel = await ChannelService.joinChannel(userId, channelId);
+  successResponse(res, updatedChannel, "User joined the channel successfully");
 });
