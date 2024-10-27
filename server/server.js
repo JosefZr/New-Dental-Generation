@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import { connectDB, closeDB } from "./lib/db.js";
 import authRoutes from "./routes/auth.js";
 import chanRoutes from "./routes/channels.js";
+import userRoutes from "./routes/users.js";
 import logger from "./utils/logger.js";
 import cors from "cors";
 import { ApiError } from "./utils/ApiError.js";
@@ -22,6 +23,7 @@ app.use(cors()); // Apply CORS middleware
 //ROUTES
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/channels", chanRoutes);
+app.use("/api/v1/users", userRoutes);
 
 // Wrong Api Route handler
 app.use((req, res, next) => {
