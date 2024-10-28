@@ -29,6 +29,11 @@ const userShema = new mongoose.Schema(
     isBanned: {
       type: Boolean,
     },
+    avatar: {
+      type: String,
+      default:
+        "https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png",
+    },
     blocklist: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
     trialStartDate: { type: Date, default: Date.now }, // Track when the trial starts
     trialEndDate: { type: Date }, // Store end date directly
