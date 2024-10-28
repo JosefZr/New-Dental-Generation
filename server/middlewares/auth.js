@@ -1,4 +1,4 @@
-import User from "../models/User";
+import User from "../models/User.js";
 
 export const authenticateToken = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
