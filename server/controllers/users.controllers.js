@@ -1,6 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
 import * as UserService from "../services/users.services.js";
 import { successResponse } from "../utils/Response.js";
+import { ApiError } from "../utils/ApiError.js";
 
 //===================== ADMIN Or MODERATOR ONLY =================//
 ///////////////////////////////////////////////////////////////////
@@ -65,6 +66,8 @@ export const getAllUsers = expressAsyncHandler(async (req, res) => {
 
 // Update user details
 export const updateUserDetails = expressAsyncHandler(async (req, res) => {
+  // check if the same user
+  if (req.user._id === req.params.id) throw new ApiError("Not Allowed", 401);
   const updatedUser = await UserService.updateUserDetails(
     req.params.id,
     req.body
