@@ -1,7 +1,7 @@
 import express from "express";
 import * as ChannelController from "../controllers/channels.controllers.js";
 import { authenticateToken } from "../middlewares/auth.js";
-import { authorizedRoles } from "../middlewares/roles.js";
+import { authorizedRoles } from "../middlewares/role.js";
 
 const router = express.Router();
 
