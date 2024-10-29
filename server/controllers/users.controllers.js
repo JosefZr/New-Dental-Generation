@@ -37,14 +37,14 @@ export const grantFreeSubscription = expressAsyncHandler(async (req, res) => {
 
 // User Block User
 export const blockUser = expressAsyncHandler(async (req, res) => {
-  const { userIdToBlock } = req.body; // Expecting a user id in request body
-  const user = await UserService.blockUser(req.params.id, userIdToBlock);
+  const userIdToBlock = req.params.id;
+  const user = await UserService.blockUser(req.user._id, userIdToBlock);
   successResponse(res, user, "User blocked successfully");
 });
 
 // User Unblock User
 export const unblockUser = expressAsyncHandler(async (req, res) => {
-  const { userIdToUnblock } = req.body; // Expecting a user id in request body
+  const { userIdToUnblock } = req.body;
   const user = await UserService.unblockUser(req.params.id, userIdToUnblock);
   successResponse(res, user, "User unblocked successfully");
 });
@@ -53,7 +53,7 @@ export const unblockUser = expressAsyncHandler(async (req, res) => {
 export const getUserById = expressAsyncHandler(async (req, res) => {
   const user = await UserService.getUserById(req.params.id);
   if (!user) {
-    throw new Error("User not found");
+    throw new ApiError("User not found", 404);
   }
   successResponse(res, user, "User retrieved successfully");
 });

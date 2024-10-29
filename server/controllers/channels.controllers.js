@@ -68,8 +68,10 @@ export const getAllChannels = expressAsyncHandler(async (req, res) => {
 
 // Join a channel by the user
 export const joinChannel = expressAsyncHandler(async (req, res) => {
-  const { userId, channelId } = req.body;
-
-  const updatedChannel = await ChannelService.joinChannel(userId, channelId);
+  const channelId = req.params.id;
+  const updatedChannel = await ChannelService.joinChannel(
+    req.user._id,
+    channelId
+  );
   successResponse(res, updatedChannel, "User joined the channel successfully");
 });

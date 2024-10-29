@@ -22,12 +22,20 @@ const ChannelSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  allowedUsers: {
+    type: String,
+    enum: ["lab", "store", "dentist"],
+    required: true,
+  },
   members: [
     {
       type: Schema.Types.ObjectId,
       ref: "User",
     },
   ],
+  picture: {
+    type: String, // URL to the picture, if a picture is sent
+  },
   messages: [MessageSchema],
   createdAt: {
     type: Date,
