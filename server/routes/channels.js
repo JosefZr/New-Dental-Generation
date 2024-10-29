@@ -28,4 +28,6 @@ router.delete(
   ChannelController.deleteChannel
 ); // Delete a channel
 
+router.patch("/:id/join", ChannelController.joinChannel); // Join a channel
+
 export default router;

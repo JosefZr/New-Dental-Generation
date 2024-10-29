@@ -9,6 +9,7 @@ export const grantModerator = async (userId) => {
   if (!user) throw new ApiError("User not found", 404);
 
   user.role = "moderator";
+  user.isPaid = true;
   await user.save();
   return user;
 };
@@ -56,8 +57,7 @@ export const blockUser = async (userId, userIdToBlock) => {
   const user = await User.findById(userId);
   if (!user) throw new ApiError("User not found", 404);
 
-  user.blockedUsers = user.blockedUsers || [];
-  if (!user.blockedUsers.includes(userIdToBlock)) {
+  if (!user.blocklist.includes(userIdToBlock)) {
     user.blockedUsers.push(userIdToBlock);
   }
   await user.save();
@@ -84,7 +84,8 @@ export const unblockUser = async (userId, userIdToUnblock) => {
  */
 export const getUserById = async (userId) => {
   const user = await User.findById(userId);
-  return user || null;
+  let { password, ...userData } = user._doc;
+  return userData || null;
 };
 
 /**
@@ -92,6 +93,9 @@ export const getUserById = async (userId) => {
  */
 export const getAllUsers = async () => {
   const users = await User.find();
+  users.forEach((user) => {
+    delete user._doc.password;
+  });
   return users;
 };
 

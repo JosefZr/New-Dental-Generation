@@ -2,12 +2,20 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 import Channel from "../models/Channel.model.js";
+import User from "../models/User.js";
+import { ApiError } from "../utils/ApiError.js";
 
 class ChannelService {
   // Create a new channel
   async createChannel(data) {
-    const { title, description, type, locked = false } = data;
-    const newChannel = new Channel({ title, description, type, locked });
+    const { title, description, type, locked = false, allowed } = data;
+    const newChannel = new Channel({
+      title,
+      description,
+      type,
+      locked,
+      allowedUsers: allowed,
+    });
     return await newChannel.save();
   }
 
@@ -82,7 +90,7 @@ class ChannelService {
       createdAt: channel.createdAt,
       messages: messagesWithSenderInfo,
       currentPage: page,
-      totalMessages: channel.messages.length, // You may want to get the total count separately
+      totalMessages: channel.messages.length,
     };
   }
 
@@ -131,7 +139,11 @@ class ChannelService {
     }
 
     // Check if the user type matches the channel type
-    if (user.type !== channel.type) {
+    if (
+      channel.allowedUsers !== user.role &&
+      user.role !== "admin" &&
+      user.role !== "moderator"
+    ) {
       throw new ApiError("User type does not match channel type", 403);
     }
 
@@ -146,6 +158,27 @@ class ChannelService {
 
     return channel;
   }
+}
+
+export async function saveChannelMessage(senderId, channelId, content, type) {
+  const channel = await Channel.findById(channelId);
+  if (!channel) {
+    throw new Error("Channel not found");
+  }
+
+  // Create the message object
+  const message = {
+    sender: senderId,
+    type,
+    content,
+    createdAt: new Date(),
+  };
+
+  // Add the message to the channel's messages array
+  channel.messages.push(message);
+  await channel.save();
+
+  return message;
 }
 
 export default new ChannelService();

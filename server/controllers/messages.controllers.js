@@ -3,6 +3,7 @@ import { successResponse } from "../utils/Response.js";
 import {
   getMessages,
   getMissedMessages,
+  getChats,
 } from "../services/privateMessages.services.js";
 
 export const getChatHistory = expressAsyncHandler(async (req, res) => {

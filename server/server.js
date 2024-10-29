@@ -31,15 +31,15 @@ app.use("/api/v1/chats", chatRoutes);
 
 // Wrong Api Route handler
 app.use((req, res, next) => {
-  const error = new Error("API route not found");
-  error.status = 404;
+  const error = new ApiError("API route not found", 404);
   next(error);
 });
 
 // Centralized error handler
 app.use((err, req, res, next) => {
-  if (err instanceof ApiError || err.status === 404) {
+  if (err instanceof ApiError) {
     return res.status(err.statusCode).json({
+      code: err.statusCode,
       status: err.status,
       message: err.message,
     });
