@@ -1,13 +1,21 @@
 import mongoose from "mongoose";
-export const connectDB = async () => {
-    try {
-        const uri = 'mongodb+srv://joesef:kKs0kqHojWzGx4O7@nodeexpressprojects.qxn6z.mongodb.net/lotfi?retryWrites=true&w=majority&appName=nodeExpressProjects';
-        console.log('MONGO_URI:', uri);  // Debug check
+import logger from "../utils/logger.js";
 
-        const connection = await mongoose.connect(uri);
-        console.log(`MongoDB connected: ${connection.connection.host}`);
-    } catch (error) {
-        console.error('Error connecting to MongoDB', error.message);
-        process.exit(1);
-    }
+export const connectDB = async () => {
+  try {
+    const connection = await mongoose.connect(process.env.MONGO_URI);
+    logger.info(`MongoDB connected: ${connection.connection.host}`);
+  } catch (error) {
+    logger.error("Error connecting to MongoDB", error.message);
+    process.exit(1);
+  }
+};
+
+export const closeDB = async () => {
+  try {
+    await mongoose.connection.close();
+    logger.info("Database connection closed");
+  } catch (error) {
+    logger.info("Database connection closed");
+  }
 };

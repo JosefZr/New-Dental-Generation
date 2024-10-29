@@ -1,29 +1,28 @@
+import User from "../models/User.js";
+import jwt from "jsonwebtoken";
+
 export const authenticateToken = async (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    if (!token) return res.status(401).json({ error: 'No token provided' });
+  const authHeader = req.headers["authorization"];
+  const token = authHeader;
+  if (!token)
+    return res.status(401).json({ code: 401, message: "No token provided" });
 
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
-        if (err) return res.status(403).json({ error: 'Invalid token' });
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
+    if (err)
+      return res.status(403).json({ code: 403, message: "Invalid token" });
 
-        const user = await User.findById(decoded.userId);
-        if (!user) return res.status(404).json({ error: 'User not found' });
+    const user = await User.findById(decoded.userId);
+    if (!user)
+      return res.status(404).json({ code: 404, error: "User not found" });
 
-        // Check if trial has expired
-        if (new Date() > user.trialEndDate && !user.isPaid) {
-            return res.status(403).json({ error: 'Trial expired. Please make a payment.' });
-        }
+    // Check if trial has expired
+    if (new Date() > user.trialEndDate && !user.isPaid) {
+      return res
+        .status(403)
+        .json({ code: 403, error: "Trial expired. Please make a payment." });
+    }
 
-        req.user = user;  // Attach user to request object
-        next();
-    });
-};
-
-export const authorizeRoles = (...roles) => {
-    return (req, res, next) => {
-        if (!roles.includes(req.user.role)) {
-            return res.status(403).json({ error: 'Access denied' });
-        }
-        next();
-    };
+    req.user = user; // Attach user to request object
+    next();
+  });
 };
