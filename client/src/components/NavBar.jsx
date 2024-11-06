@@ -177,7 +177,9 @@ export default function NavBar() {
                       </NavLeft>
                     </Link>
                     <NavRight>
-                    <LoginButton className='uppercase'>{t('login')}</LoginButton>
+                    <LoginButton className='uppercase'>
+                      <Link to={"/sign-up"}>{t('login')}</Link>
+                    </LoginButton>
                     </NavRight>
                     <NavCenter>
                     <LanguageSwitcher intro ="intro"/>

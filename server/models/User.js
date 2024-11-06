@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-const userShema = new mongoose.Schema(
+
+const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -9,10 +10,6 @@ const userShema = new mongoose.Schema(
     lastName: {
       type: String,
       required: [true, "Last Name is required"],
-    },
-    profession: {
-      type: String,
-      required: [true, "Profession is required"],
     },
     email: {
       type: String,
@@ -24,42 +21,71 @@ const userShema = new mongoose.Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
-      minlength: [6, "password must be at least 6 caracters long"],
+      minlength: [6, "Password must be at least 6 characters long"],
     },
     isBanned: {
       type: Boolean,
+      default: false,
     },
     avatar: {
       type: String,
-      default:
-        "https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png",
+      default: "https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png",
     },
     blocklist: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
-    trialStartDate: { type: Date, default: Date.now }, // Track when the trial starts
-    trialEndDate: { type: Date }, // Store end date directly
+    trialStartDate: { type: Date, default: Date.now },
+    trialEndDate: { type: Date },
     role: {
       type: String,
       enum: ["admin", "moderator", "lab", "store", "dentist"],
-      // default: 'customer'
     },
-    isPaid: { type: Boolean, default: false }, // Track payment status
-    refreshToken: { type: String }, // Store refresh tokens
+    isPaid: { type: Boolean, default: false },
+    refreshToken: { type: String },
+    proofOfProfession: {
+      type: String,
+      required: [true, "Proof of profession is required"],
+    },
+
+    // Stripe Integration Fields
+    stripeCustomerId: {
+      type: String,
+      unique: true,
+      sparse: true, // Allows null values without a unique constraint conflict
+    },
+    stripeSubscriptionId: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
+    subscriptionStatus: {
+      type: String,
+      enum: ["active", "inactive", "canceled"],
+      default: "inactive",
+    },
+    subscriptionPlan: {
+      type: String,
+      enum: ["monthly", "quarterly", "yearly"],
+      default: "monthly",
+    },
+    subscriptionStartDate: { type: Date },
+    subscriptionEndDate: { type: Date },
   },
   {
-    timestamps: true, // this put the created at and the updated at to the user object
+    timestamps: true,
   }
 );
 
-userShema.pre("save", async function (next) {
+// Hash password before saving user document
+userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
 
-    // Calculate trial end date (7 days from trialStartDate)
-    this.trialEndDate = new Date(this.trialStartDate);
-    this.trialEndDate.setDate(this.trialEndDate.getDate() + 7);
-    next();
+    // Set trial end date (7 days from trialStartDate) if not already set
+    if (!this.trialEndDate) {
+      this.trialEndDate = new Date(this.trialStartDate);
+      this.trialEndDate.setDate(this.trialEndDate.getDate() + 7);
+    }
 
     next();
   } catch (error) {
@@ -67,10 +93,25 @@ userShema.pre("save", async function (next) {
   }
 });
 
-userShema.methods.comparePassword = async function (password) {
+// Compare provided password with stored hashed password
+userSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-const User = mongoose.model("User", userShema);
+// Update subscription status method for handling Stripe events
+userSchema.methods.updateSubscriptionStatus = function (status, startDate, endDate) {
+  this.subscriptionStatus = status;
+  this.subscriptionStartDate = startDate || this.subscriptionStartDate;
+  this.subscriptionEndDate = endDate || this.subscriptionEndDate;
+  return this.save();
+};
+
+// Payment plan update method
+userSchema.methods.updateSubscriptionPlan = function (plan) {
+  this.subscriptionPlan = plan;
+  return this.save();
+};
+
+const User = mongoose.model("User", userSchema);
 
 export default User;

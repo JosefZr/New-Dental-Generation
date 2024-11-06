@@ -6,22 +6,25 @@ import { ApiError } from "../utils/ApiError.js";
 
 // Generate Access Token (short-lived)
 export const generateAccessToken = (user) => {
-  return jwt.sign({ userId: user._id }, process.env.ACCESS_TOKEN_SECRET, {
+  return jwt.sign({ userId: user._id,role:user.role }, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: "1h",
   });
 };
 
 // Generate Refresh Token (long-lived)
 export const generateRefreshToken = (user) => {
-  return jwt.sign({ userId: user._id }, process.env.REFRESH_TOKEN_SECRET, {
+  return jwt.sign({ userId: user._id,role:user.role }, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "7d",
   });
 };
 
 export const signup = async (req, res) => {
   try {
-    const { firstName, lastName, profession, email, password, role } = req.body;
-
+    const { firstName, lastName, proofOfProfession, email, password, role } = req.body;
+    console.log("Request Body:", req.body);
+    if(!proofOfProfession){
+      throw new ApiError(400, "Proof of Profession is required");
+    } // Add this line
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
@@ -32,30 +35,37 @@ export const signup = async (req, res) => {
       throw new Error("This role is not allowed");
     }
 
-    const user = await User.create({
-      firstName,
-      lastName,
-      profession,
-      email,
-      password,
-      role,
-    });
-
-    // // Authenticate user
-    // const { accessToken, refreshToken } = generateTokens(user._id);
-    // await storeRefreshToken(user._id, refreshToken);
-
-    // setCookies(res, accessToken, refreshToken);
-
-    res.status(201).json({
-      user: {
-        _id: user._id,
-        firstName: user.firstName,
-        email: user.email,
-        role: user.role,
-      },
-      message: "User created successfully",
-    });
+    try {
+      const user = await User.create({
+        firstName,
+        lastName,
+        proofOfProfession,
+        email,
+        password,
+        role,
+      });
+    
+      // Fetch the saved user to verify it has been saved correctly
+      const savedUser = await User.findById(user._id);
+      console.log("Saved User:", savedUser); // Check if proofOfProfession is here
+      if (!proofOfProfession) {
+        throw new ApiError(400, "Proof of Profession is required");
+      }
+      res.status(201).json({
+        user: {
+          _id: user._id,
+          firstName: user.firstName,
+          email: user.email,
+          role: user.role,
+          proofOfProfession: user.proofOfProfession,
+        },
+        message: "User created successfully",
+      });
+    } catch (error) {
+      console.error("Error creating user:", error); // Log the error for debugging
+      res.status(500).json({ message: error.message });
+    }
+    
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

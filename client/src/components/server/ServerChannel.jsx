@@ -4,7 +4,7 @@ import { ActionTooltip } from "../ui/action-tooltip";
 import { Edit, Trash } from "lucide-react";
 export default function ServerChannel({channel, server, memberRole}) {
   // const Icon = ""
-  const role = "admin"
+  const role = "guest"
 
   return (
       <button className={cn(

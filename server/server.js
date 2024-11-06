@@ -5,11 +5,14 @@ import authRoutes from "./routes/auth.js";
 import chanRoutes from "./routes/channels.js";
 import userRoutes from "./routes/users.js";
 import chatRoutes from "./routes/chats.js";
+import paymentRoutes from './routes/payment.js';
+
 import logger from "./utils/logger.js";
 import cors from "cors";
 import { ApiError } from "./utils/ApiError.js";
 import { initializeSocket } from "./socket.js";
 import http from "http";
+
 
 // Load environment variables
 dotenv.config();
@@ -28,6 +31,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/channels", chanRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/chats", chatRoutes);
+app.use('/api/v1/payment', paymentRoutes); // Add this line to register the payment routes
 
 // Wrong Api Route handler
 app.use((req, res, next) => {
