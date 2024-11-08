@@ -1,73 +1,63 @@
-import express from "express";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import { ApiError } from "../utils/ApiError.js";
+import { createUser } from "../services/auth.services.js";
 
 // Generate Access Token (short-lived)
 export const generateAccessToken = (user) => {
-  return jwt.sign({ userId: user._id,role:user.role }, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "1h",
-  });
+  return jwt.sign(
+    { userId: user._id, role: user.role },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: "1h",
+    }
+  );
 };
 
 // Generate Refresh Token (long-lived)
 export const generateRefreshToken = (user) => {
-  return jwt.sign({ userId: user._id,role:user.role }, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: "7d",
-  });
+  return jwt.sign(
+    { userId: user._id, role: user.role },
+    process.env.REFRESH_TOKEN_SECRET,
+    {
+      expiresIn: "7d",
+    }
+  );
 };
 
 export const signup = async (req, res) => {
   try {
-    const { firstName, lastName, proofOfProfession, email, password, role } = req.body;
-    console.log("Request Body:", req.body);
-    if(!proofOfProfession){
-      throw new ApiError(400, "Proof of Profession is required");
-    } // Add this line
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      return res.status(400).json({ message: "User already exists" });
-    }
+    const { firstName, lastName, proofOfProfession, email, password, role } =
+      req.body;
 
-    // Only one admin exists
-    if (role === "admin") {
-      throw new Error("This role is not allowed");
-    }
+    // Create user using the service
+    const user = await createUser({
+      firstName,
+      lastName,
+      proofOfProfession,
+      email,
+      password,
+      role,
+    });
 
-    try {
-      const user = await User.create({
-        firstName,
-        lastName,
-        proofOfProfession,
-        email,
-        password,
-        role,
-      });
-    
-      // Fetch the saved user to verify it has been saved correctly
-      const savedUser = await User.findById(user._id);
-      console.log("Saved User:", savedUser); // Check if proofOfProfession is here
-      if (!proofOfProfession) {
-        throw new ApiError(400, "Proof of Profession is required");
-      }
-      res.status(201).json({
-        user: {
-          _id: user._id,
-          firstName: user.firstName,
-          email: user.email,
-          role: user.role,
-          proofOfProfession: user.proofOfProfession,
-        },
-        message: "User created successfully",
-      });
-    } catch (error) {
-      console.error("Error creating user:", error); // Log the error for debugging
-      res.status(500).json({ message: error.message });
-    }
-    
+    // Respond with the created user details
+    res.status(201).json({
+      user: {
+        _id: user._id,
+        firstName: user.firstName,
+        email: user.email,
+        role: user.role,
+        proofOfProfession: user.proofOfProfession,
+      },
+      message: "User created successfully",
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    // Log and respond with errors
+    console.error("Error in signup:", error);
+    if (error instanceof ApiError) {
+      return res.status(error.statusCode).json({ message: error.message });
+    }
+    res.status(500).json({ message: "An unexpected error occurred" });
   }
 };
 
