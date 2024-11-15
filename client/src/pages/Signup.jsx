@@ -51,9 +51,11 @@ export const getCardData = () => {
       ),
     },
     {
+      name:"freeDentist",
       dentistFreeTrial: "6 days free trial",
     },
     {
+      name:"freeLab",
       storeLabFreeTrial: "40 days free trial",
     },
   ];
@@ -225,7 +227,7 @@ export default function Signup() {
           {/* Payment card info */}
           {/* <CreditCardInformations formData={formData} handleInputChange={handleInputChange}/> */}
 
-          <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
+          {/* <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
             <button type="submit">Login</button>
             <p className="mt-4 text-sm text-gray-500 sm:mt-0">
               Already have an account?
@@ -234,7 +236,7 @@ export default function Signup() {
               </Link>
               .
             </p>
-          </div>
+          </div> */}
         </form>
 
         {/* </div> */}

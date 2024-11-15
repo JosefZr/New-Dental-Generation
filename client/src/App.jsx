@@ -11,9 +11,9 @@ import {
   SuccessPage,
 } from "./pages";
 import Chat1 from "./pages/chat/chat1";
-import Chat2 from "./pages/chat/chat2";
-import Chat3 from "./pages/chat/chat3";
+
 import ChannelChat from "./components/chatComponents/ChannelChat";
+import Dashboard from "./pages/Dashboard";
 export default function App() {
   return (
     <Routes>
@@ -27,8 +27,7 @@ export default function App() {
 
       <Route path="/chat" element={<Chat />}>
         <Route path="chat1" element={<Chat1 />} />
-        <Route path="chat2" element={<Chat2 />} />
-        <Route path="chat3" element={<Chat3 />} />
+        <Route path="dashboard" element={<Dashboard/>} />
         <Route path=":serverId/:channelId" element={<ChannelChat />} />{" "}
         {/* Route for channels */}
       </Route>

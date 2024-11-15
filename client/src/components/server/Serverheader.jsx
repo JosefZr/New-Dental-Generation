@@ -18,7 +18,7 @@ export default function ServerHeader() {
     }
     // its a sort of controlling a user behavior in the app so 
     // play with the auth here an see the result 
-    const isDentsit = decodeToken.role === "dentist" ? true : false
+    const isDentsit = decodeToken.role === "admin" ? true : false
     const isModerator =true;
     const dentist = true;
     const{ onOpen} = useModal();

@@ -22,7 +22,17 @@ const app = express();
 app.use(express.json());
 
 // Enable Corse
-app.use(cors()); // Apply CORS middleware
+app.use(cors({
+  origin: "http://localhost:5173",   // Allow only this origin
+  credentials: true,                 // Allow credentials (cookies, etc.)
+  allowedHeaders: [
+    "Content-Type", 
+    "Authorization", 
+    "Access-Control-Allow-Origin"     // Add any other headers your app might use
+  ],
+}));
+
+app.options("*", cors()); // Handle preflight requests for all routes
 
 //ROUTES
 app.use("/api/v1/auth", authRoutes);

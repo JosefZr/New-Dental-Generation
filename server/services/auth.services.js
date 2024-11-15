@@ -31,7 +31,7 @@ export const createUser = async (data) => {
   }
 
   // Hash the password before saving the user
-  const hashedPassword = await bcrypt.hash(pass, 10);
+  // const hashedPassword = await bcrypt.hash(pass, 10);
 
   // Create new user
   const user = await User.create({
@@ -39,7 +39,7 @@ export const createUser = async (data) => {
     lastName,
     proofOfProfession,
     email,
-    password: hashedPassword,
+    password: pass,
     role,
   });
 

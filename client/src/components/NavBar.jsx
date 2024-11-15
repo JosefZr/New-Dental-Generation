@@ -3,7 +3,7 @@ import { size } from '@/lib/mediaQuerys';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Keyframe for the drop-down animation
 const dropDown = keyframes`
@@ -144,6 +144,7 @@ const NavCenter = styled.div`
 `;
 
 export default function NavBar() {
+    const navigate = useNavigate();
     const [showNavBar, setShowNavBar] = useState(false);
     const { t } = useTranslation();
 
@@ -177,8 +178,8 @@ export default function NavBar() {
                       </NavLeft>
                     </Link>
                     <NavRight>
-                    <LoginButton className='uppercase'>
-                      <Link to={"/sign-up"}>{t('login')}</Link>
+                    <LoginButton className='uppercase' onClick={()=>navigate("/login")}>
+                      <div>{t('login')}</div>
                     </LoginButton>
                     </NavRight>
                     <NavCenter>

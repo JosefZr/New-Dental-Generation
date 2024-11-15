@@ -56,14 +56,9 @@ const userSchema = new mongoose.Schema(
       unique: true,
       sparse: true,
     },
-    subscriptionStatus: {
-      type: String,
-      enum: ["active", "inactive", "canceled"],
-      default: "inactive",
-    },
     subscriptionPlan: {
       type: String,
-      enum: ["monthly", "quarterly", "yearly"],
+      enum: ["monthly", "quarterly", "yearly","freeTrial"],
       default: "monthly",
     },
     subscriptionStartDate: { type: Date },
@@ -95,6 +90,7 @@ userSchema.pre("save", async function (next) {
 
 // Compare provided password with stored hashed password
 userSchema.methods.comparePassword = async function (password) {
+  console.log("Comparing:", password, "with hash:", this.password);
   return await bcrypt.compare(password, this.password);
 };
 

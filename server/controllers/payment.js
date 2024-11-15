@@ -4,7 +4,8 @@ import { createUser } from "../services/auth.services.js";
 import { ApiError } from "../utils/ApiError.js";
 import User from "../models/User.js";
 dotenv.config();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+console.log(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ||"sk_test_51Q6FSwRsgnrIRIXH6N5wnVP2g0Fzlh4QCddRzv5EAynqATG1CUKyQkJFRFz3iIqnAVHZa4foNizvE9E5iAt9L1IB00rziE4Krv" );
 
 export const makePayment = async (req, res, next) => {
   const plans = [

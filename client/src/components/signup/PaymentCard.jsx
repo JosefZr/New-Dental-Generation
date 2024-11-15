@@ -4,14 +4,15 @@ import { FaCheck } from "react-icons/fa";
 
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
-import { SelectPaymentMethod } from ".";
+import { useNavigate } from "react-router-dom";
+// import { SelectPaymentMethod } from ".";
 
 const stripePromise = loadStripe(
   "pk_test_51Q6FSwRsgnrIRIXHVv98PFAvJYYVK9gElLXl8fV16Xquu3PHduekcmJ182SsDLAcgNRjOSKzxAJmTZQO8nUpo720001usG5YNY"
 );
 export default function PaymentCard({ cardData, role, userData }) {
   let dataCard = [];
-
+  const navigate = useNavigate();
   if (role === "dentist") {
     dataCard = cardData.slice(0, -1);
   } else if (role === "lab" || role === "store") {
@@ -29,20 +30,32 @@ export default function PaymentCard({ cardData, role, userData }) {
   const handleCheckout = async () => {
     const stripe = await stripePromise;
     try {
-      // create the user
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/payment/create-checkout-session",
-        {
-          plan_name: name,
-          userData,
-        }
-      );
-      console.log(response.data);
-      const { sessionId } = response.data;
-      stripe.redirectToCheckout({ sessionId });
-    } catch (error) {
-      console.log(error);
+      if (name === "freeDentist" || name === "freeLab") {
+        const response = await axios.post("http://localhost:3000/api/v1/auth/signup", { name: "freeTrial", userData });
+        console.log(response.data);
+        navigate("/login");
+      }
+      else{
+        const response = await axios.post(
+          "http://localhost:3000/api/v1/payment/create-checkout-session",
+          { plan_name: name, userData },
+          {
+            withCredentials: true, // Allows sending cookies with the request
+            headers: {
+              "Access-Control-Allow-Origin": "http:/localhost:3000", // Replace with your allowed origin URL
+            }
+          }
+        );
+                console.log(response.data);
+        const { sessionId } = response.data;
+        stripe.redirectToCheckout({ sessionId });
+      } 
+      
     }
+    
+    catch (error) {
+        console.log(error);
+      }
   };
   return (
     <>

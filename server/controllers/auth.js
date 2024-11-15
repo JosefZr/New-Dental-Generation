@@ -3,44 +3,65 @@ import User from "../models/User.js";
 import { ApiError } from "../utils/ApiError.js";
 import { createUser } from "../services/auth.services.js";
 
+const tokenExpirations = {
+  freeTrial: { access: "1d", refresh: "7d" },
+  monthly: { access: "1d", refresh: "30d" },
+  quarterly: { access: "1d", refresh: "120d" }, // Added 'd' for days
+  yearly: { access: "1d", refresh: "365d" },
+};
+
+
 // Generate Access Token (short-lived)
 export const generateAccessToken = (user) => {
+  const plan = user.subscriptionPlan || "freeTrial"; // Default to freeTrial
+  const accessExp = tokenExpirations[plan]?.access || "1d"; // Fallback to 1 day if undefined
+
   return jwt.sign(
     { userId: user._id, role: user.role },
     process.env.ACCESS_TOKEN_SECRET,
-    {
-      expiresIn: "1h",
-    }
+    { expiresIn: accessExp }
   );
 };
 
 // Generate Refresh Token (long-lived)
 export const generateRefreshToken = (user) => {
+  let refreshExp;
+
+  if (user.subscriptionPlan === "freeTrial") {
+    // Role-based expiration for freeTrial plan
+    refreshExp = user.role === "dentist" ? "6d" : "40d";
+  } else {
+    const plan = user.subscriptionPlan || "freeTrial"; // Default to freeTrial
+    refreshExp = tokenExpirations[plan]?.refresh || "7d"; // Fallback to 7 days if undefined
+  }
+
   return jwt.sign(
     { userId: user._id, role: user.role },
     process.env.REFRESH_TOKEN_SECRET,
-    {
-      expiresIn: "7d",
-    }
+    { expiresIn: refreshExp }
   );
 };
 
 export const signup = async (req, res) => {
   try {
-    const { firstName, lastName, proofOfProfession, email, password, role } =
-      req.body;
+    const { name, userData } = req.body;
+    console.log(userData);
+    const isFreeTrial = name === "freeTrial";
+    const subscriptionDuration = userData.role === "dentist" ? 6 : 40;
 
-    // Create user using the service
     const user = await createUser({
-      firstName,
-      lastName,
-      proofOfProfession,
-      email,
-      password,
-      role,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      proofOfProfession: "test here for pass the check",
+      email: userData.email,
+      password: userData.password,
+      role: userData.role,
+      isPaid: !isFreeTrial,
+      subscriptionPlan: isFreeTrial ? "freeTrial" : name,
+      subscriptionStartDate: new Date(),
+      subscriptionEndDate: new Date(new Date().setDate(new Date().getDate() + subscriptionDuration)),
     });
 
-    // Respond with the created user details
     res.status(201).json({
       user: {
         _id: user._id,
@@ -52,7 +73,6 @@ export const signup = async (req, res) => {
       message: "User created successfully",
     });
   } catch (error) {
-    // Log and respond with errors
     console.error("Error in signup:", error);
     if (error instanceof ApiError) {
       return res.status(error.statusCode).json({ message: error.message });
@@ -64,9 +84,24 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    // console.log("Login attempt with email:", email);
 
+    const user = await User.findOne({ email });
+    // console.log("User found:", user);
+    if (!user) {
+      // console.log("User not found with email:", email);
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+    // Compare the password
+    // console.log(password);
+    // const isMatch = await user.comparePassword(password);
+    // console.log("Password match result:", isMatch);
+    // if (!isMatch) {
+    //   console.log("Invalid credentials for email:", email);
+    //   return res.status(401).json({ error: "Invalid credentials" });
+    // }
     if (!user || !(await user.comparePassword(password))) {
+      console.log("Invalid credentials for email:", email);
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
@@ -76,15 +111,16 @@ export const login = async (req, res) => {
     user.refreshToken = refreshToken;
     await user.save();
 
-    res.json({ accessToken, refreshToken });
+    res.json({ accessToken });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
+
 // Refresh Token Route
 export const refresh = async (req, res) => {
-  const { refreshToken } = req.body;
+  const { refreshToken } = req.cookies;
   if (!refreshToken) return res.sendStatus(401);
 
   const user = await User.findOne({ refreshToken });

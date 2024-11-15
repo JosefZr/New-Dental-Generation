@@ -2,6 +2,7 @@ import styled, { keyframes } from 'styled-components'
 import { size } from '@/lib/mediaQuerys'
 import  LanguageSwitcher  from './LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 // Define the keyframe for the drop-down animation
 const dropDown = keyframes`
   0% {
@@ -140,6 +141,7 @@ const NavCenter = styled.div`
 
 `
 export default function GlobalNavbar() {
+    const navigate = useNavigate();
     const {t} = useTranslation()
     return (
         <Navigation>
@@ -171,7 +173,7 @@ export default function GlobalNavbar() {
                         <NavCenter>
                             <LanguageSwitcher intro ={true}/>
                         </NavCenter>
-                        <NavRight>
+                        <NavRight onClick={()=>navigate("/login")}>
                             <LoginButton className=' uppercase'>{t('login')}</LoginButton>
                         </NavRight>
                         
