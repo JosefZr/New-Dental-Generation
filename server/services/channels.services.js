@@ -47,40 +47,33 @@ class ChannelService {
   //////////////////////////////////////////////////////////////////////////////////////
 
   // Get a single channel by ID with pagination for messages
-  async getChannelById(channelId, page = 1, limit = 100) {
-    const skip = (page - 1) * limit; // Calculate how many messages to skip
+  async getChannelById(channelId, page = 1, limit = 30) {
+    const skip = (page - 1) * limit;
 
-    const channel = await Channel.findById(channelId)
-      .select("title description type locked createdAt") // Select other channel fields as necessary
-      .populate({
-        path: "messages",
-        options: {
-          sort: { createdAt: -1 }, // Sort messages by createdAt in descending order
-          limit: limit, // Limit to the specified number of messages
-          skip: skip, // Skip the messages for pagination
-        },
-        populate: {
-          path: "sender", // Populate the sender field in messages
-          model: "User",
-        },
+    const channel = await Channel.findById(channelId).select(
+      "title description type locked createdAt messages"
+    );
+
+    if (!channel) return null;
+
+    // Manually paginate messages
+    const totalMessages = channel.messages.length;
+    const paginatedMessages = channel.messages
+      .sort((a, b) => b.createdAt - a.createdAt)
+      .slice(skip, skip + limit)
+      .sort((a, b) => a.createdAt - b.createdAt);
+
+    // Format messages
+    const messagesWithSenderInfo = await Promise.all(
+      paginatedMessages.map(async (message) => {
+        const sender = await User.findById(message.sender); // Manually populate sender
+        return {
+          ...message.toObject(),
+          sender, // Add sender info
+        };
       })
-      .exec();
+    );
 
-    if (!channel) {
-      return null; // Channel not found
-    }
-
-    // Format messages to include necessary details
-    const messagesWithSenderInfo = channel.messages.map((message) => ({
-      _id: message._id,
-      type: message.type,
-      content: message.content,
-      file: message.file,
-      createdAt: message.createdAt,
-      sender: message.sender, // This will now include all data about the sender
-    }));
-
-    // Return the channel with formatted messages
     return {
       channelId: channel._id,
       title: channel.title,
@@ -90,14 +83,34 @@ class ChannelService {
       createdAt: channel.createdAt,
       messages: messagesWithSenderInfo,
       currentPage: page,
-      totalMessages: channel.messages.length,
+      totalMessages,
     };
   }
 
   // Get all channels
-  async getAllChannels() {
+  async getAllChannels(chanType) {
+    if (chanType === "control") {
+      const controlChannel = await Channel.find({ where: { type: "control" } })
+        .select(
+          "title description type locked createdAt allowedUsers updatedAt messages"
+        )
+        .exec();
+
+      return {
+        _id: controlChannel._id,
+        title: controlChannel.title,
+        description: controlChannel.description,
+        type: controlChannel.type,
+        locked: controlChannel.locked,
+        createdAt: controlChannel.createdAt,
+        updatedAt: controlChannel.updatedAt,
+        allowedUsers: controlChannel.allowedUsers,
+      };
+    }
     const channels = await Channel.find({})
-      .select("title description type locked createdAt updatedAt messages")
+      .select(
+        "title description type locked createdAt allowedUsers updatedAt messages"
+      )
       .exec();
 
     // Map through the channels to structure the data as required
@@ -113,6 +126,7 @@ class ChannelService {
         locked: channel.locked,
         createdAt: channel.createdAt,
         updatedAt: channel.updatedAt,
+        allowedUsers: channel.allowedUsers,
         lastMessage: lastMessage
           ? {
               content: lastMessage.content,
@@ -174,9 +188,14 @@ export async function saveChannelMessage(senderId, channelId, content, type) {
     createdAt: new Date(),
   };
 
+  const sender = await User.findById(senderId);
+
   // Add the message to the channel's messages array
   channel.messages.push(message);
   await channel.save();
+
+  const { password, ...senderNoPass } = sender._doc;
+  message.sender = senderNoPass;
 
   return message;
 }

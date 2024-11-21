@@ -7,15 +7,21 @@ import { useSocket } from "../../socketContext";
 import { useState, useEffect, useRef } from "react";
 import { jwtDecode } from "jwt-decode";
 
-export default function Chat1({ initialMessages, chanId }) {
+export default function UserChat({ initialMessages, chatId }) {
   const [messages, setMessages] = useState(initialMessages || []);
+  const [recipient, setRec] = useState("");
   const [msgToSend, setMessageToSend] = useState("");
-  const [page, setPage] = useState(1);
   const [preventFetch, setPrevent] = useState(false);
-  const [isFetching, setIsFetching] = useState(false);
 
-  const containerRef = useRef(null);
+  const [page, setPage] = useState(1); // Track the current page
+  const [isFetching, setIsFetching] = useState(false); // Prevent duplicate fetches
+
+  const socket = useSocket();
+  const userInfo = jwtDecode(localStorage.getItem("token"));
+
   const lastMessageRef = useRef(null);
+  const topMessageRef = useRef(null);
+  const containerRef = useRef(null);
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -23,31 +29,37 @@ export default function Chat1({ initialMessages, chanId }) {
     }, 100);
   };
 
-  const socket = useSocket();
-  const userInfo = jwtDecode(localStorage.getItem("token"));
-
-  // tracking the last message to scroll to it
-
   useEffect(() => {
-    if (!socket && !chanId) return;
+    if (!socket || !chatId) return;
+
     setMessages(initialMessages);
+    const name =
+      initialMessages.length > 0
+        ? `${initialMessages[0].recipient.firstName} ${initialMessages[0].recipient.lastName}`
+        : "recipient";
+
+    setRec(name);
+    scrollToBottom();
   }, [initialMessages]);
 
   useEffect(() => {
     setMessages([]);
     scrollToBottom();
-  }, [chanId]);
+  }, [chatId]);
 
   useEffect(() => {
-    if (!socket && !chanId) return;
+    if (!socket && !chatId) return;
 
-    //console.log("passed");
-    socket.emit("joinGroup", chanId);
-
-    socket.on("channelMessage", (msg) => {
-      if (msg.channelId === chanId) {
+    socket.emit("joinRoom", { recipientId: chatId });
+    socket.on("message", (msg) => {
+      const userInfo = jwtDecode(localStorage.getItem("token"));
+      if (
+        (msg.recipient._id === chatId && msg.sender._id === userInfo.userId) ||
+        (msg.recipient._id === userInfo.userId && msg.sender._id === chatId)
+      ) {
         setMessages((prev) => [...prev, msg]);
       }
+
       if (msg.sender._id === userInfo.userId) {
         scrollToBottom();
       }
@@ -55,9 +67,9 @@ export default function Chat1({ initialMessages, chanId }) {
 
     return () => {
       socket.off("message");
-      socket.off("channelMessage");
+      socket.off("privateMessage");
     };
-  }, [socket, chanId, initialMessages]);
+  }, [socket, chatId, initialMessages]);
 
   function handleKeyDown(e) {
     if (e.key === "Enter") {
@@ -70,15 +82,14 @@ export default function Chat1({ initialMessages, chanId }) {
   function sendMessage() {
     if (!msgToSend.trim()) return;
 
-    socket.emit("channelMessage", {
+    socket.emit("privateMessage", {
       content: msgToSend,
-      channelId: chanId,
-      type: "text",
+      recipient: chatId,
     });
   }
 
   const fetchMoreMessages = async () => {
-    if (isFetching || !chanId || preventFetch) return;
+    if (isFetching || !chatId || preventFetch) return;
     const container = containerRef.current;
 
     if (container.scrollTop != 0 || isFetching) return;
@@ -89,7 +100,7 @@ export default function Chat1({ initialMessages, chanId }) {
       let nextPage = page + 1;
       console.log(nextPage);
       const response = await fetch(
-        `http://localhost:3000/api/v1/channels/${chanId}?page=${nextPage}`,
+        `http://localhost:3000/api/v1/chats/history/${chatId}/${nextPage}`,
         {
           method: "GET",
           headers: {
@@ -107,9 +118,11 @@ export default function Chat1({ initialMessages, chanId }) {
 
       if (data.data) {
         console.log("fetched more messages");
-        setMessages((prev) => [...data.data.messages, ...prev]);
-        if (data.data.messages.length < 30) {
+        setMessages((prev) => [...data.data, ...prev]);
+        if (data.data.length < 30) {
+          console.log("the message now are ", messages.length);
           setPrevent(true);
+          console.log("prevented fetch");
         }
       }
     } catch (error) {
@@ -154,7 +167,7 @@ export default function Chat1({ initialMessages, chanId }) {
                   <div className="flex items-center justify-center gap-3">
                     <div className="flex items-center gap-3 font-medium">
                       <span className="flex items-center gap-[2px]">
-                        <FaHashtag />| start-here
+                        <FaHashtag />| {recipient || "recipient"}
                       </span>
                     </div>
                   </div>
@@ -163,7 +176,7 @@ export default function Chat1({ initialMessages, chanId }) {
             </header>
 
             {/* for the pinned messages */}
-            <header
+            {/* <header
               className=" flex flex-shrink-0 items-end justify-between !pt-0 relative z-10 border-grey-secondary border-b bg-base-300"
               style={{
                 height: "60px",
@@ -192,16 +205,16 @@ export default function Chat1({ initialMessages, chanId }) {
                   </div>
                 </div>
               </section>
-            </header>
+            </header> */}
 
             {/* for the new messages not watched */}
-            <div className="absolute top-[108px] right-0 left-0 z-[11] user-select-none flex h-[28px] items-center justify-between overflow-hidden text-ellipsis whitespace-nowrap bg-indigo-800 bg-opacity-80 px-3 font-semibold text-accent-content text-md backdrop-blur-[20px] backdrop-filter transform cursor-pointer transition-all duration-200 translate-y-0 opacity-100">
+            {/*<div className="absolute top-[108px] right-0 left-0 z-[11] user-select-none flex h-[28px] items-center justify-between overflow-hidden text-ellipsis whitespace-nowrap bg-indigo-800 bg-opacity-80 px-3 font-semibold text-accent-content text-md backdrop-blur-[20px] backdrop-filter transform cursor-pointer transition-all duration-200 translate-y-0 opacity-100">
               <div>New since 5 days ago</div>
               <div className="flex items-center">
                 {" "}
                 Jump to unread <FaArrowUp className="ml-2" />
               </div>
-            </div>
+            </div>*/}
           </div>
 
           {/* for the chat  */}
@@ -219,8 +232,12 @@ export default function Chat1({ initialMessages, chanId }) {
                   {messages &&
                     messages.map((message, index) => {
                       const isLastMessage = index === messages.length - 1;
+                      const isTopMessage = index === 0 && messages.length == 30;
                       return (
-                        <div key={message._id}>
+                        <div
+                          key={message._id}
+                          ref={isTopMessage ? topMessageRef : null}
+                        >
                           <Message message={message} />
                           <Devider />
                           <div

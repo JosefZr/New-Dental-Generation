@@ -12,6 +12,7 @@ export const authenticateToken = async (req, res, next) => {
       return res.status(403).json({ code: 403, message: "Invalid token" });
 
     const user = await User.findById(decoded.userId);
+    console.log(decoded.userId, user);
     if (!user)
       return res.status(404).json({ code: 404, error: "User not found" });
 

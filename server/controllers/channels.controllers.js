@@ -51,7 +51,7 @@ export const deleteChannel = expressAsyncHandler(async (req, res) => {
 export const getChannelById = expressAsyncHandler(async (req, res) => {
   const channel = await ChannelService.getChannelById(
     req.params.id,
-    req.body.page,
+    req.query.page,
     req.body.limit
   );
   if (!channel) {
@@ -62,7 +62,8 @@ export const getChannelById = expressAsyncHandler(async (req, res) => {
 
 // Get all channels
 export const getAllChannels = expressAsyncHandler(async (req, res) => {
-  const channels = await ChannelService.getAllChannels();
+  const { type } = req.query;
+  const channels = await ChannelService.getAllChannels(type);
   successResponse(res, channels, "Channels retrieved successfully");
 });
 
