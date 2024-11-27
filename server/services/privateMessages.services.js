@@ -1,4 +1,5 @@
 import Message from "../models/Message.js";
+import User from "../models/User.js";
 
 export const saveMessage = async (
   sender,
@@ -13,20 +14,31 @@ export const saveMessage = async (
     status: contentStatus,
   });
   await message.save();
-  return message;
+
+  const populatedMessage = await Message.findById(message._id)
+    .populate("sender")
+    .populate("recipient");
+
+  return populatedMessage;
 };
 
 export const getMessages = async (userId1, userId2, page = 1) => {
-  const skip = (page - 1) * 50;
-  return await Message.find({
+  console.log(page);
+  const skip = (page - 1) * 30;
+
+  const messages = await Message.find({
     $or: [
       { sender: userId1, recipient: userId2 },
       { sender: userId2, recipient: userId1 },
     ],
   })
+    .sort({ timestamp: -1 })
+    .populate("sender")
+    .populate("recipient")
     .skip(skip)
-    .limit(50)
-    .sort({ timestamp: 1 });
+    .limit(30);
+
+  return messages.reverse();
 };
 
 export const getMissedMessages = async (userId) => {
@@ -74,5 +86,6 @@ export const getChats = async (userId) => {
       },
     },
   ]);
+
   return chats;
 };

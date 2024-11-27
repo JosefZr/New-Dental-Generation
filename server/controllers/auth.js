@@ -10,7 +10,6 @@ const tokenExpirations = {
   yearly: { access: "1d", refresh: "365d" },
 };
 
-
 // Generate Access Token (short-lived)
 export const generateAccessToken = (user) => {
   const plan = user.subscriptionPlan || "freeTrial"; // Default to freeTrial
@@ -55,11 +54,13 @@ export const signup = async (req, res) => {
       proofOfProfession: "test here for pass the check",
       email: userData.email,
       password: userData.password,
-      role: userData.role,
+      role: "role",
       isPaid: !isFreeTrial,
       subscriptionPlan: isFreeTrial ? "freeTrial" : name,
       subscriptionStartDate: new Date(),
-      subscriptionEndDate: new Date(new Date().setDate(new Date().getDate() + subscriptionDuration)),
+      subscriptionEndDate: new Date(
+        new Date().setDate(new Date().getDate() + subscriptionDuration)
+      ),
     });
 
     res.status(201).json({
@@ -116,7 +117,6 @@ export const login = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 // Refresh Token Route
 export const refresh = async (req, res) => {

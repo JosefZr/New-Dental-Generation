@@ -11,20 +11,28 @@ import { saveChannelMessage } from "./services/channels.services.js";
 let io;
 
 export const initializeSocket = (server) => {
-  io = new Server(server, { cors: { origin: "*" } });
+  io = new Server(server, {
+    cors: {
+      origin: "http://localhost:5173",
+      methods: ["GET", "POST"],
+      allowedHeaders: ["Authorization"],
+      credentials: true,
+    },
+  });
 
   // Apply authentication middleware
-  // io.use(authenticateSocket);
+  io.use(authenticateSocket);
 
   io.on("connection", (socket) => {
-    logger.info(`User connected: ${socket.user.id}`);
-
     socket.on("joinRoom", async ({ recipientId }) => {
       try {
-        const roomId = [socket.user.id, recipientId].sort().join("_");
+        const roomId = [socket.user.userId, recipientId].sort().join("_");
         socket.join(roomId);
 
-        const missedMessages = await getMissedMessages(socket.user.id);
+        logger.info("joined");
+        logger.info(socket.id);
+
+        const missedMessages = await getMissedMessages(socket.user.userId);
         const updatePromises = missedMessages.map(async (message) => {
           message.status = "read";
           return message.save();
@@ -37,14 +45,16 @@ export const initializeSocket = (server) => {
     });
 
     socket.on("privateMessage", async ({ recipient, content }) => {
-      const roomId = [socket.user.id, recipient].sort().join("_");
+      const roomId = [socket.user.userId, recipient].sort().join("_");
 
       // Check if the recipient is currently in the room
       const isRecipientInRoom = io.sockets.adapter.rooms.get(roomId)?.size > 1;
+      logger.info("sockets in the room ! :");
+      logger.info(io.sockets.adapter.rooms.get(roomId)?.size);
 
       // Save the message to the database with appropriate status
       const message = await saveMessage(
-        socket.user.id,
+        socket.user.userId,
         recipient,
         content,
         isRecipientInRoom ? "read" : "sent"
@@ -73,21 +83,24 @@ export const initializeSocket = (server) => {
 
         // Save the message to the database
         const channelMessage = await saveChannelMessage(
-          socket.user._id,
+          socket.user.userId,
           channel._id,
           content,
           type
         );
 
         // Emit the message to all members in the channel
-        io.to(channelId).emit("channelMessage", channelMessage);
+        io.to(channelId).emit("channelMessage", {
+          ...channelMessage,
+          channelId: channelId,
+        });
       } catch (error) {
         logger.error(`Error sending channel message: ${error.message}`);
         socket.emit("error", { message: "Failed to send message." });
       }
     });
     socket.on("disconnect", () => {
-      logger.info(`User disconnected: ${socket.user.id}`);
+      logger.info(`User disconnected: ${socket.user.userId}`);
     });
   });
 };
