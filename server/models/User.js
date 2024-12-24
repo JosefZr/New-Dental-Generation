@@ -31,6 +31,22 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png",
     },
+    background:{
+      type:String,
+      default: "https://assets.therealworld.ag/backgrounds/01J5N9WZ5FQA1YH4F1H4E2YA1P?max_side=256",
+    },
+    bio:{
+      type:String,
+      default: "",
+    },
+    coin:{
+      type:Number,
+      default: 0,
+    },
+    lastEnter:{
+      type:Date,
+      default: Date.now()
+    },
     blocklist: [{ type: mongoose.Schema.Types.ObjectId, ref: "user" }],
     trialStartDate: { type: Date, default: Date.now },
     trialEndDate: { type: Date },
@@ -58,11 +74,14 @@ const userSchema = new mongoose.Schema(
     },
     subscriptionPlan: {
       type: String,
+      required: true,
       enum: ["monthly", "quarterly", "yearly","freeTrial"],
-      default: "monthly",
+      default:"freeTrial"
     },
     subscriptionStartDate: { type: Date },
     subscriptionEndDate: { type: Date },
+    // Friend functionality
+    friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   {
     timestamps: true,
@@ -107,7 +126,12 @@ userSchema.methods.updateSubscriptionPlan = function (plan) {
   this.subscriptionPlan = plan;
   return this.save();
 };
-
+userSchema.pre("save", function(next) {
+  console.log("Pre-save hook - subscriptionPlan:", this.subscriptionPlan);
+  console.log("Is subscriptionPlan defined?", this.subscriptionPlan !== undefined);
+  console.log("subscriptionPlan type:", typeof this.subscriptionPlan);
+  next();
+});
 const User = mongoose.model("User", userSchema);
 
 export default User;

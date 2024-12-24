@@ -42,3 +42,17 @@
 }
 
 /* for the loeader */
+.preview-container {
+  max-height: 80vh; /* Limit the height to 80% of the viewport */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff; /* Adjust as per your design */
+  border-radius: 8px;
+}
+
+@media (max-height: 600px) {
+  .preview-container {
+    max-height: 70vh; /* Reduce height further for smaller height screens */
+  }
+}

@@ -51,7 +51,7 @@ class ChannelService {
     const skip = (page - 1) * limit;
 
     const channel = await Channel.findById(channelId).select(
-      "title description type locked createdAt messages"
+      "title description type owner locked createdAt messages"
     );
 
     if (!channel) return null;
@@ -80,6 +80,7 @@ class ChannelService {
       description: channel.description,
       type: channel.type,
       locked: channel.locked,
+      owner:channel.owner,
       createdAt: channel.createdAt,
       messages: messagesWithSenderInfo,
       currentPage: page,
@@ -94,13 +95,14 @@ class ChannelService {
         .select(
           "title description type locked createdAt allowedUsers updatedAt messages"
         )
+        .populate("owner", "name email") // Populate owner
         .exec();
-
       return {
         _id: controlChannel._id,
         title: controlChannel.title,
         description: controlChannel.description,
         type: controlChannel.type,
+        owner:controlChannel.owner,
         locked: controlChannel.locked,
         createdAt: controlChannel.createdAt,
         updatedAt: controlChannel.updatedAt,
@@ -123,7 +125,9 @@ class ChannelService {
         title: channel.title,
         description: channel.description,
         type: channel.type,
+        owner:channel.owner,
         locked: channel.locked,
+
         createdAt: channel.createdAt,
         updatedAt: channel.updatedAt,
         allowedUsers: channel.allowedUsers,

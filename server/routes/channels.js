@@ -2,7 +2,6 @@ import express from "express";
 import * as ChannelController from "../controllers/channels.controllers.js";
 import { authenticateToken } from "../middlewares/auth.js";
 import { authorizedRoles } from "../middlewares/role.js";
-
 const router = express.Router();
 
 router.use(authenticateToken);
@@ -22,6 +21,7 @@ router.patch(
 ); // Lock/unlock channel
 
 router.post("/", authorizedRoles("admin"), ChannelController.createChannel); // Create a new channel
+
 router.delete(
   "/:id",
   authorizedRoles("admin"),

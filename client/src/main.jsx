@@ -7,6 +7,8 @@ import { HashRouter as BrowserRouter } from "react-router-dom";
 import InstructorProvider from "./context/InstructorContext.jsx";
 import { Toaster } from "react-hot-toast";
 import CourseProvider from "./context/CoursesContext.jsx";
+import { ModalProvider } from "./components/providers/modal-provider.jsx";
+import UserProvider from "./context/UserContext.jsx";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +18,7 @@ createRoot(document.getElementById("root")).render(
       <BrowserRouter>
         <InstructorProvider>
           <CourseProvider>
+            <UserProvider>
             <Toaster
               position="top-center"
               gutter={12}
@@ -25,7 +28,7 @@ createRoot(document.getElementById("root")).render(
                   duration: 3000,
                 },
                 error: {
-                  duration: 5000,
+                  duration: 3000,
                 },
                 style: {
                   fontSize: "16px",
@@ -36,7 +39,10 @@ createRoot(document.getElementById("root")).render(
                 },
               }}
             />
-            <App />
+            <ModalProvider>
+              <App />
+            </ModalProvider>
+            </UserProvider>
           </CourseProvider>
         </InstructorProvider>
       </BrowserRouter>

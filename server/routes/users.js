@@ -60,4 +60,6 @@ router.delete("/:id", UserController.deleteUser);
 // Search users
 router.get("/search", UserController.searchUsers);
 
+
+
 export default router;

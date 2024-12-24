@@ -1,14 +1,14 @@
 import Devider from "@/components/chatComponents/Devider";
 import Message from "@/components/chatComponents/Message";
-import { FaArrowDown, FaArrowUp, FaHashtag } from "react-icons/fa6";
-import { TbPinnedFilled } from "react-icons/tb";
+import { FaArrowDown, FaHashtag } from "react-icons/fa6";
 import { useSocket } from "../../socketContext";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { jwtDecode } from "jwt-decode";
+import { UserContext } from "@/context/UserContext";
+import { GiHamburgerMenu } from "react-icons/gi";
 
-export default function UserChat({ initialMessages, chatId }) {
-  const [messages, setMessages] = useState(initialMessages || []);
+export default function UserChat() {
   const [recipient, setRec] = useState("");
   const [msgToSend, setMessageToSend] = useState("");
   const [preventFetch, setPrevent] = useState(false);
@@ -17,8 +17,12 @@ export default function UserChat({ initialMessages, chatId }) {
   const [isFetching, setIsFetching] = useState(false); // Prevent duplicate fetches
 
   const socket = useSocket();
-  const userInfo = jwtDecode(localStorage.getItem("token"));
+  const {isSidebarOpen, setIsSidebarOpen,userMessages,chatId} = useContext(UserContext);
+  const [messages, setMessages] = useState(userMessages || []);
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
   const lastMessageRef = useRef(null);
   const topMessageRef = useRef(null);
   const containerRef = useRef(null);
@@ -32,15 +36,15 @@ export default function UserChat({ initialMessages, chatId }) {
   useEffect(() => {
     if (!socket || !chatId) return;
 
-    setMessages(initialMessages);
+    setMessages(userMessages);
     const name =
-      initialMessages.length > 0
-        ? `${initialMessages[0].recipient.firstName} ${initialMessages[0].recipient.lastName}`
+    userMessages.length > 0
+        ? `${userMessages[0].recipient.firstName} ${userMessages[0].recipient.lastName}`
         : "recipient";
 
     setRec(name);
     scrollToBottom();
-  }, [initialMessages]);
+  }, [userMessages]);
 
   useEffect(() => {
     setMessages([]);
@@ -69,7 +73,7 @@ export default function UserChat({ initialMessages, chatId }) {
       socket.off("message");
       socket.off("privateMessage");
     };
-  }, [socket, chatId, initialMessages]);
+  }, [socket, chatId, userMessages]);
 
   function handleKeyDown(e) {
     if (e.key === "Enter") {
@@ -166,6 +170,7 @@ export default function UserChat({ initialMessages, chatId }) {
                 <div className="flex w-full items-center font-medium">
                   <div className="flex items-center justify-center gap-3">
                     <div className="flex items-center gap-3 font-medium">
+                      <GiHamburgerMenu className="md:hidden text-2xl"onClick={toggleSidebar}/>
                       <span className="flex items-center gap-[2px]">
                         <FaHashtag />| {recipient || "recipient"}
                       </span>

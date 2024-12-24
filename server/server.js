@@ -6,11 +6,23 @@ import chanRoutes from "./routes/channels.js";
 import userRoutes from "./routes/users.js";
 import chatRoutes from "./routes/chats.js";
 import paymentRoutes from "./routes/payment.js";
+import mediaRoutes from "./routes/instructor.js"
+import instructorCourseRoute from "./routes/course.js"
+import studentCourseRoute from "./routes/studentCourseRoute.js"
+import courseProgression from "./routes/CourseProgression.js"
+import useruserSignleRoute from "./routes/storeLab.js"
+import friendsRoute from "./routes/friends.js"
 import logger from "./utils/logger.js";
 import cors from "cors";
 import { ApiError } from "./utils/ApiError.js";
 import { initializeSocket } from "./socket.js";
 import http from "http";
+import path from "path";
+import { fileURLToPath } from "url";
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Load environment variables
 dotenv.config();
@@ -20,6 +32,9 @@ const app = express();
 
 // Parse json
 app.use(express.json());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/course", express.static(path.join(__dirname, "course")));
+
 
 // Enable Corse
 app.use(cors({
@@ -37,10 +52,15 @@ app.options("*", cors()); // Handle preflight requests for all routes
 //ROUTES
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/channels", chanRoutes);
+app.use("/api/v1/channel/single", useruserSignleRoute);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/chats", chatRoutes);
 app.use("/api/v1/payment", paymentRoutes);
-
+app.use("/api/v1/madia", mediaRoutes);
+app.use("/api/v1/instructor/course", instructorCourseRoute);
+app.use("/api/v1/student/course", studentCourseRoute);
+app.use("/api/v1/student/progression",courseProgression);
+app.use("/api/v1/friends",friendsRoute)
 // Wrong Api Route handler
 app.use((req, res, next) => {
   const error = new ApiError("API route not found", 404);

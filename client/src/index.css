@@ -934,3 +934,17 @@ body {
 .bg-bubble-gradient {
   background-image: linear-gradient(to right, var(--bubble-gradient-start), var(--bubble-gradient-end));
 }
+
+.alert {
+  display: flex
+;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+  padding: 1rem;
+  border-radius: var(--rounded-box, 1rem);
+}

@@ -16,7 +16,7 @@ export default function StudentViewCommonLayout() {
     useEffect(()=>{
         // Fetch student course list from API
         fetchStudentCoures()
-    })
+    },[])
     // Tab configuration
     const menuItems = [
         {
@@ -40,7 +40,7 @@ export default function StudentViewCommonLayout() {
         <div>
             <Header />
             <div className="min-h-screen bg-my-dark-blue">
-                <section className="flex flex-col lg:flex-row items-center justify-between py-8 px-4 lg:px-8">
+                {/* <section className="flex flex-col lg:flex-row items-center justify-between py-8 px-4 lg:px-8">
                     <div className="lg:w-full lg:pr-12">
                         <h1 className="text-4xl font-bold mb-4">Learning that gets you</h1>
                         <p className="text-xl">Skills for your present and your future. Get started with us!</p>
@@ -53,7 +53,7 @@ export default function StudentViewCommonLayout() {
                             className="w-full mx-auto h-auto rounded-lg shadow-lg"
                         />
                     </div>
-                </section>
+                </section> */}
 
                 {/* Navigation Tabs */}
                 <section className="flex flex-row h-8 font-medium mx-auto mt-[16px] mb-10 w-full max-w-5xl justify-around">

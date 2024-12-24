@@ -37,6 +37,10 @@ const ChannelSchema = new Schema({
     type: String, // URL to the picture, if a picture is sent
   },
   messages: [MessageSchema],
+  owner:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   createdAt: {
     type: Date,
     default: Date.now,

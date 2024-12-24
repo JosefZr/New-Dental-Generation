@@ -11,6 +11,7 @@ import { addNewCourseService, fetchInstructorCourseDetailsService, updateCourseB
 import { courseCurriculumInitialFormData, courseLandingInitialFormData } from "@/lib/default";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
+import { fetchUserName } from "@/hooks/useFetchUserData";
 
 export default function AddNewCourse() {
 
@@ -25,7 +26,6 @@ export default function AddNewCourse() {
     } = useContext(InstructorContext);
 
     const params = useParams();
-    console.log(params)
     function isEmpty(value) {
         if (Array.isArray(value)) {
             return value.length === 0;
@@ -69,30 +69,6 @@ export default function AddNewCourse() {
         console.log("Validation passed.");
         return true;
     }
-
-    const fetchUserData = async (userId) => {
-        try {
-            const response = await fetch('http://localhost:3000/api/v1/auth/getUserData', {
-                method: 'POST',
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ id: userId }),
-                credentials: 'include',
-            });
-    
-            if (!response.ok) {
-                throw new Error('Invalid ID');
-            }
-    
-            const data = await response.json();
-            // console.log("Fetched user data:", data.data.lastName); 
-            return data.data?.lastName || null; // Return `name` if present
-        } catch (error) {
-            console.error("Error in fetchUserData:", error.message);
-            alert(error.message); // Notify the user of the error
-            return null;
-        }
-    };
-    
     
     async function handleCreateCourse(){
         const token = localStorage.getItem("token"); // Replace 'yourTokenKey' with the actual key
@@ -102,7 +78,7 @@ export default function AddNewCourse() {
             }
 
         const decoded = decodeToken(token);
-        const name = await fetchUserData(decoded.userId);
+        const name = await fetchUserName(decoded.userId);
         if (!decoded) {
             console.error("Invalid or missing token.");
             return;
@@ -173,7 +149,6 @@ export default function AddNewCourse() {
                 >
                     Submit
                 </Button>
-
             </div>
             <Card>
                 <CardContent>

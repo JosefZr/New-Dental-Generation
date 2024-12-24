@@ -1,14 +1,19 @@
-import { Section } from "lucide-react";
 import { IoSettingsOutline } from "react-icons/io5";
 import ProfileImage from "../chatComponents/ProfileImage";
 import { IoMdClose } from "react-icons/io";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import { UserContext } from "@/context/UserContext";
 
-export default function DashboardSidebar({ chatId }) {
+export default function DashboardSidebar() {
+    const {chatId,setChatId,fetchMessages } = useContext(UserContext);
+  
   const [privateChats, setPrivateChats] = useState({});
+  const navigate = useNavigate()
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const userInfo = jwtDecode(localStorage.getItem('token'))
   useEffect(() => {
     const fetchPrivateChats = async () => {
       try {
@@ -30,6 +35,7 @@ export default function DashboardSidebar({ chatId }) {
         }
 
         const data = await response.json();
+        console.log(data)
         setPrivateChats(data);
       } catch (err) {
         console.error("Error fetching private chats:", err.message);
@@ -41,13 +47,18 @@ export default function DashboardSidebar({ chatId }) {
 
     fetchPrivateChats();
   }, []);
-
+  const handleChatSelect = (recipientId) => {
+    setChatId(recipientId);
+    fetchMessages(recipientId);
+    navigate(`/dashboard/userChat`);
+  };
   return (
     <section className="flex flex-1 flex-col overflow-x-hidden border-grey-secondary border-r bg-base-100 pt-inset-top lg:border-0">
       <div className="flex w-full flex-1 flex-col items-center overflow-y-auto overflow-x-hidden pt-3">
         <div className="flex flex-col rounded-md border border-base-300 w-full border-none px-3">
           <button
-            className="relative flex flex-row items-center  gap-3 border-base-300 border-b p-3 text-left text-sm last:border-0 active:bg-info hover:bg-info tracking-[0.015em] w-full border-none bg-transparent"
+            onClick={()=> navigate(`/profile/${userInfo.userId}`)}
+            className="relative flex flex-row items-center gap-3 border-base-300 border-b p-3 text-left text-sm last:border-0 active:bg-info hover:bg-info tracking-[0.015em] w-full border-none bg-transparent"
             style={{ flexDirection: "row" }}
           >
             <IoSettingsOutline />
@@ -56,17 +67,33 @@ export default function DashboardSidebar({ chatId }) {
           <button
             className="relative flex items-center gap-3 border-base-300 border-b p-3 text-left text-sm last:border-0 active:bg-info hover:bg-info tracking-[0.015em] w-full border-none bg-transparent"
             style={{ flexDirection: "row" }}
-          >
+            onClick={() => navigate(`/dashboard/friends`)} // Ensure this route matches
+            >
             <IoSettingsOutline />
-            <div className="flex-1">Settings</div>
+            <div className="flex-1">Friends</div>
           </button>
-          <button
-            className="relative flex items-center gap-3 border-base-300 border-b p-3 text-left text-sm last:border-0 active:bg-info hover:bg-info tracking-[0.015em] w-full border-none bg-transparent"
-            style={{ flexDirection: "row" }}
-          >
-            <IoSettingsOutline />
-            <div className="flex-1">Settings</div>
-          </button>
+          {
+            userInfo.role==="admin"? (
+              <button
+                className="relative flex items-center gap-3 border-base-300 border-b p-3 text-left text-sm last:border-0 active:bg-info hover:bg-info tracking-[0.015em] w-full border-none bg-transparent"
+                style={{ flexDirection: "row" }}
+                onClick={()=>navigate(`/users`)}
+              >
+                <IoSettingsOutline />
+                <div className="flex-1">Users</div>
+              </button>
+            ):(
+              <button
+                className="relative flex items-center gap-3 border-base-300 border-b p-3 text-left text-sm last:border-0 active:bg-info hover:bg-info tracking-[0.015em] w-full border-none bg-transparent"
+                style={{ flexDirection: "row" }}
+                onClick={()=>navigate(`/users`)}
+
+              >
+                <IoSettingsOutline />
+                <div className="flex-1">Users</div>
+              </button>
+            )
+          }
         </div>
         <div className="my-3 h-[2px] w-[80%] bg-base-200"></div>
         <section className="mb-2 flex flex-col gap-2 px-1">
@@ -89,13 +116,11 @@ export default function DashboardSidebar({ chatId }) {
                   key={chat.recipient._id}
                   className="flex flex-col rounded-md  w-full "
                   style={{ width: "240px", maxWidth: "300px" }}
+                  onClick={() => handleChatSelect(chat.recipient._id)}
                 >
                   <button
                     style={{ flexDirection: "row" }}
-                    className="relative flex items-center flex-row gap-3 border-base-300 border-b p-3 text-left text-sm last:border-0 active:bg-info hover:bg-info !bg-info !font-bold group w-full cursor-pointer bg-transparent px-3 py-2"
-                    onClick={() => {
-                      chatId(chat.recipient._id);
-                    }}
+                    className="relative flex items-center flex-row gap-3 border-base-300 border-b  text-left text-sm last:border-0 active:bg-info hover:bg-info !bg-info !font-bold group w-full cursor-pointer bg-transparent px-4 py-2"
                   >
                     <ProfileImage image={chat.recipient.avatar} />
                     <div className="flex-1">

@@ -7,9 +7,10 @@ export default function ServerChannel({
   server,
   memberRole,
   onClickChan,
+  owner
 }) {
   // const Icon = ""
-  const role = "guest";
+  const role = "admin";
 
   return (
     <button

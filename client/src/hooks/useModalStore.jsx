@@ -6,8 +6,15 @@ export const MODAL_TYPE = {
     INVITE_PEAPLE:"invitePeople",
     MANAGE_MEMBERS:"manageMembers",
     CREATE_CHANNEL:"createChannel",
-    
-    DELETE_COURSE:"deleteCourse"
+    DELETE_COURSE:"deleteCourse",
+    UPDATE_USERNAME:"updateUsername",
+    UPDATE_PASSWORD:"updatePassword",
+    UPDATE_EMAIL:"updateEmail",
+    SUBSCRIPTION:"subscription",
+    PROFFESSION:"proffession",
+    DELETE_USER:"deleteUser",
+    CREATE_STORE:"addStore",
+    USER_PREVIEW:"userPreview"
   };
 
 export const useModal = create((set)=>({

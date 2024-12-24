@@ -18,9 +18,13 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useModal } from "@/hooks/useModalStore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 export default function ServerHeader() {
+  const navigate = useNavigate();
+  function useNavigateCourseRoute(){
+    navigate(isAdmin ?"/constructor":"/course")
+  }
   let decodeToken = "";
   try {
     const token = localStorage.getItem("token");
@@ -33,15 +37,20 @@ export default function ServerHeader() {
   }
   // its a sort of controlling a user behavior in the app so
   // play with the auth here an see the result
-  const isDentsit = decodeToken.role === "admin" ? true : false;
+  // const isDentsit = decodeToken.role === "admin" ? false : true;
   const isModerator = true;
   const dentist = true;
+  const isAdmin = false;
   const { onOpen } = useModal();
   // const isAdmin = role === MemberRole.ADMIN;
   // const isModerator = isAdmin || role = MemberRole.MODERATOR;
+  // Navigation handler
+  const handleNavigation = () => {
+    navigate(isAdmin ? "/instructor" : "/course");
+  };
   return (
     <div>
-      {isDentsit ? (
+      {dentist ? (
         <DropdownMenu>
           <DropdownMenuTrigger className=" focus:outline-none " asChild>
             <button className=" w-full text-md font-semibold px-3 flex items-center h-12 border-neutral-800 border-b-2 hover:bg-slate-800 transition">
@@ -62,7 +71,7 @@ export default function ServerHeader() {
               </DropdownMenuItem>
             )}
 
-            {isDentsit && (
+            {dentist && (
               <DropdownMenuItem
                 className=" px-3 py-2 text-sm cursor-pointer hover:bg-slate-900 "
                 style={{ display: "flex", flexDirection: "row" }}
@@ -72,7 +81,7 @@ export default function ServerHeader() {
                 <Settings className="h-4 w-4 ml-auto" />
               </DropdownMenuItem>
             )}
-            {isDentsit && (
+            {dentist && (
               <DropdownMenuItem
                 className=" px-3 py-2 text-sm cursor-pointer hover:bg-slate-900 "
                 style={{ display: "flex", flexDirection: "row" }}
@@ -93,7 +102,7 @@ export default function ServerHeader() {
               </DropdownMenuItem>
             )}
             {isModerator && <DropdownMenuSeparator className="bg-my-tin" />}
-            {isDentsit && (
+            {dentist && (
               <DropdownMenuItem
                 className="text-rose-500 px-3 py-2 text-sm cursor-pointer hover:bg-slate-900 "
                 style={{ display: "flex", flexDirection: "row" }}
@@ -102,7 +111,7 @@ export default function ServerHeader() {
                 <Trash className="h-4 w-4 ml-auto" />
               </DropdownMenuItem>
             )}
-            {!isDentsit && (
+            {!dentist && (
               <DropdownMenuItem
                 className="text-rose-500 px-3 py-2 text-sm cursor-pointer hover:bg-slate-900 "
                 style={{ display: "flex", flexDirection: "row" }}
@@ -114,13 +123,13 @@ export default function ServerHeader() {
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
-        <Link
-          href="/courses"
-          className="flex flex-row items-center bg-my-gold justify-center text-my-black py-4 font-bold text-lg gap-2 leading-8"
+        <div
+          onClick={handleNavigation}
+          className="flex items-cente cursor-pointer bg-my-gold justify-center text-my-black py-4 font-bold text-lg gap-2"
         >
           <Landmark />
           SKILL UP
-        </Link>
+        </div>
       )}
     </div>
   );

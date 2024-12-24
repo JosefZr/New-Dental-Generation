@@ -11,8 +11,8 @@ export default function ServerSection({label, role, sectionType, channelType, se
         <p className="h-3  text-xs uppercase font-semibold text-zinc-400 ">
             {label}
         </p>
-        {
-            role !== "guest" && sectionType ==="channels" &&(
+        {/* {
+            role !== "guest" && sectionType ==="channels" &&( */}
                 <ActionTooltip lebel="create channel" side="top">
                     <button 
                         className=" text-zinc-400 hover:text-zinc-600 transition"
@@ -21,9 +21,9 @@ export default function ServerSection({label, role, sectionType, channelType, se
                         <Plus className="h-4 w-4"/>
                     </button>
                 </ActionTooltip>
-            )
-        }
-        {role === "admin" && sectionType==="members" &&(
+            {/* )
+        } */}
+        {/* {role === "admin" && sectionType==="members" &&( */}
             <ActionTooltip lebel="create channel" side="top">
                 <button 
                     className=" text-zinc-400 hover:text-zinc-600 transition"
@@ -32,7 +32,7 @@ export default function ServerSection({label, role, sectionType, channelType, se
                     <Settings className="h-4 w-4"/>
                 </button>
             </ActionTooltip>
-        )}
+        {/* )} */}
     </div>
   )
 }

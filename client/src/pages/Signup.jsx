@@ -1,17 +1,18 @@
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
 import { useState } from "react";
 
 import {
   LeftSignup,
-  PaymentCard,
   PersonalInformationForm,
-  SelectPaymentMethod,
+  // SelectPaymentMethod,
 } from "@/components/signup";
-import { loadStripe } from "@stripe/stripe-js";
-import axios from "axios";
+import PaymentCardV1 from "@/components/signup/paymentCard-v1";
+// import { loadStripe } from "@stripe/stripe-js";
+// import axios from "axios";
 
 export const getCardData = () => {
+  
   const transformDescriptionToTable = (description) => {
     // Split the description by '.' and filter out any empty strings
     return description
@@ -72,9 +73,9 @@ export default function Signup() {
     file: null,
   });
 
-  const stripePromise = loadStripe(
-    "pk_test_51Q6FSwRsgnrIRIXHVv98PFAvJYYVK9gElLXl8fV16Xquu3PHduekcmJ182SsDLAcgNRjOSKzxAJmTZQO8nUpo720001usG5YNY"
-  );
+  // const stripePromise = loadStripe(
+  //   "pk_test_51Q6FSwRsgnrIRIXHVv98PFAvJYYVK9gElLXl8fV16Xquu3PHduekcmJ182SsDLAcgNRjOSKzxAJmTZQO8nUpo720001usG5YNY"
+  // );
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -111,8 +112,8 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page reload
 
-    const stripe = await stripePromise;
-    const res = await axios.post("/checkout", {});
+    // const stripe = await stripePromise;
+    // const res = await axios.post("/checkout", {});
     if (!formData.file) return;
 
     const formDataObject = new FormData();
@@ -218,7 +219,7 @@ export default function Signup() {
               <FaCheckCircle />
               <p className="ml-[9px] font-black">SELECT PLAN</p>
             </div>
-            <PaymentCard
+            <PaymentCardV1
               cardData={data}
               role={formData.role}
               userData={formData}

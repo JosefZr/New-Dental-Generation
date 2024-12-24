@@ -145,3 +145,70 @@ export const markAsPaid = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateSubscription = async (req, res) => {
+  const plans = [
+    {
+      id: 5487,
+      name: "Cadet",
+      duration: "1m", // 1 month
+      amount: 14.5,
+    },
+    {
+      id: 8976,
+      name: "Challenger",
+      duration: "4m", // 4 months
+      amount: 55,
+    },
+    {
+      id: 93197,
+      name: "Hero",
+      duration: "12m", // 12 months
+      amount: 150,
+    },
+  ];
+
+  try {
+    const { plan_name, userData } = req.body;
+    const plan = plans.find((p) => p.name === plan_name);
+
+    // Check if user exists
+    const user = await User.findById(userData._id);
+    if (!user) {
+      throw new ApiError("User not found", 404);
+    }
+
+    // Get the current end date or use the current date if no end date exists
+    const currentEndDate = user.subscriptionEndDate ? new Date(user.subscriptionEndDate) : new Date();
+    let newEndDate;
+
+    // Calculate the new end date based on the plan's duration
+    switch (plan.duration) {
+      case "1m":
+        newEndDate = new Date(currentEndDate);
+        newEndDate.setMonth(currentEndDate.getMonth() + 1);
+        break;
+      case "4m":
+        newEndDate = new Date(currentEndDate);
+        newEndDate.setMonth(currentEndDate.getMonth() + 4);
+        break;
+      case "12m":
+        newEndDate = new Date(currentEndDate);
+        newEndDate.setFullYear(currentEndDate.getFullYear() + 1);
+        break;
+      default:
+        throw new ApiError("Invalid plan duration", 400);
+    }
+
+    // Update the user's subscription details
+    user.subscriptionPlan = plan.name;  // Make sure the subscription plan is updated
+    user.isPaid = true;  // Mark as paid
+    user.subscriptionEndDate = newEndDate; // Store the updated end date
+
+    await user.save();
+
+    res.json({ message: "Subscription updated successfully", user });
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -3,19 +3,60 @@ import Message from "@/components/chatComponents/Message";
 import { FaArrowDown, FaArrowUp, FaHashtag } from "react-icons/fa6";
 import { TbPinnedFilled } from "react-icons/tb";
 import { useSocket } from "../../socketContext";
+import { Plus, X } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { jwtDecode } from "jwt-decode";
+import { UserContext } from "@/context/UserContext";
+import { GiHamburgerMenu } from "react-icons/gi";
 
-export default function Chat1({ initialMessages, chanId }) {
+export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const [messages, setMessages] = useState(initialMessages || []);
   const [msgToSend, setMessageToSend] = useState("");
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
+  const {user} = useContext(UserContext);
+  const {owner} = useContext(UserContext);
+  const {isSidebarOpen, setIsSidebarOpen} = useContext(UserContext);
   const [preventFetch, setPrevent] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
 
   const containerRef = useRef(null);
   const lastMessageRef = useRef(null);
+  const [images, setImages] = useState([])
+  const fileInputRef = useRef(null)
+
+  const handleFileChange = (event) => {
+    const files = event.target.files
+    if (files) {
+      const newImages = Array.from(files).map(file => ({
+        id: Math.random().toString(36).substr(2, 9),
+        file,
+        preview: URL.createObjectURL(file)
+      }))
+      setImages(prevImages => [...prevImages, ...newImages])
+    }
+  }
+
+  const removeImage = (id) => {
+    setImages(prevImages => {
+      const removedImage = prevImages.find(image => image.id === id)
+      if (removedImage) {
+        URL.revokeObjectURL(removedImage.preview)
+      }
+      return prevImages.filter(image => image.id !== id)
+    })
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    console.log('Submitting files:', images.map(img => img.file))
+    setImages([])
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
+  }
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -26,6 +67,9 @@ export default function Chat1({ initialMessages, chanId }) {
   const socket = useSocket();
   const userInfo = jwtDecode(localStorage.getItem("token"));
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
   // tracking the last message to scroll to it
 
   useEffect(() => {
@@ -64,6 +108,7 @@ export default function Chat1({ initialMessages, chanId }) {
       e.preventDefault();
       sendMessage();
       setMessageToSend("");
+      e.target.value="";
     }
   }
 
@@ -153,8 +198,9 @@ export default function Chat1({ initialMessages, chanId }) {
                 <div className="flex w-full items-center font-medium">
                   <div className="flex items-center justify-center gap-3">
                     <div className="flex items-center gap-3 font-medium">
+                      <GiHamburgerMenu className="md:hidden text-2xl"onClick={toggleSidebar}/>
                       <span className="flex items-center gap-[2px]">
-                        <FaHashtag />| start-here
+                        <FaHashtag />| {cahnTitle}
                       </span>
                     </div>
                   </div>
@@ -246,47 +292,66 @@ export default function Chat1({ initialMessages, chanId }) {
                   See present <FaArrowDown className="ml-2" />
                 </div>
               </div>
-
               {/* for the input  */}
-              <div className="flex flex-shrink-0  w-full items-center gap-3 border-gray-700 border-t px-3 py-2">
-                <button
-                  className=" relative bg-neutral-950 flex-shrink-0 cursor-pointer overflow-hidden rounded-full p-1"
-                  style={{
-                    backgroundColor:
-                      "hsl(211.3 46.939% 9.6078% / 1 !important) !important",
-                  }}
-                >
-                  <input
-                    type="file"
-                    accept="image/*,video/*,audio/*,text/*,application/*,.mp3, .wav, .ogg, .mp4, .mov, .avi, .mkv, .webm, .m4a, .pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .json"
-                    className="absolute bg-my-white opacity-0 shadow-xl"
-                  />
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="transform transition-all "
-                  >
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                </button>
-                <form className="relative block min-h-[32px] rounded-2xl bg-neutral-950 flex-1">
-                  <textarea
-                    id="chat-input"
-                    className=" top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none  w-full"
-                    placeholder="Message #⭐ | lifestyle-flexing"
-                    style={{ height: "32px" }}
-                    onChange={(e) => setMessageToSend(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                  ></textarea>
-                </form>
+              {
+                owner === user.id &&
+                <div className="flex flex-shrink-0  w-full items-center gap-3 border-gray-700 border-t px-3 py-2">
+                <div className="w-full max-w-md mx-auto p-4 flex flex-col-reverse">
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="flex items-center justify-start pt-3 w-full">
+                      
+                    </div>
+                    
+                  </form>
+                  {images.length > 0 && (
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+                        {images.map((image) => (
+                          <div key={image.id} className="relative group">
+                            <img
+                              src={image.preview}
+                              alt={`Preview of ${image.file.name}`}
+                              className="w-full h-auto rounded-lg object-cover"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => removeImage(image.id)}
+                              className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                              aria-label={`Remove ${image.file.name}`}
+                            >
+                              <X size={16} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                </div>
+              </div>}
+              <div className="w-full flex flex-row items-center px-5 gap-3">
+              <label htmlFor="dropzone-file" className="cursor-pointer">
+                        <Plus className="w-6 h-6 text-gray-500 hover:text-gray-700 transition-colors" />
+                        <Input 
+                          id="dropzone-file" 
+                          type="file" 
+                          className="hidden" 
+                          multiple 
+                          accept="image/*"
+                          onChange={handleFileChange}
+                          ref={fileInputRef}
+                        />
+                      </label>
+              <form className="relative block min-h-[32px] rounded-2xl bg-neutral-950 flex-1">
+                    <textarea
+                      id="chat-input"
+                      className=" top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none  w-full"
+                      placeholder="Message #⭐ | lifestyle-flexing"
+                      style={{ height: "32px" }}
+                      onChange={(e) => setMessageToSend(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                    ></textarea>
+                  </form>
+                  <Button type="submit"  disabled={images.length === 0}>
+                      Upload {images.length} {images.length === 1 ? 'Image' : 'Images'}
+                    </Button>
               </div>
             </footer>
           </div>
