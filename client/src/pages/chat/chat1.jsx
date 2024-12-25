@@ -25,19 +25,20 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const containerRef = useRef(null);
   const lastMessageRef = useRef(null);
   const [images, setImages] = useState([])
+  const [imagesTosnd, setImagesToSnd] = useState([])
   const fileInputRef = useRef(null)
 
   const handleFileChange = (event) => {
-    const files = event.target.files
+    const files = event.target.files;
     if (files) {
-      const newImages = Array.from(files).map(file => ({
+      const newImages = Array.from(files).map((file) => ({
         id: Math.random().toString(36).substr(2, 9),
         file,
-        preview: URL.createObjectURL(file)
-      }))
-      setImages(prevImages => [...prevImages, ...newImages])
+        preview: URL.createObjectURL(file),
+      }));
+      setImages((prevImages) => [...prevImages, ...newImages]);
     }
-  }
+  };
 
   const removeImage = (id) => {
     setImages(prevImages => {
@@ -82,6 +83,11 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
     scrollToBottom();
   }, [chanId]);
 
+
+  useEffect(()=>{
+
+  },[owner])
+
   useEffect(() => {
     if (!socket && !chanId) return;
 
@@ -103,23 +109,84 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
     };
   }, [socket, chanId, initialMessages]);
 
-  function handleKeyDown(e) {
+
+  const [disable , setDisable] = useState(false)
+  async function handleKeyDown(e) {
     if (e.key === "Enter") {
+      if (disable) return ; 
       e.preventDefault();
-      sendMessage();
-      setMessageToSend("");
+      if (images.length > 0) {
+        console.log(images)
+        const resp = await storeImages() ;
+        setImagesToSnd(resp)
+      }else {
+        sendMessage();
+      }
       e.target.value="";
     }
   }
 
+  useEffect(() => {
+    console.log("Updated imagesTosnd:", imagesTosnd);
+    if (imagesTosnd.length > 0) {
+      sendMessage();
+      setMessageToSend("");
+    }
+  }, [imagesTosnd]);
+  
+
+
+
+  ////////////////////
+  
+
+  async function storeImages() {
+    setDisable(true); 
+    const formData = new FormData();
+
+    // Append files to FormData
+    images.forEach((imageObj) => {
+      formData.append("images", imageObj.file);
+    });  
+    try {
+      const response = await fetch("http://localhost:3000/api/v1/channels/storeMessageImages", {
+        method: "POST",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+        body: formData, 
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to store images: ${response.status} ${response.statusText}`);
+      }
+  
+      const data = await response.json(); 
+  
+      return data.files;
+    } catch (error) {
+      console.error("An error occurred while storing images:", error);
+      return null; 
+    } finally {
+      setDisable(false); 
+    }
+  }
+  
   function sendMessage() {
-    if (!msgToSend.trim()) return;
+    if (!msgToSend.trim() && !imagesTosnd) return;
+
+    console.log(imagesTosnd , msgToSend)
 
     socket.emit("channelMessage", {
       content: msgToSend,
       channelId: chanId,
+      images: imagesTosnd,
       type: "text",
     });
+
+    setMessageToSend("")
+    setImages([])
+    setImagesToSnd([])
   }
 
   const fetchMoreMessages = async () => {
@@ -130,9 +197,7 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
     setIsFetching(true);
 
     try {
-      console.log("gonna fetch more messages");
       let nextPage = page + 1;
-      console.log(nextPage);
       const response = await fetch(
         `http://localhost:3000/api/v1/channels/${chanId}?page=${nextPage}`,
         {
@@ -147,8 +212,6 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
       if (!response.ok) {
         throw new Error("Failed to fetch messages");
       }
-
-      console.log(data);
 
       if (data.data) {
         console.log("fetched more messages");
@@ -280,7 +343,11 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
             </div>
           </div>
           {/* for the input of the message */}
-          <div className="absolute right-0 bottom-0 left-0 z-20 flex flex-col">
+          <div
+            className={`absolute right-0 bottom-0 left-0 z-20 flex flex-col ${
+              disable ? "opacity-50 pointer-events-none" : ""
+            }`}
+          >
             <footer
               className="relative mb-inset-bottom   z-20 w-full bg-base-100 transition-transform duration-keyboard translate-y-0"
               style={{ paddingBottom: "0px" }}
@@ -294,7 +361,7 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
               </div>
               {/* for the input  */}
               {
-                owner === user.id &&
+                owner.ownerId === user.userId &&
                 <div className="flex flex-shrink-0  w-full items-center gap-3 border-gray-700 border-t px-3 py-2">
                 <div className="w-full max-w-md mx-auto p-4 flex flex-col-reverse">
                   <form onSubmit={handleSubmit} className="space-y-4">

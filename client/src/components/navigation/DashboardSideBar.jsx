@@ -5,15 +5,33 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { UserContext } from "@/context/UserContext";
+import { useUserToChatContext } from "@/context/ToChatUser";
+import UserChat from "@/pages/chat/UserChat";
 
 export default function DashboardSidebar() {
     const {chatId,setChatId,fetchMessages } = useContext(UserContext);
+
   
   const [privateChats, setPrivateChats] = useState({});
   const navigate = useNavigate()
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const userInfo = jwtDecode(localStorage.getItem('token'))
+
+  const {clickedUser , setClickedUserId} = useUserToChatContext();
+
+
+  // comming from models 
+  useEffect(() => {
+    if (clickedUser.userId) {
+      setChatId(clickedUser.userId);
+      fetchMessages(clickedUser.userId);
+    }
+  }, [clickedUser]);
+
+
+
+
   useEffect(() => {
     const fetchPrivateChats = async () => {
       try {
@@ -47,12 +65,12 @@ export default function DashboardSidebar() {
 
     fetchPrivateChats();
   }, []);
-  const handleChatSelect = (recipientId) => {
-    setChatId(recipientId);
-    fetchMessages(recipientId);
-    navigate(`/dashboard/userChat`);
+
+  const handleChatSelect = (recipientId, username) => {
+    setClickedUserId({userId : recipientId , username});
   };
   return (
+    <>
     <section className="flex flex-1 flex-col overflow-x-hidden border-grey-secondary border-r bg-base-100 pt-inset-top lg:border-0">
       <div className="flex w-full flex-1 flex-col items-center overflow-y-auto overflow-x-hidden pt-3">
         <div className="flex flex-col rounded-md border border-base-300 w-full border-none px-3">
@@ -116,7 +134,7 @@ export default function DashboardSidebar() {
                   key={chat.recipient._id}
                   className="flex flex-col rounded-md  w-full "
                   style={{ width: "240px", maxWidth: "300px" }}
-                  onClick={() => handleChatSelect(chat.recipient._id)}
+                  onClick={() => handleChatSelect(chat.recipient._id , `${chat.recipient.firstName} ${chat.recipient.lastName}` ) }
                 >
                   <button
                     style={{ flexDirection: "row" }}
@@ -142,5 +160,6 @@ export default function DashboardSidebar() {
         </div>
       </div>
     </section>
+    </>
   );
 }

@@ -76,3 +76,21 @@ export const joinChannel = expressAsyncHandler(async (req, res) => {
   );
   successResponse(res, updatedChannel, "User joined the channel successfully");
 });
+
+
+
+export const storeMessageImages = expressAsyncHandler((req, res) => {
+
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ error: "No files uploaded." });
+    }
+
+    // Generate full URLs for each file
+    const uploadedFiles = req.files.map((file) => ( `http://localhost:3000/uploads/channelsChat/${file.filename}`));
+
+    // Send response maintaining the original order
+    res.status(200).json({
+      message: "Images uploaded successfully.",
+      files: uploadedFiles,
+    });
+});

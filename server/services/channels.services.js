@@ -54,6 +54,8 @@ class ChannelService {
       "title description type owner locked createdAt messages"
     );
 
+    console.log(channel);
+
     if (!channel) return null;
 
     // Manually paginate messages
@@ -111,7 +113,7 @@ class ChannelService {
     }
     const channels = await Channel.find({})
       .select(
-        "title description type locked createdAt allowedUsers updatedAt messages"
+        "title description type locked owner createdAt allowedUsers updatedAt messages"
       )
       .exec();
 
@@ -127,7 +129,6 @@ class ChannelService {
         type: channel.type,
         owner:channel.owner,
         locked: channel.locked,
-
         createdAt: channel.createdAt,
         updatedAt: channel.updatedAt,
         allowedUsers: channel.allowedUsers,
@@ -178,7 +179,7 @@ class ChannelService {
   }
 }
 
-export async function saveChannelMessage(senderId, channelId, content, type) {
+export async function saveChannelMessage(senderId, channelId, content, type, images) {
   const channel = await Channel.findById(channelId);
   if (!channel) {
     throw new Error("Channel not found");
@@ -189,6 +190,7 @@ export async function saveChannelMessage(senderId, channelId, content, type) {
     sender: senderId,
     type,
     content,
+    images,
     createdAt: new Date(),
   };
 

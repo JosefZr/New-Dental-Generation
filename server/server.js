@@ -30,6 +30,7 @@ dotenv.config();
 // Express app instance
 const app = express();
 
+
 // Parse json
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

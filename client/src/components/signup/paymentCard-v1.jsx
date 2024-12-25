@@ -8,9 +8,8 @@ import { loadStripe } from "@stripe/stripe-js";
 const stripePromise = loadStripe(
     "pk_test_51Q6FSwRsgnrIRIXHVv98PFAvJYYVK9gElLXl8fV16Xquu3PHduekcmJ182SsDLAcgNRjOSKzxAJmTZQO8nUpo720001usG5YNY"
 );
-export default function PaymentCardV1({ cardData, role, userData }) {
+export default function PaymentCardV1({ isModal,cardData, role, userData }) {
     let dataCard = cardData;
-    console.log({cardData, role, userData  })
     const [selectedCardIndex, setSelectedCardIndex] = useState(null);
     const [name, setName] = useState("");
     const handleCardSelect = (index, amount, name) => {
@@ -20,9 +19,13 @@ export default function PaymentCardV1({ cardData, role, userData }) {
     const handleCheckout = async () => {
     const stripe = await stripePromise;
     try {
+
+        let link = ""
+        if (isModal) link = "http://localhost:3000/api/v1/payment/update-subscription-session"
+        else link ="http://localhost:3000/api/v1/payment/create-checkout-session"
         
         const response = await axios.post(
-        "http://localhost:3000/api/v1/payment/create-subscription-session",
+        link ,
         { plan_name: name, userData },
         {
             withCredentials: true, // Allows sending cookies with the request

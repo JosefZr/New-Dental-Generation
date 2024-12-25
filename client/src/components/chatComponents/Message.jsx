@@ -6,6 +6,7 @@ import { Dialog } from "../ui/dialog";
 import { DialogTrigger } from "@radix-ui/react-dialog";
 
 export default function Message({ message }) {
+  //console.log(message)
   const userInfo = jwtDecode(localStorage.getItem("token"));
   const {userPreview, setPreview} = useContext(UserContext);
     const {onOpen} = useModal();
@@ -98,6 +99,11 @@ export default function Message({ message }) {
           <span className="custom-break-words break-words text-sm">
             <div className="sc-jEACwC gqSGRP markdown break-wordsfalse">
               <p className="text-sm">{message.content}</p>
+              {message?.images.length > 0 && 
+                message.images.map((file)=>{
+                  return <img src={file} />
+                })
+              }
             </div>
           </span>
         </div>
