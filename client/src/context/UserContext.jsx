@@ -6,7 +6,7 @@ const UserProvider = ({ children }) => {
 
     const [user, setUser]= useState({})
     const [users, setUsers] = useState([])
-    const [owner, setOwner] = useState("");
+    const [owner, setOwner] = useState({});
     const [userPreview, setPreview] = useState({})
     const [friendsRequest, setFriendsRequest] = useState({})
     const [userMessages, setUserMessages] = useState([]);

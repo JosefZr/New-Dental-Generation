@@ -44,7 +44,7 @@ export const initializeSocket = (server) => {
       }
     });
 
-    socket.on("privateMessage", async ({ recipient, content }) => {
+    socket.on("privateMessage", async ({ recipient, content, images }) => {
       const roomId = [socket.user.userId, recipient].sort().join("_");
 
       // Check if the recipient is currently in the room
@@ -57,6 +57,7 @@ export const initializeSocket = (server) => {
         socket.user.userId,
         recipient,
         content,
+        images, 
         isRecipientInRoom ? "read" : "sent"
       );
 
@@ -74,8 +75,11 @@ export const initializeSocket = (server) => {
     });
 
     // Send a message to a specific channel
-    socket.on("channelMessage", async ({ channelId, content, type }) => {
+    socket.on("channelMessage", async ({ channelId, content, type, images }) => {
       try {
+
+        console.log(channelId, content , type , images)
+
         const channel = await Channel.findById(channelId);
         if (!channel) {
           return socket.emit("error", { message: "Channel not found." });
@@ -86,7 +90,8 @@ export const initializeSocket = (server) => {
           socket.user.userId,
           channel._id,
           content,
-          type
+          type , 
+          images
         );
 
         // Emit the message to all members in the channel

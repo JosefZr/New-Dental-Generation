@@ -11,14 +11,27 @@ import { addingFriendRequest, getFriendsRequest } from "@/services";
 import toast from "react-hot-toast";
 import { FaUserMinus } from "react-icons/fa6";
 import { MdMessage } from "react-icons/md";
+import { useUserToChatContext } from "@/context/ToChatUser";
+import { useNavigate } from "react-router-dom";
 
 export default function PreviewModal() {
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem("token") 
+  if (!token) {
+    console.log("Token not found")
+    return null;
+  }
+
   const userInfo = jwtDecode(localStorage.getItem("token"))
+
 
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === MODAL_TYPE.USER_PREVIEW;
   const { userPreview,user,friendsRequest, setFriendsRequest } = useContext(UserContext);
   const [friendRequest, setFriendRequest] = useState(null);
+
+  const { setClickedUserId } = useUserToChatContext();
 
   useEffect(()=>{
     if (isOpen) {
@@ -73,7 +86,11 @@ export default function PreviewModal() {
             <div className="absolute top-3 right-4 z-[11] flex justify-end gap-1 sm:z-10">
             <button
                 className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950 "
-                // onClick={handleClose}
+                onClick={() =>  {
+                  setClickedUserId({ userId: userPreview._id, username: `${userPreview.firstName} ${userPreview.lastName}` });
+                  handleClose(); 
+                  navigate("/dashboard")
+                }}
                 >
                 <MdMessage className="text-xl text-center  text-my-white" />
                 </button>

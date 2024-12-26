@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { UserContext } from "@/context/UserContext";
+import { jwtDecode } from "jwt-decode";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 const Back = styled.div`
@@ -28,6 +30,9 @@ const fetchUserData = async (data) => {
 };
 
 export default function Login() {
+
+  const {setUser} = useContext(UserContext);
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -45,10 +50,16 @@ export default function Login() {
 
   // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent page reload
-    console.log("Form Data:", formData); // Log form data to console
+    e.preventDefault(); 
     const res = await fetchUserData(formData);
-    if (res) navigate("/channels");
+    console.log(res)
+    if (res){
+
+      const token = localStorage.getItem("token"); 
+      const userInfo = jwtDecode(token);
+      setUser(userInfo)
+      navigate("/channels")
+    };
   };
 
   return (

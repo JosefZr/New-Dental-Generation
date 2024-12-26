@@ -157,7 +157,10 @@ export default function ServerSideBar({
                 key={channel._id}
                 channel={channel.title}
                 memberRole=""
-                onClickChan={() => handleChannelClick(channel._id, channel.title)}
+                onClickChan={() => {
+                  handleChannelClick(channel._id, channel.title)
+                  setOwner({ownerId : channel.owner , chanType: "dentist" })
+                }}
               />
             ))}
           </div>
@@ -178,7 +181,7 @@ export default function ServerSideBar({
                 channel={channel.title}
                 memberRole=""
                 onClickChan={() => {
-                  setOwner(channel.owner);
+                  setOwner({ownerId : channel.owner , chanType: "lab" });
                   handleChannelClick(channel._id, channel.title)}
                 }
               />
@@ -202,7 +205,7 @@ export default function ServerSideBar({
                 memberRole=""
                 onClickChan={() => {
                   handleChannelClick(channel._id, channel.title);
-                  setOwner(channel.owner);
+                  setOwner({ownerId : channel.owner , chanType: "store" });
                 }}
               />
             ))}

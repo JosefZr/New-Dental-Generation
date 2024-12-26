@@ -91,6 +91,7 @@ return (
         </DialogHeader>
         <div className="mt-3 scroll-auto"></div>
             <PaymentCardV1
+                isModal ={true}
                 cardData={data}
                 role={user.role}
                 userData={user}

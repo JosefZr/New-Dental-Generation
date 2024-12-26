@@ -220,6 +220,7 @@ export default function Signup() {
               <p className="ml-[9px] font-black">SELECT PLAN</p>
             </div>
             <PaymentCardV1
+              isModal={false}
               cardData={data}
               role={formData.role}
               userData={formData}

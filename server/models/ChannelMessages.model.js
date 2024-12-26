@@ -16,9 +16,10 @@ export const MessageSchema = new Schema({
     type: String,
     required: true,
   },
-  file: {
-    type: String, // URL to the file, if a file is sent
-  },
+  images: [{
+    type: String,
+    required : false
+  }],
   createdAt: {
     type: Date,
     default: Date.now,

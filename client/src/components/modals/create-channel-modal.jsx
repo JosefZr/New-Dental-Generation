@@ -44,10 +44,10 @@ export default function CreateChannelModal() {
     setIsLoading(true);
     console.log(values);
     const value = {
-      title: "nbi3lk w bi3li sel3a",
+      title: "dentists channel 2",
       description: "This is a general discussion channel",
       type: "room",
-      allowed: "store",
+      allowed: "dentist",
       locked: false,
     };
 
@@ -56,7 +56,7 @@ export default function CreateChannelModal() {
         method: "POST",
         headers: {
           Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzM4ZDM0MzA4ZmY5ZTczM2VmNjJmZDciLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MzE3Nzc0NTAsImV4cCI6MTczMTg2Mzg1MH0.dHIhAILTwIb3qA6KWFRMz4ZJBtjVLYCVxM4MXPR6cDw",
+            localStorage.getItem("token"),
           "Content-Type": "application/json",
         },
         body: JSON.stringify(value),

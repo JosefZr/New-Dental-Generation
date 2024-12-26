@@ -10,8 +10,16 @@ import { FaUserMinus } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdDone, MdMessage } from "react-icons/md";
 import { IoMdClose } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import { useUserToChatContext } from "@/context/ToChatUser";
 
 export default function Friends() {
+
+
+  const navigate = useNavigate();
+  const {setClickedUserId} = useUserToChatContext();
+
+
   const [filter, setFilter] = useState("");
   const userInfo = jwtDecode(localStorage.getItem("token"));
   const { 
@@ -299,7 +307,10 @@ export default function Friends() {
                   </button>
                   <button
                     className="h-8 w-8 rounded-full bg-slate-950 flex items-center justify-center"
-                    // onClick={() => handleDeletePendingRequest(request)}
+                    onClick={() => {
+                      setClickedUserId({ userId: friend._id, username: `${friend.firstName} ${friend.lastName}` });
+                      navigate("/dashboard")
+                    }}
                   >
                     <MdMessage className="text-xl text-my-white" />
                   </button>

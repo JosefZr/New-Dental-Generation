@@ -4,6 +4,6 @@ const router = express.Router();
 
 router.post("/create-checkout-session", makePayment);
 router.post("/validate-subscription", markAsPaid);
-router.post("/create-subscription-session", updateSubscription);
+router.post("/update-subscription-session", updateSubscription);
 
 export default router;

@@ -7,27 +7,28 @@ dotenv.config();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+const plans = [
+  {
+    id: 5487,
+    name: "Cadet",
+    duration: "1m", // 1 month
+    amount: 14.5,
+  },
+  {
+    id: 8976,
+    name: "Challenger",
+    duration: "4m", // 4 months
+    amount: 55,
+  },
+  {
+    id: 93197,
+    name: "Hero",
+    duration: "12m", // 12 months
+    amount: 150,
+  },
+];
+
 export const makePayment = async (req, res, next) => {
-  const plans = [
-    {
-      id: 5487,
-      name: "Cadet",
-      duration: "1m",
-      amount: 14.5,
-    },
-    {
-      id: 8976,
-      name: "Challenger",
-      duration: "4m",
-      amount: 55,
-    },
-    {
-      id: 93197,
-      name: "Hero",
-      duration: "12m",
-      amount: 150,
-    },
-  ];
 
   try {
     const { plan_name, userData } = req.body;
@@ -131,7 +132,7 @@ export const markAsPaid = async (req, res, next) => {
         $set: {
           isPaid: true,
           subscriptionPlan: session.metadata.subscriptionPlan,
-          subscriptionStartDate: new Date(),
+          subscriptionStartDate: subscriptionStartDate,
           subscriptionEndDate,
           stripeSubscriptionId: session.id,
         },
@@ -147,26 +148,6 @@ export const markAsPaid = async (req, res, next) => {
 };
 
 export const updateSubscription = async (req, res) => {
-  const plans = [
-    {
-      id: 5487,
-      name: "Cadet",
-      duration: "1m", // 1 month
-      amount: 14.5,
-    },
-    {
-      id: 8976,
-      name: "Challenger",
-      duration: "4m", // 4 months
-      amount: 55,
-    },
-    {
-      id: 93197,
-      name: "Hero",
-      duration: "12m", // 12 months
-      amount: 150,
-    },
-  ];
 
   try {
     const { plan_name, userData } = req.body;
@@ -178,37 +159,37 @@ export const updateSubscription = async (req, res) => {
       throw new ApiError("User not found", 404);
     }
 
-    // Get the current end date or use the current date if no end date exists
-    const currentEndDate = user.subscriptionEndDate ? new Date(user.subscriptionEndDate) : new Date();
-    let newEndDate;
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price_data: {
+            currency: "eur",
+            product_data: {
+              name: plan.name,
+            },
+            unit_amount: plan.amount * 100,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: "payment",
+      success_url: `${process.env.CLIENT_URL}/#/success?sessionId={CHECKOUT_SESSION_ID}&userId=${user._id}`,
+      cancel_url: `${process.env.CLIENT_URL}/cancel`,
+      metadata: {
+        user: userData._id,
+        duration: plan.duration,
+        subscriptionPlan:
+          plan.duration === "1m"
+            ? "monthly"
+            : plan.duration === "4m"
+            ? "quarterly"
+            : "yearly",
+      },
+    });
 
-    // Calculate the new end date based on the plan's duration
-    switch (plan.duration) {
-      case "1m":
-        newEndDate = new Date(currentEndDate);
-        newEndDate.setMonth(currentEndDate.getMonth() + 1);
-        break;
-      case "4m":
-        newEndDate = new Date(currentEndDate);
-        newEndDate.setMonth(currentEndDate.getMonth() + 4);
-        break;
-      case "12m":
-        newEndDate = new Date(currentEndDate);
-        newEndDate.setFullYear(currentEndDate.getFullYear() + 1);
-        break;
-      default:
-        throw new ApiError("Invalid plan duration", 400);
-    }
-
-    // Update the user's subscription details
-    user.subscriptionPlan = plan.name;  // Make sure the subscription plan is updated
-    user.isPaid = true;  // Mark as paid
-    user.subscriptionEndDate = newEndDate; // Store the updated end date
-
-    await user.save();
-
-    res.json({ message: "Subscription updated successfully", user });
+    res.json({ sessionId: session.id });
   } catch (error) {
-    console.log(error);
+    next(error); 
   }
 };

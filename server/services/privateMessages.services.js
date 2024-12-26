@@ -5,12 +5,14 @@ export const saveMessage = async (
   sender,
   recipient,
   content,
+  images,
   contentStatus
 ) => {
   const message = new Message({
     sender,
     recipient,
     content,
+    images,
     status: contentStatus,
   });
   await message.save();

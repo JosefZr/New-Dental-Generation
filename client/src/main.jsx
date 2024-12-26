@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import CourseProvider from "./context/CoursesContext.jsx";
 import { ModalProvider } from "./components/providers/modal-provider.jsx";
 import UserProvider from "./context/UserContext.jsx";
+import { UserChatProvider } from "./context/ToChatUser.jsx";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ createRoot(document.getElementById("root")).render(
         <InstructorProvider>
           <CourseProvider>
             <UserProvider>
+              <UserChatProvider>
             <Toaster
               position="top-center"
               gutter={12}
@@ -42,6 +44,7 @@ createRoot(document.getElementById("root")).render(
             <ModalProvider>
               <App />
             </ModalProvider>
+            </UserChatProvider>
             </UserProvider>
           </CourseProvider>
         </InstructorProvider>

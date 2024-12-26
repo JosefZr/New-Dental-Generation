@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { startSession } from "mongoose";
 
 const messageSchema = new mongoose.Schema(
   {
@@ -16,6 +16,9 @@ const messageSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    images : [{
+      type : String,
+    }],
     timestamp: {
       type: Date,
       default: Date.now,
