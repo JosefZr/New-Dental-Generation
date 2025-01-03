@@ -91,7 +91,7 @@ export default function Login() {
               {/* <Link to={"/login"}>
             <button className='btn mt-3 btn-lg btn-primary btn-block'></button>
           </Link> */}
-              <div className="relative z-10 mx-auto mt-2 flex max-w-[500px] flex-col overflow-auto rounded-xl bg-base-100 p-6 shadow-lg md:mt-24">
+              <div className="relative z-10 mx-auto mt-2 flex max-w-[500px] flex-col overflow-auto rounded-xl bg-base-100 p-6 shadow-lg ">
                 <div className="w-full max-w-[95vw] text-center md:max-w-md">
                   <div className=" text-center font-bold text-xl">
                     Sign in to your account
@@ -121,7 +121,7 @@ export default function Login() {
                     />
 
                     <Link
-                      to="/"
+                      to="/forgot-password"
                       className="mt-3 self-start text-purple-800 text-xs"
                     >
                       Forgot your password?

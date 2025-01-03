@@ -1,45 +1,50 @@
-import { cn } from "@/lib/utils";
-import { FaHashtag } from "react-icons/fa6";
-import { ActionTooltip } from "../ui/action-tooltip";
 import { Edit, Trash } from "lucide-react";
+import { ActionTooltip } from "../ui/action-tooltip";
+import { FaHashtag } from "react-icons/fa6";
+import { cn } from "@/lib/utils";
+import { jwtDecode } from "jwt-decode";
+
 export default function ServerChannel({
   channel,
-  server,
-  memberRole,
   onClickChan,
-  owner
+  onDeleteClick,
+  onEditClick
 }) {
-  // const Icon = ""
-  const role = "admin";
-
+  const  userInfo = jwtDecode(localStorage.getItem("token"))
+  const handleDeleteClick = (e) => {
+    // Prevent click event from triggering the parent button click
+    e.stopPropagation();
+    onDeleteClick();  // Call the passed delete function
+  };
+  
+  const handleUpdateClick = (e)=>{
+      e.stopPropagation();
+      onEditClick()
+  }
   return (
     <button
       className={cn(
         "group p-2 rounded-md flex items-center gap-x-2 w-full hover:bg-zinc-700/50 transition mb-1"
-        // params?.channelId === channelId.id && "bg-zinc-700"
       )}
       onClick={onClickChan}
     >
-      <FaHashtag className="flex-shrink-0 w-5 h-5 text-zinc-400" />
-      <p
-        className={cn(
-          "line-clamp-1 font-semibold text-sm group-hover:text-zinc-300 text-zinc-400 transition "
-          // params?.channelId === channel.id && "text-zinc-200  hover:text-white"
-        )}
-      >
+      <p className={cn("line-clamp-1 font-semibold text-md group-hover:text-zinc-300 text-zinc-400 transition")}>
         {channel}
       </p>
-      {channel !== "generale" && role !== "guest" && (
-        <div className="ml-auto flex items-center gap-x-2">
-          <ActionTooltip label="Edit Channel">
-            <Edit className=" hidden group-hover:block w-4 h-4 text-zinc-400 hover:text-zinc-300 transition" />
-          </ActionTooltip>
+      {userInfo.role ==="admin" && <div className="ml-auto flex items-center gap-x-2">
+        <ActionTooltip label="Edit Channel">
+          <button onClick={handleUpdateClick}>
+            <Edit className="hidden group-hover:block w-4 h-4 text-zinc-400 hover:text-zinc-300 transition" />
+          </button>
+        </ActionTooltip>
 
-          <ActionTooltip label="Edit Channel">
-            <Trash className=" hidden group-hover:block w-4 h-4 text-zinc-400 hover:text-zinc-300 transition" />
-          </ActionTooltip>
-        </div>
-      )}
+        <ActionTooltip label="Delete Channel">
+          <Trash 
+            className="hidden group-hover:block w-4 h-4 text-zinc-400 hover:text-zinc-300 transition"
+            onClick={handleDeleteClick} // Attach delete handler here
+          />
+        </ActionTooltip>
+      </div>}
     </button>
   );
 }

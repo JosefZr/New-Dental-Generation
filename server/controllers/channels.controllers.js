@@ -5,6 +5,7 @@ import { ApiError } from "../utils/ApiError.js";
 
 // Create a new channel
 export const createChannel = expressAsyncHandler(async (req, res) => {
+  console.log(req.body)
   const newChannel = await ChannelService.createChannel(req.body);
   successResponse(res, newChannel, "Channel created successfully", 201);
 });

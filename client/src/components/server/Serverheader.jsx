@@ -1,64 +1,32 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import {
-  ChevronDown,
   Landmark,
-  LogOut,
-  PlusCircle,
-  Settings,
-  Trash,
-  UserPlus,
-  Users,
 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { useModal } from "@/hooks/useModalStore";
-import { Link, useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+
+import { useNavigate } from "react-router-dom";
 export default function ServerHeader() {
   const navigate = useNavigate();
-  function useNavigateCourseRoute(){
-    navigate(isAdmin ?"/constructor":"/course")
-  }
-  let decodeToken = "";
+
   try {
     const token = localStorage.getItem("token");
-    //if(!token)throw new Error("token not found")
+    if(!token)throw new Error("token not found")
 
-    //decodeToken =jwtDecode(token);
-    //console.log(decodeToken);
   } catch (err) {
     throw new Error(err.message);
   }
-  // its a sort of controlling a user behavior in the app so
-  // play with the auth here an see the result
-  // const isDentsit = decodeToken.role === "admin" ? false : true;
-  const isModerator = true;
-  const dentist = true;
-  const isAdmin = false;
-  const { onOpen } = useModal();
-  // const isAdmin = role === MemberRole.ADMIN;
-  // const isModerator = isAdmin || role = MemberRole.MODERATOR;
-  // Navigation handler
   const handleNavigation = () => {
-    navigate(isAdmin ? "/instructor" : "/course");
+    navigate("/course");
   };
   return (
     <div>
-      {dentist ? (
+      {/* {dentist ? (
         <DropdownMenu>
           <DropdownMenuTrigger className=" focus:outline-none " asChild>
             <button className=" w-full text-md font-semibold px-3 flex items-center h-12 border-neutral-800 border-b-2 hover:bg-slate-800 transition">
               {/* {server.name} */}
-              first
+              {/* first
               <ChevronDown className="h-5 w-5 ml-auto" />
-            </button>
-          </DropdownMenuTrigger>
+            </button> */}
+          {/* </DropdownMenuTrigger>
           <DropdownMenuContent className=" w-56 text-xs font-medium text-neutral-400 space-y-[2px] bg-my-dark-blue  border-none  ">
             {isModerator && (
               <DropdownMenuItem
@@ -121,16 +89,16 @@ export default function ServerHeader() {
               </DropdownMenuItem>
             )}
           </DropdownMenuContent>
-        </DropdownMenu>
-      ) : (
+        </DropdownMenu> */}
+      
         <div
           onClick={handleNavigation}
-          className="flex items-cente cursor-pointer bg-my-gold justify-center text-my-black py-4 font-bold text-lg gap-2"
+          className="flex items-cente cursor-pointer bg-my-gold justify-center text-my-black py-3 font-bold text-lg gap-2"
         >
           <Landmark />
           SKILL UP
         </div>
-      )}
+      {/* // )} */}
     </div>
   );
 }

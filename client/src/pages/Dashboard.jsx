@@ -4,12 +4,9 @@ import DashboardSidebar from "@/components/navigation/DashboardSideBar";
 
 import { UserContext } from "@/context/UserContext";
 import { useContext } from "react";
-import UserChat from "./chat/UserChat";
 
 export default function Dashboard() {
   const {isSidebarOpen} = useContext(UserContext);
-  
-
   return (
     <div className="flex h-screen">
       {/* Navigation Sidebar */}
@@ -33,7 +30,7 @@ export default function Dashboard() {
         <div className="flex-1">
         <div className="flex-1 h-full">
         <Outlet />
-          <UserChat ></UserChat>
+          {/* <UserChat ></UserChat> */}
         </div>
             
         </div>

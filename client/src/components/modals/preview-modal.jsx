@@ -23,7 +23,7 @@ export default function PreviewModal() {
     return null;
   }
 
-  const userInfo = jwtDecode(localStorage.getItem("token"))
+  const userInfo = jwtDecode(token);
 
 
   const { isOpen, onClose, type } = useModal();
@@ -66,13 +66,7 @@ export default function PreviewModal() {
       toast.error("Something went wrong.");
     }
   };
-  // const handleDeleteFriendRequest = async()=>{
-  //   try {
 
-  //   }catch(error){
-
-  //   }
-  // }
 
   const handleClose = () => {
     onClose();
@@ -93,7 +87,7 @@ export default function PreviewModal() {
                 }}
                 >
                 <MdMessage className="text-xl text-center  text-my-white" />
-                </button>
+            </button>
                 {/* Attach handleClose to each button */}
                 {
                   friendsRequest.receiver === userPreview._id?(

@@ -106,6 +106,10 @@ export async function updatePassword(userId,previewsPassword,newPassword){
   const {data} = await axiosInstance.put("/api/v1/auth/update/password",{userId,previewsPassword,newPassword})
   return data
 }
+export async function recoverPassword(userId,newPassword){
+  const {data} = await axiosInstance.put("/api/v1/auth/reset/password",{userId,newPassword})
+  return data
+}
 export async function updateDescription(userId,bio){
   const {data} = await axiosInstance.put("/api/v1/auth/update/description",{userId,bio})
   return data

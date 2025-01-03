@@ -2,6 +2,7 @@ import { UserContext } from "@/context/UserContext";
 import { fetchUserData } from "@/hooks/useFetchUserData";
 import { useModal } from "@/hooks/useModalStore";
 import { useContext, useEffect } from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function MyMembership() {
@@ -9,6 +10,11 @@ export default function MyMembership() {
   const { id } = useParams();
   const { user, setUser } = useContext(UserContext);
   const { onOpen } = useModal();
+  const { onSettingsToggle, setOnSettingsToggle } = useContext(UserContext)
+
+  const toggleSidebar = () => {
+    setOnSettingsToggle((prev) => !prev)
+  }
 
   // Helper function to format dates
   const formatDate = (dateString) => {
@@ -51,6 +57,12 @@ export default function MyMembership() {
 
   return (
     <>
+    <button
+            className="absolute top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
+            onClick={toggleSidebar}
+          >
+            <GiHamburgerMenu className="md:hidden text-2xl text-white" />
+          </button>
       <div className="mt-6 flex w-full flex-col">
         <div className="flex flex-col rounded-md border border-slate-600">
           <div className="rounded-md p-[1px]">
@@ -96,7 +108,7 @@ export default function MyMembership() {
           </div>
         </div>
       </div>
-      <div className="absolute top-0 right-0 m-[16px] hidden flex-col items-center md:flex">
+      <div className="absolute top-0 right-0 m-[16px]  flex-col items-center flex">
         <button className="btn !bg-transparent btn-circle" onClick={() => navigate(-1)}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>

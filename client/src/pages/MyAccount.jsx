@@ -7,12 +7,18 @@ import { useModal } from "@/hooks/useModalStore";
 import { fetchUserData } from "@/hooks/useFetchUserData";
 import { useContext, useEffect } from "react";
 import { UserContext } from "@/context/UserContext";
+import { GiHamburgerMenu } from "react-icons/gi";
 export default function MyAccount() {
   const navigate = useNavigate()
   const { id } = useParams();
   const {user, setUser} = useContext(UserContext);
 
   const {onOpen} = useModal();
+  const { onSettingsToggle, setOnSettingsToggle } = useContext(UserContext)
+
+  const toggleSidebar = () => {
+    setOnSettingsToggle((prev) => !prev)
+  }
       useEffect(() => {
         const fetchData = async () => {
           try {
@@ -27,10 +33,16 @@ export default function MyAccount() {
       }, [id]);
   return (
     <>
+     <button
+                className="absolute top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
+                onClick={toggleSidebar}
+              >
+                <GiHamburgerMenu className="md:hidden text-2xl text-white" />
+              </button>
       <div>
       <div className="flex items-center gap-3">
         <section className="relative flex-shrink-0 rounded-full bg-base-300" style={{width:"62px", height:"62px"}}>
-          <img src="https://assets.therealworld.ag/avatars/01JCQTT19SQRA6880GM0VHZV2K?max_side=124" alt="" className="rounded-full object-cover" style={{width:"62px",height:"62px"}} loading="lazy"/>
+          <img src={`http://localhost:3000/uploads/${user.avatar}`} alt="" className="rounded-full object-cover" style={{width:"62px",height:"62px"}} loading="lazy"/>
         </section>
         <div className="flex-1">
           <span className="inline-flex items-center text-xl uppercase">@{user.firstName} {user.lastName}</span>
@@ -39,9 +51,9 @@ export default function MyAccount() {
           {user._id}
           </div>
         </div>
-        <button className="btn btn-circle btn-ghost">
+        {/* <button className="btn btn-circle btn-ghost">
           <BsPen style={{width:"24px", height:"24px" }}/>
-        </button>
+        </button> */}
       </div>
 
       <div className="mt-6 flex w-full flex-col">
@@ -85,7 +97,7 @@ export default function MyAccount() {
         </div>
       </div>
     </div>
-    <div className="absolute top-0 right-0 m-[16px] hidden flex-col items-center md:flex" bis_skin_checked="1">
+    <div className="absolute top-0 right-0 m-[16px] flex-col items-center flex" bis_skin_checked="1">
       <button className="btn !bg-transparent btn-circle" onClick={()=>navigate(-1)}>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>

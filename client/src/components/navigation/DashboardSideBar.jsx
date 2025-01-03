@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { UserContext } from "@/context/UserContext";
 import { useUserToChatContext } from "@/context/ToChatUser";
-import UserChat from "@/pages/chat/UserChat";
+// import UserChat from "@/pages/chat/UserChat";
 
 export default function DashboardSidebar() {
-    const {chatId,setChatId,fetchMessages } = useContext(UserContext);
+    const {setChatId,fetchMessages } = useContext(UserContext);
 
   
   const [privateChats, setPrivateChats] = useState({});
@@ -19,7 +19,6 @@ export default function DashboardSidebar() {
   const userInfo = jwtDecode(localStorage.getItem('token'))
 
   const {clickedUser , setClickedUserId} = useUserToChatContext();
-
 
   // comming from models 
   useEffect(() => {
@@ -90,6 +89,14 @@ export default function DashboardSidebar() {
             <IoSettingsOutline />
             <div className="flex-1">Friends</div>
           </button>
+          <button
+                className="relative flex items-center gap-3 border-base-300 border-b p-3 text-left text-sm last:border-0 active:bg-info hover:bg-info tracking-[0.015em] w-full border-none bg-transparent"
+                style={{ flexDirection: "row" }}
+                onClick={()=>navigate(`/dashboard/dental-stuff`)}
+              >
+                <IoSettingsOutline />
+                <div className="flex-1">Dental Stuff</div>
+              </button>
           {
             userInfo.role==="admin"? (
               <button
@@ -134,7 +141,9 @@ export default function DashboardSidebar() {
                   key={chat.recipient._id}
                   className="flex flex-col rounded-md  w-full "
                   style={{ width: "240px", maxWidth: "300px" }}
-                  onClick={() => handleChatSelect(chat.recipient._id , `${chat.recipient.firstName} ${chat.recipient.lastName}` ) }
+                  onClick={() => {handleChatSelect(chat.recipient._id , `${chat.recipient.firstName} ${chat.recipient.lastName}` )
+                  navigate("/dashboard/user-chat")
+                } }
                 >
                   <button
                     style={{ flexDirection: "row" }}

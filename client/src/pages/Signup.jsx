@@ -69,6 +69,7 @@ export default function Signup() {
     lastName: "",
     email: "",
     password: "",
+    region:"",
     role: "",
     file: null,
   });
@@ -91,20 +92,46 @@ export default function Signup() {
       role: value,
     }));
   };
-  const handleImageChange = (e) => {
-    const target = e.target;
-    if (target && target.files) {
-      console.log("target", target.files);
-      setFormData((prev) => ({
-        ...prev,
-        file: target.files[0],
-      }));
-      const file = new FileReader();
+  const handleRegionChange = (value) => {
+    setFormData((prev) => ({
+      ...prev,
+      region: value,
+    }));
+  };
+  const handleImageChange = async(e) => {
+    const selectedImage = e.target.files[0];
+    if (!selectedImage) {
+      console.error("No image selected");
+      return;
+    }
 
-      file.onload = function () {
-        setPreview(file.result);
-      };
-      file.readAsDataURL(target.files[0]);
+    const formData = new FormData();
+    formData.append("image", selectedImage);
+
+    try {
+      const response = await fetch(`http://localhost:3000/api/v1/auth/upload/proffession`, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: localStorage.getItem("token"), // Add the Authorization header
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload image");
+      }
+
+      const data = await response.json();
+      console.log("Uploaded Image Filename:", data.filename);
+
+      // Update the context state with the uploaded image filename
+      setPreview(`http://localhost:3000/uploads/proffession/${data.filename}`)
+      setFormData((prev) => ({
+      ...prev,
+      file: data.filename, // Save the filename in formData
+    }));
+    } catch (error) {
+      console.error("Error uploading image:", error);
     }
   };
 
@@ -115,39 +142,22 @@ export default function Signup() {
     // const stripe = await stripePromise;
     // const res = await axios.post("/checkout", {});
     if (!formData.file) return;
-
-    const formDataObject = new FormData();
-    formDataObject.append("file", formData.file);
-    formDataObject.append("upload_preset", "test-react-uploads-unsigned");
-    formDataObject.append("api_key", import.meta.env.CLOUDINARY_API_KEY);
     try {
-      const result = await fetch(
-        "https://api.cloudinary.com/v1_1/dmbqu5vfl/image/upload",
-        {
-          method: "POST",
-          body: formDataObject,
-        }
-      ).then((r) => r.json());
-      const submissionData = {
-        ...formData,
-        proofOfProfession: result.url, // replace file with the Cloudinary URL
-      };
-      console.log("Uploaded Image URL:", result.url);
       // After setting the URL, call fetchUserData with the updated formData
-      await fetchUserData(submissionData);
-      console.log("Form Data:", submissionData);
+      await fetchUserData(formData);
+      console.log("Form Data:", formData);
     } catch (error) {
       console.error("Error uploading image to Cloudinary:", error);
     }
   };
-  const fetchUserData = async (submissionData) => {
+  const fetchUserData = async (formData) => {
     try {
       const response = await fetch("http://localhost:3000/api/v1/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(submissionData),
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
@@ -165,7 +175,7 @@ export default function Signup() {
   return (
     <section className="lg:flex-row w-full font-sans flex flex-col h-[100vh] lg:overflow-y-scroll relative">
       <LeftSignup />
-      <main className="lg:w-[50vw] flex flex-col pr-[22px] pl-[23px] h-full">
+      <main className="lg:w-[50vw] w-full flex flex-col pr-[22px] pl-[23px] h-full overflow-y-scroll">
         <div className="hidden lg:block ">
           <div className="lg:flex-row lg:h-[114px] lg:text-left flex flex-col mt-[25px] text-primary-content text-center lg:w-full">
             <img
@@ -211,6 +221,7 @@ export default function Signup() {
             formData={formData}
             handleInputChange={handleInputChange}
             handleProfessionChange={handleProfessionChange}
+            handleRegionChange={handleRegionChange}
             handleImageChange={handleImageChange}
             preview={preview}
           />

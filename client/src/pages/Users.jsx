@@ -47,20 +47,24 @@ export default function Users() {
     setIsLoading(false);
   };
 
-  const filteredUsers = useMemo(() => {
-    if (!Array.isArray(users)) return []; // Return empty array if users is not an array
-    return users.filter((user) => {
-      if (statusFilter !== "all" && user.isPaid.toString() !== statusFilter) return false;
-      if (roleFilter !== "all" && user.role.toString() !== roleFilter.toString()) return false;
-      if (
-        searchQuery &&
-        !user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        !user.email.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-        return false;
-      return true;
-    });
-  }, [users, statusFilter, roleFilter, searchQuery]);
+const filteredUsers = useMemo(() => {
+  if (!Array.isArray(users)) return []; // Return an empty array if users is not an array
+  return users.filter((user) => {
+    const userRole = user.role ? user.role.toString() : ""; // Ensure user.role is a string or an empty string
+    const userIsPaid = user.isPaid !== null && user.isPaid !== undefined ? user.isPaid.toString() : ""; // Ensure user.isPaid is a string or an empty string
+    
+    if (statusFilter !== "all" && userIsPaid !== statusFilter) return false;
+    if (roleFilter !== "all" && userRole !== roleFilter) return false;
+    if (
+      searchQuery &&
+      !user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      !user.email.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+      return false;
+    return true;
+  });
+}, [users, statusFilter, roleFilter, searchQuery]);
+
 
   const paginatedUsers = useMemo(() => {
     const startIndex = (currentPage - 1) * 10;

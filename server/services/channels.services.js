@@ -21,10 +21,10 @@ class ChannelService {
 
   // Update channel name and description
   async updateChannel(channelId, data) {
-    const { title, description } = data;
+    const { title } = data;
     return await Channel.findByIdAndUpdate(
       channelId,
-      { title, description },
+      { title },
       { new: true }
     );
   }

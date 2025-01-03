@@ -6,6 +6,7 @@ export const MODAL_TYPE = {
     INVITE_PEAPLE:"invitePeople",
     MANAGE_MEMBERS:"manageMembers",
     CREATE_CHANNEL:"createChannel",
+    EDIT_CHANNEL:"editChannel",
     DELETE_COURSE:"deleteCourse",
     UPDATE_USERNAME:"updateUsername",
     UPDATE_PASSWORD:"updatePassword",

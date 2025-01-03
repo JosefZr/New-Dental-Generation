@@ -12,6 +12,9 @@ import studentCourseRoute from "./routes/studentCourseRoute.js"
 import courseProgression from "./routes/CourseProgression.js"
 import useruserSignleRoute from "./routes/storeLab.js"
 import friendsRoute from "./routes/friends.js"
+import tasksRoutes from "./routes/Task.js"
+import inventoryRoute from "./routes/inventory.js";
+import paymentManagmentRoute from "./routes/paymentManagment.js"
 import logger from "./utils/logger.js";
 import cors from "cors";
 import { ApiError } from "./utils/ApiError.js";
@@ -46,6 +49,8 @@ app.use(cors({
     "Authorization", 
     "Access-Control-Allow-Origin"     // Add any other headers your app might use
   ],
+  methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"], // Allowed HTTP methods
+
 }));
 
 app.options("*", cors()); // Handle preflight requests for all routes
@@ -61,7 +66,11 @@ app.use("/api/v1/madia", mediaRoutes);
 app.use("/api/v1/instructor/course", instructorCourseRoute);
 app.use("/api/v1/student/course", studentCourseRoute);
 app.use("/api/v1/student/progression",courseProgression);
-app.use("/api/v1/friends",friendsRoute)
+app.use("/api/v1/friends",friendsRoute);
+app.use("/api/v1/tasks",tasksRoutes);
+app.use("/api/v1/inventory",inventoryRoute);
+app.use("/api/v1/payment/managment",paymentManagmentRoute);
+
 // Wrong Api Route handler
 app.use((req, res, next) => {
   const error = new ApiError("API route not found", 404);

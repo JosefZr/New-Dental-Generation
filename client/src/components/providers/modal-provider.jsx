@@ -11,7 +11,8 @@ import SubscriptionModal from "../modals/subscription-modal";
 import ProffessionModal from "../modals/proffession-modal";
 import DeleteUserModal from "../modals/deleteUser-modal";
 import CreateChannelStoreModal from "../modals/create-channel-store-lab";
-import PreviewModal from "../modals/preview-modal";
+import UpdateChannelModal from "../modals/update-channel-modal";
+// import PreviewModal from "../modals/preview-modal";
 
 export const ModalProvider = ({ children })=>{
     const [isMounted, setIsMounted] = useState(false);
@@ -24,7 +25,7 @@ export const ModalProvider = ({ children })=>{
     }
     
     return(
-        <>
+        <div >
         {children}
             <CreateServerModal/>
             <InviteModal/>
@@ -38,7 +39,8 @@ export const ModalProvider = ({ children })=>{
             <ProffessionModal/>
             <DeleteUserModal/>
             <CreateChannelStoreModal/>
-            <PreviewModal/>
-        </>
+            <UpdateChannelModal/>
+            {/* <PreviewModal/> */}
+        </div>
     )
 }

@@ -1,97 +1,42 @@
 import { useContext, useEffect, useState } from "react";
-import { ScrollArea } from "../ui/scroll-area";
-import ServerChannel from "./ServerChannel";
-import Serverheader from "./Serverheader";
-import ServerMember from "./ServerMember";
-import ServerSection from "./ServerSection";
-import { jwtDecode } from "jwt-decode";
 import { UserContext } from "@/context/UserContext";
+import { useDeleteChannel } from "@/hooks/channels/usedeleteChannel";
+import { useGetAllChannels } from "@/hooks/channels/useGetAllChannels";
+import ServerHeader from "./Serverheader";
+import { ScrollArea } from "../ui/scroll-area";
+import ServerSection from "./ServerSection";
+import ServerChannel from "./ServerChannel";
+import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 
 export default function ServerSideBar({
-  serverId,
   fetchMessages,
   clickedChannelID,
   clickChannelName
 }) {
-  const [channels, setChannels] = useState([]);
-  const [selectedChannel, setSelectedChannel] = useState(null);
-  const [messages, setMessages] = useState([]);
+  const {channels, setChannels} = useContext(UserContext)
   const [admOrMod, setAdmins] = useState(false);
-  const { setOwner } = useContext(UserContext);
+  const { setOwner, setUpdateChannel } = useContext(UserContext);
+  
+  const { data, isLoading, isError } = useGetAllChannels();
+  const deleteTask = useDeleteChannel();
+  const { onOpen } = useModal();
 
-  // Group channels by type
+  useEffect(() => {
+    if (data) {
+      setChannels(prev => {
+        const existingIds = new Set(prev.map(chan => chan._id));
+        const newChannels = data.data.filter(chan => !existingIds.has(chan._id));
+        return [...prev, ...newChannels];
+      });
+    }
+  }, [data]);
+
   const groupedChannels = {
     control: channels.filter(chan => chan.type === "control" && chan.allowedUsers === "ADMD"),
     dentist: channels.filter(chan => chan.allowedUsers === "dentist"),
     lab: channels.filter(chan => chan.allowedUsers === "lab"),
     store: channels.filter(chan => chan.allowedUsers === "store")
   };
-
-  useEffect(() => {
-    async function fetchControlChannels() {
-      try {
-        const resp = await fetch(
-          "http://localhost:3000/api/v1/channels?type=control/",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: localStorage.getItem("token").toString(),
-            },
-          }
-        );
-        if (!resp.ok) {
-          throw new Error(resp.status);
-        }
-        const data = await resp.json();
-        setChannels(prev => {
-          // Merge new control channels with existing channels, avoiding duplicates
-          const existingIds = new Set(prev.map(chan => chan._id));
-          const newChannels = data.data.filter(chan => !existingIds.has(chan._id));
-          return [...prev, ...newChannels];
-        });
-      } catch (error) {
-        console.error("Error fetching control channels:", error);
-      }
-    }
-
-    const userInfo = jwtDecode(localStorage.getItem("token"));
-    const isAdminOrMod = userInfo.role === "admin" || userInfo.role === "moderator";
-    setAdmins(isAdminOrMod);
-
-    if (isAdminOrMod) {
-      fetchControlChannels();
-    }
-  }, []);
-
-  useEffect(() => {
-    async function fetchAllChannels() {
-      try {
-        const response = await fetch("http://localhost:3000/api/v1/channels/", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: localStorage.getItem("token").toString(),
-          },
-        });
-        
-        if (!response.ok) {
-          throw new Error(response.status);
-        }
-
-        const data = await response.json();
-        setChannels(prev => {
-          // Merge with existing channels, giving preference to newer data
-          const channelMap = new Map([...prev, ...data.data].map(chan => [chan._id, chan]));
-          return Array.from(channelMap.values());
-        });
-      } catch (error) {
-        console.error("Error fetching channels:", error);
-      }
-    }
-
-    fetchAllChannels();
-  }, []);
 
   const handleChannelClick = async (id, title) => {
     try {
@@ -105,7 +50,7 @@ export default function ServerSideBar({
           },
         }
       );
-
+  
       clickedChannelID(id);
       clickChannelName(title);
       
@@ -118,110 +63,120 @@ export default function ServerSideBar({
     }
   };
 
+  const handleDeleteChannel = async (id) => {
+    deleteTask.mutate({ id });
+    setChannels(prev => prev.filter(chan => chan._id !== id));
+  };
+  const handleEditChannel = (channel)=>{
+    console.log(channel)
+    setUpdateChannel(channel)
+    onOpen(MODAL_TYPE.EDIT_CHANNEL);
+
+
+  }
+  const LoadingSpinner = () => (
+    <div className="flex justify-center items-center w-full h-full">
+      <div className="animate-spin rounded-full border-t-4 border-blue-500 w-12 h-12"></div>
+    </div>
+  );
+
   return (
     <div className="flex flex-col h-full text-my-white w-full bg-my-dark">
-      <Serverheader />
+      <ServerHeader />
       <ScrollArea className="flex-1">
-        {/* Admin & Moderator Channels */}
-        {admOrMod && groupedChannels.control.length > 0 && (
-          <div className="mx-2">
-            <ServerSection
-              sectionType="channels"
-              channelType="Channel"
-              role="admin"
-              label="Admin & Moderators"
-            >
-              {groupedChannels.control.map((chan) => (
-                <ServerChannel
-                  key={chan._id}
-                  channel={chan.title}
-                  memberRole=""
-                  onClickChan={() => handleChannelClick(chan._id, chan.title)}
-                />
-              ))}
-            </ServerSection>
-          </div>
-        )}
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <>
+            {admOrMod && groupedChannels.control.length > 0 && (
+              <div className="mx-2">
+                <ServerSection label="Admin & Moderators" allowedRole="control">
+                  {groupedChannels.control.map((chan) => (
+                    <ServerChannel
+                      key={chan._id}
+                      channel={chan.title}
+                      memberRole=""
+                      onEditClick={()=>handleEditChannel(chan)}
+                      onClickChan={() => handleChannelClick(chan._id, chan.title)}
+                    />
+                  ))}
+                </ServerSection>
+              </div>
+            )}
 
-        {/* Dentist Channels */}
-        {groupedChannels.dentist.length > 0 && (
-          <div className="mx-2">
-            <ServerSection
-              sectionType="channels"
-              channelType="members"
-              role="admin"
-              label="Dentists channels"
-            />
-            {groupedChannels.dentist.map((channel) => (
-              <ServerChannel
-                key={channel._id}
-                channel={channel.title}
-                memberRole=""
-                onClickChan={() => {
-                  handleChannelClick(channel._id, channel.title)
-                  setOwner({ownerId : channel.owner , chanType: "dentist" })
-                }}
-              />
-            ))}
-          </div>
-        )}
+            {groupedChannels.dentist.length > 0 && (
+              <div className="mx-2">
+                <ServerSection label="Dentists channels" allowedRole="dentist">
+                  {groupedChannels.dentist.map((channel) => (
+                    <ServerChannel
+                      key={channel._id}
+                      channel={channel.title}
+                      memberRole=""
+                      onEditClick={()=>handleEditChannel(channel)}
+                      onDeleteClick={() => handleDeleteChannel(channel._id)}
+                      onClickChan={() => {
+                        handleChannelClick(channel._id, channel.title);
+                        setOwner({
+                          ownerId: channel.owner,
+                          allowedUsers: channel.allowedUsers,
+                          chanId: channel._id,
+                        });
+                      }}
+                    />
+                  ))}
+                </ServerSection>
+              </div>
+            )}
 
-        {/* Lab Channels */}
-        {groupedChannels.lab.length > 0 && (
-          <div className="mx-2">
-            <ServerSection
-              sectionType="channels"
-              channelType="audio"
-              role="admin"
-              label="Labs channels"
-            />
-            {groupedChannels.lab.map((channel) => (
-              <ServerChannel
-                key={channel._id}
-                channel={channel.title}
-                memberRole=""
-                onClickChan={() => {
-                  setOwner({ownerId : channel.owner , chanType: "lab" });
-                  handleChannelClick(channel._id, channel.title)}
-                }
-              />
-            ))}
-          </div>
-        )}
+            {groupedChannels.lab.length > 0 && (
+              <div className="mx-2">
+                <ServerSection label="Labs channels" allowedRole="lab">
+                  {groupedChannels.lab.map((channel) => (
+                    <ServerChannel
+                      key={channel._id}
+                      channel={channel.title}
+                      memberRole=""
+                      onEditClick={()=>handleEditChannel(channel)}
+                      onDeleteClick={() => handleDeleteChannel(channel._id)}
+                      onClickChan={() => {
+                        handleChannelClick(channel._id, channel.title);
+                        setOwner({
+                          ownerId: channel.owner,
+                          allowedUsers: channel.allowedUsers,
+                          chanId: channel._id,
+                        });
+                      }}
+                    />
+                  ))}
+                </ServerSection>
+              </div>
+            )}
 
-        {/* Store Channels */}
-        {groupedChannels.store.length > 0 && (
-          <div className="mx-2">
-            <ServerSection
-              sectionType="channels"
-              channelType="video"
-              role="admin"
-              label="Stores Channels"
-            />
-            {groupedChannels.store.map((channel) => (
-              <ServerChannel
-                key={channel._id}
-                channel={channel.title}
-                memberRole=""
-                onClickChan={() => {
-                  handleChannelClick(channel._id, channel.title);
-                  setOwner({ownerId : channel.owner , chanType: "store" });
-                }}
-              />
-            ))}
-          </div>
+            {groupedChannels.store.length > 0 && (
+              <div className="mx-2">
+                <ServerSection label="Stores Channels" allowedRole="store">
+                  {groupedChannels.store.map((channel) => (
+                    <ServerChannel
+                      key={channel._id}
+                      channel={channel.title}
+                      memberRole=""
+                      onEditClick={()=>handleEditChannel(channel)}
+                      onDeleteClick={() => handleDeleteChannel(channel._id)}
+                      onClickChan={() => {
+                        handleChannelClick(channel._id, channel.title);
+                        setOwner({
+                          ownerId: channel.owner,
+                          allowedUsers: channel.allowedUsers,
+                          chanId: channel._id,
+                        });
+                      }}
+                    />
+                  ))}
+                </ServerSection>
+              </div>
+            )}
+          </>
         )}
-
-        {/* Members Section */}
-        <div className="mx-2">
-          <ServerSection
-            sectionType="channels"
-            channelType="video"
-            role="admin"
-            label="members"
-          />
-          <ServerMember key="" member="youyou" server="" />
-        </div>
       </ScrollArea>
     </div>
   );

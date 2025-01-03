@@ -53,6 +53,7 @@ const Main = styled.main`
     const [activeTab, setActiveTab] = useState("Settings"); 
     const { id } = useParams();
     const {setUser } = useContext(UserContext);
+    const { onSettingsToggle } = useContext(UserContext)
 
     // Effect to fetch user data
     useEffect(() => {
@@ -70,7 +71,7 @@ const Main = styled.main`
     return (
         <div className="absolute inset-0 flex gap-6">
         {/* Sidebar */}
-        <Settings className="flex justify-end bg-settings-background">
+        <Settings className={`${onSettingsToggle ? "hidden":"flex"} justify-end bg-settings-background`}>
             <div className="h-full w-[320px] p-3 pt-32">
             <div className="mb-2 ml-2 font-bold uppercase">Settings</div>
             <div className="rounded-md bg-settings-background-alt border-r border-b border-my-gold">

@@ -35,7 +35,7 @@ const Input = styled.input`
     }
 `
 
-export default function PersonalInformationForm({formData,handleInputChange, handleProfessionChange,handleImageChange,preview}) {
+export default function PersonalInformationForm({formData,handleInputChange, handleProfessionChange,handleImageChange,handleRegionChange,preview}) {
     return (
         <div className="flex flex-col">
         <div className='lg:mx-0 lg:text-lg flex mx-auto text-[#B7B7B7]'>
@@ -93,6 +93,27 @@ export default function PersonalInformationForm({formData,handleInputChange, han
             value={formData.password}
             onChange={handleInputChange}
           />
+          <Label htmlFor="region">Region</Label>
+          <Select
+            id="region"
+            name='region'
+            type="text"
+            className="input-class rounded-md text-sm text-gray-700 shadow-sm py-3"
+            required
+            value={formData.region}
+            onValueChange={handleRegionChange}
+          >
+            <SelectTrigger className=" bg-black h-12 border-gray-500">
+              <SelectValue placeholder="Select your region" />
+            </SelectTrigger>
+            <SelectContent className="bg-black text-my-white">
+              <SelectGroup >
+                <SelectLabel>regions</SelectLabel>
+                <SelectItem value="algeria">Algeria</SelectItem>
+                <SelectItem value="russia">Russia</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
 
           <Label htmlFor="profession">Profession</Label>
           <Select

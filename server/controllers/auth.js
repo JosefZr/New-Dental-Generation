@@ -65,6 +65,7 @@ export const signup = async (req, res) => {
 
     console.log("Received name:", name);
     console.log("Received userData:", userData);
+    console.log(userData.region)
 
     // Explicitly set subscription plan
     const subscriptionPlan = name || 'freeTrial';
@@ -75,10 +76,10 @@ export const signup = async (req, res) => {
     const subscriptionDuration = userData.role === "dentist" ? 6 : 40;
 
     // Create the user in the database
-    const user = await createUser({
+    const user = await User.create({
       ...userData,
       subscriptionPlan:subscriptionPlan, // Explicitly spread this in
-      proofOfProfession:"test here for pass the check",
+      proofOfProfession:userData.file,
       isPaid: !isFreeTrial,
       subscriptionStartDate: new Date(),
       subscriptionEndDate: new Date(
@@ -92,6 +93,7 @@ export const signup = async (req, res) => {
         firstName: user.firstName,
         email: user.email,
         role: user.role,
+        region:user.region,
         proofOfProfession: user.proofOfProfession,
         subscriptionPlan: user.subscriptionPlan,
         subscriptionStartDate: user.subscriptionStartDate,
@@ -111,7 +113,7 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    // console.log("Login attempt with email:", email);
+    console.log("Login attempt with email:", email);
 
     const user = await User.findOne({ email });
     // console.log("User found:", user);
@@ -120,13 +122,13 @@ export const login = async (req, res) => {
       return res.status(401).json({ error: "Invalid credentials" });
     }
     // Compare the password
-    // console.log(password);
-    // const isMatch = await user.comparePassword(password);
-    // console.log("Password match result:", isMatch);
-    // if (!isMatch) {
-    //   console.log("Invalid credentials for email:", email);
-    //   return res.status(401).json({ error: "Invalid credentials" });
-    // }
+    console.log(password);
+    const isMatch = await user.comparePassword(password);
+    console.log("Password match result:", isMatch);
+    if (!isMatch) {
+      console.log("Invalid credentials for email:", email);
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
     if (!user || !(await user.comparePassword(password))) {
       console.log("Invalid credentials for email:", email);
       return res.status(401).json({ error: "Invalid credentials" });

@@ -13,7 +13,12 @@ const UserProvider = ({ children }) => {
     const [chatId, setChatId] = useState("");
     const [pendingRequests, setPendingRequests]=useState([])
     const [receivedRequests,setReceivedRequests] = useState([])
-  const [friends,setFriends ] = useState([]);
+    const [friends,setFriends ] = useState([]);
+      const [channelType, setChannelType] = useState('');
+      const [updateChannel, setUpdateChannel] = useState({})
+  const [channels, setChannels] = useState([]);
+  const [onSettingsToggle, setOnSettingsToggle] = useState(false)
+
   const fetchMessages = async (recipientId) => {
     try {
       const response = await fetch(
@@ -50,7 +55,11 @@ const UserProvider = ({ children }) => {
         fetchMessages,
         pendingRequests, setPendingRequests,
         receivedRequests,setReceivedRequests,
-        setFriends,friends
+        setFriends,friends,
+        channelType, setChannelType,
+        updateChannel, setUpdateChannel,
+        channels, setChannels,
+        onSettingsToggle, setOnSettingsToggle
     }}>
       {children}
     </UserContext.Provider>

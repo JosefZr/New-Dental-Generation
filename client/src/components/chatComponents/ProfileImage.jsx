@@ -1,8 +1,18 @@
+import styled from "styled-components";
 
+const Logo = styled.div`
+    background-position: center center;
+    background-size: cover;
+`;
+// eslint-disable-next-line react/prop-types
 export default function ProfileImage({image}) {
   return (
-    <section className="flex-shrink-0 rounded-full bg-base-300 relative cursor-pointer" style={{width:"40px", height:"40px"}}>
-        <img src={`http://localhost:3000/uploads/${image}`} alt="profile image"  width="40px" height="40px" loading="lazy"/>
-    </section>
+    <div className="h-[60px] w-[60px] rounded-full">
+      <Logo
+          className="h-full w-full rounded-full"
+          style={{ backgroundImage: `url(http://localhost:3000/uploads/${image})` }}
+          />
+    </div>
+    
   )
 }

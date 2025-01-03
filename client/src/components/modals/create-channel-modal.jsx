@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -16,66 +16,49 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectItem,
-  SelectTrigger,
-  SelectContent,
-  SelectValue,
-} from "@/components/ui/Select";
 
 import { useForm } from "react-hook-form";
 import { useModal, MODAL_TYPE } from "@/hooks/useModalStore";
+import { UserContext } from "@/context/UserContext";
+import { useCreateChannel } from "@/hooks/channels/userCreateChannel";
+import EmojiPicker from "emoji-picker-react"; // Emoji Picker Library
 
 export default function CreateChannelModal() {
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === MODAL_TYPE.CREATE_CHANNEL;
+  const { channelType } = useContext(UserContext);
+  const [selectedEmoji, setSelectedEmoji] = useState("💬");
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleEmojiClick = (emojiData) => {
+    setSelectedEmoji(emojiData.emoji);
+    setShowEmojiPicker(false); // Close emoji picker after selection
+  };
 
   const form = useForm({
     defaultValues: {
       name: "",
-      type: "",
     },
   });
 
+  const createChannel = useCreateChannel();
+
   const onSubmit = async (values) => {
     setIsLoading(true);
-    console.log(values);
+
     const value = {
-      title: "dentists channel 2",
+      title: `${selectedEmoji}| ${values.name}`,
       description: "This is a general discussion channel",
       type: "room",
-      allowed: "dentist",
+      allowed: channelType, // Use the context value
       locked: false,
     };
 
-    try {
-      const response = await fetch("http://localhost:3000/api/v1/channels/", {
-        method: "POST",
-        headers: {
-          Authorization:
-            localStorage.getItem("token"),
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(value),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to create channel");
-      }
-
-      const data = await response.json();
-      console.log("Channel created:", data);
-
-      handleClose(); // Close modal
-      window.location.reload(); // Refresh the page
-    } catch (error) {
-      console.error("Error creating channel:", error.message);
-    } finally {
-      setIsLoading(false); // Hide loading spinner
-    }
+    createChannel.mutate(value);
+    handleClose(); // Close modal
+    setIsLoading(false);
   };
 
   const handleClose = () => {
@@ -95,6 +78,29 @@ export default function CreateChannelModal() {
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-8 px-6">
+              {/* Emoji Selector */}
+              <div className="relative h-[300px]">
+                <label className="uppercase text-xs font-bold text-zinc-500">
+                  Choose an Emoji
+                </label>
+                <div className="flex items-center gap-4">
+                  <span
+                    className="text-2xl cursor-pointer"
+                    onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                  >
+                    {selectedEmoji}
+                  </span>
+                  <span className="text-sm text-gray-500">
+                    Click to choose an emoji
+                  </span>
+                </div>
+                {showEmojiPicker && (
+                  <div className="absolute z-10 mt-2">
+                    <EmojiPicker onEmojiClick={handleEmojiClick} />
+                  </div>
+                )}
+              </div>
+
               {/* Channel Name */}
               <FormField
                 control={form.control}
@@ -111,33 +117,6 @@ export default function CreateChannelModal() {
                         placeholder="Enter channel name"
                       />
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Channel Type */}
-              <FormField
-                control={form.control}
-                name="type"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Channel Type</FormLabel>
-                    <Select
-                      disabled={isLoading}
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="bg-zinc-300/50 border-0 focus:ring-0 text-my-black ring-offset-0 capitalize outline-none">
-                          <SelectValue placeholder="Select a channel type" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="public">Public</SelectItem>
-                        <SelectItem value="private">Private</SelectItem>
-                      </SelectContent>
-                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}

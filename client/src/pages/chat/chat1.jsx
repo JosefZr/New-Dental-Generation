@@ -1,11 +1,10 @@
 import Devider from "@/components/chatComponents/Devider";
 import Message from "@/components/chatComponents/Message";
-import { FaArrowDown, FaArrowUp, FaHashtag } from "react-icons/fa6";
-import { TbPinnedFilled } from "react-icons/tb";
+import { FaHashtag } from "react-icons/fa6";
 import { useSocket } from "../../socketContext";
 import { Plus, X } from 'lucide-react'
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { IoIosSend } from "react-icons/io";
 
 import { useState, useEffect, useRef, useContext } from "react";
 import { jwtDecode } from "jwt-decode";
@@ -15,19 +14,53 @@ import { GiHamburgerMenu } from "react-icons/gi";
 export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const [messages, setMessages] = useState(initialMessages || []);
   const [msgToSend, setMessageToSend] = useState("");
+  const [imagesTosnd, setImagesToSnd] = useState([])
+  const [images, setImages] = useState([])
+
   const [page] = useState(1);
-  const {user} = useContext(UserContext);
   const {owner} = useContext(UserContext);
   const {isSidebarOpen, setIsSidebarOpen} = useContext(UserContext);
   const [preventFetch, setPrevent] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
-
   const containerRef = useRef(null);
   const lastMessageRef = useRef(null);
-  const [images, setImages] = useState([])
-  const [imagesTosnd, setImagesToSnd] = useState([])
   const fileInputRef = useRef(null)
+ // Function to check if the current user can send messages
+ const canSendMessages = () => {
+  const userInfo = jwtDecode(localStorage.getItem("token"));
+  const userRole = userInfo.role;
 
+  // Special handling for lab and store channels
+  if (owner?.allowedUsers === "lab" || owner?.allowedUsers === "store") {
+    // If there's an owner, only they can send messages
+    if (owner.ownerId) {
+      const hasAccess = owner.ownerId === userInfo.userId;
+      console.log("Owner-based access check:", hasAccess);
+      return hasAccess;
+    }
+    // If no owner, check if user's role matches the allowedUsers
+    const hasRoleAccess = userRole === owner.allowedUsers;
+    console.log("Role-based access check:", hasRoleAccess);
+    return hasRoleAccess;
+  }
+
+  // For other channels, check if user's role matches allowedUsers
+  if (owner?.allowedUsers) {
+    // Handle admin/moderator access (ADMD)
+    if (owner.allowedUsers === "ADMD") {
+      const hasAdminAccess = userRole === "admin" || userRole === "moderator";
+      console.log("Admin/Mod access check:", hasAdminAccess);
+      return hasAdminAccess;
+    }
+    // Handle other role-based access
+    const hasRoleAccess = userRole === owner.allowedUsers;
+    console.log("General role access check:", hasRoleAccess);
+    return hasRoleAccess;
+  }
+
+  // If no restrictions are set, allow message sending
+  return true;
+};
   const handleFileChange = (event) => {
     const files = event.target.files;
     if (files) {
@@ -49,97 +82,11 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
       return prevImages.filter(image => image.id !== id)
     })
   }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault()
-    console.log('Submitting files:', images.map(img => img.file))
-    setImages([])
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ''
-    }
-  }
-
   const scrollToBottom = () => {
     setTimeout(() => {
       lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   };
-
-  const socket = useSocket();
-  const userInfo = jwtDecode(localStorage.getItem("token"));
-
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
-  // tracking the last message to scroll to it
-
-  useEffect(() => {
-    if (!socket && !chanId) return;
-    setMessages(initialMessages);
-  }, [initialMessages]);
-
-  useEffect(() => {
-    setMessages([]);
-    scrollToBottom();
-  }, [chanId]);
-
-
-  useEffect(()=>{
-
-  },[owner])
-
-  useEffect(() => {
-    if (!socket && !chanId) return;
-
-    //console.log("passed");
-    socket.emit("joinGroup", chanId);
-
-    socket.on("channelMessage", (msg) => {
-      if (msg.channelId === chanId) {
-        setMessages((prev) => [...prev, msg]);
-      }
-      if (msg.sender._id === userInfo.userId) {
-        scrollToBottom();
-      }
-    });
-
-    return () => {
-      socket.off("message");
-      socket.off("channelMessage");
-    };
-  }, [socket, chanId, initialMessages]);
-
-
-  const [disable , setDisable] = useState(false)
-  async function handleKeyDown(e) {
-    if (e.key === "Enter") {
-      if (disable) return ; 
-      e.preventDefault();
-      if (images.length > 0) {
-        console.log(images)
-        const resp = await storeImages() ;
-        setImagesToSnd(resp)
-      }else {
-        sendMessage();
-      }
-      e.target.value="";
-    }
-  }
-
-  useEffect(() => {
-    console.log("Updated imagesTosnd:", imagesTosnd);
-    if (imagesTosnd.length > 0) {
-      sendMessage();
-      setMessageToSend("");
-    }
-  }, [imagesTosnd]);
-  
-
-
-
-  ////////////////////
-  
-
   async function storeImages() {
     setDisable(true); 
     const formData = new FormData();
@@ -171,7 +118,6 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
       setDisable(false); 
     }
   }
-  
   function sendMessage() {
     if (!msgToSend.trim() && !imagesTosnd) return;
 
@@ -188,6 +134,86 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
     setImages([])
     setImagesToSnd([])
   }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    console.log('Submitting files:', images.map(img => img.file))
+    setImages([])
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
+    e.preventDefault();
+    if (images.length > 0) {
+      console.log(images)
+      const resp = await storeImages() ;
+      setImagesToSnd(resp)
+    }else {
+      sendMessage();
+    }
+    e.target.value="";
+  }
+
+
+  const socket = useSocket();
+  const userInfo = jwtDecode(localStorage.getItem("token"));
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+  // tracking the last message to scroll to it
+  useEffect(() => {
+    if (!socket && !chanId) return;
+    setMessages(initialMessages);
+  }, [initialMessages]);
+
+  useEffect(() => {
+    setMessages([]);
+    scrollToBottom();
+  }, [chanId]);
+
+  useEffect(()=>{
+  },[owner])
+
+  useEffect(() => {
+    if (!socket && !chanId) return;
+
+    //console.log("passed");
+    socket.emit("joinGroup", chanId);
+
+    socket.on("channelMessage", (msg) => {
+      if (msg.channelId === chanId) {
+        setMessages((prev) => [...prev, msg]);
+      }
+      if (msg.sender._id === userInfo.userId) {
+        scrollToBottom();
+      }
+    });
+
+    return () => {
+      socket.off("message");
+      socket.off("channelMessage");
+    };
+  }, [socket, chanId, initialMessages]);
+  const [disable , setDisable] = useState(false)
+  async function handleKeyDown(e) {
+    if (e.key === "Enter") {
+      if (disable) return ; 
+      e.preventDefault();
+      if (images.length > 0) {
+        const resp = await storeImages() ;
+        setImagesToSnd(resp)
+      }else {
+        sendMessage();
+      }
+      e.target.value="";
+    }
+  }
+  useEffect(() => {
+    if (imagesTosnd.length > 0) {
+      sendMessage();
+      setMessageToSend("");
+      
+    }
+  }, [imagesTosnd]);
+
 
   const fetchMoreMessages = async () => {
     if (isFetching || !chanId || preventFetch) return;
@@ -226,7 +252,6 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
       setIsFetching(false);
     }
   };
-
   useEffect(() => {
     const container = containerRef.current;
 
@@ -242,6 +267,15 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
     };
   }, [messages]);
 
+  const getAccessDeniedMessage = () => {
+    if (owner?.allowedUsers === "lab" || owner?.allowedUsers === "store") {
+      if (owner.ownerId) {
+        return "Only the channel owner can send messages in this channel";
+      }
+      return `Only ${owner.allowedUsers} users can send messages in this channel`;
+    }
+    return `Only ${owner?.allowedUsers} users can send messages in this channel`;
+  };
   return (
     <div className="flex h-full flex-col bg-neutral-950">
       <div className="z-20 flex flex-col flex-1">
@@ -263,7 +297,7 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
                     <div className="flex items-center gap-3 font-medium">
                       <GiHamburgerMenu className="md:hidden text-2xl"onClick={toggleSidebar}/>
                       <span className="flex items-center gap-[2px]">
-                        <FaHashtag />| {cahnTitle}
+                        {cahnTitle}
                       </span>
                     </div>
                   </div>
@@ -272,7 +306,7 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
             </header>
 
             {/* for the pinned messages */}
-            <header
+            {/* <header
               className=" flex flex-shrink-0 items-end justify-between !pt-0 relative z-10 border-grey-secondary border-b bg-base-300"
               style={{
                 height: "60px",
@@ -301,16 +335,16 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
                   </div>
                 </div>
               </section>
-            </header>
+            </header> */}
 
             {/* for the new messages not watched */}
-            <div className="absolute top-[108px] right-0 left-0 z-[11] user-select-none flex h-[28px] items-center justify-between overflow-hidden text-ellipsis whitespace-nowrap bg-indigo-800 bg-opacity-80 px-3 font-semibold text-accent-content text-md backdrop-blur-[20px] backdrop-filter transform cursor-pointer transition-all duration-200 translate-y-0 opacity-100">
+            {/* <div className="absolute top-[108px] right-0 left-0 z-[11] user-select-none flex h-[28px] items-center justify-between overflow-hidden text-ellipsis whitespace-nowrap bg-indigo-800 bg-opacity-80 px-3 font-semibold text-accent-content text-md backdrop-blur-[20px] backdrop-filter transform cursor-pointer transition-all duration-200 translate-y-0 opacity-100">
               <div>New since 5 days ago</div>
               <div className="flex items-center">
                 {" "}
                 Jump to unread <FaArrowUp className="ml-2" />
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* for the chat  */}
@@ -353,47 +387,85 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
               style={{ paddingBottom: "0px" }}
             >
               {/* this for the user when he scroll up he can return and scroll to the present msg */}
-              <div className="w-full user-select-none flex h-[28px] items-center justify-between overflow-hidden text-ellipsis whitespace-nowrap bg-opacity-80 px-3 font-medium text-sm backdrop-blur-[20px] backdrop-filter  z-100 mb-inset-bottom transform cursor-pointer transition-all duration-75 bg-base-300 text-base-content translate-y-0 opacity-100 bottom-full">
+              {/* <div className="w-full user-select-none flex h-[28px] items-center justify-between overflow-hidden text-ellipsis whitespace-nowrap bg-opacity-80 px-3 font-medium text-sm backdrop-blur-[20px] backdrop-filter  z-100 mb-inset-bottom transform cursor-pointer transition-all duration-75 bg-base-300 text-base-content translate-y-0 opacity-100 bottom-full">
                 <div>Viewing older messages</div>
                 <div className="flex items-center">
                   See present <FaArrowDown className="ml-2" />
                 </div>
-              </div>
+              </div> */}
               {/* for the input  */}
-              {
-                owner.ownerId === user.userId &&
-                <div className="flex flex-shrink-0  w-full items-center gap-3 border-gray-700 border-t px-3 py-2">
-                <div className="w-full max-w-md mx-auto p-4 flex flex-col-reverse">
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="flex items-center justify-start pt-3 w-full">
-                      
-                    </div>
-                    
-                  </form>
-                  {images.length > 0 && (
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                        {images.map((image) => (
-                          <div key={image.id} className="relative group">
-                            <img
-                              src={image.preview}
-                              alt={`Preview of ${image.file.name}`}
-                              className="w-full h-auto rounded-lg object-cover"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => removeImage(image.id)}
-                              className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                              aria-label={`Remove ${image.file.name}`}
-                            >
-                              <X size={16} />
-                            </button>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+              {canSendMessages() ? (
+        <>
+          <div className="flex flex-shrink-0 w-full items-center gap-3 border-gray-700 border-t px-3">
+            <div className="w-full max-w-md mx-auto flex flex-col-reverse">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="flex items-center justify-start pt-3 w-full">
                 </div>
-              </div>}
-              <div className="w-full flex flex-row items-center px-5 gap-3">
+              </form>
+              {images.length > 0 && (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+                  {images.map((image) => (
+                    <div key={image.id} className="relative group">
+                      <img
+                        src={image.preview}
+                        alt={`Preview of ${image.file.name}`}
+                        className="w-full h-auto rounded-lg object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeImage(image.id)}
+                        className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                        aria-label={`Remove ${image.file.name}`}
+                      >
+                        <X size={16} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="w-full flex flex-row items-center px-2 py-1 gap-3">
+            <label htmlFor="dropzone-file" className="cursor-pointer bg-slate-700 rounded-full">
+              <Plus className="w-6 h-6 text-white hover:text-gray-500 transition-colors m-1" />
+              <Input
+                id="dropzone-file"
+                type="file"
+                className="hidden"
+                multiple
+                accept="image/*"
+                onChange={handleFileChange}
+                ref={fileInputRef}
+              />
+            </label>
+            <form onSubmit={handleSubmit} className="relative block min-h-[32px] rounded-2xl bg-neutral-950 flex-1">
+              <textarea
+                id="chat-input"
+                className="top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none w-full"
+                placeholder={`Message ${cahnTitle}`}
+                style={{ height: "32px" }}
+                value={msgToSend}
+                onChange={(e) => setMessageToSend(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+            </form>
+            <button  className="bg-slate-700 rounded-full p-[5px] cursor-pointer" 
+            onClick={handleSubmit}
+            disabled={disable || (!msgToSend.trim() && images.length === 0)}
+
+            >
+                <IoIosSend className=" text-xl mr-[1px] text-my-gold"    
+                />
+              {/* Upload {images.length} {images.length === 1 ? 'Image' : 'Images'} */}
+            </button>
+          </div>
+        </>
+      ) : (
+        <div className="w-full text-center py-4 text-gray-500">
+          {getAccessDeniedMessage()}
+        </div>
+      )}
+              {/* <div className="w-full flex flex-row items-center px-5 gap-3">
               <label htmlFor="dropzone-file" className="cursor-pointer">
                         <Plus className="w-6 h-6 text-gray-500 hover:text-gray-700 transition-colors" />
                         <Input 
@@ -419,7 +491,7 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
                   <Button type="submit"  disabled={images.length === 0}>
                       Upload {images.length} {images.length === 1 ? 'Image' : 'Images'}
                     </Button>
-              </div>
+              </div> */}
             </footer>
           </div>
         </div>

@@ -4,12 +4,23 @@ import { FaCheck } from "react-icons/fa";
 
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
+import { useNavigate } from "react-router-dom";
 
 const stripePromise = loadStripe(
     "pk_test_51Q6FSwRsgnrIRIXHVv98PFAvJYYVK9gElLXl8fV16Xquu3PHduekcmJ182SsDLAcgNRjOSKzxAJmTZQO8nUpo720001usG5YNY"
 );
 export default function PaymentCardV1({ isModal,cardData, role, userData }) {
-    let dataCard = cardData;
+    console.log(userData)
+        let dataCard = cardData;
+        const navigate = useNavigate();
+        if (role === "dentist") {
+            dataCard = cardData.slice(0, -1);
+        } else if (role === "lab" || role === "store") {
+            dataCard = cardData.slice(0, -2).concat(cardData.slice(-1));
+        } else {
+            dataCard = cardData.slice(0, -2);
+        }
+
     const [selectedCardIndex, setSelectedCardIndex] = useState(null);
     const [name, setName] = useState("");
     const handleCardSelect = (index, amount, name) => {
@@ -17,6 +28,11 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
         setName(name);
     };
     const handleCheckout = async () => {
+        if (name === "freeDentist" || name === "freeLab") {
+            const response = await axios.post("http://localhost:3000/api/v1/auth/signup", { name: "freeTrial", userData });
+            console.log(response.data);
+            navigate("/login");
+        }
     const stripe = await stripePromise;
     try {
 
