@@ -29,7 +29,7 @@ export const generateRefreshToken = (user) => {
     refreshExp = user.role === "dentist" ? "6d" : "40d";
   } else {
     const plan = user.subscriptionPlan || "freeTrial"; // Default to freeTrial
-    refreshExp = tokenExpirations[plan]?.refresh || "7d"; // Fallback to 7 days if undefined
+    refreshExp = tokenExpirations[plan]?.refresh || "1d"; // Fallback to 7 days if undefined
   }
 
   return jwt.sign(
@@ -159,7 +159,16 @@ export const login = async (req, res) => {
       console.log("Invalid credentials for email:", email);
       return res.status(401).json({ error: "Invalid credentials" });
     }
+    // Check and award daily login bonus
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const lastLogin = user.lastEnter ? new Date(user.lastEnter) : null;
 
+    if (!lastLogin || lastLogin < today) {
+      user.coin += 5;
+    }
+    
+    user.lastEnter = new Date();
     const accessToken = generateAccessToken(user);
     const refreshToken = generateRefreshToken(user);
 
