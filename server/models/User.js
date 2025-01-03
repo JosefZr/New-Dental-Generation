@@ -62,7 +62,9 @@ const userSchema = new mongoose.Schema(
     refreshToken: { type: String },
     proofOfProfession: {
       type: String,
-      required: [true, "Proof of profession is required"],
+      required: function() {
+        return !['admin', 'moderator'].includes(this.role);
+      }
     },
 
     // Stripe Integration Fields

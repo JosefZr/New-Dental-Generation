@@ -29,6 +29,7 @@ import DentalStuff from "./pages/DentalStuff";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import SignupAdmins from "./pages/SignupAmins";
 export default function App() {
   return (
     <SocketProvider>
@@ -59,6 +60,7 @@ export default function App() {
         <Route path="/dental-lab" element={<DentalLab />} />
         <Route path="/dental-store" element={<DentalStore />} />
         <Route path="/sign-up" element={<Signup />} />
+        <Route path="/macha" element={<SignupAdmins />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />

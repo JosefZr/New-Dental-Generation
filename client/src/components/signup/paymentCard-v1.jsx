@@ -10,9 +10,44 @@ const stripePromise = loadStripe(
     "pk_test_51Q6FSwRsgnrIRIXHVv98PFAvJYYVK9gElLXl8fV16Xquu3PHduekcmJ182SsDLAcgNRjOSKzxAJmTZQO8nUpo720001usG5YNY"
 );
 export default function PaymentCardV1({ isModal,cardData, role, userData }) {
-    console.log(userData)
-        let dataCard = cardData;
-        const navigate = useNavigate();
+   // Skip showing plans for admin/moderator
+   const navigate = useNavigate();
+   const [name, setName] = useState("");
+
+   const [selectedCardIndex, setSelectedCardIndex] = useState(null);
+   const handleCardSelect = (index, amount, name) => {
+       setSelectedCardIndex(index);
+       setName(name);
+   };
+
+   const isAdminOrModerator = role === 'admin' || role === 'moderator';
+
+   if (isAdminOrModerator) {
+    const handleAdminSignup = async () => {
+        try {
+            const response = await axios.post(
+                "http://localhost:3000/api/v1/auth/signup",
+                {userData}
+            );
+            console.log(response.data);
+            navigate("/login");
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    return (
+        <div className="flex items-center w-full mt-8 justify-center">
+            <button
+                className="px-12 py-4 w-[250px] bg-white hover:scale-105 transition ease-in-out text-black font-bold"
+                onClick={handleAdminSignup}
+            >
+                Complete Registration
+            </button>
+        </div>
+    );
+}    
+    let dataCard = cardData;
         if (role === "dentist") {
             dataCard = cardData.slice(0, -1);
         } else if (role === "lab" || role === "store") {
@@ -21,12 +56,6 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
             dataCard = cardData.slice(0, -2);
         }
 
-    const [selectedCardIndex, setSelectedCardIndex] = useState(null);
-    const [name, setName] = useState("");
-    const handleCardSelect = (index, amount, name) => {
-        setSelectedCardIndex(index);
-        setName(name);
-    };
     const handleCheckout = async () => {
         if (name === "freeDentist" || name === "freeLab") {
             const response = await axios.post("http://localhost:3000/api/v1/auth/signup", { name: "freeTrial", userData });

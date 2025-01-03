@@ -62,29 +62,55 @@ export const userData = async (req, res)=>{
 export const signup = async (req, res) => {
   try {
     const { name, userData } = req.body;
+    const isAdminOrModerator = userData.role === 'admin' || userData.role === 'moderator';
 
-    console.log("Received name:", name);
-    console.log("Received userData:", userData);
-    console.log(userData.region)
+    if (isAdminOrModerator) {
+      const twentyYearsFromNow = new Date();
+      twentyYearsFromNow.setFullYear(twentyYearsFromNow.getFullYear() + 20);
+      
+      const user = await User.create({
+        ...userData,
+        subscriptionPlan: 'yearly',
+        proofOfProfession: null,
+        isPaid: true,
+        subscriptionStartDate: new Date(),
+        subscriptionEndDate: twentyYearsFromNow,
+      });
 
-    // Explicitly set subscription plan
+      return res.status(201).json({
+        user: {
+          _id: user._id,
+          firstName: user.firstName,
+          email: user.email,
+          role: user.role,
+          region: user.region,
+          proofOfProfession: user.proofOfProfession,
+          subscriptionPlan: user.subscriptionPlan,
+          subscriptionStartDate: user.subscriptionStartDate,
+          subscriptionEndDate: user.subscriptionEndDate,
+        },
+        message: "User created successfully",
+      });
+    }
+
+    // Regular user flow
     const subscriptionPlan = name || 'freeTrial';
-    
-    console.log("Determined subscriptionPlan:", subscriptionPlan);
-
     const isFreeTrial = subscriptionPlan === 'freeTrial';
     const subscriptionDuration = userData.role === "dentist" ? 6 : 40;
-
-    // Create the user in the database
+    
     const user = await User.create({
       ...userData,
-      subscriptionPlan:subscriptionPlan, // Explicitly spread this in
-      proofOfProfession:userData.file,
+      subscriptionPlan,
+      proofOfProfession: userData.file,
       isPaid: !isFreeTrial,
       subscriptionStartDate: new Date(),
       subscriptionEndDate: new Date(
         new Date().setDate(new Date().getDate() + subscriptionDuration)
       ),
+      trialStartDate: isFreeTrial ? new Date() : undefined,
+      trialEndDate: isFreeTrial ? new Date(
+        new Date().setDate(new Date().getDate() + subscriptionDuration)
+      ) : undefined
     });
 
     res.status(201).json({
@@ -93,7 +119,7 @@ export const signup = async (req, res) => {
         firstName: user.firstName,
         email: user.email,
         role: user.role,
-        region:user.region,
+        region: user.region,
         proofOfProfession: user.proofOfProfession,
         subscriptionPlan: user.subscriptionPlan,
         subscriptionStartDate: user.subscriptionStartDate,
@@ -103,8 +129,8 @@ export const signup = async (req, res) => {
     });
   } catch (error) {
     console.error("Detailed error in signup:", error);
-    res.status(500).json({ 
-      message: "An unexpected error occurred", 
+    res.status(500).json({
+      message: "An unexpected error occurred",
       error: error.message,
       errorDetails: error.errors ? Object.keys(error.errors) : 'No specific error details'
     });
