@@ -7,6 +7,11 @@ import { jwtDecode } from "jwt-decode";
 import { UserContext } from "@/context/UserContext";
 import { useUserToChatContext } from "@/context/ToChatUser";
 // import UserChat from "@/pages/chat/UserChat";
+import { FaUserFriends } from "react-icons/fa";
+import { FaTools } from "react-icons/fa";
+import { FaUserShield } from "react-icons/fa";
+import { FaCouch } from "react-icons/fa6";
+
 
 export default function DashboardSidebar() {
     const {setChatId,fetchMessages } = useContext(UserContext);
@@ -84,9 +89,18 @@ export default function DashboardSidebar() {
           <button
             className="relative flex items-center gap-3 border-base-300 border-b p-3 text-left text-sm last:border-0 active:bg-info hover:bg-info tracking-[0.015em] w-full border-none bg-transparent"
             style={{ flexDirection: "row" }}
+            onClick={() => navigate(`/instructor`)} // Ensure this route matches
+            >
+            <FaCouch />
+
+            <div className="flex-1">Courses</div>
+          </button>
+          <button
+            className="relative flex items-center gap-3 border-base-300 border-b p-3 text-left text-sm last:border-0 active:bg-info hover:bg-info tracking-[0.015em] w-full border-none bg-transparent"
+            style={{ flexDirection: "row" }}
             onClick={() => navigate(`/dashboard/friends`)} // Ensure this route matches
             >
-            <IoSettingsOutline />
+            <FaUserFriends />
             <div className="flex-1">Friends</div>
           </button>
           <button
@@ -94,7 +108,7 @@ export default function DashboardSidebar() {
                 style={{ flexDirection: "row" }}
                 onClick={()=>navigate(`/dashboard/dental-stuff`)}
               >
-                <IoSettingsOutline />
+                <FaTools />
                 <div className="flex-1">Dental Stuff</div>
               </button>
           {
@@ -114,7 +128,7 @@ export default function DashboardSidebar() {
                 onClick={()=>navigate(`/users`)}
 
               >
-                <IoSettingsOutline />
+                <FaUserShield />
                 <div className="flex-1">Users</div>
               </button>
             )
@@ -133,21 +147,20 @@ export default function DashboardSidebar() {
             />
           </div>
         </section>
-        <div className="flex flex-col p-2">
+        <div className="flex flex-col ">
           {privateChats.data &&
             privateChats.data.map((chat) => {
               return (
                 <div
                   key={chat.recipient._id}
                   className="flex flex-col rounded-md  w-full "
-                  style={{ width: "240px", maxWidth: "300px" }}
                   onClick={() => {handleChatSelect(chat.recipient._id , `${chat.recipient.firstName} ${chat.recipient.lastName}` )
                   navigate("/dashboard/user-chat")
                 } }
                 >
                   <button
                     style={{ flexDirection: "row" }}
-                    className="relative flex items-center flex-row gap-3 border-base-300 border-b  text-left text-sm last:border-0 active:bg-info hover:bg-info !bg-info !font-bold group w-full cursor-pointer bg-transparent px-4 py-2"
+                    className="relative flex items-center flex-row gap-3 border-base-300 border-b  text-left text-sm last:border-0 active:bg-info hover:bg-info !bg-info !font-bold group w-full cursor-pointer bg-transparent px-2 py-2"
                   >
                     <ProfileImage image={chat.recipient.avatar} />
                     <div className="flex-1">

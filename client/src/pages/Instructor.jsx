@@ -9,10 +9,18 @@ import { fetchInstructorCourseListService } from "@/services";
 import { InstructorContext } from "@/context/InstructorContext";
 import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { UserContext } from "@/context/UserContext";
 
 export default function Instructor() {
     const navigate = useNavigate()
+    
     const{instructorCoursesList, setInstructorCoursesList} = useContext(InstructorContext)
+
+    const {isSidebarOpen, setIsSidebarOpen } = useContext(UserContext)
+    const toggleSidebar = () => {
+        setIsSidebarOpen((prev) => !prev)
+      }
     async function fetchAllCourses(){
         const response = await fetchInstructorCourseListService()
         console.log(response)
@@ -34,12 +42,12 @@ export default function Instructor() {
             value: 'Courses',
             component: <InstructorCourses ListOfCourses={instructorCoursesList}/>
         },
-        {
-            icon: LogOut,
-            label: "Logout",
-            value: "logout",
-            onClick:()=>navigate("/chat"),
-        },
+        // {
+        //     icon: LogOut,
+        //     label: "Logout",
+        //     value: "logout",
+        //     onClick:()=>navigate("/dashboard"),
+        // },
     ];
 
     const [activeTab, setActiveTab] = useState('Dashboard'); // Default active tab is Dashboard
@@ -47,7 +55,7 @@ export default function Instructor() {
     return (
         <div className="flex h-full min-h-screen bg-black">
             {/* Sidebar */}
-            <aside className="w-64 bg-my-dark-blue shadow-md hidden md:block">
+            <aside className={`${isSidebarOpen ?"":"hidden "} w-64 bg-my-dark-blue shadow-md `}>
                 <div className="p-4">
                     <h2 className="text-2xl font-bold mb-4">Instructor View</h2>
                     <nav>
@@ -77,7 +85,13 @@ export default function Instructor() {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 p-8 overflow-y-auto">
+            <main className="relative flex-1 p-8 overflow-y-auto">
+            <button
+                    className="absolute top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
+                    onClick={toggleSidebar}
+                  >
+                    <GiHamburgerMenu className="md:hidden text-2xl text-white" />
+                  </button>
                 <div className="max-w-7xl mx-auto">
                     <h1 className="text-3xl font-bold mb-8">
                         {activeTab}

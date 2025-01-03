@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema(
     },
     region:{
       type:String,
-      required:true
+      required:false
     },
     avatar: {
       type: String,

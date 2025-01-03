@@ -393,6 +393,7 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
                   See present <FaArrowDown className="ml-2" />
                 </div>
               </div> */}
+              
               {/* for the input  */}
               {canSendMessages() ? (
         <>

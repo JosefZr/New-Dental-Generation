@@ -11,6 +11,7 @@ import { jwtDecode } from "jwt-decode";
 import { UserContext } from "@/context/UserContext";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useUserToChatContext } from "@/context/ToChatUser";
+import { IoIosSend } from "react-icons/io";
 
 export default function UserChat() {
 
@@ -62,13 +63,22 @@ export default function UserChat() {
     })
   }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     console.log('Submitting files:', images.map(img => img.file))
     setImages([])
     if (fileInputRef.current) {
       fileInputRef.current.value = ''
     }
+    e.preventDefault();
+    if (images.length > 0) {
+      console.log(images)
+      const resp = await storeImages() ;
+      setImagesToSnd(resp)
+    }else {
+      sendMessage();
+    }
+    e.target.value="";
   }
 
 
@@ -133,22 +143,31 @@ export default function UserChat() {
 
   async function handleKeyDown(e) {
     if (e.key === "Enter") {
-      if (disable) return ; 
       e.preventDefault();
+      if (disable) return;
+      
       if (images.length > 0) {
-        console.log(images)
-        const resp = await storeImages() ;
-        setImagesToSnd(resp)
-      }else {
+        try {
+          const resp = await storeImages();
+          if (resp && Array.isArray(resp)) {
+            setImagesToSnd(resp);
+          } else {
+            console.error('Invalid response from storeImages');
+            setImagesToSnd([]);
+          }
+        } catch (error) {
+          console.error('Error storing images:', error);
+          setImagesToSnd([]);
+        }
+      } else {
         sendMessage();
       }
-      e.target.value="";
+      e.target.value = "";
     }
   }
 
   useEffect(() => {
-    console.log("Updated imagesTosnd:", imagesTosnd);
-    if (imagesTosnd.length > 0) {
+    if (imagesTosnd && Array.isArray(imagesTosnd) && imagesTosnd.length > 0) {
       sendMessage();
       setMessageToSend("");
     }
@@ -179,7 +198,7 @@ export default function UserChat() {
   
       const data = await response.json(); 
   
-      return data.files;
+      return data.files || [];  // Ensure we always return an array
     } catch (error) {
       console.error("An error occurred while storing images:", error);
       return null; 
@@ -385,13 +404,11 @@ export default function UserChat() {
                 </div>
               </div>
               {/* for the input  */}
-                <div className="flex flex-shrink-0  w-full items-center gap-3 border-gray-700 border-t px-3 py-2">
-                <div className="w-full max-w-md mx-auto p-4 flex flex-col-reverse">
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="flex items-center justify-start pt-3 w-full">
-                      
-                    </div>
-                    
+              <div className="flex flex-shrink-0 w-full items-center gap-3 border-gray-700 border-t px-3">
+            <div className="w-full max-w-md mx-auto flex flex-col-reverse">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="flex items-center justify-start pt-3 w-full">
+                </div>
                   </form>
                   {images.length > 0 && (
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
@@ -416,9 +433,9 @@ export default function UserChat() {
                     )}
                 </div>
               </div>
-              <div className="w-full flex flex-row items-center px-5 gap-3">
-              <label htmlFor="dropzone-file" className="cursor-pointer">
-                        <Plus className="w-6 h-6 text-gray-500 hover:text-gray-700 transition-colors" />
+              <div className="w-full flex flex-row items-center px-2 py-1 gap-3">
+              <label htmlFor="dropzone-file" className="cursor-pointer bg-slate-700 rounded-full">
+                        <Plus className="w-6 h-6 text-white hover:text-gray-500 transition-colors m-1" />
                         <Input 
                           id="dropzone-file" 
                           type="file" 
@@ -429,19 +446,24 @@ export default function UserChat() {
                           ref={fileInputRef}
                         />
                       </label>
-              <form className="relative block min-h-[32px] rounded-2xl bg-neutral-950 flex-1">
+              <form onSubmit={handleSubmit} className="relative block min-h-[32px] rounded-2xl bg-neutral-950 flex-1">
                     <textarea
                       id="chat-input"
-                      className=" top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none  w-full"
+                      className="top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none w-full"
                       placeholder="Message #⭐ | lifestyle-flexing"
                       style={{ height: "32px" }}
                       onChange={(e) => setMessageToSend(e.target.value)}
                       onKeyDown={handleKeyDown}
                     ></textarea>
                   </form>
-                  <Button type="submit"  disabled={images.length === 0}>
-                      Upload {images.length} {images.length === 1 ? 'Image' : 'Images'}
-                    </Button>
+                  <button  className="bg-slate-700 rounded-full p-[5px] cursor-pointer" 
+                    onClick={handleSubmit}
+                    disabled={disable || (!msgToSend.trim() && images.length === 0)}
+                  >
+                    <IoIosSend className=" text-xl mr-[1px] text-my-gold"    
+                    />
+                      {/* Upload {images.length} {images.length === 1 ? 'Image' : 'Images'} */}
+                  </button>
               </div>
             </footer>
           </div>
