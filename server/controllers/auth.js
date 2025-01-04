@@ -15,7 +15,7 @@ export const generateAccessToken = (user) => {
   const accessExp = tokenExpirations[plan]?.access || "1d"; // Fallback to 1 day if undefined
 
   return jwt.sign(
-    { userId: user._id, role: user.role, firstName:user.firstName, lastName:user.lastName, email:user.email },
+    { userId: user._id, role: user.role, firstName:user.firstName, lastName:user.lastName, email:user.email, region:user.region },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: accessExp }
   );

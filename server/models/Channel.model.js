@@ -15,7 +15,7 @@ const ChannelSchema = new Schema({
   },
   type: {
     type: String,
-    enum: ["channel", "room", "control"],
+    enum: ["channel", "room", "control","algeria","russia"],
     required: true,
   },
   locked: {
@@ -24,7 +24,7 @@ const ChannelSchema = new Schema({
   },
   allowedUsers: {
     type: String,
-    enum: ["lab", "store", "dentist", "ADMD"],
+    enum: ["lab", "store", "dentist", "ADMD","all"],
     required: true,
   },
   members: [

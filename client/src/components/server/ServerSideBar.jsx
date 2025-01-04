@@ -15,7 +15,6 @@ export default function ServerSideBar({
   clickChannelName
 }) {
   const {channels, setChannels} = useContext(UserContext)
-  const [admOrMod, setAdmins] = useState(false);
   const { setOwner, setUpdateChannel } = useContext(UserContext);
   
   const { data, isLoading, isError } = useGetAllChannels();
@@ -37,7 +36,10 @@ export default function ServerSideBar({
     control: channels.filter(chan => chan.type === "control" && chan.allowedUsers === "ADMD"),
     dentist: channels.filter(chan => chan.allowedUsers === "dentist"),
     lab: channels.filter(chan => chan.allowedUsers === "lab"),
-    store: channels.filter(chan => chan.allowedUsers === "store")
+    store: channels.filter(chan => chan.allowedUsers === "store"),
+    algeria: channels.filter(chan=>chan.type==="algeria"),
+    russia: channels.filter(chan=>chan.type==="russia")
+
   };
 
   const handleChannelClick = async (id, title) => {
@@ -171,6 +173,58 @@ export default function ServerSideBar({
                           ownerId: channel.owner,
                           allowedUsers: channel.allowedUsers,
                           chanId: channel._id,
+                        });
+                      }}
+                    />
+                  ))}
+                </ServerSection>
+              </div>
+            )}
+
+            {/* for the algerian channel */}
+            {groupedChannels.store.length > 0 && (
+              <div className="mx-2">
+                <ServerSection label="Algeria Channels" allowedRole="all"  channelType="algeria">
+                  {groupedChannels.algeria.map((channel) => (
+                    <ServerChannel
+                      key={channel._id}
+                      channel={channel.title}
+                      memberRole=""
+                      onEditClick={()=>handleEditChannel(channel)}
+                      onDeleteClick={() => handleDeleteChannel(channel._id)}
+                      onClickChan={() => {
+                        handleChannelClick(channel._id, channel.title);
+                        setOwner({
+                          ownerId: channel.owner,
+                          allowedUsers: channel.allowedUsers,
+                          chanId: channel._id,
+                          type: "algeria"
+                        });
+                      }}
+                    />
+                  ))}
+                </ServerSection>
+              </div>
+            )}
+
+            {/* for the russian channel */}
+            {groupedChannels.store.length > 0 && (
+              <div className="mx-2">
+                <ServerSection label="Russia Channels" allowedRole="all" channelType="russia">
+                  {groupedChannels.russia.map((channel) => (
+                    <ServerChannel
+                      key={channel._id}
+                      channel={channel.title}
+                      memberRole=""
+                      onEditClick={()=>handleEditChannel(channel)}
+                      onDeleteClick={() => handleDeleteChannel(channel._id)}
+                      onClickChan={() => {
+                        handleChannelClick(channel._id, channel.title);
+                        setOwner({
+                          ownerId: channel.owner,
+                          allowedUsers: channel.allowedUsers,
+                          chanId: channel._id,
+                          type: "russia"
                         });
                       }}
                     />

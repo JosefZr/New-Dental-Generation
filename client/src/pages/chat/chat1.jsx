@@ -1,6 +1,5 @@
 import Devider from "@/components/chatComponents/Devider";
 import Message from "@/components/chatComponents/Message";
-import { FaHashtag } from "react-icons/fa6";
 import { useSocket } from "../../socketContext";
 import { Plus, X } from 'lucide-react'
 import { Input } from "@/components/ui/input"
@@ -29,7 +28,15 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
  const canSendMessages = () => {
   const userInfo = jwtDecode(localStorage.getItem("token"));
   const userRole = userInfo.role;
+  const userRegion = userInfo.region;
 
+  // Handle region-specific channels
+  if (owner?.type === "algeria" || owner?.type === "russia") {
+    const channelRegion = owner.type;
+    const hasRegionAccess = userRegion === channelRegion;
+    console.log(`Region-based access check for ${channelRegion}:`, hasRegionAccess);
+    return hasRegionAccess;
+  }
   // Special handling for lab and store channels
   if (owner?.allowedUsers === "lab" || owner?.allowedUsers === "store") {
     // If there's an owner, only they can send messages
@@ -267,15 +274,27 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
     };
   }, [messages]);
 
-  const getAccessDeniedMessage = () => {
-    if (owner?.allowedUsers === "lab" || owner?.allowedUsers === "store") {
-      if (owner.ownerId) {
-        return "Only the channel owner can send messages in this channel";
-      }
-      return `Only ${owner.allowedUsers} users can send messages in this channel`;
-    }
-    return `Only ${owner?.allowedUsers} users can send messages in this channel`;
-  };
+const getAccessDeniedMessage = () => {
+  const userInfo = jwtDecode(localStorage.getItem("token"));
+  
+  if (owner?.type === "algeria" && userInfo.region !== "algeria") {
+    return "Only users from Algeria can send messages in this channel";
+  }
+  
+  if (owner?.type === "russia" && userInfo.region !== "russia") {
+    return "Only users from Russia can send messages in this channel";
+  }
+  
+  if (owner?.allowedUsers === "ADMD" && !["admin", "moderator"].includes(userInfo.role)) {
+    return "Only administrators and moderators can send messages in this channel";
+  }
+  
+  if (owner?.allowedUsers && owner.allowedUsers !== userInfo.role) {
+    return `Only ${owner.allowedUsers}s can send messages in this channel`;
+  }
+  
+  return "You don't have permission to send messages in this channel";
+};
   return (
     <div className="flex h-full flex-col bg-neutral-950">
       <div className="z-20 flex flex-col flex-1">
