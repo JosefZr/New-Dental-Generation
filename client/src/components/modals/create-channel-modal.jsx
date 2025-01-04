@@ -26,7 +26,7 @@ import EmojiPicker from "emoji-picker-react"; // Emoji Picker Library
 export default function CreateChannelModal() {
   const { isOpen, onClose, type } = useModal();
   const isModalOpen = isOpen && type === MODAL_TYPE.CREATE_CHANNEL;
-  const { channelType } = useContext(UserContext);
+  const { channelType ,channelAllowedUsers} = useContext(UserContext);
   const [selectedEmoji, setSelectedEmoji] = useState("💬");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
@@ -51,8 +51,8 @@ export default function CreateChannelModal() {
     const value = {
       title: `${selectedEmoji}| ${values.name}`,
       description: "This is a general discussion channel",
-      type: "room",
-      allowed: channelType, // Use the context value
+      type: channelType ,
+      allowed: channelAllowedUsers, // Use the context value
       locked: false,
     };
 

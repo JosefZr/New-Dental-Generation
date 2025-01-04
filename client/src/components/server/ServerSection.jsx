@@ -5,16 +5,17 @@ import { useContext, useState } from "react";
 import { UserContext } from "@/context/UserContext";
 import { jwtDecode } from "jwt-decode";
 
-export default function ServerSection({ label ,allowedRole, children }) {
+export default function ServerSection({ label ,allowedRole, children,channelType }) {
     const { onOpen } = useModal();
     const [isExpanded, setIsExpanded] = useState(true);
-    const { setChannelType } = useContext(UserContext);
+    const { setChannelType, setChannelAllowedUsers } = useContext(UserContext);
     const userInfo = jwtDecode(localStorage.getItem("token"))
     const role = userInfo.role
     
     const handleCreateChannel = () => {
         console.log(allowedRole)
-        setChannelType(allowedRole);
+        setChannelType(channelType);
+        setChannelAllowedUsers(allowedRole)
         onOpen("createChannel");
     };
     return (

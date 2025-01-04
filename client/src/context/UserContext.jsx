@@ -14,6 +14,7 @@ const UserProvider = ({ children }) => {
     const [receivedRequests,setReceivedRequests] = useState([])
     const [friends,setFriends ] = useState([]);
       const [channelType, setChannelType] = useState('');
+      const [channelAllowedUsers, setChannelAllowedUsers] = useState('');
       const [updateChannel, setUpdateChannel] = useState({})
   const [channels, setChannels] = useState([]);
   const [onSettingsToggle, setOnSettingsToggle] = useState(false)
@@ -56,6 +57,7 @@ const UserProvider = ({ children }) => {
         receivedRequests,setReceivedRequests,
         setFriends,friends,
         channelType, setChannelType,
+        channelAllowedUsers, setChannelAllowedUsers,
         updateChannel, setUpdateChannel,
         channels, setChannels,
         onSettingsToggle, setOnSettingsToggle

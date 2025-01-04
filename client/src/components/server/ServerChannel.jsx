@@ -1,6 +1,5 @@
 import { Edit, Trash } from "lucide-react";
 import { ActionTooltip } from "../ui/action-tooltip";
-import { FaHashtag } from "react-icons/fa6";
 import { cn } from "@/lib/utils";
 import { jwtDecode } from "jwt-decode";
 

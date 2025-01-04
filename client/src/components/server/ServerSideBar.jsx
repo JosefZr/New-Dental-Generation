@@ -7,6 +7,7 @@ import { ScrollArea } from "../ui/scroll-area";
 import ServerSection from "./ServerSection";
 import ServerChannel from "./ServerChannel";
 import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
+import { jwtDecode } from "jwt-decode";
 
 export default function ServerSideBar({
   fetchMessages,
@@ -20,7 +21,8 @@ export default function ServerSideBar({
   const { data, isLoading, isError } = useGetAllChannels();
   const deleteTask = useDeleteChannel();
   const { onOpen } = useModal();
-
+  const userInfo = jwtDecode(localStorage.getItem("token"))
+  console.log(userInfo)
   useEffect(() => {
     if (data) {
       setChannels(prev => {
@@ -88,15 +90,16 @@ export default function ServerSideBar({
           <LoadingSpinner />
         ) : (
           <>
-            {admOrMod && groupedChannels.control.length > 0 && (
+            {["admin", "moderator"].includes(userInfo.role) && groupedChannels.control.length > 0 && (
               <div className="mx-2">
-                <ServerSection label="Admin & Moderators" allowedRole="control">
+                <ServerSection label="Admin & Moderators" allowedRole="ADMD" channelType="control">
                   {groupedChannels.control.map((chan) => (
                     <ServerChannel
                       key={chan._id}
                       channel={chan.title}
                       memberRole=""
                       onEditClick={()=>handleEditChannel(chan)}
+                      onDeleteClick={() => handleDeleteChannel(chan._id)}
                       onClickChan={() => handleChannelClick(chan._id, chan.title)}
                     />
                   ))}
@@ -106,7 +109,7 @@ export default function ServerSideBar({
 
             {groupedChannels.dentist.length > 0 && (
               <div className="mx-2">
-                <ServerSection label="Dentists channels" allowedRole="dentist">
+                <ServerSection label="Dentists channels" allowedRole="dentist" channelType="room">
                   {groupedChannels.dentist.map((channel) => (
                     <ServerChannel
                       key={channel._id}
@@ -130,7 +133,7 @@ export default function ServerSideBar({
 
             {groupedChannels.lab.length > 0 && (
               <div className="mx-2">
-                <ServerSection label="Labs channels" allowedRole="lab">
+                <ServerSection label="Labs channels" allowedRole="lab" channelType="room">
                   {groupedChannels.lab.map((channel) => (
                     <ServerChannel
                       key={channel._id}
@@ -154,7 +157,7 @@ export default function ServerSideBar({
 
             {groupedChannels.store.length > 0 && (
               <div className="mx-2">
-                <ServerSection label="Stores Channels" allowedRole="store">
+                <ServerSection label="Stores Channels" allowedRole="store" channelType="room">
                   {groupedChannels.store.map((channel) => (
                     <ServerChannel
                       key={channel._id}
