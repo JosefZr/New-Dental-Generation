@@ -35,7 +35,7 @@ const createUserTask =async (req, res) => {
 }
 const getAllTasks = async(req, res)=>{
         const { id,category } = req.body;
-        console.log(category)
+        console.log("zbu",category)
         if (!id || !category) {
             return res.status(400).json({ message: "User ID is required" });
         }
@@ -56,7 +56,28 @@ const getAllTasks = async(req, res)=>{
 }
 const getAllInventoryTasks = async(req, res)=>{
     const { id,category } = req.body;
-    console.log(category)
+    console.log("assust",category)
+    if (!id || !category) {
+        return res.status(400).json({ message: "User ID is required" });
+    }
+    try {
+        const tasks = await Task.find({ userId:id,category:category });
+        if (!tasks) {
+            return res.status(404).json({ message: "No tasks found", tasks: [], success: false });
+        }
+        return res.status(200).json({
+            message: "Tasks fetched successfully",
+            tasks: tasks,
+            success: true,
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Error fetching tasks", error });
+    }
+}
+const getAllSimpleTasks = async(req, res)=>{
+    const { id,category } = req.body;
+    console.log("asssss",category)
     if (!id || !category) {
         return res.status(400).json({ message: "User ID is required" });
     }
@@ -78,5 +99,6 @@ const getAllInventoryTasks = async(req, res)=>{
 export {
     createUserTask,
     getAllTasks,
-    getAllInventoryTasks
+    getAllInventoryTasks,
+    getAllSimpleTasks
 }

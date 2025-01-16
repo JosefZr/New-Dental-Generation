@@ -93,7 +93,7 @@ export default function ServerHeader() {
       
         <div
           onClick={handleNavigation}
-          className="flex items-cente cursor-pointer bg-my-gold justify-center text-my-black py-3 font-bold text-lg gap-2"
+          className="flex items-cente cursor-pointer bg-my-beige justify-center text-my-black py-2 font-bold text-lg gap-2"
         >
           <Landmark />
           SKILL UP

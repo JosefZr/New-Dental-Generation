@@ -1,39 +1,98 @@
-import styled from "styled-components"
-import { Subscribers } from "."
-import { useTranslation } from "react-i18next"
-import { Link, useNavigate } from "react-router-dom"
+import React from "react";
+import styled from "styled-components";
+import { Subscribers } from ".";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { size } from "@/lib/mediaQuerys";
 
 const ButtonWrap = styled.div`
-    z-index: 5;
-    grid-column-gap: .75rem;
-    grid-row-gap: .75rem;
-    flex-direction: column;
-    align-items: center;
-    display: flex;
-    position: relative;
-`
-const Button = styled.div`
-    line-height: 1;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  gap: 0.75rem;
+`;
 
-`
-// eslint-disable-next-line react/prop-types
-export default function CtaButton({withSubscribers, isSmall, cta}) {
-    const {t} = useTranslation();
-    const navigate = useNavigate();
-    return (
-        <ButtonWrap>
-            <Button>
-            <button onClick={()=>navigate("/sign-up")} className={`cta-button ${isSmall && 'text-lg'}`}>
-                {(cta) ? t('cta'):"Build_Your_Dentlal_Network"}
-            </button>
+const StyledButton = styled.button`
+  /* Base Variables */
+  --main-color: rgb(118, 103, 8);
+  --main-bg-color: rgba(255, 223, 0, 0.36);
+  --pattern-color: rgba(255, 255, 255, 0.03);
+  
+  /* Base Styles */
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: clamp(0.06rem, 2vw, 0.2rem);
+  line-height: 1;
+  filter: hue-rotate(0deg);
+  
+  /* Complex Background */
+  background: 
+    radial-gradient(
+      circle,
+      var(--main-bg-color) 0%,
+      rgba(0, 0, 0, 0) 95%
+    ),
+    linear-gradient(var(--pattern-color) 1px, transparent 1px),
+    linear-gradient(to right, var(--pattern-color) 1px, transparent 1px);
+  background-size: 
+    cover,
+    15px 15px,
+    15px 15px;
+  background-position: 
+    center center,
+    center center,
+    center center;
+    
+  /* Border Styling */
+  border-image: radial-gradient(
+    circle,
+    var(--main-color) 0%,
+    rgba(0, 0, 0, 0) 100%
+  ) 1;
+  border-width: 1px 0 1px 0;
+  
+  /* Text Styling */
+  color: var(--white);
+  font-weight: 700;
+  font-size: clamp(0.75rem, 3vw, 1rem);
+  
+  /* Size & Spacing */
+  padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 4vw, 3rem);
+  width: fit-content;
 
-            </Button>
-            {withSubscribers ==="true" ? (
-                <Subscribers/>
-            ):("")
-            }
-            
+  /* Transitions */
+  transition: all 0.2s ease-in-out;
+  
+  /* Hover Effect */
+  &:hover {
+    background-size: 
+      cover,
+      10px 10px,
+      10px 10px;
+  }
+  
+  /* Active Effect */
+  &:active {
+    filter: hue-rotate(50deg);
+  }
+   @media screen and (max-width: ${size.mobileS}) {
+        letter-spacing:normal;
 
-        </ButtonWrap>
-    )
+    }
+`;
+
+export default function CtaButton({ withSubscribers = "false", cta = false }) {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  return (
+    <ButtonWrap>
+      <StyledButton onClick={() => navigate("/sign-up")}>
+        {cta ? t('cta') : "Build_Your_Dental_Network"}
+      </StyledButton>
+      {withSubscribers === "true" && <Subscribers />}
+    </ButtonWrap>
+  );
 }

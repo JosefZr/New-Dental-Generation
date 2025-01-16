@@ -47,7 +47,7 @@ export default function NavigationSidebar() {
       }, []);
   const navigate = useNavigate();
   return (
-    <div className="space-y-4 flex flex-col items-center h-full text-my-white-gray w-full bg-my-dark-blue py-6">
+    <div className="space-y-4 flex flex-col items-center h-full text-my-white-gray w-full  py-6">
       <div
         className="relative flex h-[64px] w-full items-center justify-center transition-opacity"
         onClick={() => navigate("/dashboard")}

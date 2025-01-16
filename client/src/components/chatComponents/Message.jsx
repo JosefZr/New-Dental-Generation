@@ -113,14 +113,14 @@ export default function Message({ message }) {
     (friendsRequest.sender === userPreview._id || friendsRequest.receiver === userPreview._id);
 
   return (
-    <div className="chat-item-wrapper will-change-transform translate-y-0 w-full">
-      <div className="chat-message group relative flex w-full focus:border-primary lg:pr-4 focus:ring"
+    <div className="chat-item-wrapper will-change-transform  translate-y-0 w-full">
+      <div className="chat-message group relative flex w-full focus:border-primary lg:pr-4 focus:ring "
         style={{
           transition: "transform 0.25s ease-out",
           flexDirection: "row",
           alignItems: "flex-start",
         }}>
-        <div className="h-full flex items-start justify-center flex-shrink-0 w-20">
+        <div className="h-full flex items-start justify-center flex-shrink-0 w-20 ">
           <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
             <DrawerTitle>{""}</DrawerTitle>
             <DrawerTrigger asChild>
@@ -181,8 +181,8 @@ export default function Message({ message }) {
           </Drawer>
         </div>
 
-        <div className="inline-block w-full rounded-md border bg-bubble-gradient p-5 border-transparent">
-          <div className="flex items-center">
+        <div className="inline-block w-full rounded-md bg-[#0E1C26] border  p-5 border-transparent">
+          <div className="flex items-center ">
             <span className="inline-flex items-center cursor-pointer font-medium text-xs md:text-sm hover:underline"
               style={{ color: "rgba(17,128,106)" }}>
               {message.sender._id === userInfo.userId

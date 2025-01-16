@@ -30,6 +30,7 @@ import ProtectedRoutes from "./utils/ProtectedRoutes";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import SignupAdmins from "./pages/SignupAmins";
+import Quotes from "./pages/Quotes";
 export default function App() {
   return (
     <SocketProvider>
@@ -45,6 +46,7 @@ export default function App() {
             <Route path="friends" element={<Friends />}/>
             <Route path="userChat" element={<UserChat />} />
             <Route path="dental-stuff" element={<DentalStuff/>}/>
+            <Route path="quotes" element={<Quotes/>}/>
             <Route path="user-chat" element={<UserChat/>}/>
           </Route>
           

@@ -24,6 +24,8 @@ export const useUpdateTask = ()=>{
             console.log('Task checked successfully:', data);
             // Invalidate queries related to user tasks to refresh the data
             queryClient.invalidateQueries(["userTasks"]);
+            queryClient.invalidateQueries(["userSimpleTasks"]);
+
             toast.success('Task checked successfully!'); // Optional success notification
         },
         onError: (error) => {

@@ -7,13 +7,10 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { useContext, useEffect, useState } from "react";
 import { fetchInstructorCourseListService } from "@/services";
 import { InstructorContext } from "@/context/InstructorContext";
-import { LogOut } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { UserContext } from "@/context/UserContext";
 
 export default function Instructor() {
-    const navigate = useNavigate()
     
     const{instructorCoursesList, setInstructorCoursesList} = useContext(InstructorContext)
 

@@ -1,7 +1,6 @@
 import { useQuery } from "react-query";
 
 const fetchUserTasks = async (id,category) => {
-    console.log(id,category)
     const response = await fetch(`http://localhost:3000/api/v1/tasks/get`,{
         method: "POST",
         headers: {

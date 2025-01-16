@@ -28,7 +28,7 @@ export default function ServerSection({ label ,allowedRole, children,channelType
                     >
                         <ArrowDown className={`h-4 w-4 transition-transform ${isExpanded ? '-rotate-90' : ''}`}/>
                     </button>
-                    <p className="text-xs uppercase font-semibold text-zinc-400">
+                    <p className="text-xs uppercase font-bold text-zinc-400">
                         {label}
                     </p>
                 </div>

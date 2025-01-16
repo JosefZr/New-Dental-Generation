@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/UserContext";
 import { useDeleteChannel } from "@/hooks/channels/usedeleteChannel";
 import { useGetAllChannels } from "@/hooks/channels/useGetAllChannels";
@@ -8,20 +8,54 @@ import ServerSection from "./ServerSection";
 import ServerChannel from "./ServerChannel";
 import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 import { jwtDecode } from "jwt-decode";
+import styled from "styled-components";
+import { FaTasks } from "react-icons/fa";
 
+import { LiaChessBishopSolid, LiaChessKingSolid, LiaChessKnightSolid, LiaChessPawnSolid, LiaChessQueenSolid, LiaChessRookSolid } from "react-icons/lia";
+import { FaRegChessKnight } from "react-icons/fa6";
+import { GiLaurelCrown } from "react-icons/gi";
+import { progress } from "@/lib/ProgressData";
+
+export const Logo = styled.div`
+    background-position: center center;
+    background-size: cover;
+`;
+ export const LoadingSpinner = () => (
+  <div className="flex justify-center items-center w-full h-full">
+    <div className="animate-spin rounded-full border-t-4 border-blue-500 w-12 h-12"></div>
+  </div>
+);
 export default function ServerSideBar({
   fetchMessages,
   clickedChannelID,
   clickChannelName
 }) {
-  const {channels, setChannels} = useContext(UserContext)
-  const { setOwner, setUpdateChannel } = useContext(UserContext);
-  
+  const {channels, setChannels,user, setUser} = useContext(UserContext)
+
+  const getDaysDifference = (createdAt) => {
+    const created = new Date(createdAt);
+    const now = new Date();
+    
+    // Reset time portion to ensure accurate day calculation
+    created.setHours(0, 0, 0, 0);
+    now.setHours(0, 0, 0, 0);
+    
+    const diffTime = Math.abs(now - created);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+};
+const diffDays = getDaysDifference(user.createdAt);
+// Find current progress stage
+const currentProgress = progress.find(stage => 
+    diffDays <= stage.maxDays
+) || progress[progress.length - 1];
+
+  const { setOwner, setUpdateChannel,clickedChannel, setClickedChannel } = useContext(UserContext);
   const { data, isLoading, isError } = useGetAllChannels();
   const deleteTask = useDeleteChannel();
   const { onOpen } = useModal();
   const userInfo = jwtDecode(localStorage.getItem("token"))
-  console.log(userInfo)
+  
   useEffect(() => {
     if (data) {
       setChannels(prev => {
@@ -43,6 +77,7 @@ export default function ServerSideBar({
   };
 
   const handleChannelClick = async (id, title) => {
+    setClickedChannel(title)
     try {
       const response = await fetch(
         `http://localhost:3000/api/v1/channels/${id}`,
@@ -75,19 +110,17 @@ export default function ServerSideBar({
     console.log(channel)
     setUpdateChannel(channel)
     onOpen(MODAL_TYPE.EDIT_CHANNEL);
-
-
   }
-  const LoadingSpinner = () => (
-    <div className="flex justify-center items-center w-full h-full">
-      <div className="animate-spin rounded-full border-t-4 border-blue-500 w-12 h-12"></div>
-    </div>
-  );
+  const handleBirClick = ()=>{
+    onOpen(MODAL_TYPE.BIR)
+  }
+
 
   return (
     <div className="flex flex-col h-full text-my-white w-full bg-my-dark">
       <ServerHeader />
-      <ScrollArea className="flex-1">
+
+      <ScrollArea className="flex-1 pr-2 pt-2">
         {isLoading ? (
           <LoadingSpinner />
         ) : (
@@ -235,6 +268,37 @@ export default function ServerSideBar({
           </>
         )}
       </ScrollArea>
+
+      <div className="relative flex w-full items-center justify-between bg-neutral pr-2 pl-1" >
+        <button className="group relative flex flex-1 p-[1px]" onClick={handleBirClick}>
+          <div className="absolute inset-0 rounded-md opacity-30 group-hover:opacity-80 group-active:opacity-80"  
+          style={{
+            backgroundImage: 'linear-gradient(94.38deg, #ECC879 -14.69%, #D46B32 210%)',
+          }}
+          ></div>
+          <div className="relative z-10 inline-flex flex-1 items-center justify-between rounded-md bg-neutral px-2 py-1 cursor-pointer "
+            style={{
+              backgroundColor:" hsl(211.3 46.939% 9.6078% / 1)"
+            }}
+          >
+            <div className="pointer-events-none flex items-center">
+              <section className="flex-shrink-0 rounded-full bg-base-300 mr-2 cursor-pointer">
+                <Logo style={{ backgroundImage: `url(http://localhost:3000/uploads/${user.avatar})` ,width:"40px", height:"40px"}}  className="rounded-full object-cover "  />
+                <div className="absolute   text-[22px] w-[22px] h-[22px] left-[30px] " style={{bottom:"2px"}}>
+                    {React.createElement(currentProgress.logo)}
+                </div>
+              </section>
+              <div className="flex flex-col justify-start whitespace-nowrap text-md ">
+                <span className="inline-flex items-center">{user.firstName} {user.lastName}
+                <span className="px-2"> {user.role ==="admin" && user.role==="moderator"? <FaRegChessKnight className="h-8 w-auto "/>: user.subscriptionPlan==="freeTrial" ?<GiLaurelCrown className=" h-8 w-auto text-my-gray"/> : <GiLaurelCrown className=" h-8 w-auto text-my-gold"/>}</span>
+                </span>
+              </div>
+              <FaTasks className=" text-[22px] w-[22px] h-[22px] left-[30px] "/>
+            </div>
+          </div>
+        </button>
+        <div className="flex items-center gap-1 rounded-md bg-top py-1 font-bold text-primary text-sm ml-1 cursor-pointer px-[4px]"></div>
+      </div>
     </div>
   );
 }

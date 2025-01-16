@@ -62,12 +62,12 @@ const TimeLineGrid = styled.div`
   position: relative;
 `
 const SubText = styled.p`
-  font-size: 1.88rem;
-line-height: 2rem;
+  font-size: 1.5rem;
+  line-height: 2rem;
 
-  max-width: 80%;
+  max-width: 90%;
   text-align: center;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--whiteGray);
   padding-bottom: 4rem;
 ` 

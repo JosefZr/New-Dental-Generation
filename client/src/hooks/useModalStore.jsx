@@ -15,7 +15,8 @@ export const MODAL_TYPE = {
     PROFFESSION:"proffession",
     DELETE_USER:"deleteUser",
     CREATE_STORE:"addStore",
-    USER_PREVIEW:"userPreview"
+    USER_PREVIEW:"userPreview",
+    BIR:"bir"
   };
 
 export const useModal = create((set)=>({

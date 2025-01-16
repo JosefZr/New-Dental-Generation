@@ -66,7 +66,7 @@ export const signup = async (req, res) => {
 
     if (isAdminOrModerator) {
       const twentyYearsFromNow = new Date();
-      twentyYearsFromNow.setFullYear(twentyYearsFromNow.getFullYear() + 20);
+      twentyYearsFromNow.setFullYear(twentyYearsFromNow.getFullYear() + 100);
       
       const user = await User.create({
         ...userData,

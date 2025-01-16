@@ -14,6 +14,7 @@ import useruserSignleRoute from "./routes/storeLab.js"
 import friendsRoute from "./routes/friends.js"
 import tasksRoutes from "./routes/Task.js"
 import inventoryRoute from "./routes/inventory.js";
+import quoteRoute from "./routes/quotes.js"
 import paymentManagmentRoute from "./routes/paymentManagment.js"
 import logger from "./utils/logger.js";
 import cors from "cors";
@@ -69,6 +70,7 @@ app.use("/api/v1/student/progression",courseProgression);
 app.use("/api/v1/friends",friendsRoute);
 app.use("/api/v1/tasks",tasksRoutes);
 app.use("/api/v1/inventory",inventoryRoute);
+app.use("/api/v1/quoate",quoteRoute);
 app.use("/api/v1/payment/managment",paymentManagmentRoute);
 
 // Wrong Api Route handler

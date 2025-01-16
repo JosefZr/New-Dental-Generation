@@ -15,7 +15,8 @@ import AdvancedCheckList from "./AdvancedCheckList";
 import { jwtDecode } from "jwt-decode";
 import { useCreateTask } from "@/hooks/tasks/useCreateTask";
 import { useUserTasks } from "@/hooks/tasks/useGetUserTasks";
-
+import { useLocation } from "react-router-dom";
+import { useUserSimpleTasks } from "@/hooks/tasks/useGetSimpleTasks";
 const Container = styled.div`
   overscroll-behavior-block: none;
   overscroll-behavior-x: none;
@@ -23,7 +24,11 @@ const Container = styled.div`
   scroll-snap-stop: always;
   scroll-snap-align: start;
   scroll-snap-type: x mandatory;
+
+  /* Hide scrollbars completely */
+  overflow: hidden; /* Prevent scrolling entirely */
 `;
+
 
 export const DAYS_OF_WEEK = [
   { value: "su", label: "Su" },
@@ -45,7 +50,8 @@ export const REMINDER_TIMES = [
 ];
 
 export default function TaskList() {
-
+    const location = useLocation(); // Get the current location
+    const isActive = location.pathname.includes(`/channels`); // Check if the current path includes the id
     const [sliderValue, setSliderValue] = useState([30]);
     const [isNewTaskOpen, setIsNewTaskOpen] = useState(false);
     const { setIsSidebarOpen } = useContext(UserContext);
@@ -60,43 +66,46 @@ export default function TaskList() {
         startTime: "",
         duration: 30,
         isRepeating: false,
-        category: "Advanced",
+        category: "",
     });
     const userInfo = jwtDecode(localStorage.getItem("token"));
     const toggleSidebar = () => {
         setIsSidebarOpen((prev) => !prev);
     };
     const id = userInfo.userId;
-    const { data: tasks, isLoading, isError, error } = useUserTasks({id, category:"Advanced"});
+    const { data: advanced, isLoading:isGettingAdvanced, isError:isAdvancederror, error:AdvancedError } = useUserTasks({id, category:"Advanced"});
+    const { data: simple, isLoading:isGettingSimple, isError:isSimpleerror, error:SimpleError } = useUserSimpleTasks({id, category:"Simple"});
+
     const mutation = useCreateTask(); // Use the custom hook
 
     const handleQuickAdd = (e) => {
         if (e.key === "Enter") {
-            if (!newTaskData.title ) {
-                alert("Title.");
+            if (!newTaskData.title) {
+                alert("Title is required.");
                 return;
             }
-            setNewTaskData([
-                ...tasks,
-                {
-                title: newTaskData,
-                completed: false,
-                category: "Advanced",
-                },
-            ]);
-        const id = userInfo.userId
-        // console.log(id, newTaskData )
-        mutation.mutate({ id, task:newTaskData });
-        setNewTaskData({
-            title: '',
-            description: '',
-            startDate: '',
-            startTime: '',
-            duration: 30,
-            category: 'Advanced',
-        });
+    
+            // Create a task object with the category set to "Simple"
+            const taskData = { ...newTaskData, category: "Simple" };
+    
+            const id = userInfo.userId;
+    
+            console.log(taskData); // Log the correct task object with "Simple" category
+    
+            // Uncomment this to send the task to the backend
+            mutation.mutate({ id, task: taskData });
+    
+            // Reset the form after task creation
+            setNewTaskData({
+                title: "",
+                description: "",
+                startDate: "",
+                startTime: "",
+                duration: 30,
+            });
         }
     };
+    
     const HandleAddQuickTaskTask = (e)=>{
         e.preventDefault();
         if (!newTaskData.title ) {
@@ -107,17 +116,19 @@ export default function TaskList() {
             ...newTaskData,
             duration: sliderValue[0],
             repeatDays: selectedRepeatDays,
+            category: "Simple",
         }
+        // console.log(task)
         const id = userInfo.userId
         mutation.mutate({ id, task  });
         // console.log(newTask)
         setNewTaskData({
-            title: '',
-            description: '',
-            startDate: '',
-            startTime: '',
+            title: "",
+            description: "",
+            startDate: "",
+            startTime: "",
             duration: 30,
-            category: 'Advanced',
+            category: "", // Reset to default
         });
     }
 
@@ -143,6 +154,7 @@ export default function TaskList() {
             ...newTaskData,
             duration: sliderValue[0],
             repeatDays: selectedRepeatDays,
+            category: "Advanced",
         };
             console.log(task);
             // Remove 'hasCustomEnd' and 'hasReminder' if they are not needed
@@ -162,7 +174,7 @@ export default function TaskList() {
                 hasCustomEnd: false,
                 hasReminder: false,
                 isRepeating: false,
-                category: 'Advanced',
+                category: '',
             });
             setSelectedRepeatDays([]);
             setShowDatePicker(false);
@@ -181,7 +193,7 @@ export default function TaskList() {
         setShowDatePicker(!showDatePicker);
     };
     return (
-        <Container className="carousel carousel-start overflow-y-hidden overscroll-none">
+        <Container className=" overflow-y-hidden overscroll-none">
         <div
             className="carousel-item relative h-full max-h-full max-w-[100dvw] overflow-hidden"
             style={{
@@ -190,7 +202,7 @@ export default function TaskList() {
             overflowAnchor: "none",
             }}
         >
-            <div className="w-full max-w-md px-5 z-10 pt-2 flex flex-row justify-center gap-2">
+            <div className={`w-full z-10 pt-2 flex flex-row justify-center gap-2 ${isActive ?"":"max-w-md px-5"}`}>
                 <div className="relative w-full">
                     <Input
                     className="w-full bg-[#1A1F24] border-gray-800 pr-12 text-white placeholder:text-gray-500 "
@@ -222,7 +234,9 @@ export default function TaskList() {
             >
             <GiHamburgerMenu className="md:hidden text-2xl text-white" />
             </button>
-            <AdvancedCheckList tasks={tasks || []} isLoading={isLoading} />
+            <AdvancedCheckList title={"Advanced Check List"} tasks={advanced || []} isLoading={isGettingAdvanced} />
+            <AdvancedCheckList title={" Check List"} tasks={simple || []} isLoading={isGettingSimple} />
+
             </div>
         <Dialog open={isNewTaskOpen} onOpenChange={setIsNewTaskOpen}>
             <DialogContent className="bg-[#1A1F24] text-white border-gray-800">

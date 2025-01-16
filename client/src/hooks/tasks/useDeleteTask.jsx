@@ -23,6 +23,8 @@ export const useDeleteTask = ()=>{
             console.log('Task deleted successfully:', data);
             // Invalidate queries related to user tasks to refresh the data
             queryClient.invalidateQueries(["userTasks"]);
+            queryClient.invalidateQueries(["userSimpleTasks"]);
+
             queryClient.invalidateQueries(["userInventroyTasks"])
 
             toast.success('Task deleted successfully!'); // Optional success notification

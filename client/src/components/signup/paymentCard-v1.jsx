@@ -176,7 +176,7 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
                         </div>
                         </div>
                     </div>
-                    <div className="text-[24px] mt-0">Cadet</div>
+                    <div className="text-[24px] mt-0">Starter Plan</div>
                     <div className="pt-[9px] 2xl:pb-[22px] font-medium text-sm text-[#FFFFFFB2]">
                         <div className="h-8 flex items-center">
                         {card.monthTitle}
@@ -283,7 +283,7 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
                         </span>
                         )}
                     </div>
-                    <div className="text-[24px] mt-0">Challenger</div>
+                    <div className="text-[24px] mt-0">Professional Plan</div>
                     <div className="pt-[9px] 2xl:pb-[22px] font-medium text-sm text-[#FFFFFFB2]">
                         <div className="h-8 flex items-center">
                         {card.threeMonthsTitle}
@@ -370,7 +370,7 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
                         </span>
                         )}
                     </div>
-                    <div className="text-[24px] mt-0">Hero</div>
+                    <div className="text-[24px] mt-0">Elite Plan</div>
                     <div className="pt-[9px] 2xl:pb-[22px] font-medium text-sm text-[#FFFFFFB2]">
                         <div className="h-8 flex items-center">
                         {card.yearTitle}

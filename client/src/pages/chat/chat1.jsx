@@ -296,21 +296,16 @@ const getAccessDeniedMessage = () => {
   return "You don't have permission to send messages in this channel";
 };
   return (
-    <div className="flex h-full flex-col bg-neutral-950">
+    <div className="flex h-full flex-col bg-[ #0A1720]">
       <div className="z-20 flex flex-col flex-1">
         <div className="relative h-full flex-1 bg-neutral">
           <div className="absolute top-0 right-0 left-0 z-20 flex flex-col">
             {/* for the title of the channel */}
             <header
-              className="flex flex-shrink-0 items-end justify-between !pt-0 relative z-10 border-grey-secondary border-b bg-base-300"
-              style={{
-                height: "48px",
-                minHeight: "48px",
-                maxHeight: "48px",
-                paddingTop: 0,
-              }}
+              className="flex flex-shrink-0 items-end justify-between !pt-0 relative z-10 border-grey-secondary bg-base-300"
+              
             >
-              <section className="flex h-full w-full items-center justify-between pl-3">
+              <section className="flex h-full w-full items-center justify-between pl-3 py-2 text-lg bg-[#0E1C26]">
                 <div className="flex w-full items-center font-medium">
                   <div className="flex items-center justify-center gap-3">
                     <div className="flex items-center gap-3 font-medium">
@@ -373,7 +368,7 @@ const getAccessDeniedMessage = () => {
           >
             <div
               ref={containerRef}
-              className="z-10 overflow-y-auto overflow-x-hidden transition-transform duration-keyboard will-change-transform"
+              className="z-10 overflow-y-auto overflow-x-hidden transition-transform duration-keyboard will-change-transform "
               style={{ height: "100%" }}
             >
               <div className="viewport relative will-change-transform translate-y-0 ">
@@ -402,7 +397,7 @@ const getAccessDeniedMessage = () => {
             }`}
           >
             <footer
-              className="relative mb-inset-bottom   z-20 w-full bg-base-100 transition-transform duration-keyboard translate-y-0"
+              className="relative mb-inset-bottom   z-20 w-full bg-[#0E1C26] transition-transform duration-keyboard translate-y-0"
               style={{ paddingBottom: "0px" }}
             >
               {/* this for the user when he scroll up he can return and scroll to the present msg */}

@@ -7,9 +7,12 @@ import { useSetTaskToComplete } from "@/hooks/tasks/useSetTaskToComplete"
 import {DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuTrigger} from "@/components/ui/dropdown-menu"
 import Spinner from "../Spinner"
 import { useDeleteTask } from "@/hooks/tasks/useDeleteTask"
+import { useLocation } from "react-router-dom"
 
 
 export default function DentalAssistant({tasks = [], isLoading}) {
+     const location = useLocation(); // Get the current location
+              const isActive = location.pathname.includes(`/channels`); // Check if the current pa
     const userInfo = jwtDecode(localStorage.getItem('token'))
     const [isVisible, setIsVisible] = useState(true)
 
@@ -27,11 +30,11 @@ export default function DentalAssistant({tasks = [], isLoading}) {
     return (
         <div className="relative size-full animate-fade-in">
             <div className="scrollbar-none overflow-x-visible  overscroll-y-none h-full w-full">
-                <div className="scrollbar-none relative h-full overflow-y-scroll overscroll-y-none sm:max-h-none bg-next-midnight rounded-lg px-0 pb-4 sm:px-5 swipe-dialog-scroll-descendant">
-                    <div className="scrollbar-none mx-2 mt-1 flex h-auto flex-col overflow-hidden min-w-[400px]">
+            <div className={`scrollbar-none relative h-full overflow-y-scroll overscroll-y-none sm:max-h-none bg-next-midnight rounded-lg px-0 pb-4 swipe-dialog-scroll-descendant ${isActive? " sm:px-0":" sm:px-5"}`}>
+            <div className={`scrollbar-none mx-2 mt-1 flex h-auto flex-col overflow-hidden  ${isActive ? "w-full":"w-[400px]"} `}>
                         <div className="group relative flex w-full items-center">
-                            <div className="group relative w-full rounded-xl bg-next-d mt-2 mb-2 inline-flex flex-col justify-around overflow-visible">
-                                <div className="group rounded-xl m-[1px] px-[5.5px] pt-[7.5px] pb-[0.79rem] z-10 inline-flex flex-col justify-around gap-1 w-[calc(100%-2px)] transition-all" style={{
+                        <div className="group relative w-full rounded-xl bg-next-d mt-2 mb-2 inline-flex flex-col justify-around overflow-visible " style={{border:"1px solid gray"}}>
+                        <div className="group rounded-xl m-[1px] px-[5.5px] pt-[7.5px] pb-[0.79rem] z-10 inline-flex flex-col justify-around gap-1 w-[calc(100%-2px)] transition-all" style={{
                                     background:"rgb(13, 26, 37, 1)"
                                 }}>
                                     <div className="z-10 flex items-center rounded-xl  text-white py-2 pr-3 pl-5" style={{
@@ -55,14 +58,18 @@ export default function DentalAssistant({tasks = [], isLoading}) {
                                         {tasks.map((task,index) => (
                                             <div key={index} className="flex items-center justify-between group">
                                                 <div className="flex items-center gap-3">
-                                                    <Button
-                                                        size="icon"
-                                                        variant="outline"
-                                                        className="h-6 w-6 rounded border-gray-700 text-black"
-                                                        onClick={() => toggleCompletion(task)}
+                                                <button
+                                                    size="icon"
+                                                    className="h-6 w-6 rounded border bg-slate-900"
+                                                    style={{
+                                                        color: "white",        // Text color
+                                                        borderColor: "gold",   // Border color
+                                                        borderWidth: "2px",    // Ensures border is thick enough to be visible
+                                                    }}
+                                                    onClick={() => toggleCompletion(task)}
                                                     >
-                                                        {task.completed && <Check className="w-4 h-4 text-black " />}
-                                                    </Button>
+                                                    {task.completed && <Check className="w-5 h-6 text-center text-white" />}
+                                                    </button>
                                                     <div>
                                                         <div className="flex items-center gap-2">
                                                             <span className={task.completed ? "line-through text-gray-500" : ""}>

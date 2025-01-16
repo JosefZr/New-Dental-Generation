@@ -26,7 +26,7 @@ export default function Chat() {
     <div className="flex h-screen">
       {/* Navigation Sidebar */}
       <div
-        className={`md:flex w-[72px] bg-gray-900 h-full ${
+        className={`md:flex w-[72px]  bg-[ #0A1720] h-full ${
           isSidebarOpen ? "hidden" : ""
         }`}
       >
@@ -36,7 +36,7 @@ export default function Chat() {
       {/* Server Sidebar - Only show if not on specific routes */}
       {!isPlanLikeProRoute && !isPaymentReminder && (
         <div
-          className={`md:flex w-52 bg-gray-800 h-full ${
+          className={`md:flex w-72 bg-[#0E1C26] h-full ${
             isSidebarOpen ? "hidden" : ""
           }`}
         >

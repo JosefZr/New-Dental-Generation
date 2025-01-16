@@ -28,7 +28,7 @@ export const getCardData = () => {
       monthButton: "",
       monthTitle: "A first step towards breaking free",
       month: transformDescriptionToTable(
-        "Access to all TRW Campuses. Daily live broadcasts. Daily course updates."
+        "Access to community discussions with dental professionals.Daily dental news updates. Checklist for managing appointments and tasks."
       ),
     },
     {
@@ -38,7 +38,7 @@ export const getCardData = () => {
       threeMonthsButton: "Most Popular",
       threeMonthsTitle: "Three months to harness your power.",
       threeMonths: transformDescriptionToTable(
-        "All of Cadet. Daily coin bonus. Power level boost"
+        "Advanced dental courses (eg, Implant Dentistry with French subtitles). Income and expense management tools. Access to a private dental store for materials."
       ),
     },
     {
@@ -48,7 +48,7 @@ export const getCardData = () => {
       yearButton: "save €24",
       yearTitle: "One year of complete commitment",
       year: transformDescriptionToTable(
-        "Maximum daily coin bonus. Big power level boost. Exclusive chats and lessons."
+        "All features from Professional. Exclusive webinars with top dentists. Personalized business growth support (marketing, website setup).Priority access to job opportunities and networking events."
       ),
     },
     {
@@ -173,44 +173,49 @@ export default function Signup() {
   };
 
   return (
-    <section className="lg:flex-row w-full font-sans flex flex-col h-[100vh] lg:overflow-y-scroll relative">
+    <section className="scrollbar-custom lg:flex-row w-full font-sans flex flex-col h-[100vh] lg:overflow-y-scroll relative">
       <LeftSignup />
-      <main className="lg:w-[50vw] w-full flex flex-col pr-[22px] pl-[23px] h-full overflow-y-scroll">
+      <main className="scrollbar-custom lg:w-[60vw] w-full flex flex-col pr-[22px] pl-[23px] h-full overflow-y-scroll">
         <div className="hidden lg:block ">
           <div className="lg:flex-row lg:h-[114px] lg:text-left flex flex-col mt-[25px] text-primary-content text-center lg:w-full">
+          <div className="relative lg:mr-3 mx-auto lg:mx-0 max-w-[114px] max-h-[114px] rounded-full overflow-hidden">
             <img
-              className="trw-logo mx-auto lg:mx-0 lg:mr-3 max-w-[114px] max-h-[114px]"
-              src="	https://www.jointherealworld.com/checkout/_next/static/media/trw-knight-globe.c69d0d31.svg"
+              className="trw-logo w-full h-full object-cover transform scale-[1.39]"
+              src="../../public/signLogo.jpg"
               alt="logo"
             />
+          </div>
             <div>
-              <p className=" lg:text-[27px] font-black text-[25px] mx-auto mt-[18px] undefined">
-                JOIN THE REAL WORLD
+              <p className=" lg:text-[27px] font-black text-[25px] mx-auto mt-[11px] undefined text-my-gold">
+                BUILD YOUR DENTAL NETWORK
               </p>
-              <p className=" lg:text-[24px] text-[21px] mx-auto mt-[11px]">
-                ESCAPE THE MATRIX
+              <p className=" lg:text-[24px] text-[21px] mx-auto mt-[5px]">
+                Be One Of The Best
               </p>
             </div>
           </div>
         </div>
 
-        <div className="lg:hidden flex flex-col items-center gap-4 ">
+        <div className="lg:hidden flex flex-col items-center gap-4">
           <div className="lg:flex-row lg:h-[114px] lg:text-left flex flex-col mt-[25px] text-primary-content text-center lg:w-full">
-            <img
-              className="trw-logo mx-auto lg:mx-0 lg:mr-3 max-w-[114px] max-h-[114px]"
-              src="	https://www.jointherealworld.com/checkout/_next/static/media/trw-knight-globe.c69d0d31.svg"
-              alt="logo"
-            />
+            <div className="relative lg:mr-3 mx-auto lg:mx-0 max-w-[114px] max-h-[114px] rounded-full overflow-hidden">
+              <img
+                className="trw-logo w-full h-full object-cover transform scale-[1.39]"
+                src="../../public/signLogo.jpg"
+                alt="logo"
+              />
+            </div>
             <div>
-              <p className=" lg:text-[27px] font-black text-[25px] mx-auto mt-[18px] undefined">
-                JOIN THE REAL WORLD
+            <p className=" lg:text-[27px] font-black text-[25px] mx-auto mt-[18px] undefined text-my-gold leading-relaxed">
+                BUILD YOUR DENTAL NETWORK
               </p>
               <p className=" lg:text-[24px] text-[21px] mx-auto mt-[11px]">
-                ESCAPE THE MATRIX
+                Be One Of The Best
               </p>
             </div>
           </div>
         </div>
+
 
         <form
           onSubmit={handleSubmit}
@@ -228,7 +233,7 @@ export default function Signup() {
           <div>
             <div className="section-title lg:mx-0 lg:text-lg flex mx-auto text-[#B7B7B7] justify-center lg:justify-start">
               <FaCheckCircle />
-              <p className="ml-[9px] font-black">SELECT PLAN</p>
+              <p className="ml-[9px] font-black">Membership Tiers</p>
             </div>
             <PaymentCardV1
               isModal={false}

@@ -24,6 +24,7 @@ export const useSetTaskToComplete=()=>{
             console.log('Task checked successfully:', data);
             // Invalidate queries related to user tasks to refresh the data
             queryClient.invalidateQueries(["userTasks"]);
+            queryClient.invalidateQueries(["userSimpleTasks"]);
             queryClient.invalidateQueries(["userInventroyTasks"])
 
             toast.success('Task checked successfully!'); // Optional success notification

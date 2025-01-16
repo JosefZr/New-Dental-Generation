@@ -120,17 +120,55 @@ const progress=[
 ]
 // eslint-disable-next-line react/prop-types
 export default function Preview({user}) {
-    const diffrenseDate = new Date().getDate() - new Date(user.createdAt).getDate();
-
-    const currentProgress = progress.find(stage => 
-        diffrenseDate <= stage.maxDays
-    ) || progress[16];
-    const persentage =100- ((currentProgress.maxDays-diffrenseDate)/30)*100
+   // Fix date difference calculation
+    const getDaysDifference = (createdAt) => {
+    const created = new Date(createdAt);
+    const now = new Date();
     
-    const NextProgress = progress.find(stage => 
-        diffrenseDate <=( stage.maxDays-30)
-    ) || progress[16];
+    // Reset time portion to ensure accurate day calculation
+    created.setHours(0, 0, 0, 0);
+    now.setHours(0, 0, 0, 0);
+    
+    const diffTime = Math.abs(now - created);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+};
 
+const diffDays = getDaysDifference(user.createdAt);
+
+// Find current progress stage
+const currentProgress = progress.find(stage => 
+    diffDays <= stage.maxDays
+) || progress[progress.length - 1];
+
+// Calculate percentage within current stage
+const calculatePercentage = () => {
+    const stageStartDays = currentProgress.progress;
+    const stageDuration = 30; // Each stage is 30 days
+    const daysInCurrentStage = diffDays - stageStartDays;
+    
+    const percentage = Math.min((daysInCurrentStage / stageDuration) * 100, 100);
+    return Math.max(0, percentage); // Ensure percentage is not negative
+};
+
+const percentage = calculatePercentage();
+
+// Find next progress stage
+const nextProgress = progress.find(stage => 
+    stage.progress > currentProgress.progress
+) || currentProgress;
+
+// Calculate days remaining until next stage
+const daysRemaining = Math.max(0, currentProgress.maxDays - diffDays);
+
+// Helper function to determine rank based on days
+const getRank = (days) => {
+    if (days <= 180) return "Silver";
+    if (days <= 330) return "Gold";
+    if (days <= 450) return "Platinum";
+    if (days <= 540) return "Diamond";
+    return "Diamond King";
+};
     return (
         <div className="preview-container relative w-full bg-base-100 text-white">
         {/* Background Image */}
@@ -241,23 +279,27 @@ export default function Preview({user}) {
         <div className="flex-1 ">
             <div className="flex w-full items-center justify-center text-center transition-opacity duration-500 ease-linear opacity-1">
             <div className=" text-my-gold  text-[30px] w-[30px] h-[30px] " >
-                {NextProgress.logo}
+                {nextProgress.logo}
             </div>
             <div>
                 <span className="hidden md:inline">
-                {
-                    diffrenseDate >=0 && diffrenseDate<= 180 ?"Silver ":
-                    diffrenseDate >=180 && diffrenseDate<= 330 ?"Gold ":
-                    diffrenseDate >=330 && diffrenseDate<= 450 ?"Platinum ":
-                    diffrenseDate >=450 && diffrenseDate<= 540 ?"Diamond ":"Diamond King "
-                } 
-                {diffrenseDate <=540 ? `${NextProgress.name} in ${currentProgress.maxDays-diffrenseDate} days`:''}
+                {getRank(diffDays)}{' '}
+                    {diffDays <= 540 ? 
+                        `${nextProgress.name} in ${daysRemaining} days` : 
+                        'Diamond King'}
                 </span>
             </div>
             </div>
             <div className="relative flex-shrink-0 rounded-md bg-gray-600 w-full" style={{height:"5px"}}>
-            <div className="absolute top-0 left-0 h-full origin-left rounded-md bg-my-gold transition-transform duration-500 ease-linear" style={{width:`${persentage}%`}}></div>
-            <div className="absolute top-0 left-0 rounded-full bg-my-gold transition-transform duration-500 ease-linear will-change-transform" style={{width: "8px",height: "8px" ,top: "-1.5px", left:`${persentage}%`}}></div>
+            <div className="absolute top-0 left-0 h-full origin-left rounded-md bg-my-gold transition-transform duration-500 ease-linear" 
+                style={{width:`${percentage}%`}}
+            ></div>
+            <div className="absolute top-0 left-0 rounded-full bg-my-gold transition-transform duration-500 ease-linear will-change-transform" 
+                style={{
+                    width: "8px",
+                    height: "8px" ,
+                    top: "-1.5px", 
+                    left:`${percentage}%`}}></div>
             </div>
         </div>
         <div className="flex items-center gap-1 rounded-md bg-top px-[6px] py-1 font-bold text-primary text-sm cursor-pointer mt-[15px] bg-my-dark-blue">
@@ -300,16 +342,12 @@ export default function Preview({user}) {
                             <span >{user.role ==="admin" && user.role==="moderator"? <FaRegChessKnight className="h-8 w-auto "/>: user.subscriptionPlan==="freeTrial" ?<GiLaurelCrown className=" h-8 w-auto text-my-gray"/> : <GiLaurelCrown className=" h-8 w-auto text-my-gold"/>}</span>
                             <span className="text-yellow-500 text-[22px] self-center">⚡</span>
                         </div>
-                        
-
                     </div>
                 </div> 
             </div>
-
             <section>
                 <div className="flex items-center justify-between">
                     <div className="font-semibold text-sm">Roles</div>
-                    
                 </div>
                 <div className="mt-[14px] flex flex-wrap gap-1">
                         <div className="flex items-center rounded-md bg-neutral-900 px-2 py-1 font-semibold text-sm">

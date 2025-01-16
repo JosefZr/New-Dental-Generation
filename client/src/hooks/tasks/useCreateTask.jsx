@@ -24,6 +24,8 @@ export const useCreateTask = () => {
         console.log('Task created successfully:', data);
         // Invalidate queries related to user tasks to refresh the data
         queryClient.invalidateQueries(["userTasks"]);
+        queryClient.invalidateQueries(["userSimpleTasks"]);
+
         queryClient.invalidateQueries(["userInventroyTasks"])
         toast.success('Task created successfully!'); // Optional success notification
         },

@@ -1,5 +1,5 @@
 import express from "express";
-import { createUserTask, getAllTasks,getAllInventoryTasks } from "../controllers/task.js";
+import { createUserTask, getAllTasks,getAllInventoryTasks ,getAllSimpleTasks} from "../controllers/task.js";
 import Task from "../models/Task.js";
 
 const router = express.Router();
@@ -7,6 +7,7 @@ const router = express.Router();
 // Your other routes here
 router.post("/create", createUserTask);
 router.post("/get", getAllTasks);
+router.post("/getAllSimple",getAllSimpleTasks)
 router.post("/getInventory",getAllInventoryTasks)
 // PATCH route to mark task as complete
 router.patch("/check", async (req, res) => {

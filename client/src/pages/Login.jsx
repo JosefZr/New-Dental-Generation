@@ -71,14 +71,16 @@ export default function Login() {
             className="pointer-events-none absolute inset-0 opacity-40 grayscale"
           ></Back>
           <div className="absolute inset-0 max-h-[100vh] overflow-y-auto pt-inset-top pb-inset-bottom flex flex-col items-center justify-between">
-            <div className="flex flex-col items-center">
-              <img
-                src="https://app.jointherealworld.com/icons/logo-512.png"
-                alt="logo"
-                className="mx-auto mt-[30%] h-[256px] max-h-[35vh] w-auto"
-              />
+            <div className=" flex flex-col items-center">
+            <div className="relative lg:mr-3 mx-auto lg:mx-0 max-w-[35vh] max-h-[35vh] rounded-full overflow-hidden mt-[20%]">
+                <img
+                  className="trw-logo w-full h-full object-cover transform scale-[1.39]   max-h-[35vh]"
+                  src="../../public/signLogo.jpg"
+                  alt="logo"
+                />
+              </div>
               <h2 className="mt-[10%] text-center font-bold text-[30px] text-white uppercase">
-                The Real World
+                YOUR DENTAL NETWORK
               </h2>
             </div>
             <div className="w-full max-w-[500px] p-8">
@@ -91,7 +93,7 @@ export default function Login() {
               {/* <Link to={"/login"}>
             <button className='btn mt-3 btn-lg btn-primary btn-block'></button>
           </Link> */}
-              <div className="relative z-10 mx-auto mt-2 flex max-w-[500px] flex-col overflow-auto rounded-xl bg-base-100 p-6 shadow-lg ">
+              <div className="relative z-10 mx-auto mt-2 flex max-w-[500px] flex-col overflow-auto rounded-xl bg-my-dark-blue p-6 shadow-lg ">
                 <div className="w-full max-w-[95vw] text-center md:max-w-md">
                   <div className=" text-center font-bold text-xl">
                     Sign in to your account
@@ -130,7 +132,7 @@ export default function Login() {
                     <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
                       <button
                         type="submit"
-                        className="btn btn-no-effects hover:bg-my-gold hover:opacity-80 relative mt-6 btn-primary w-full"
+                        className="btn btn-no-effects hover:bg-my-gold bg-my-gold hover:opacity-80 relative mt-6 text-black w-full"
                       >
                         LOG IN
                       </button>

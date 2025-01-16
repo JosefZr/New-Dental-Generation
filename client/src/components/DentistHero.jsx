@@ -5,25 +5,25 @@ import styled, { keyframes } from "styled-components";
 
 const dropUp = keyframes`
   0% {
-    transform: translateY(100%); // Start off-screen above
+    transform: translateY(100%);
     opacity: 0;
   }
   100% {
-    transform: translateY(0); // Move into place
+    transform: translateY(0);
     opacity: 1;
   }
 `;
-const HeroSection = styled.section`
-    background-image: url("/backs/dentist-landing-1.svg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
 
-    /* background-attachment: fixed; */
-    position: relative;
-    display: flex;
-    justify-content: center;
-`
+const HeroSection = styled.section`
+  background-image: url("/backs/dentist-landing-1.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+`;
+
 const HeroHeading = styled.h1`
   background-color: white;
   text-transform: uppercase;
@@ -33,16 +33,16 @@ const HeroHeading = styled.h1`
   -webkit-text-fill-color: transparent;
   background-image: url("/backs/heading-texture_1heading-texture.webp");
   background-clip: text;
-  /* margin-top: 7rem; */
   font-size: 3.88rem;
   font-weight: 600;
   line-height: 1;
-@media screen and (max-width: 991px) {
+
+  @media screen and (max-width: 991px) {
     font-size: 2.8rem;
     margin-top: 1rem;
-
   }
-`
+`;
+
 const Content = styled.div`
   text-align: center;
   flex-direction: column;
@@ -54,8 +54,6 @@ const Content = styled.div`
   display: flex;
   gap: 10px;
   animation: ${dropUp} 0.5s ease-out forwards;
-  opacity: 1;
-  transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1);
 
   @media screen and (max-width: ${size.laptop}) {
     margin-left: 40px;
@@ -67,62 +65,96 @@ const Content = styled.div`
     margin-right: 0;
   }
 `;
+
 const VideoWrapper = styled.div`
   aspect-ratio: 600 / 338;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 95%;
-    max-width: 67rem;
-    margin-top: 2rem;
-    margin-bottom: 2.3rem;
-    position: relative;
-    box-shadow: 0 0 0 3px var(--gold), 0 0 0 8px #ffffff3d;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  max-width: 67rem;
+  margin-top: 2rem;
+  margin-bottom: 2.3rem;
+  position: relative;
+  box-shadow: 0 0 0 3px var(--gold), 0 0 0 8px #ffffff3d;
 
-    @media screen and (max-width: ${size.laptop}) {
-      width: 100%;
-    }
-    @media screen and (max-width: ${size.tablet}) {
-      box-shadow: none;
-        margin-top: .5rem;
-        margin-bottom: .5rem;
-    }
-`
-const SubParagraph = styled.h2` // Use Link instead of button
-    color: var(--whiteGray);
-    text-align: center;
-    text-transform: none;
-    -webkit-text-fill-color: inherit;
-    font-family: Inter Variablefont Slnt Wght, sans-serif;
-    background-image: none;
-    background-clip: border-box;
-    margin-bottom: 0;
-    font-size: 1.5rem;
-    font-weight: 300;
-    line-height: 1;
-    
-    @media screen and(max-width: ${size.laptopL}) {
-      font-size: 1.6rem;
-    }
-    @media screen and(max-width: ${size.laptop}) {
-      font-size: 1.2rem;
-    }
+  @media screen and (max-width: ${size.laptop}) {
+    width: 100%;
+  }
+  @media screen and (max-width: ${size.tablet}) {
+    box-shadow: none;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
 `;
 
+const SubParagraph = styled.h2`
+  color: var(--whiteGray);
+  text-align: center;
+  text-transform: none;
+  font-family: Inter Variablefont Slnt Wght, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1;
+
+  @media screen and (max-width: ${size.laptopL}) {
+    font-size: 1.6rem;
+  }
+  @media screen and (max-width: ${size.laptop}) {
+    font-size: 1.2rem;
+  }
+`;
+
+export const GetHeroData = (actor) => {
+  const { t } = useTranslation();
+
+  const transformTextToLines = (text) => {
+    return text
+      .split('.')
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0);
+  };
+
+  return [
+    {
+      title: transformTextToLines(t(`${actor}.hero.title`)),
+      description: transformTextToLines(t(`${actor}.hero.description`)), // Paragraph split
+    },
+  ];
+};
+
 // eslint-disable-next-line react/prop-types
-export default function DentistHero({actor}) {
-  const {t} = useTranslation();
+export default function DentistHero({ actor }) {
+  const heroData = GetHeroData(actor);
+
   return (
     <HeroSection>
-      <div className="relative container-large  w-full max-w-7xl">
+      <div className="relative container-large w-full max-w-7xl">
         <div className="padding-section-medium w-full">
           <Content>
-            <Logo/>
-            <HeroHeading>{t(`${actor}.hero.title`)}</HeroHeading>
-            <SubParagraph>{t(`${actor}.hero.description`)}</SubParagraph>
-
+            <Logo />
+            <HeroHeading>
+              {heroData.map((data, index) => (
+                <div key={index}>
+                  <h1>
+                    {data.title.map((line, idx) => (
+                      <div key={idx}>{line}</div>
+                    ))}
+                  </h1>
+                </div>
+              ))}
+            </HeroHeading>
+            <SubParagraph>
+              {heroData.map((data, index) => (
+                <div key={index}>
+                  {data.description.map((line, idx) => (
+                    <div key={idx}>{line}</div>
+                  ))}
+                </div>
+              ))}
+            </SubParagraph>
             <VideoWrapper>
-                <div className=" aspect-video relative">
+              <div className="aspect-video relative">
                 <iframe
                   className="border-none absolute top-0 left-0 w-full h-full"
                   src="https://player.vimeo.com/video/1017741123?h=dc0d9f5e14&autoplay=1&muted=1&loop=1"
@@ -132,13 +164,12 @@ export default function DentistHero({actor}) {
                   allow="autoplay; fullscreen"
                   allowFullScreen
                 ></iframe>
-
-                </div>
+              </div>
             </VideoWrapper>
-            <CtaButton withSubscribers='true'/>
+            <CtaButton withSubscribers="true" />
           </Content>
         </div>
       </div>
     </HeroSection>
-  )
+  );
 }

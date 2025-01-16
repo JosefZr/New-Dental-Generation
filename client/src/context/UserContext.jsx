@@ -18,6 +18,7 @@ const UserProvider = ({ children }) => {
       const [updateChannel, setUpdateChannel] = useState({})
   const [channels, setChannels] = useState([]);
   const [onSettingsToggle, setOnSettingsToggle] = useState(false)
+  const[clickedChannel, setClickedChannel] = useState("")
 
   const fetchMessages = async (recipientId) => {
     try {
@@ -41,7 +42,7 @@ const UserProvider = ({ children }) => {
       console.error(error);
     }
   };
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     return (
     <UserContext.Provider value={{
         user, setUser,
@@ -60,7 +61,8 @@ const UserProvider = ({ children }) => {
         channelAllowedUsers, setChannelAllowedUsers,
         updateChannel, setUpdateChannel,
         channels, setChannels,
-        onSettingsToggle, setOnSettingsToggle
+        onSettingsToggle, setOnSettingsToggle,
+        clickedChannel, setClickedChannel
     }}>
       {children}
     </UserContext.Provider>

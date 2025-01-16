@@ -104,13 +104,22 @@ export default function DashboardSidebar() {
             <div className="flex-1">Friends</div>
           </button>
           <button
-                className="relative flex items-center gap-3 border-base-300 border-b p-3 text-left text-sm last:border-0 active:bg-info hover:bg-info tracking-[0.015em] w-full border-none bg-transparent"
-                style={{ flexDirection: "row" }}
-                onClick={()=>navigate(`/dashboard/dental-stuff`)}
-              >
-                <FaTools />
-                <div className="flex-1">Dental Stuff</div>
-              </button>
+            className="relative flex items-center gap-3 border-base-300 border-b p-3 text-left text-sm last:border-0 active:bg-info hover:bg-info tracking-[0.015em] w-full border-none bg-transparent"
+            style={{ flexDirection: "row" }}
+            onClick={()=>navigate(`/dashboard/dental-stuff`)}
+          >
+            <FaTools />
+            <div className="flex-1">Dental Stuff</div>
+          </button>
+
+          <button
+            className="relative flex items-center gap-3 border-base-300 border-b p-3 text-left text-sm last:border-0 active:bg-info hover:bg-info tracking-[0.015em] w-full border-none bg-transparent"
+            style={{ flexDirection: "row" }}
+            onClick={()=>navigate(`/dashboard/quotes`)}
+          >
+            <FaTools />
+            <div className="flex-1">Quoates</div>
+          </button>
           {
             userInfo.role==="admin"? (
               <button

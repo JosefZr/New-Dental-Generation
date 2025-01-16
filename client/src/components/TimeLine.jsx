@@ -138,8 +138,9 @@ const TimelineLeftWrap = styled.div`
   background-position: center;
   background-image: ${({ bg }) => `url(${bg})`};
   background-size: contain; 
-  color:var(--white);
   background-repeat: no-repeat;
+  background-color:transparent;
+  color:var(--white);
   background-attachment: local;
   flex-direction: row;
   grid-template-rows: auto auto;

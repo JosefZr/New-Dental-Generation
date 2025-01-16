@@ -12,6 +12,7 @@ import ProffessionModal from "../modals/proffession-modal";
 import DeleteUserModal from "../modals/deleteUser-modal";
 import CreateChannelStoreModal from "../modals/create-channel-store-lab";
 import UpdateChannelModal from "../modals/update-channel-modal";
+import BireModal from "../modals/bire-modal";
 // import PreviewModal from "../modals/preview-modal";
 
 export const ModalProvider = ({ children })=>{
@@ -40,6 +41,7 @@ export const ModalProvider = ({ children })=>{
             <DeleteUserModal/>
             <CreateChannelStoreModal/>
             <UpdateChannelModal/>
+            <BireModal/>
             {/* <PreviewModal/> */}
         </div>
     )
