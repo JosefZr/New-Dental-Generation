@@ -1,9 +1,9 @@
 
 const peopleImages = [
-    "../../public/staff/photo_2025-01-16_02-19-20.jpg",
-    "../../public/staff/photo_2025-01-16_02-19-48.jpg",
-    "../../public/staff/photo_2025-01-16_02-19-52.jpg",
-    "../../public/staff/photo_2025-01-16_02-19-56.jpg",
+    "/photo_2025-01-16_02-19-20.jpg",
+    "/photo_2025-01-16_02-19-48.jpg",
+    "/photo_2025-01-16_02-19-52.jpg",
+    "/photo_2025-01-16_02-19-56.jpg",
 ]
 
 function getRandomPeople(count) {
