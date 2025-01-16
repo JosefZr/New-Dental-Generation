@@ -8,12 +8,17 @@ import {
   // SelectPaymentMethod,
 } from "@/components/signup";
 import PaymentCardV1 from "@/components/signup/paymentCard-v1";
+import { useTranslation } from "react-i18next";
 // import { loadStripe } from "@stripe/stripe-js";
 // import axios from "axios";
 
-export const getCardData = () => {
-  
-  const transformDescriptionToTable = (description) => {
+export const GetCardData = () => {
+  const { t } = useTranslation();
+  const plans = t("plans", { returnObjects: true });
+
+  const transformDescriptionToTable = (description) => {  // Ensure description is a valid string before splitting
+    if (typeof description !== "string") return [];
+
     // Split the description by '.' and filter out any empty strings
     return description
       .split(".")
@@ -26,9 +31,9 @@ export const getCardData = () => {
       amount: 14.5,
       monthType: "cadet",
       monthButton: "",
-      monthTitle: "A first step towards breaking free",
+      monthTitle:"",
       month: transformDescriptionToTable(
-        "Access to community discussions with dental professionals.Daily dental news updates. Checklist for managing appointments and tasks."
+        plans.starter.desc
       ),
     },
     {
@@ -36,9 +41,9 @@ export const getCardData = () => {
       amount: 55,
       threeMonthsType: "challenger",
       threeMonthsButton: "Most Popular",
-      threeMonthsTitle: "Three months to harness your power.",
+      threeMonthsTitle: "",
       threeMonths: transformDescriptionToTable(
-        "Advanced dental courses (eg, Implant Dentistry with French subtitles). Income and expense management tools. Access to a private dental store for materials."
+        plans.pro.desc
       ),
     },
     {
@@ -46,9 +51,9 @@ export const getCardData = () => {
       amount: 150,
       yearType: "hero",
       yearButton: "save €24",
-      yearTitle: "One year of complete commitment",
+      yearTitle: "",
       year: transformDescriptionToTable(
-        "All features from Professional. Exclusive webinars with top dentists. Personalized business growth support (marketing, website setup).Priority access to job opportunities and networking events."
+        plans.elite.desc
       ),
     },
     {
@@ -62,7 +67,7 @@ export const getCardData = () => {
   ];
 };
 export default function Signup() {
-  const data = getCardData();
+  const data = GetCardData();
   const [preview, setPreview] = useState("");
   const [formData, setFormData] = useState({
     firstName: "",

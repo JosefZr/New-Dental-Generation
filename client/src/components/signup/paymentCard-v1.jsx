@@ -5,6 +5,7 @@ import { FaCheck } from "react-icons/fa";
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const stripePromise = loadStripe(
     "pk_test_51Q6FSwRsgnrIRIXHVv98PFAvJYYVK9gElLXl8fV16Xquu3PHduekcmJ182SsDLAcgNRjOSKzxAJmTZQO8nUpo720001usG5YNY"
@@ -13,6 +14,9 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
    // Skip showing plans for admin/moderator
    const navigate = useNavigate();
    const [name, setName] = useState("");
+     const { t } = useTranslation();
+   
+   const plans = t("plans", { returnObjects: true });
 
    const [selectedCardIndex, setSelectedCardIndex] = useState(null);
    const handleCardSelect = (index, amount, name) => {
@@ -100,7 +104,7 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
                     : { position: "relative" }
                 }
                 onClick={() => handleCardSelect(index, card.amount, card.name)}
-                className={` rounded-lg py-4 px-5 text-white transition-all flex flex-col justify-between items-start  cursor-pointer border-2 border-transparent hover:border-my-gold hover:border-opacity-30 mb-[14px] 2xl:h-[393.5px]  bg-[#1B1E26] ${
+                className={` rounded-lg py-4 px-5 text-white transition-all flex flex-col justify-between items-start  cursor-pointer border-2 border-transparent hover:border-my-gold hover:border-opacity-30 mb-[14px]   bg-[#1B1E26] ${
                     selectedCardIndex === index ? "border border-my-gold  " : ""
                 }`}
                 >
@@ -176,12 +180,12 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
                         </div>
                         </div>
                     </div>
-                    <div className="text-[24px] mt-0">Starter Plan</div>
+                    <div className="text-[24px] mt-0">{plans.starter.title}</div>
                     <div className="pt-[9px] 2xl:pb-[22px] font-medium text-sm text-[#FFFFFFB2]">
                         <div className="h-8 flex items-center">
                         {card.monthTitle}
                         </div>
-                        <div className="flex flex-col gap-[6px]">
+                        <div className="flex flex-col h-fit gap-[6px]">
                         {card.month?.map((item, idx) => (
                             <div key={idx} className="flex items-center gap-2">
                             <FaCheck className=" text-my-gold" />
@@ -283,7 +287,7 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
                         </span>
                         )}
                     </div>
-                    <div className="text-[24px] mt-0">Professional Plan</div>
+                    <div className="text-[24px] mt-0">{plans.pro.title}</div>
                     <div className="pt-[9px] 2xl:pb-[22px] font-medium text-sm text-[#FFFFFFB2]">
                         <div className="h-8 flex items-center">
                         {card.threeMonthsTitle}
@@ -370,7 +374,7 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
                         </span>
                         )}
                     </div>
-                    <div className="text-[24px] mt-0">Elite Plan</div>
+                    <div className="text-[24px] mt-0">{plans.elite.title}</div>
                     <div className="pt-[9px] 2xl:pb-[22px] font-medium text-sm text-[#FFFFFFB2]">
                         <div className="h-8 flex items-center">
                         {card.yearTitle}

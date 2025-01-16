@@ -60,6 +60,24 @@
         "responde":"Oui ! YDN est conçu pour vous faire gagner du temps en simplifiant les tâches, en vous connectant avec d'autres et en proposant des outils efficaces pour gérer votre pratique."    
       }
     },
+    "plans":{
+      "starter":{
+        "title":"Plan Starter",
+        "desc":"Accès aux discussions communautaires avec des professionnels dentaires. Mises à jour quotidiennes sur les actualités dentaires.Liste de contrôle pour gérer les rendez-vous et les tâches."
+      },
+      "pro":{
+        "title":"Plan Professionnel.",
+        "desc":"Toutes les fonctionnalités du Plan Starter. Cours dentaires avancés (ex. : Implantologie avec sous-titres en français). Outils de gestion des revenus et dépenses. Accès à une boutique privée de matériel dentaire."
+      },
+      "elite":{
+        "title":"Plan Élite",
+        "desc":"Toutes les fonctionnalités du Plan Professionnel.Webinaires exclusifs avec des dentistes de renom.Soutien personnalisé pour la croissance d'entreprise (marketing, création de site web).Accès prioritaire aux offres d'emploi et événements de réseautage."
+      }
+    },
+  "unlock":{
+      "titles":"Assistance 24/7 et conseils d'experts. Outils spécialisés pour optimiser votre activité dentaire.Cours sur les techniques avancées, la communication avec les patients et la gestion financière.Une communauté privée pour des connexions dentaires mondiales.Accès à des webinaires, ateliers et opportunités de carrière dentaires.Sessions en direct avec des experts dentaires de renom (Bientôt disponible).",
+      "desc":"YDN est votre plateforme tout-en-un pour gérer, développer et maîtriser votre carrière dentaire. Prenez le contrôle de votre temps, réduisez le stress et augmentez votre succès professionnel."
+    },
     "dentist":{
   "hero":{
       "title":"FOCUS MORE. STRESS LESS.",

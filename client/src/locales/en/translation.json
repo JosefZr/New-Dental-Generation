@@ -60,6 +60,24 @@
       "responde":"Yes! YDN is designed to save you time by streamlining tasks, connecting you with others, and offering efficient tools for managing your practice."    
     }
   },
+  "plans":{
+    "starter":{
+      "title":"Starter Plan ",
+      "desc":"Access to community discussions with dental professionals.Daily dental news updates. Checklist for managing appointments and tasks."
+    },
+    "pro":{
+      "title":"Professional Plan",
+      "desc":"Advanced dental courses (eg, Implant Dentistry with French subtitles). Income and expense management tools. Access to a private dental store for materials."
+    },
+    "elite":{
+      "title":"Elite Plan",
+      "desc":"All features from Professional. Exclusive webinars with top dentists. Personalized business growth support (marketing, website setup).Priority access to job opportunities and networking events."
+    }
+  },
+  "unlock":{
+    "titles":"24/7 support and expert guidance. Specialized tools to streamline your dental business. Courses on advanced techniques, patient. communication, and financial management. A private dental community for global connections. Access to dental webinars, workshops, and career opportunities. Live sessions with top dental experts ( Coming Soon ).",
+    "desc":"YDN is your all-in-one platform to manage, grow, and master your dental career. Take control of your time, reduce stress, and elevate your professional success."
+  },
   "dentist":{
     "hero":{
       "title":"FOCUS MORE. STRESS LESS.",

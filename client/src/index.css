@@ -371,7 +371,7 @@ body {
 }
 
 .button .bloom-container .button-container-main .button-inner {
-  height: 95px;
+  height: 110px;
   aspect-ratio: 1;
   border-radius: 50%;
   background-image: url("/signLogo.jpg");
