@@ -51,7 +51,6 @@ const HeaderSection = styled.section`
 const Content = styled.div`
     grid-column-gap: 1.75rem;
     grid-row-gap: 1.75rem;
-    color: var(--whiteGray);
     text-align: center;
     flex-direction: column;
     align-items: center;
@@ -69,7 +68,8 @@ const H2 = styled.h2`
     /* background-image: url(../images/heading-texture_1heading-texture.webp), linear-gradient(125deg, #fff 85%, #fff0); */
     background-position: 0 0, 0 0;
     background-size: auto, auto;
-    color: var(--gold);
+    color: var(--whiteGray);
+    /* -webkit-background-clip: text; */
     -webkit-background-clip: text;
     background-clip: text;
     margin-top: 0;
@@ -120,7 +120,7 @@ export default function Headers() {
                                                     {service.logo}
                                                     <H2 className=" ">{service.title}</H2>
                                                 </div>
-                                                <p className="text-my-white-gray mb-0 leading-7 max-[520px]:leading-4 max-[400px]:text-sm  text-wrap">{service.description}</p>
+                                                <p className=" mb-0 leading-7 max-[520px]:leading-4 max-[400px]:text-sm  text-wrap text-my-gold">{service.description}</p>
                                             </div>
                                             )
                                         })}
