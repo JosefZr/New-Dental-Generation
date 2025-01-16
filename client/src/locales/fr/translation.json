@@ -2,6 +2,64 @@
     "identifing": "Identifiez qui vous étes ",
     "login": "se connecter",
     "cta":"Construisez_Votre_Réseau_Dentaire",  
+    "faq":{
+      "one":{
+        "question":"Qu'est-ce que Your Dental Network (YDN) ?",
+        "responde":"YDN est une plateforme tout-en-un conçue pour les professionnels dentaires, reliant dentistes, laboratoires dentaires et fournisseurs. Elle offre des outils pour gérer votre pratique, accéder aux actualités dentaires, vendre des cours en ligne et développer votre activité grâce au marketing et au réseautage."
+      },
+      "two":{
+        "question":"Qui peut utiliser YDN ?",
+        "responde":"YDN est ouvert aux dentistes, techniciens de laboratoires dentaires, fournisseurs dentaires et étudiants en quête de formation avancée."
+      },
+      "three":{
+        "question":"Quelles fonctionnalités YDN offre-t-il aux dentistes ?",
+        "responde":"Gestion des rendez-vous et des tâches. Outils de suivi financier. Communauté en ligne pour le réseautage. Cours et webinaires dentaires avancés. Soutien pour la croissance d’entreprise (marketing, création de sites web). Comment les laboratoires dentaires et les fournisseurs"
+      },
+      "four":{
+        "question":"peuvent-ils bénéficier de YDN ?",
+        "responde":"Connexion avec des dentistes à la recherche de fournitures ou de prothèses. Mise en avant et promotion des produits sur la boutique en ligne. Réception directe des demandes des professionnels dentaires."    
+      },
+      "five":{
+        "question":"Qu'est-ce que la fonctionnalité “Top Dentist” ?",
+        "responde":"La fonctionnalité “Top Dentist” permet aux dentistes expérimentés de monétiser leurs connaissances en organisant des webinaires et cours en ligne, atteignant ainsi un public plus large."    
+      },
+      "six":{
+        "question":"Comment YDN aide-t-il à la croissance d’entreprise ?",
+        "responde":"YDN propose des outils et services spécialisés comme la création de sites web, la gestion des réseaux sociaux et la publicité numérique pour attirer plus de patients et augmenter vos revenus. VOUS APPRENDREZ AUSSI LES COMPÉTENCES COMMERCIALES ESSENTIELLES. "    
+      },
+      "seven":{
+        "question":"Y a-t-il des cours disponibles sur YDN ?",
+        "responde":"Oui, YDN propose des cours sur divers sujets dentaires, notamment l'implantologie, avec des sous-titres en français. La plateforme offre également des ASTUCES COMMERCIALES ULTIMES."    
+      },
+      "eight":{
+        "question":"Combien coûte l'inscription à YDN ?",
+        "responde":"YDN propose plusieurs plans d'adhésion. Le plan de base commence à 14,5 €/mois, avec des options plus avancées selon vos besoins."    
+      },
+      "nine":{
+        "question":"Mes données sont-elles sécurisées sur YDN ?",
+        "responde":"Oui, YDN garantit la confidentialité et la sécurité des utilisateurs. Vos informations personnelles et financières sont protégées, et les communications avec les patients sont cryptées."    
+      },
+      "ten":{
+        "question":"Comment puis-je m'inscrire à YDN ?",
+        "responde":"Visitez notre site web à [https://www.buildydn.com/#/sign-up] et choisissez le plan d'adhésion qui vous convient. L'inscription ne prend que quelques minutes. Vous pouvez aussi nous contacter directement via Telegram et payer en espèces ou par virement bancaire"    
+      },
+      "eleven":{
+        "question":"Comment puis-je m'inscrire à YDN ?",
+        "responde":"Oui, vous pouvez annuler votre adhésion à tout moment dans les paramètres de votre compte."    
+      },
+      "twelve":{
+        "question":"Comment YDN soutient-il les étudiants en dentaire ?",
+        "responde":"Les étudiants peuvent accéder à des cours exclusifs, à des formations pratiques et à des opportunités d’emploi pour se préparer à leur carrière."    
+      },
+      "thirtin":{
+        "question":"Je vis dans un autre pays. Est-ce un problème ?",
+        "responde":"Pas du tout. Chez YDN, nous vous aidons à établir des relations précieuses, à recevoir du soutien d'autres dentistes et à apprendre comment gagner de l'argent. Votre localisation n'affecte que la devise de vos revenus."    
+      },
+      "fourtin":{
+        "question":"Je manque de temps. Puis-je quand même m'inscrire ?",
+        "responde":"Oui ! YDN est conçu pour vous faire gagner du temps en simplifiant les tâches, en vous connectant avec d'autres et en proposant des outils efficaces pour gérer votre pratique."    
+      }
+    },
     "dentist":{
   "hero":{
       "title":"FOCUS MORE. STRESS LESS.",

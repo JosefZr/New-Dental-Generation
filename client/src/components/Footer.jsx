@@ -2,7 +2,9 @@ import { FaTelegramPlane } from "react-icons/fa"
 import styled from "styled-components"
 
 const FooterSection = styled.footer`
-  background-image: url("/backs/footer.svg");
+  background-image: url("/backs/footer.svg"); 
+  background: transparent;
+  background-color: var(--darkBlue);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -13,7 +15,7 @@ export default function Footer() {
   return (
 
 <FooterSection className="bg-gray-900">
-  <div className="mx-auto max-w-screen-xl px-4 pb-60 pt-16 sm:px-6 lg:px-8 ">
+  <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8 ">
     <div className="mx-auto max-w-xl text-center">
       <strong className="block text-center text-xl font-bold  sm:text-3xl text-white">
         Be The First To Know About Our Updates.      
@@ -76,8 +78,8 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 text-center lg:grid-cols-3 lg:text-left">
-        <div>
+      <div className="grid grid-cols-1 justify-center gap-8 text-center lg:grid-cols-1 lg:text-center">
+        {/* <div>
           <strong className="font-medium  text-white"> Services </strong>
 
           <ul className="mt-6 space-y-1">
@@ -159,7 +161,7 @@ export default function Footer() {
               </a>
             </li>
           </ul>
-        </div>
+        </div> */}
 
         <div>
           <strong className="font-medium  text-white"> Support </strong>
@@ -198,22 +200,8 @@ export default function Footer() {
 
     <div className="mt-16 border-t pt-8 border-gray-800">
       <p className="text-center text-xs/relaxed  text-gray-400">
-        © Company 2022. All rights reserved.
-
+        © Dr.Truth 2025. All rights reserved.
         <br />
-
-        Created with
-        <a
-          href="#"
-          className="underline transition  text-white hover:text-white/75"
-          >Laravel</a
-        >
-        and
-        <a
-          href="#"
-          className=" underline transition  text-white hover:text-white/75"
-          >Laravel Livewire</a
-        >.
       </p>
     </div>
   </div>

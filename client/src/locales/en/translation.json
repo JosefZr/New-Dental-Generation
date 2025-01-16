@@ -2,6 +2,64 @@
   "identifing": " Identify Who You Are ",
   "login": "log in",
   "cta":" Build_Your_Dentlal_Network",
+  "faq":{
+    "one":{
+      "question":"What is Your Dental Network (YDN) ?",
+      "responde":"YDN is an all-in-one platform designed for dental professionals, connecting dentists, dental labs, and dental stores. It offers tools to streamline practice management, access dental news, sell online courses, and grow your business through marketing and networking."
+    },
+    "two":{
+      "question":"Who can use YDN ?",
+      "responde":"YDN is open to dentists, dental lab technicians, dental suppliers, and students seeking advanced dental education."
+    },
+    "three":{
+      "question":"What is Your Dental Network (YDN) ?",
+      "responde":"Appointment and task management.Financial tracking tools.Online dental community for networking.Advanced dental courses and webinars.Business growth support (marketing, website creation)."
+    },
+    "four":{
+      "question":"How can dental labs and stores benefit from YDN ?",
+      "responde":"Connect with dentists looking for supplies or prosthetics.List and promote products on the online store.Receive direct inquiries from dental professionals."    
+    },
+    "five":{
+      "question":"What is the “Top Dentist” feature ?",
+      "responde":"The “Top Dentist” feature allows experienced dentists to monetize their knowledge by hosting webinars and online courses, reaching a wider audience."    
+    },
+    "six":{
+      "question":"How does YDN help with business growth ?",
+      "responde":"DN provides specialized tools and services like website creation, social media management, and digital ads to help dental practices attract more patients and grow their revenue. ALSO YOU'LL LEARN THE BUSINESS SKILLS.. "    
+    },
+    "seven":{
+      "question":" Are there any courses available on YDN ?",
+      "responde":"Yes, YDN offers courses on various dental topics, including Implant Dentistry, with subtitles in French.The platform also provides ULTIMATE BUSINESS TRICKS."    
+    },
+    "eight":{
+      "question":"How much does it cost to join YDN ?",
+      "responde":"YDN offers multiple membership plans. The Starter Plan begins at €14.5/month, with more advanced plans available depending on your needs."    
+    },
+    "nine":{
+      "question":"Is my data secure on YDN ?",
+      "responde":"Yes, YDN ensures full privacy and security for its users. Your personal and financial information is protected, and patient communications are encrypted."    
+    },
+    "ten":{
+      "question":"How can I sign up for YDN ?",
+      "responde":"Visit our website at [https://www.buildydn.com/#/sign-up] and select the membership plan that suits your needs. Registration takes only a few minutes.Or contact us directly through Telegram and pay cash or by bank transfer. "    
+    },
+    "eleven":{
+      "question":"Can I cancel my membership ?",
+      "responde":"Yes, you can cancel your membership anytime through your account settings."    
+    },
+    "twelve":{
+      "question":"How does YDN support dental students ?",
+      "responde":"Dental students can access exclusive courses, practical training, and job opportunities to prepare for their careers."    
+    },
+    "thirtin":{
+      "question":" I live in X country. Is it a problem ?",
+      "responde":"Not at all. At Your Dental Network, we help you build valuable relationship, get help from other dentists, also we  teach how to make money, so it doesn’t matter where you are. Your location will only change the currency of your earnings."    
+    },
+    "fourtin":{
+      "question":" I don’t have a lot of time available, can I still apply ?",
+      "responde":"Yes! YDN is designed to save you time by streamlining tasks, connecting you with others, and offering efficient tools for managing your practice."    
+    }
+  },
   "dentist":{
     "hero":{
       "title":"FOCUS MORE. STRESS LESS.",

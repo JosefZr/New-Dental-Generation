@@ -972,3 +972,10 @@ body {
 .scrollbar-custom::-webkit-scrollbar-track {
   background: transparent; /* Track background color */
 }
+
+
+.gradient-text {
+  background: -webkit-linear-gradient(0deg, #fff, hsla(0, 0%, 100%, .61) 70%, hsla(0, 0%, 61%, .6));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

@@ -46,7 +46,7 @@ const getExtraServices = (t)=>{
     ]
 }
 const HeaderSection = styled.section`
-    margin-top: 3rem;
+    margin-top: 2rem;
 `
 const Content = styled.div`
     grid-column-gap: 1.75rem;

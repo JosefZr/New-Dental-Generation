@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { Subscribers } from ".";
 import { useTranslation } from "react-i18next";
@@ -7,6 +6,7 @@ import { size } from "@/lib/mediaQuerys";
 
 const ButtonWrap = styled.div`
   z-index: 5;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,14 +83,14 @@ const StyledButton = styled.button`
     }
 `;
 
-export default function CtaButton({ withSubscribers = "false", cta = false }) {
+export default function CtaButton({ withSubscribers = "false" }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
     <ButtonWrap>
       <StyledButton onClick={() => navigate("/sign-up")}>
-        {cta ? t('cta') : "Build_Your_Dental_Network"}
+        { t('cta') }
       </StyledButton>
       {withSubscribers === "true" && <Subscribers />}
     </ButtonWrap>
