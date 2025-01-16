@@ -75,7 +75,7 @@ export default function Login() {
             <div className="relative lg:mr-3 mx-auto lg:mx-0 max-w-[35vh] max-h-[35vh] rounded-full overflow-hidden mt-[20%]">
                 <img
                   className="trw-logo w-full h-full object-cover transform scale-[1.39]   max-h-[35vh]"
-                  src="../../public/signLogo.jpg"
+                  src="/signLogo.jpg"
                   alt="logo"
                 />
               </div>

@@ -181,7 +181,7 @@ export default function Signup() {
           <div className="relative lg:mr-3 mx-auto lg:mx-0 max-w-[114px] max-h-[114px] rounded-full overflow-hidden">
             <img
               className="trw-logo w-full h-full object-cover transform scale-[1.39]"
-              src="../../public/signLogo.jpg"
+              src="/signLogo.jpg"
               alt="logo"
             />
           </div>
@@ -201,7 +201,7 @@ export default function Signup() {
             <div className="relative lg:mr-3 mx-auto lg:mx-0 max-w-[114px] max-h-[114px] rounded-full overflow-hidden">
               <img
                 className="trw-logo w-full h-full object-cover transform scale-[1.39]"
-                src="../../public/signLogo.jpg"
+                src="/signLogo.jpg"
                 alt="logo"
               />
             </div>

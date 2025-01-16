@@ -374,7 +374,7 @@ body {
   height: 95px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background-image: url("/public/signLogo.jpg");
+  background-image: url("/signLogo.jpg");
   background-size: cover;
   background-position: center;
   background-size: 200%;
