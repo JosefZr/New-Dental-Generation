@@ -1,13 +1,9 @@
 
 const peopleImages = [
-    "https://i.pravatar.cc/150?img=1",
-    "https://i.pravatar.cc/150?img=2",
-    "https://i.pravatar.cc/150?img=3",
-    "https://i.pravatar.cc/150?img=4",
-    "https://i.pravatar.cc/150?img=5",
-    "https://i.pravatar.cc/150?img=6",
-    "https://i.pravatar.cc/150?img=7",
-    "https://i.pravatar.cc/150?img=8",
+    "../../public/staff/photo_2025-01-16_02-19-20.jpg",
+    "../../public/staff/photo_2025-01-16_02-19-48.jpg",
+    "../../public/staff/photo_2025-01-16_02-19-52.jpg",
+    "../../public/staff/photo_2025-01-16_02-19-56.jpg",
 ]
 
 function getRandomPeople(count) {
