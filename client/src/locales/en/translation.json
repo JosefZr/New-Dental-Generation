@@ -96,12 +96,16 @@
       }
     },
     "plusServices":{
+      "top":{
+        "title": "Top Dentist Opportunity",
+        "description": "Monetize your knowledge with paid workshops and mentoring."
+      },
       "plan":{
         "title": "Plan Like a Pro",
         "description": "Track daily tasks and deliveries with reminders to stay organized."
       },
       "financial":{
-        "title": "Financial Management",
+        "title": "Manage Your Finances",
         "description": "Track expenses, manage income, and set payment reminders effortlessly."
       },
       "growth":{

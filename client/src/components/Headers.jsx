@@ -2,13 +2,12 @@ import styled from "styled-components"
 import {
     Dialog,
     DialogContent,
-    DialogHeader,
     DialogTrigger,
   } from "@/components/ui/dialog"
   
 import { GiTakeMyMoney } from "react-icons/gi";
 import { useTranslation } from "react-i18next";
-import { FaMoneyBillTrendUp, FaRegChessKnight } from "react-icons/fa6";
+import { FaMoneyBillTrendUp, FaRegChessKnight, FaRegChessQueen } from "react-icons/fa6";
 import { MdOutlinePhonelinkSetup } from "react-icons/md";
 import { MdOutlineNotificationsActive } from "react-icons/md";
 import CtaButton from "./CtaButton";
@@ -16,14 +15,9 @@ import { Plus } from "@/components";
 const getExtraServices = (t)=>{
     return[
         {
-            logo:<MdOutlineNotificationsActive className=" h-10 w-12 max-[400px]:h-5 max-[400px]:w-6"/>,
-            title:t("store.plusServices.notifications.title"),
-            description:t("store.plusServices.notifications.description"),
-        },
-        {
-            logo:<GiTakeMyMoney className=" h-10 w-12  max-[400px]:h-5 max-[400px]:w-6"/>,
-            title:t("store.plusServices.financial.title"),
-            description:t("store.plusServices.financial.description"),
+            logo:<FaRegChessQueen className=" h-10 w-12  max-[400px]:h-5 max-[400px]:w-6"/>,
+            title:t("store.plusServices.top.title"),
+            description:t("store.plusServices.top.description"),
         },
         {
             logo:<FaMoneyBillTrendUp className=" h-10 w-12  max-[400px]:h-5 max-[400px]:w-6"/>,
@@ -31,11 +25,19 @@ const getExtraServices = (t)=>{
             description:t("store.plusServices.growth.description"),
         },
         {
+            logo:<GiTakeMyMoney className=" h-10 w-12  max-[400px]:h-5 max-[400px]:w-6"/>,
+            title:t("store.plusServices.financial.title"),
+            description:t("store.plusServices.financial.description"),
+        },
+        {
+            logo:<MdOutlineNotificationsActive className=" h-10 w-12 max-[400px]:h-5 max-[400px]:w-6"/>,
+            title:t("store.plusServices.notifications.title"),
+        },
+        {
             logo:<FaRegChessKnight className=" h-10 w-12  max-[400px]:h-5 max-[400px]:w-6"/>,
             title:t("store.plusServices.plan.title"),
             description:t("store.plusServices.plan.description"),
         },
-        
         {
             logo:<MdOutlinePhonelinkSetup className=" h-10 w-12  max-[400px]:h-5 max-[400px]:w-6"/>,
             title:t("store.plusServices.setup.title"),
@@ -63,10 +65,11 @@ const Content = styled.div`
 const H2 = styled.h2`
     text-align: center;
     text-transform: uppercase;
-    -webkit-text-fill-color: transparent;
-    background-image: url(../images/heading-texture_1heading-texture.webp), linear-gradient(125deg, #fff 85%, #fff0);
+    /* -webkit-text-fill-color: transparent; */
+    /* background-image: url(../images/heading-texture_1heading-texture.webp), linear-gradient(125deg, #fff 85%, #fff0); */
     background-position: 0 0, 0 0;
     background-size: auto, auto;
+    color: var(--gold);
     -webkit-background-clip: text;
     background-clip: text;
     margin-top: 0;
@@ -83,7 +86,7 @@ const H2 = styled.h2`
     }
 `
 const Description = styled.p`
-    color: var(--whiteGray);
+    color: var(--gold);
     text-align: center;
     text-transform: none;
     -webkit-text-fill-color: inherit;
@@ -113,9 +116,9 @@ export default function Headers() {
                                         {extra.map((service, index)=>{
                                             return(
                                             <div key={index} className="vflex-center-16 w-layout-vflex text-wrap items-center">
-                                                <div  className="hflex-center-16">
+                                                <div  className="hflex-center-16 ">
                                                     {service.logo}
-                                                    <H2 >{service.title}</H2>
+                                                    <H2 className=" ">{service.title}</H2>
                                                 </div>
                                                 <p className="text-my-white-gray mb-0 leading-7 max-[520px]:leading-4 max-[400px]:text-sm  text-wrap">{service.description}</p>
                                             </div>
