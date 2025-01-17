@@ -67,12 +67,13 @@ const Content = styled.div`
 `;
 
 const VideoWrapper = styled.div`
-  aspect-ratio: 600 / 338;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 95%;
-  max-width: 67rem;
+  height: 600px;
+  max-width:340px;
+  width: 100%;
+
   margin-top: 2rem;
   margin-bottom: 2.3rem;
   position: relative;
@@ -154,10 +155,10 @@ export default function DentistHero({ actor }) {
               ))}
             </SubParagraph>
             <VideoWrapper>
-              <div className="aspect-video relative">
+              <div className=" ">
                 <iframe
                   className="border-none absolute top-0 left-0 w-full h-full"
-                  src="https://player.vimeo.com/video/1017741123?h=dc0d9f5e14&autoplay=1&muted=1&loop=1"
+                  src="https://player.vimeo.com/video/1046354505?h=dc0d9f5e14&autoplay=1&muted=1&loop=1"
                   width="100%"
                   height="100%"
                   frameBorder="0"
