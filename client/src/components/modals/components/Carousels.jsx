@@ -78,14 +78,22 @@ export default function Carousels({handleClose}) {
                             {isLoading && <LoadingSpinner/>}
                             {isError && <p>Error: {error.message}</p>}
                             {quoate && (
-                                <p className="inline-block max-w-[380px] text-transparent italic">
+                                <p
+                                    style={{
+                                    overflowWrap: "break-word", // Ensures long words break onto the next line
+                                    wordWrap: "break-word", // Legacy fallback
+                                    wordBreak: "break-word", // Forces word-breaking for long text
+                                    whiteSpace: "normal", // Prevents preformatted text behavior
+                                    }}
+                                    className="text-transparent mx-auto italic"
+                                >
                                     &ldquo;{quoate.text}&ldquo;
                                 </p>
                             )}
                             </div>
                         </Card>
                         {isGettingCourses && <LoadingSpinner/>}
-                        {
+    {
     courses?.length > 0 ? (
         courses.map((course, index) => (
             <Card

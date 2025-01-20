@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/UserContext";
 import PlanLikePro from "./PlanLikePro";
 import PaymentReminder from "./PaymentReminder"; // Import PaymentReminder component
+import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 
 export default function Chat() {
   const [messages, setMessages] = useState([]);
@@ -13,10 +14,16 @@ export default function Chat() {
   const [channelName, setChannelName] = useState(null);
   const { isSidebarOpen } = useContext(UserContext);
   const location = useLocation();
-
+ const { onOpen } = useModal();
   // Check which route we're on
   const isPlanLikeProRoute = location.pathname.includes("/chat2");
   const isPaymentReminder = location.pathname.includes("/chat3");
+  useEffect(() => {
+    // Trigger modal when entering the route
+    if (location.pathname === "/channels" && !isPlanLikeProRoute && !isPaymentReminder) {
+      onOpen(MODAL_TYPE.BIR);
+    }
+  }, [location.pathname, onOpen, isPlanLikeProRoute, isPaymentReminder]);
 
   useEffect(() => {
     if (!channelID) return;

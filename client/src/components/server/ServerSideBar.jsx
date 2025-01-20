@@ -11,7 +11,6 @@ import { jwtDecode } from "jwt-decode";
 import styled from "styled-components";
 import { FaTasks } from "react-icons/fa";
 
-import { LiaChessBishopSolid, LiaChessKingSolid, LiaChessKnightSolid, LiaChessPawnSolid, LiaChessQueenSolid, LiaChessRookSolid } from "react-icons/lia";
 import { FaRegChessKnight } from "react-icons/fa6";
 import { GiLaurelCrown } from "react-icons/gi";
 import { progress } from "@/lib/ProgressData";

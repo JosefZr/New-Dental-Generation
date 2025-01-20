@@ -4,6 +4,7 @@ import LanguageSwitcher from './LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 // Keyframe for the drop-down animation
 const dropDown = keyframes`
@@ -157,7 +158,38 @@ export default function NavBar() {
         clearTimeout(navBarTimer);
         };
     }, []);
-
+    const handleLogin = () => {
+      const token = localStorage.getItem("token");
+    
+      if (!token) {
+        console.log("No token found, redirecting to login");
+        navigate("/login");
+        return;
+      }
+    
+      try {
+        // Decode the token
+        const decodedToken = jwtDecode(token);
+    
+        // Optionally check token expiration (if the token has an `exp` field)
+        const currentTime = Date.now() / 1000; // current time in seconds
+        if (decodedToken.exp && decodedToken.exp < currentTime) {
+          console.log("Token expired, redirecting to login");
+          localStorage.removeItem("token"); // Clear expired token
+          navigate("/login");
+          return;
+        }
+    
+        console.log("Token is valid, redirecting to channels");
+        navigate("/channels");
+      } catch (error) {
+        // Handle invalid token errors
+        console.error("Invalid token, redirecting to login", error);
+        localStorage.removeItem("token"); // Clear invalid token
+        navigate("/login");
+      }
+    };
+    
     return (
         <>
         {showNavBar && (
@@ -178,7 +210,7 @@ export default function NavBar() {
                       </NavLeft>
                     </Link>
                     <NavRight>
-                    <LoginButton className='uppercase' onClick={()=>navigate("/login")}>
+                    <LoginButton className='uppercase' onClick={handleLogin}>
                       <div>{t('login')}</div>
                     </LoginButton>
                     </NavRight>

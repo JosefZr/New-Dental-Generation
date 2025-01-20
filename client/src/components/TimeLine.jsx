@@ -120,6 +120,8 @@ const TimelineGrid = styled.div`
 
 const CloudSVG = styled.svg`
   position: absolute;
+  background-color: transparent; /* Make sure the SVG background is transparent */
+
   width: min-content; // Adjust size to your preference
   height: auto;
   z-index: 1; // Ensure it's behind the content
@@ -140,7 +142,6 @@ const TimelineLeftWrap = styled.div`
   background-size: contain; 
   background-repeat: no-repeat;
   background-color:transparent;
-  color:var(--white);
   background-attachment: local;
   flex-direction: row;
   grid-template-rows: auto auto;
@@ -305,6 +306,7 @@ export default function TimeLine({actor}) {
                   top: '40%', // Position the first cloud
                   left:'70%', // Position the first cloud
                   transform: 'translate(-50%, -50%)', // Center it
+                  backgroundColor: 'transparent', // Make sure the background is transparent
                 }}
               >
                 <path

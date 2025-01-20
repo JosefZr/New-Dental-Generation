@@ -11,7 +11,7 @@ import { jwtDecode } from "jwt-decode";
 const Image = styled.div`
     background-image: ${(props) => `url(${props.imageUrl})`};
     background-size: cover;
-    background-position: center center;
+    background-position: center top;
 `;
 
 const Progress = styled.progress`
@@ -46,8 +46,8 @@ export default function CoursesList() {
     }
 
     return (
-        <div className="relative mx-auto w-[100vw] max-w-6xl flex-1 transition-all duration-200 ease-in-out">
-            <div className="grid h-full w-fit grid-cols-1 gap-x-9 gap-y-5 overflow-auto pb-32 sm:h-fit lg:grid-cols-3 md:grid-cols-2 lg:gap-y-12 md:gap-y-9 m-auto">
+        <div className="relative mx-auto w-full flex-1 transition-all duration-200 ease-in-out">
+            <div className="grid w-full gap-4 overflow-auto pb-3 lg:grid-cols-2 xl:grid-cols-3 px-3">
                 {studentCourseList.map((item, index) => {
                     // Check if the progress data exists for this course
                     const progressData = allProgress?.data?.find(
@@ -69,37 +69,41 @@ export default function CoursesList() {
                                 navigate(`/course/details/${item._id}`);
                             }}
                             key={index}
+                            className="group flex "
                         >
-                            <div className="flex h-fit w-full rounded-sm bg-primary-alt-base p-4 cursor-pointer">
-                                <section className="relative">
-                                    <Image 
-                                        className="rounded-sm w-32 h-[176px]"
-                                        imageUrl={`http://localhost:3000/course/${item.image}`}
-                                    ></Image>
-                                    <div className="absolute right-0 bottom-0 flex w-full flex-col gap-1 rounded-b-sm bg-[#32323267] px-3 pb-2 backdrop-blur-lg">
-                                        <p className="pt-3 font-semibold text-white text-xs">
-                                            {progressPercentage}% complete
-                                        </p>
+                            <div className="rounded-l-md bg-slate-600/90 p-[3px] duration-300 group-hover:bg-my-gold"></div>
+                            <div className="h-fit w-full rounded-md rounded-l-none p-5 sm:px-7 sm:py-6 cursor-pointer" style={{backgroundColor:"rgb(13 26 37)"}}>
+                                <div className="flex gap-7">
+                                    <div className="relative max-w-24 flex-1">
+                                        <Image 
+                                            className="relative h-24 w-full rounded-lg"
+                                            imageUrl={`http://localhost:3000/course/${item.image}`}
+                                        ></Image>
+                                    </div>
+                                    <div className="flex w-full flex-1 flex-col sm:w-[280px]">
+                                        <h3 className="font-semibold text-lg">{item.title}</h3>
+                                        <p className="mt-1 font-light text-base-content/80 text-xs">{item.description}</p>
+                                    </div>
+                                </div>
+                                <div className="mt-3 block">
+                                    <div className="mt-2 flex w-full flex-col gap-1 sm:mb-1">
                                         <Progress
                                             value={progressPercentage}
                                             max={100}
                                             className="progress h-1 bg-grey-400 [&::-webkit-progress-value]:bg-secondary progress-primary"
                                         ></Progress>
-                                    </div>
-                                </section>
-                                <section className="ml-4 flex max-w-[163px] flex-1 flex-col justify-between">
-                                    <div className="">
-                                        <h3 className="bg-secondary bg-clip-text font-semibold text-my-gold">
-                                            {item.title}
-                                        </h3>
-                                        <p className="mt-3 font-light text-xs">
-                                            {item.welcomeMessage}
+                                        <p className="mt-1 text-white text-xs text-opacity-80">
+                                            {progressPercentage}% complete
                                         </p>
                                     </div>
-                                    <button className="rounded-sm text-base-400 bg-my-gold text-my-black font-medium py-1 flex flex-row items-center justify-center">
-                                        Enroll now {<FaAngleRight className="ml-2" />}
+                                </div>
+                                <div className="mt-1 ml-auto flex w-full justify-end sm:w-fit group">
+                                    <button
+                                        className="btn h-10 rounded-s border-none duration-500 font-semibold text-my-white bg-[rgb(29,41,50)] group-hover:bg-my-gold group-hover:text-my-black"
+                                    >
+                                        Enter Course {<FaAngleRight className="ml-2" />}
                                     </button>
-                                </section>
+                                    </div>
                             </div>
                         </div>
                     );

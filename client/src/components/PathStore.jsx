@@ -25,6 +25,12 @@ const SectionPath = styled.section`
     background-repeat: repeat;
     background-size: cover;
     background-position: center;
+    -webkit-mask-image: url("/backs/path.svg");
+    -webkit-mask-size: cover;
+    -webkit-mask-repeat: no-repeat;
+    mask-image: url("/backs/path.svg");
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay color */
+background-blend-mode: overlay;
     `
     const Container = styled.div`
     z-index: 2;

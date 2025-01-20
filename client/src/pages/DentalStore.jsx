@@ -1,4 +1,4 @@
-import { Faq, FinalSection, Footer, GlobalNavbar, PathStore,  TimeLineSection } from "@/components";
+import { Faq, Footer, GlobalNavbar, PathStore,  TimeLineSection } from "@/components";
 import DentistHero from "@/components/DentistHero";
 import { useTranslation } from "react-i18next";
 import { FaMoneyBillTrendUp, FaRegChessKnight, FaRegChessQueen } from "react-icons/fa6";
@@ -81,7 +81,6 @@ export default function DentalStore() {
       <DentistHero actor="store"/>
       <TimeLineSection actor="store" />
       <PathStore actor="store"/>
-      <FinalSection actor="store"/>
       <Faq/>
       <Footer/>
     </div>

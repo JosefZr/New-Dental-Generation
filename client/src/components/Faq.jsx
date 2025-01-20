@@ -20,7 +20,7 @@ export default function Faq() {
       <div className="container-large">
         <div className="padding-section-large">
           <h2 className="text-center mb-8 uppercase">
-            <span className="gradient-text lg:text-[55.5px] lg:font-semibold leading-[56px]">
+            <span className="gradient-text text-2xl font-semibold text-[55.5px] leading-[56px] max-[440px]:text-[30px] max-[440px]:leading-[30px]">
               {t("faqTitle", "Frequently Asked Questions")}
             </span>
           </h2>

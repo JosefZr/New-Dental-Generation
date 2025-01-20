@@ -41,6 +41,10 @@ const HeroHeading = styled.h1`
     font-size: 2.8rem;
     margin-top: 1rem;
   }
+  @media screen and (max-width: 591px) {
+    font-size: 1.8rem;
+    margin-top: 1rem;
+  }
 `;
 
 const Content = styled.div`
@@ -73,7 +77,6 @@ const VideoWrapper = styled.div`
   height: 600px;
   max-width:340px;
   width: 100%;
-
   margin-top: 2rem;
   margin-bottom: 2.3rem;
   position: relative;
@@ -112,7 +115,7 @@ export const GetHeroData = (actor) => {
   const transformTextToLines = (text) => {
     return text
       .split('.')
-      .map((line) => line.trim())
+      .map((line, index) => (index === text.split('.').length - 1 ? line.trim() : `${line.trim()}.`))
       .filter((line) => line.length > 0);
   };
 

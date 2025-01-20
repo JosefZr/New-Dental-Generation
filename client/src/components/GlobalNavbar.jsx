@@ -4,6 +4,8 @@ import { size } from '@/lib/mediaQuerys';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import { IoLogoBitcoin } from 'react-icons/io';
 
 const dropDown = keyframes`
   0% {
@@ -121,7 +123,41 @@ const Content = styled.div`
     position: relative;
   }
 `;
-
+const NavLeft = styled.div`
+    z-index: 999;
+    align-items: center;
+    display: flex;
+    position: relative;
+    @media screen and (max-width: ${size.tablet}){
+        justify-content: space-between;
+        /* width: 100%; */
+    }
+`
+const NavCenter = styled.div`
+    justify-content: end;
+    display: flex;
+    padding:0 20px;
+    flex: 1; // This ensures it takes enough space for centering
+    /* position: absolute; */
+    /* left: 50%; */
+    color: black;
+    /* transform: translateX(-50%); // Proper centering technique using absolute positioning */
+    /* z-index: 1000; // Ensure it's above other elements */
+    @media screen and ((max-width: ${size.tablet})) {
+            font-size: 14px;
+            /* padding: 0.1rem; */
+}
+`
+const NavRight = styled.div`
+    /* flex: 1; */
+    justify-content: flex-end;
+    display: flex;
+    white-space: nowrap;
+    @media screen and (max-width: ${size.tablet}){
+        z-index: 999;
+        position: relative;
+    }
+`
 const MenuHeader = styled.div`
   color: var(--gold);
   font-size: 1.5rem;
@@ -130,7 +166,24 @@ const MenuHeader = styled.div`
   text-transform: uppercase;
   letter-spacing: 0.1em;
 `;
-
+const LoginButton = styled.a`
+    opacity: .9;
+    text-transform: uppercase;
+    background-color: black;
+    border: 1px solid #a3a3a3;
+    padding: .75rem 1rem;
+    color: var(--gold) ;
+    font-family: Clashdisplay Variable, sans-serif;
+    font-weight: 600;
+    transition: all .1s;
+    &:hover{
+        opacity: 1;
+        background-color:var(--gold-text);
+    }
+    @media screen and (max-width: ${size.mobileM}){
+        padding: .5rem .9rem;
+    } 
+`
 export default function GlobalNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -141,7 +194,17 @@ export default function GlobalNavbar() {
   };
 
   const handleLogin = () => {
-    navigate("/login");
+    const token = jwtDecode(localStorage.getItem("token"))
+    if (token) {
+      console.log("channels")
+      navigate("/channels");
+    }
+    else
+    {
+      console.log("login")
+
+      navigate('/login')
+    }
     setIsMenuOpen(false);
   };
 
@@ -166,6 +229,12 @@ export default function GlobalNavbar() {
                 </label>
                 menu
               </Boss>
+              
+              <NavRight>
+                  <LoginButton className=' uppercase'>
+                    <IoLogoBitcoin className=' text-3xl'/>
+                  </LoginButton>
+              </NavRight>
             </Content>
           </div>
         </PaddingGlobal>

@@ -1,32 +1,34 @@
-import { GraduationCap, TvMinimalPlay } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "../ui/button";
+import { GraduationCap } from "lucide-react";
+import { FaSearchDollar } from "react-icons/fa";
+import { IoMdClose } from "react-icons/io";
 
 export default function Header() {
-    const navigate = useNavigate()
     return (
-        <header className="flex items-center p-4 border-b relative" style={{flexDirection:"row", justifyContent:"space-between"}}>
-            <div className="flex items-center space-x-4 ">
-                <Link to="/chat" className="flex items-center hover:text-my-beige transition-all">
-                    <GraduationCap className="h-8 w-8 mr-4  bg-my-dark-blue"/>
-                    <span className="font-extrabold md:text-xl text-[14px]">LMS LEARN</span>
-                </Link>
-                <div className="flex items-center space-x-1 ">
-                    <Button variant="ghost"  className="text-[14px] md:rxt-[16px] font-medium bg-zinc-800">
-                        Explore Course
-                    </Button>
-                </div>
+        <header style={{position:"relative"}} className=" flex items-center justify-between flex-row gap-3 px-2 py-3">
+            <div className="flex items-center space-x-1 ">
+            <GraduationCap className="h-20 w-20 pr-3 bg-my-dark-blue text-my-gold" height="30px" width="32px"/>
+
+                <h2  className="flex flex-col">
+                    <span className="text-base text-base-content/80 md:text-lg">Learning Center</span>
+                    <span className="font-semibold text-2xl md:text-4xl">Business Mastery</span>
+                </h2>
             </div>
-            <div className="flex items-center space-x-4">
-                <div className="flex gap-4 items-center">
-                    <div className="flex items-center gap-3">
-                        <span className="font-extrabold md:text-xl text-[14px] ">MY Courses</span>
-                        <TvMinimalPlay className="w-8 h-8 cursor-pointer"/>
+            <div className="">
+                <div className="max-w-xl">
+                    <div className=" w-full sm:w-fit flex flex-row items-center " style={{position:"relative"}}>
+                        <FaSearchDollar height="16px" width="16px" className="absolute top-0 bottom-0 left-2 z-10 m-auto text-gray-300"/>
+                        <section style={{position:"relative"}}>
+                            <input 
+                                type="text" 
+                                placeholder="Search lessons"
+                                style={{paddingLeft:"30px"}}
+                                className="input my-3 flex-1 py-4 pr-1 pl-9 mx-auto w-fit bg-alt-base-200 input-sm input-bordered focus:outline-offset-0"
+                            />
+                            <button className="btn absolute top-0 right-3 bottom-0 m-auto btn-xs btn-circle btn-ghost">
+                                <IoMdClose height="16px"width="16px"  className="text-xl"/>
+                            </button>
+                        </section>
                     </div>
-                    <Button 
-                        className="bg-zinc-800 hover:bg-white hover:text-my-black"
-                        // onClick={navigate("/chat")}
-                    >Sign Out</Button>
                 </div>
             </div>
         </header>

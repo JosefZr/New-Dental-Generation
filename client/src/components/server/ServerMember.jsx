@@ -1,6 +1,4 @@
 import { cn } from "@/lib/utils"
-import { ShieldAlert, User } from "lucide-react"
-import { useParams } from "react-router-dom"
 
 export default function ServerMember({member, server}) {
 
@@ -10,7 +8,6 @@ export default function ServerMember({member, server}) {
     //     [MemberRole.MODERATOR]: <ShieldAlert className=" w-4 h-4 text-indigo-500"/>
     // }
     // const icon = roleIconMap [member.role]
-    const params = useParams()
     return (
         <div>
             <button className={cn(
