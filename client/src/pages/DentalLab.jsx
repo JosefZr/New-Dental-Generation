@@ -3,7 +3,7 @@ import DentistHero from "@/components/DentistHero";
 
 export default function DentalLab() {
   return (
-    <div>
+    <div className="overflow-x-hidden zoom-in-0">
       <GlobalNavbar/>
       <DentistHero actor="lab"/>
       <TimeLineSection actor="lab" />

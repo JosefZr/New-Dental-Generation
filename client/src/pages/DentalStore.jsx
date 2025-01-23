@@ -76,7 +76,7 @@ export const GetTimelineData = ( ) => {
 export default function DentalStore() {
 
   return (
-    <div >
+    <div className="overflow-x-hidden zoom-in-0">
       <GlobalNavbar/>
       <DentistHero actor="store"/>
       <TimeLineSection actor="store" />
