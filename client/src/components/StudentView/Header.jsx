@@ -1,10 +1,60 @@
+import { CoursesContext } from "@/context/CoursesContext";
+import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 import { GraduationCap } from "lucide-react";
+import { useContext } from "react";
 import { FaSearchDollar } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 export default function Header() {
+    const { onOpen } = useModal();
+    const {searchTerm, setSearchTerm} = useContext(CoursesContext)
+    
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const clearSearch = () => {
+        setSearchTerm('');
+    };
     return (
-        <header style={{position:"relative"}} className=" flex items-center justify-between flex-row gap-3 px-2 py-3">
+        <>
+        <div className="sm:hidden flex flex-shrink-0 items-end justify-between border-grey-secondary  relative bg-alt-header" style={{
+            height:"62px",
+            minHeight:"62px",
+            maxHeight:"62px",
+            paddingTop:"0"
+        }}>
+            <div className="flex h-full w-full items-center justify-between pr-3">
+                <div className="flex w-full items-center font-medium">
+                    <div className="flex items-center justify-center gap-3">
+                        <div className="pointer-events-none absolute inset-0 flex flex-col items-start justify-center gap-1 text-center">
+                            <div className="ml-3 flex max-w-[350px] items-center justify-center sm:max-w-none">
+                                <GraduationCap className="h-10 w-10 pr-3 bg-my-dark-blue text-my-gold" height="24px" width="25px"/>
+                                <p className="font-semibold text-lg text-white">Learning Center</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="flex items-center">
+                    <div >
+                        <button className="btn mr-2 btn-sm btn-circle btn-ghost" onClick={()=>{
+                            onOpen(MODAL_TYPE.SEARCH_MODAL);
+                        }}>
+                            <FaSearchDollar height="24px" width="24px" className=" m-auto text-gray-300"/>
+                        </button>
+                    </div>
+                </div>
+                <Link
+                    to="/channels"
+                    className="btn flex items-center btn-sm btn-circle btn-ghost"
+                    
+                >
+                    <IoMdClose height="16px"width="16px"  className="text-xl"/>
+                </Link>
+            </div>
+        </div>
+        <header style={{position:"relative"}} className="max-sm:hidden flex items-center justify-between flex-row gap-3 px-2 py-3">
             <div className="flex items-center space-x-1 ">
             <GraduationCap className="h-20 w-20 pr-3 bg-my-dark-blue text-my-gold" height="30px" width="32px"/>
 
@@ -23,14 +73,23 @@ export default function Header() {
                                 placeholder="Search lessons"
                                 style={{paddingLeft:"30px"}}
                                 className="input my-3 flex-1 py-4 pr-1 pl-9 mx-auto w-fit bg-alt-base-200 input-sm input-bordered focus:outline-offset-0"
+                                value={searchTerm}
+                                onChange={handleSearchChange}
                             />
-                            <button className="btn absolute top-0 right-3 bottom-0 m-auto btn-xs btn-circle btn-ghost">
-                                <IoMdClose height="16px"width="16px"  className="text-xl"/>
-                            </button>
+                            {searchTerm && (
+                                <button 
+                                    className="btn absolute top-0 right-3 bottom-0 m-auto btn-xs btn-circle btn-ghost"
+                                    onClick={clearSearch}
+                                >
+                                    <IoMdClose height="16px" width="16px" className="text-xl"/>
+                                </button>
+                            )}
                         </section>
                     </div>
                 </div>
             </div>
         </header>
+        </>
+        
     )
 }

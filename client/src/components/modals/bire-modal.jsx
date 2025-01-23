@@ -12,6 +12,7 @@ import { useState } from "react";
 import Home from "./components/Home";
 import SmallDailyCheckList from "./components/SmallDailyCheckList";
 import { useLocation } from "react-router-dom";
+import Schedular from "./components/Schedular";
 
 const menuItems = [
     {
@@ -27,7 +28,7 @@ const menuItems = [
     {
         label: "schedule",
         value: "schedule",
-        component: (props) => <DAilyCheckList {...props} />, // You might want a separate component for 'schedule'.
+        component: (props) => <Schedular {...props} />, // You might want a separate component for 'schedule'.
     },
 ];
 
@@ -62,9 +63,12 @@ export default function BireModal() {
                 <Welcome/>
                 <Carousels handleClose={handleClose}/>
                 <DAilyCheckList/>
+                <div className="w-full h-full col-span-3 row-span-9">
+
+                <Schedular/>
+                </div>
             </div>
-            
-            <div className="hidden z-[10] bg-slate-900 max-md:inline h-full min-h-full  flex-col " >
+            <div className="hidden z-[10] bg-[#0E1C26] max-md:inline h-full min-h-full  flex-col " >
                 <div className="flex h-auto w-full flex-col swipe-dialog-scroll-descendant"> 
                     <div className="flex w-full items-center justify-end p-3">
                     <button
@@ -97,7 +101,7 @@ export default function BireModal() {
                     {menuItems.find((menuItem) => menuItem.value === activeTab)?.component({
                         handleClose,
                     })}
-                </div>
+            </div>
         </DialogContent>
     </Dialog>
 )

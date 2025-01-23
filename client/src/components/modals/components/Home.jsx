@@ -3,10 +3,11 @@ import SmallProgress from "./SmallProgress";
 import SmallBalence from "./SmallBalence";
 import SmallCoat from "./SmallCoat";
 import { FaLongArrowAltRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Home({handleClose}) {
-    
+    const navigate = useNavigate()
   return (
     <div className="carousel carousel-center relative h-[calc(100dvh-7rem)] w-[100dvw] overflow-y-hidden overscroll-none"
         style={{scrollSnapStop:"always",overflowAnchor:"auto",scrollSnapAlign:"start"}}
@@ -27,9 +28,13 @@ export default function Home({handleClose}) {
                         color:"var(--gold)",
                         backgroundColor:"rgb(13 26 37)",
                         boxShadow:"rgb(0, 0, 0) 0px 20px 20px -20px"
-
-                    }}>
-                        <span>Enter Your Udn</span>
+                    }}
+                        onClick={()=>{
+                            handleClose()
+                            navigate("/channels")
+                        }}
+                    >
+                        <span>Enter Your Dental Network</span>
                         <FaLongArrowAltRight />
                     </button>
                     </div>

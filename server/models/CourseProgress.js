@@ -10,6 +10,10 @@ const CourseProgressSchema = new mongoose.Schema({
     courseId: String,
     completed: Boolean,
     complitionDate: Date,
+    isFavorite:{
+        type: Boolean,
+        default: false
+    },
     lectureProgress: [LectureProgressSchema]
 })
 const CourseProgress = mongoose.model('Progress', CourseProgressSchema) 

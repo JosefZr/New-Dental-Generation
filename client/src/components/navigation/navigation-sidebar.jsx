@@ -3,13 +3,14 @@ import { ScrollArea } from "../ui/scroll-area";
 import NavigationItem from "./NavigationItem";
 import { IoChatbubblesOutline } from "react-icons/io5";
 import { SiWorldhealthorganization } from "react-icons/si";
-import { GiEarthAfricaEurope } from "react-icons/gi";
+import { GiEarthAfricaEurope, GiTakeMyMoney } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 import ProfileImage from "../chatComponents/ProfileImage";
 import { useContext, useEffect } from "react";
 import { UserContext } from "@/context/UserContext";
 import { fetchUserData } from "@/hooks/useFetchUserData";
 import { jwtDecode } from "jwt-decode";
+import { FaRegChessKnight } from "react-icons/fa6";
 export default function NavigationSidebar() {
   const servers = [
     {
@@ -20,14 +21,14 @@ export default function NavigationSidebar() {
     {
       id: "chat2",
       name: "dental store",
-      imageUrl: (
-        <SiWorldhealthorganization className="object-cover w-full h-full" />
-      ),
+      imageUrl: 
+        <FaRegChessKnight className=" object-cover w-full h-full"/>,
+      
     },
     {
       id: "chat3",
       name: "dentist",
-      imageUrl: <IoChatbubblesOutline className="object-cover w-full h-full" />,
+      imageUrl: <GiTakeMyMoney  className="object-cover w-full h-full" />,
     },
   ];
   const userInfo= jwtDecode(localStorage.getItem("token"))

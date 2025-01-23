@@ -5,7 +5,7 @@ import DentistHero from "@/components/DentistHero";
 export default function Dentist() {
 
   return (
-    <div>
+    <div className="overflow-x-hidden zoom-in-0">
       <GlobalNavbar/>
       <DentistHero actor="dentist"/>
       <TimeLineSection actor="dentist" />

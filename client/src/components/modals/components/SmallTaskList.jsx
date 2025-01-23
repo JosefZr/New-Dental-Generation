@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { LucideCalendar, LucidePlus } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -211,7 +211,7 @@ export default function SmallTaskList() {
                     className="rounded-md bg-my-gold hover:bg-my-gold hover:opacity-90" 
                     onClick={HandleAddQuickTaskTask}
                 >
-                        <LucidePlus className="h-[24px] w-[24px]" />
+                        <LucidePlus className="h-[24px] w-[24px] text-black" />
                     </Button>
             </div>
             

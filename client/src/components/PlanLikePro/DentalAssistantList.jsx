@@ -125,7 +125,7 @@ export default function DentalAssistantList() {
                         className="rounded-md bg-my-gold hover:bg-my-gold hover:opacity-90" 
                         onClick={handleCreateTask}
                     >
-                        <LucidePlus className="h-[24px] w-[24px]" />
+                        <LucidePlus className="h-[24px] w-[24px] text-black" />
                     </Button>
                 </div>
                 <DentalAssistant tasks={tasks} isLoading={isLoading} />

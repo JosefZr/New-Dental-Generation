@@ -41,8 +41,11 @@ export const getAllCurrentCourseProgress= async (req, res)=>{
 const getCurrentCourseProgress = async (req, res)=>{
     try {
         const { userId, courseId } = req.body; // Pass userId and courseId as query params
-        if (!userId || !courseId) {
-            return res.status(400).json({ success: false, message: "Missing userId or courseId" });
+        if (!userId ) {
+            return res.status(402).json({ success: false, message: "Missing userId or userId" });
+        }
+        if (!courseId) {
+            return res.status(403).json({ success: false, message: "Missing userId or courseId" });
         }
 
         // Check if progress exists

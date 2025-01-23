@@ -65,7 +65,7 @@ export default function Quotes() {
             className="max-w-md mx-auto mt-14 p-6 rounded-lg shadow-lg"
             style={{ background: 'rgb(13, 26, 37, 1)' }}
           >
-            <h1 className="text-2xl font-bold mb-4 text-center">Quoates</h1>
+            <h1 className="text-2xl font-bold mb-4 text-center">Quotes</h1>
             <div className="flex mb-4">
               <Input
                 type="text"
