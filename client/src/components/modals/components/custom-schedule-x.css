@@ -1,0 +1,42 @@
+.custom-schedule-x.sx__calendar-container {
+  --sx-color-primary: #0E1C26 !important;
+  --sx-color-primary-variant: #1a2c3a !important;
+  --sx-color-on-primary: #ffffff !important;
+  --sx-color-on-primary-variant: #e0e0e0 !important;
+  --sx-color-background: #0E1C26 !important;
+  --sx-color-on-background: #ffffff !important;
+  --sx-color-surface: #1a2c3a !important;
+  --sx-color-on-surface: #ffffff !important;
+  --sx-color-gray-100: #2a3c4a !important;
+  --sx-color-gray-200: #3a4c5a !important;
+  --sx-color-gray-300: #4a5c6a !important;
+}
+
+.custom-schedule-x.sx__calendar-container * {
+  border-color: #1a2c3a !important;
+}
+
+.custom-schedule-x.sx__calendar-container .sx__time-grid-event,
+.custom-schedule-x.sx__calendar-container .sx__month-grid-event {
+  background-color: #1a2c3a !important;
+  color: #ffffff !important;
+}
+
+.custom-schedule-x.sx__calendar-container .sx__date-picker-button,
+.custom-schedule-x.sx__calendar-container .sx__view-select-button {
+  background-color: #0E1C26 !important;
+  color: #ffffff !important;
+}
+
+.custom-schedule-x.sx__calendar-container .sx__date-picker-button:hover,
+.custom-schedule-x.sx__calendar-container .sx__view-select-button:hover {
+  background-color: #1a2c3a !important;
+}
+
+.custom-schedule-x.sx__calendar-container .sx__date-picker-calendar {
+  background-color: #0E1C26 !important;
+}
+
+.custom-schedule-x.sx__calendar-container .sx__date-picker-calendar-day:hover {
+  background-color: #1a2c3a !important;
+}

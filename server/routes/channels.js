@@ -4,7 +4,7 @@ import { authenticateToken } from "../middlewares/auth.js";
 import { authorizedRoles } from "../middlewares/role.js";
 import multer from "multer";
 const router = express.Router();
-
+import ChannelModel from "../models/Channel.model.js";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -30,6 +30,33 @@ const upload = multer({
 
 
 router.use(authenticateToken);
+router.patch("/pin", async (req, res) => {
+  const { locked, channel } = req.body;
+
+  if (!channel) {
+    return res.status(400).json({ message: "Channel is required" });
+  } else if (locked === undefined) {
+    return res.status(400).json({ message: "isPinned is required" });
+  }
+
+  try {
+    // Assuming you have a Channel model to update the pin status
+    const updatedChannel = await ChannelModel.findByIdAndUpdate(
+      channel,
+      { locked },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedChannel) {
+      return res.status(404).json({ message: "Channel not found" });
+    }
+
+    return res.status(201).json({ message: "Channel pin status updated", updatedChannel });
+  } catch (error) {
+    return res.status(500).json({ message: "Server error", error });
+  }
+});
+
 
 router.get("/:id", ChannelController.getChannelById); // Get a specific channel by ID
 router.get("/", ChannelController.getAllChannels); // Get all channels

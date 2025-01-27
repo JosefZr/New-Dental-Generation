@@ -40,19 +40,20 @@ const Navigation = styled.nav`
 const Sidebar = styled.div`
   position: fixed;
   top: 0;
-  left: ${props => props.isOpen ? '0' : '-100%'};
+  left: ${({ $isOpen }) => ($isOpen ? '0' : '-100%')};
   width: 30%;
   height: 100vh;
   background-color: #1a1a1a;
   z-index: 997;
   padding: 6rem 2rem 2rem;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: ${props => props.isOpen ? '2px 0 8px rgba(0, 0, 0, 0.2)' : 'none'};
+  box-shadow: ${({ $isOpen }) => ($isOpen ? '2px 0 8px rgba(0, 0, 0, 0.2)' : 'none')};
 
   @media screen and (max-width: ${size.tablet}) {
     width: 70%;
   }
 `;
+
 
 const Overlay = styled.div`
   position: fixed;
@@ -185,31 +186,34 @@ const LoginButton = styled.a`
     } 
 `
 export default function GlobalNavbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLeftMenuOpen, setIsLeftMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsLeftMenuOpen(!isLeftMenuOpen);
   };
-
+  let token;
+  try {
+    const tokenString = localStorage.getItem("token");
+    token = tokenString ? jwtDecode(tokenString) : null;
+  } catch (error) {
+    console.error("Error decoding token:", error);
+    token = null;
+  }
   const handleLogin = () => {
-    const token = jwtDecode(localStorage.getItem("token"))
     if (token) {
-      console.log("channels")
+      console.log("channels");
       navigate("/channels");
+    } else {
+      console.log("login");
+      navigate("/login");
     }
-    else
-    {
-      console.log("login")
-
-      navigate('/login')
-    }
-    setIsMenuOpen(false);
+    setIsLeftMenuOpen(false);
   };
 
   const closeMenu = () => {
-    setIsMenuOpen(false);
+    setIsLeftMenuOpen(false);
   };
 
   return (
@@ -218,37 +222,50 @@ export default function GlobalNavbar() {
         <PaddingGlobal>
           <div className="container-large">
             <Content>
-              <Boss onClick={toggleMenu}>
-                <label>
-                  <div className="w-10 h-5 cursor-pointer flex flex-col items-center justify-center">
-                    <input className="hidden peer" type="checkbox" checked={isMenuOpen} readOnly />
-                    <div className={`w-[50%] h-[2px] bg-my-gold rounded-sm transition-all duration-300 origin-left translate-y-[0.45rem] ${isMenuOpen ? 'rotate-[-45deg]' : ''}`} />
-                    <div className={`w-[50%] h-[2px] bg-my-gold rounded-md transition-all duration-300 origin-center ${isMenuOpen ? 'hidden' : ''}`} />
-                    <div className={`w-[50%] h-[2px] bg-my-gold rounded-md transition-all duration-300 origin-left -translate-y-[0.45rem] ${isMenuOpen ? 'rotate-[45deg]' : ''}`} />
+              <div onClick={toggleMenu} className="group cursor-pointer">
+                <Boss>
+                  <div className="w-10 h-5 flex flex-col items-center justify-center">
+                    {/* Menu Icon */}
+                    <div
+                      className={`w-[50%] h-[2px] bg-my-gold rounded-sm transition-all duration-300 origin-left translate-y-[0.45rem] ${
+                        isLeftMenuOpen ? "rotate-[-45deg]" : ""
+                      }`}
+                    />
+                    <div
+                      className={`w-[50%] h-[2px] bg-my-gold rounded-md transition-all duration-300 origin-center ${
+                        isLeftMenuOpen ? "hidden" : ""
+                      }`}
+                    />
+                    <div
+                      className={`w-[50%] h-[2px] bg-my-gold rounded-md transition-all duration-300 origin-left -translate-y-[0.45rem] ${
+                        isLeftMenuOpen ? "rotate-[45deg]" : ""
+                      }`}
+                    />
                   </div>
-                </label>
-                menu
-              </Boss>
-              
+                  <span>Menu</span>
+                </Boss>
+              </div>
+
               <NavRight>
-                  <LoginButton className=' uppercase'>
-                    <IoLogoBitcoin className=' text-3xl'/>
-                  </LoginButton>
+                <LoginButton className="uppercase">
+                  <IoLogoBitcoin className="text-3xl cursor-pointer " onClick={handleLogin} />
+                </LoginButton>
               </NavRight>
             </Content>
           </div>
         </PaddingGlobal>
       </Navigation>
 
-      <Overlay isOpen={isMenuOpen} onClick={closeMenu} />
-      
-      <Sidebar isOpen={isMenuOpen}>
+      <Overlay $isOpen={isLeftMenuOpen} onClick={closeMenu} />
+
+      <Sidebar $isOpen={isLeftMenuOpen}>
         <MenuHeader>Menu</MenuHeader>
-        <MenuItem onClick={handleLogin}>{t('login')}</MenuItem>
+        <MenuItem onClick={handleLogin}>{t("login")}</MenuItem>
         <MenuItem>
           <LanguageSwitcher intro={true} />
         </MenuItem>
       </Sidebar>
+
     </>
   );
 }

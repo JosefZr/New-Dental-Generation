@@ -13,13 +13,15 @@ const UserProvider = ({ children }) => {
     const [pendingRequests, setPendingRequests]=useState([])
     const [receivedRequests,setReceivedRequests] = useState([])
     const [friends,setFriends ] = useState([]);
-      const [channelType, setChannelType] = useState('');
-      const [channelAllowedUsers, setChannelAllowedUsers] = useState('');
-      const [updateChannel, setUpdateChannel] = useState({})
-  const [channels, setChannels] = useState([]);
-  const [onSettingsToggle, setOnSettingsToggle] = useState(false)
-  const[clickedChannel, setClickedChannel] = useState("")
-
+    const [channelType, setChannelType] = useState('');
+    const [channelAllowedUsers, setChannelAllowedUsers] = useState('');
+    const [updateChannel, setUpdateChannel] = useState({})
+    const [channels, setChannels] = useState([]);
+    const [onSettingsToggle, setOnSettingsToggle] = useState(false)
+    const [clickedChannel, setClickedChannel] = useState(false)
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isDashboardSidebarOpen,setIsDashboardSidebarOpen] = useState(false);
+    const [isDhaboardOpen, setIsDhaboardOpen]= useState("")
   const fetchMessages = async (recipientId) => {
     try {
       const response = await fetch(
@@ -42,7 +44,6 @@ const UserProvider = ({ children }) => {
       console.error(error);
     }
   };
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     return (
     <UserContext.Provider value={{
         user, setUser,
@@ -62,7 +63,9 @@ const UserProvider = ({ children }) => {
         updateChannel, setUpdateChannel,
         channels, setChannels,
         onSettingsToggle, setOnSettingsToggle,
-        clickedChannel, setClickedChannel
+        clickedChannel, setClickedChannel,
+        isDashboardSidebarOpen,setIsDashboardSidebarOpen,
+        isDhaboardOpen, setIsDhaboardOpen
     }}>
       {children}
     </UserContext.Provider>

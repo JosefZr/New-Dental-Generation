@@ -201,8 +201,8 @@ const CtaChecks = styled.div`
                         </linearGradient>
                         </defs>
                     </svg>
-                    <line x1="298.5" x2="298.5" y2="30" stroke="var(--white)"></line>
                     </LinePoint>
+
                     <LineChoice>
                     <PathItem>
                         <div className=" relative overflow-visible mt-10">

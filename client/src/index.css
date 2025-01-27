@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --gold: #EDE8D0;
+  --gold: #ecc879;
   --smallGold:#BC9C22;
   --white:#EBEBEB;
   --darkBlue:#0d0f18;
@@ -55,7 +55,7 @@
     --b3: 210 27.586% 22.745%;
     --in: 198.43 67.914% 36.667%;
     --su: 157.83 64.082% 51.961%;
-    hey: #F59E0B;
+    --hey: #F59E0B;
     --er: 0 70.563% 45.294%;
     --s: 42.581 76.543% 68.235%;
     --sf: 42.992 57.991% 57.059%;
@@ -92,6 +92,7 @@
     --grey-700: #616161;
     --grey-800: #424242;
     --grey-900: #212121;
+    
 }
 body {
   font-family: 'Jost', sans-serif;
@@ -261,6 +262,14 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
     --background: 240 10% 3.9%;
@@ -287,6 +296,14 @@ body {
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 

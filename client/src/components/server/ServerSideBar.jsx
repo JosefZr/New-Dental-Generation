@@ -29,7 +29,7 @@ export default function ServerSideBar({
   clickedChannelID,
   clickChannelName
 }) {
-  const {channels, setChannels,user, setUser} = useContext(UserContext)
+  const {channels, setChannels,user} = useContext(UserContext)
 
   const getDaysDifference = (createdAt) => {
     const created = new Date(createdAt);
@@ -49,7 +49,7 @@ const currentProgress = progress.find(stage =>
     diffDays <= stage.maxDays
 ) || progress[progress.length - 1];
 
-  const { setOwner, setUpdateChannel,clickedChannel, setClickedChannel } = useContext(UserContext);
+  const { setOwner, setUpdateChannel, setClickedChannel } = useContext(UserContext);
   const { data, isLoading, isError } = useGetAllChannels();
   const deleteTask = useDeleteChannel();
   const { onOpen } = useModal();
@@ -74,9 +74,11 @@ const currentProgress = progress.find(stage =>
     russia: channels.filter(chan=>chan.type==="russia")
 
   };
+  const { isSidebarOpen, setIsSidebarOpen } = useContext(UserContext);
 
   const handleChannelClick = async (id, title) => {
-    setClickedChannel(title)
+    setClickedChannel(id)
+    setIsSidebarOpen(!isSidebarOpen)
     try {
       const response = await fetch(
         `http://localhost:3000/api/v1/channels/${id}`,
@@ -100,7 +102,29 @@ const currentProgress = progress.find(stage =>
       console.error("Error fetching messages:", error);
     }
   };
+const handlePinChannel = async (channel) => {
+  console.log("clicked")
+    try {
+      const response = await fetch(`http://localhost:3000/api/v1/channels/pin`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("token").toString(),
+        },
+        body: JSON.stringify({ locked: !channel.locked, channel:channel._id })
+      });
 
+      if (response.ok) {
+        console.log("done",response)
+
+        setChannels(prev => prev.map(chan => 
+          chan._id === channel._id ? { ...chan, locked: !chan.locked } : chan
+        ));
+      }
+    } catch (error) {
+      console.error("Error pinning/unpinning channel:", error);
+    }
+  };
   const handleDeleteChannel = async (id) => {
     deleteTask.mutate({ id });
     setChannels(prev => prev.filter(chan => chan._id !== id));
@@ -114,9 +138,32 @@ const currentProgress = progress.find(stage =>
     onOpen(MODAL_TYPE.BIR)
   }
 
+  const [isFirstCallMade, setIsFirstCallMade] = useState(false);
 
+  useEffect(() => {
+    if (!isFirstCallMade && channels.length > 0 && userInfo) {
+      // Determine the channels based on the user's role
+      const roleBasedChannels = {
+        admin: groupedChannels.control,
+        moderator: groupedChannels.control,
+        dentist: groupedChannels.dentist,
+        lab: groupedChannels.lab,
+        store: groupedChannels.store,
+      };
+  
+      const userRole = userInfo.role;
+      const roleChannels = roleBasedChannels[userRole] || [];
+  
+      // Fetch the first channel for the user's role
+      if (roleChannels.length > 0) {
+        const firstChannel = roleChannels[0];
+        handleChannelClick(firstChannel._id, firstChannel.title);
+        setIsFirstCallMade(true); // Mark as executed
+      }
+    }
+  }, [channels, userInfo, groupedChannels, handleChannelClick]);
   return (
-    <div className="flex flex-col h-full text-my-white w-full bg-my-dark">
+    <div className="flex flex-col h-full text-my-white w-full ">
       <ServerHeader />
 
       <ScrollArea className="flex-1 pr-2 pt-2">
@@ -129,12 +176,15 @@ const currentProgress = progress.find(stage =>
                 <ServerSection label="Admin & Moderators" allowedRole="ADMD" channelType="control">
                   {groupedChannels.control.map((chan) => (
                     <ServerChannel
+                      id={chan._id}
                       key={chan._id}
                       channel={chan.title}
                       memberRole=""
                       onEditClick={()=>handleEditChannel(chan)}
                       onDeleteClick={() => handleDeleteChannel(chan._id)}
                       onClickChan={() => handleChannelClick(chan._id, chan.title)}
+                      onPinClick={()=>handlePinChannel(chan)}
+                      isPinned={chan.locked}
                     />
                   ))}
                 </ServerSection>
@@ -144,23 +194,28 @@ const currentProgress = progress.find(stage =>
             {groupedChannels.dentist.length > 0 && (
               <div className="mx-2">
                 <ServerSection label="Dentists channels" allowedRole="dentist" channelType="room">
-                  {groupedChannels.dentist.map((channel) => (
-                    <ServerChannel
-                      key={channel._id}
-                      channel={channel.title}
-                      memberRole=""
-                      onEditClick={()=>handleEditChannel(channel)}
-                      onDeleteClick={() => handleDeleteChannel(channel._id)}
-                      onClickChan={() => {
-                        handleChannelClick(channel._id, channel.title);
-                        setOwner({
-                          ownerId: channel.owner,
-                          allowedUsers: channel.allowedUsers,
-                          chanId: channel._id,
-                        });
-                      }}
-                    />
-                  ))}
+                {groupedChannels.dentist
+                .sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
+                .map((channel) => (
+                  <ServerChannel
+                    key={channel._id}
+                    channel={channel.title}
+                    id={channel._id}
+                    memberRole=""
+                    onEditClick={() => handleEditChannel(channel)}
+                    onPinClick={() => handlePinChannel(channel)}
+                    isPinned={channel.locked}
+                    onDeleteClick={() => handleDeleteChannel(channel._id)}
+                    onClickChan={() => {
+                      handleChannelClick(channel._id, channel.title);
+                      setOwner({
+                        ownerId: channel.owner,
+                        allowedUsers: channel.allowedUsers,
+                        chanId: channel._id,
+                      });
+                    }}
+                  />
+                ))}
                 </ServerSection>
               </div>
             )}
@@ -168,13 +223,17 @@ const currentProgress = progress.find(stage =>
             {groupedChannels.lab.length > 0 && (
               <div className="mx-2">
                 <ServerSection label="Labs channels" allowedRole="lab" channelType="room">
-                  {groupedChannels.lab.map((channel) => (
+                  {groupedChannels.lab.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
+                .map((channel) => (
                     <ServerChannel
                       key={channel._id}
                       channel={channel.title}
+                      id={channel._id}
                       memberRole=""
                       onEditClick={()=>handleEditChannel(channel)}
                       onDeleteClick={() => handleDeleteChannel(channel._id)}
+                      onPinClick={()=>handlePinChannel(channel)}
+                      isPinned={channel.locked}
                       onClickChan={() => {
                         handleChannelClick(channel._id, channel.title);
                         setOwner({
@@ -192,13 +251,17 @@ const currentProgress = progress.find(stage =>
             {groupedChannels.store.length > 0 && (
               <div className="mx-2">
                 <ServerSection label="Stores Channels" allowedRole="store" channelType="room">
-                  {groupedChannels.store.map((channel) => (
+                  {groupedChannels.store.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
+                .map((channel) => (
                     <ServerChannel
                       key={channel._id}
                       channel={channel.title}
+                      id={channel._id}
                       memberRole=""
                       onEditClick={()=>handleEditChannel(channel)}
                       onDeleteClick={() => handleDeleteChannel(channel._id)}
+                      onPinClick={()=>handlePinChannel(channel)}
+                      isPinned={channel.locked}
                       onClickChan={() => {
                         handleChannelClick(channel._id, channel.title);
                         setOwner({
@@ -217,13 +280,17 @@ const currentProgress = progress.find(stage =>
             {groupedChannels.store.length > 0 && (
               <div className="mx-2">
                 <ServerSection label="Algeria Channels" allowedRole="all"  channelType="algeria">
-                  {groupedChannels.algeria.map((channel) => (
+                  {groupedChannels.algeria.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
+                .map((channel) => (
                     <ServerChannel
                       key={channel._id}
                       channel={channel.title}
+                      id={channel._id}
                       memberRole=""
                       onEditClick={()=>handleEditChannel(channel)}
                       onDeleteClick={() => handleDeleteChannel(channel._id)}
+                      onPinClick={()=>handlePinChannel(channel)}
+                      isPinned={channel.locked}
                       onClickChan={() => {
                         handleChannelClick(channel._id, channel.title);
                         setOwner({
@@ -243,13 +310,17 @@ const currentProgress = progress.find(stage =>
             {groupedChannels.store.length > 0 && (
               <div className="mx-2">
                 <ServerSection label="Russia Channels" allowedRole="all" channelType="russia">
-                  {groupedChannels.russia.map((channel) => (
+                  {groupedChannels.russia.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
+                .map((channel) => (
                     <ServerChannel
                       key={channel._id}
                       channel={channel.title}
+                      id={channel._id}
                       memberRole=""
                       onEditClick={()=>handleEditChannel(channel)}
                       onDeleteClick={() => handleDeleteChannel(channel._id)}
+                      onPinClick={()=>handlePinChannel(channel)}
+                      isPinned={channel.locked}
                       onClickChan={() => {
                         handleChannelClick(channel._id, channel.title);
                         setOwner({

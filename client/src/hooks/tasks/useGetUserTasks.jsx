@@ -19,6 +19,6 @@ const fetchUserTasks = async (id,category) => {
 export const useUserTasks = ({id,category}) => {
     return useQuery(["userTasks", id], () => fetchUserTasks(id,category), {
         enabled: !!id, // Fetch only when userId is provided
-        staleTime: 5 * 60 * 1000, // Cache data for 5 minutes
+        staleTime: 0, // Reduce stale time
     });
 };

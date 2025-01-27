@@ -12,7 +12,6 @@ import {
   SuccessPage,
 } from "./pages";
 
-import ChannelChat from "./components/chatComponents/ChannelChat";
 import Dashboard from "./pages/Dashboard";
 import Instructor from "./pages/Instructor";
 import AddNewCourse from "./pages/AddNewCourse";
@@ -22,8 +21,6 @@ import Profile from "./pages/Profile";
 import Users from "./pages/Users";
 import Friends from "./pages/Friends";
 import UserChat from "./pages/chat/UserChat";
-import Chat2 from "./pages/PlanLikePro";
-import PlanLikepro from "./pages/PlanLikePro";
 import DentalStuff from "./pages/DentalStuff";
 
 import ProtectedRoutes from "./utils/ProtectedRoutes";
@@ -31,6 +28,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import SignupAdmins from "./pages/SignupAmins";
 import Quotes from "./pages/Quotes";
+
 export default function App() {
   return (
     <SocketProvider>

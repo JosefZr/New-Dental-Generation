@@ -15,7 +15,7 @@ const ChannelSchema = new Schema({
   },
   type: {
     type: String,
-    enum: ["channel", "room", "control","algeria","russia"],
+    enum: ["channel", "room", "control","algeria","russia","egypt","europe"],
     required: true,
   },
   locked: {

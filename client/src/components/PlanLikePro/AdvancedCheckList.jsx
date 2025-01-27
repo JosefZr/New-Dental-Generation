@@ -19,7 +19,7 @@ import { format } from "date-fns"
 import { LoadingSpinner } from "../server/ServerSideBar"
 import { useLocation } from "react-router-dom"
 
-export default function AdvancedCheckList({tasks = [], isLoading, title}) {
+export default function dAdvancedCheckList({tasks = [], isLoading, title}) {
     const [todayTasks, setTodayTasks] = useState([]);
     const location = useLocation(); // Get the current location
     const isActive = location.pathname.includes('/channels');
@@ -41,10 +41,10 @@ export default function AdvancedCheckList({tasks = [], isLoading, title}) {
         else{
             const today = new Date().toISOString().split('T')[0];
             const todaysTasks = tasks.filter((task) => {
-              if (!task.createdAt) return false;
-              const taskDate = new Date(task.createdAt);
-              if (isNaN(taskDate)) return false;
-              return taskDate.toISOString().split('T')[0] === today;
+                if (!task.createdAt) return false;
+                const taskDate = new Date(task.createdAt);
+                if (isNaN(taskDate)) return false;
+                return taskDate.toISOString().split('T')[0] === today;
             });
             setTodayTasks(todaysTasks);
         }
@@ -144,7 +144,7 @@ export default function AdvancedCheckList({tasks = [], isLoading, title}) {
                         <div className="group relative flex w-full items-center rounded-lg" >
                             <div className="group relative w-full rounded-xl bg-next-d mt-2 mb-2 inline-flex flex-col justify-around overflow-visible " style={{border:"1px solid gray"}}>
                                 <div className="group rounded-xl m-[1px] px-[5.5px] pt-[7.5px] pb-[0.79rem] z-10 inline-flex flex-col justify-around gap-1 w-[calc(100%-2px)] transition-all" style={{
-                                    background:"rgb(13, 26, 37, 1)"
+                                    background:"#0E1C26"
                                 }}>
                                     <div className="z-10 flex items-center rounded-xl  text-white py-2 pr-3 pl-5" style={{
                                         backgroundColor: "rgb(6, 14, 21, 1)",

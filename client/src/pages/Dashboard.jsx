@@ -6,19 +6,19 @@ import { UserContext } from "@/context/UserContext";
 import { useContext } from "react";
 
 export default function Dashboard() {
-  const {isSidebarOpen} = useContext(UserContext);
+  const {isDashboardSidebarOpen} = useContext(UserContext);
   return (
     <div className="flex h-screen">
       {/* Navigation Sidebar */}
-      <div className={`md:flex w-[72px] bg-gray-900 h-full ${
-        isSidebarOpen ? "hidden" : ""
+      <div className={`lg:flex w-[72px] bg-[ #0A1720] h-full ${
+        isDashboardSidebarOpen ? "hidden" : ""
       }`}>
         <NavigationSidebar />
       </div>
 
       {/* Server Sidebar */}
-      <div className={` md:flex w-52 bg-gray-800 h-full ${
-        isSidebarOpen ? "hidden" : ""
+      <div className={` lg:flex w-72 bg-[#0E1C26] h-full ${
+        isDashboardSidebarOpen ? "hidden" : ""
       }`}>
 
         <DashboardSidebar />

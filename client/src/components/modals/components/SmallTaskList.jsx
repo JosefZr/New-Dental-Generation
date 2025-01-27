@@ -28,21 +28,21 @@ const Container = styled.div`
   overflow: hidden; /* Prevent scrolling entirely */
 `;
 export const DAYS_OF_WEEK = [
-  { value: "su", label: "Su" },
-  { value: "mo", label: "Mo" },
-  { value: "tu", label: "Tu" },
-  { value: "we", label: "We" },
-  { value: "th", label: "Th" },
-  { value: "fr", label: "Fr" },
-  { value: "sa", label: "Sa" },
+    { value: "su", label: "Su" },
+    { value: "mo", label: "Mo" },
+    { value: "tu", label: "Tu" },
+    { value: "we", label: "We" },
+    { value: "th", label: "Th" },
+    { value: "fr", label: "Fr" },
+    { value: "sa", label: "Sa" },
 ];
 export const REMINDER_TIMES = [
-  { value: "at_time", label: "At time of task" },
-  { value: "5_min", label: "5 minutes before" },
-  { value: "10_min", label: "10 minutes before" },
-  { value: "15_min", label: "15 minutes before" },
-  { value: "30_min", label: "30 minutes before" },
-  { value: "1_hour", label: "1 hour before" },
+    { value: "at_time", label: "At time of task" },
+    { value: "5_min", label: "5 minutes before" },
+    { value: "10_min", label: "10 minutes before" },
+    { value: "15_min", label: "15 minutes before" },
+    { value: "30_min", label: "30 minutes before" },
+    { value: "1_hour", label: "1 hour before" },
 ];
 export default function SmallTaskList() {
 

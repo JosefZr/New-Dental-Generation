@@ -31,9 +31,11 @@ const Card = styled.div`
 `;
 
 const ScrollButton = styled.button`
-    background-color: rgba(255, 255, 255, 0.7);
-    color: black;
+    background-color: hsl(211.3 46.939% 9.6078%);
+    border: 1px solid hsl(211.3 46.939% 9.6078%);
+    color: white;
     border-radius: 50%;
+
     width: 40px;
     height: 40px;
     display: flex;
@@ -43,7 +45,7 @@ const ScrollButton = styled.button`
     transition: background-color 0.3s;
 
     &:hover {
-        background-color: rgba(255, 255, 255, 0.9);
+        background-color: black;
     }
 `;
 
@@ -143,8 +145,8 @@ export default function Carousels({handleClose}) {
                     </Carousel>
                     <div className="pointer-events-none absolute top-0 right-0 h-full w-16 bg-gradient-to-r from-transparent to-neutral"></div>
                     <div className="absolute top-0 left-0 flex h-full w-full items-center justify-between p-1">
-                        <ScrollButton onClick={scrollLeft} className="z-10">
-                            <IoIosArrowBack size={24} />
+                        <ScrollButton onClick={scrollLeft} className="z-10 bg-my-dark-blue">
+                            <IoIosArrowBack size={24} className=''/>
                         </ScrollButton>
                         <ScrollButton onClick={scrollRight} className="z-10">
                             <IoIosArrowForward size={24} />

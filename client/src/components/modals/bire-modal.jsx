@@ -11,8 +11,9 @@ import DAilyCheckList from "./components/DAilyCheckList";
 import { useState } from "react";
 import Home from "./components/Home";
 import SmallDailyCheckList from "./components/SmallDailyCheckList";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Schedular from "./components/Schedular";
+import { IoSettingsOutline } from "react-icons/io5";
 
 const menuItems = [
     {
@@ -39,6 +40,7 @@ export default function BireModal() {
     const location = useLocation();    
     const isChannelsRoute = location.pathname.includes(`/channels`); // Check if the current path includes the id
         // Check if the route contains "channels"
+        const navigate = useNavigate()
 
     // Ensure the modal only opens on the "channels" route
     const isModalOpen = isOpen && type === MODAL_TYPE.BIR && isChannelsRoute;
@@ -46,18 +48,30 @@ export default function BireModal() {
     const handleClose = () => {
         onClose();
     };
+    const handleSettings = ()=>{
+        navigate("/dashboard")
+        onClose();
+    }
     return (
     <Dialog open={isModalOpen} onOpenChange={handleClose} className="modal-container pointer-events-auto fixed inset-0 flex transform cursor-auto justify-center transition-all duration-[250ms] lg:items-center items-center animate-scale-fade-in " style={{
         animationFillMode:"both"
     }}>
-        <DialogContent  className=" border-none flex flex-col bg-neutral sm:w-full lg:rounded-lg  shadow-xl max-w-[100dvw] w-[100vw] max-h-[95%]  md:w-[100dvw] md:h-[100dvh] pointer-events-auto overflow-hidden rounded-t-3xl md:max-h-[93dvh] md:max-w-[93dvw] md:rounded-lg md:border md:border-primary md:border-solid max-md:p-0 ">
-            <div className="max-md:hidden grid w-full grid-flow-row grid-cols-6 grid-rows-12 gap-3 bg-next-midnight px-5 h-full md:[&>_*]:[zoom:95%] xl:[&>_*]:[zoom:90%]">
-                <div className="absolute top-[-48px] right-2 z-10 flex items-center justify-end sm:top-1">
+        <DialogContent  className=" border-none flex flex-col  sm:w-full lg:rounded-lg  shadow-xl max-w-[100dvw] w-[100vw] max-h-[95%]  md:w-[100dvw] md:h-[100dvh] pointer-events-auto overflow-hidden rounded-t-3xl md:max-h-[93dvh] md:max-w-[93dvw] md:rounded-lg md:border md:border-my-gold md:border-solid max-md:p-0 "
+            style={{backgroundColor:"rgb(6 14 21/1)"}}    
+        >
+            <div className="max-md:hidden grid w-full grid-flow-row grid-cols-6 grid-rows-12 gap-3 bg-next-midnight  h-full md:[&>_*]:[zoom:95%] xl:[&>_*]:[zoom:90%]">
+                <div className="absolute top-[-48px] right-0.5 z-10 flex items-center justify-end sm:top-1">
                     <button
-                        className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950 text-center"
+                        className="h-[3rem] w-[3rem] rounded-full px-1 bg-[#0E1C26] flex flex-wrap items-center justify-center text-center"
+                        onClick={() => {navigate("/dashboard"), onClose()}}
+                        >
+                        < IoSettingsOutline className=" h-[24px] w-[24px] text-my-white"/>
+                    </button>
+                    <button
+                        className="h-[3rem] w-[3rem] rounded-full px-1 bg-[#0E1C26] flex flex-wrap items-center justify-center text-center"
                         onClick={handleClose}
                         >
-                        < IoMdClose className=" text-2xl text-my-white"/>
+                        < IoMdClose className=" h-[24px] w-[24px] text-my-white"/>
                     </button>
                 </div>
                 <Welcome/>
@@ -70,9 +84,15 @@ export default function BireModal() {
             </div>
             <div className="hidden z-[10] bg-[#0E1C26] max-md:inline h-full min-h-full  flex-col " >
                 <div className="flex h-auto w-full flex-col swipe-dialog-scroll-descendant"> 
-                    <div className="flex w-full items-center justify-end p-3">
+                    <div className="flex w-full items-center justify-end p-3 gap-2">
                     <button
-                        className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950 text-center"
+                        className="h-[3rem] w-[3rem] rounded-full px-1 bg-slate-950 flex flex-wrap items-center justify-center text-center"
+                        onClick={handleSettings}
+                        >
+                        < IoSettingsOutline className=" text-2xl text-my-white"/>
+                    </button>
+                    <button
+                        className="h-[3rem] w-[3rem] rounded-full px-1 bg-slate-950 flex flex-wrap items-center justify-center text-center"
                         onClick={handleClose}
                         >
                         < IoMdClose className=" text-2xl text-my-white"/>

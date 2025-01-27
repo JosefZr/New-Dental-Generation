@@ -13,13 +13,15 @@ import { GiHamburgerMenu } from "react-icons/gi"
 export default function Quotes() {
   const [newItem, setNewItem] = useState('')
   const [editingId, setEditingId] = useState(null)
-  const { setIsSidebarOpen } = useContext(UserContext)
+  const {setIsDashboardSidebarOpen } = useContext(UserContext)
 
   const toggleSidebar = () => {
-    setIsSidebarOpen((prev) => !prev)
+    setIsDashboardSidebarOpen((prev) => !prev)
   }
 
-  const { data: inventory , isLoading, isError, error } = useGetAllQuoates()
+  const { data: inventoryResponse , isLoading, isError, error } = useGetAllQuoates()
+  const inventory = Array.isArray(inventoryResponse) ? inventoryResponse : []; // Ensure it's an array
+
   const createInventoryMutation = useCreateQuoate()
   const deleteInventoryMutation = useDeleteQuoate()
   const updateInventory = useIpdateQuoate()
@@ -54,15 +56,15 @@ export default function Quotes() {
     }
   }
     return (
-        <div className="fixed w-full px-5">
+        <div  className="fixed w-full lg:w-[80%] mx-auto px-5 overflow-x-hidden">
           <button
             className="absolute top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
             onClick={toggleSidebar}
           >
-            <GiHamburgerMenu className="md:hidden text-2xl text-white" />
+            <GiHamburgerMenu className="lg:hidden text-2xl text-white" />
           </button>
           <div
-            className="max-w-md mx-auto mt-14 p-6 rounded-lg shadow-lg"
+            className="max-w-xl mx-auto mt-14 p-6 rounded-lg min-w-1 shadow-lg"
             style={{ background: 'rgb(13, 26, 37, 1)' }}
           >
             <h1 className="text-2xl font-bold mb-4 text-center">Quotes</h1>

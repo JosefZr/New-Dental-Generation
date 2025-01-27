@@ -29,7 +29,11 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const userInfo = jwtDecode(localStorage.getItem("token"));
   const userRole = userInfo.role;
   const userRegion = userInfo.region;
-
+// Admin and Moderator override: allow access to all channels
+if (userRole === "admin" || userRole === "moderator") {
+  console.log("Access granted for admin/moderator override.");
+  return true;
+}
   // Handle region-specific channels
   if (owner?.type === "algeria" || owner?.type === "russia") {
     const channelRegion = owner.type;
@@ -273,10 +277,12 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
       }
     };
   }, [messages]);
-
 const getAccessDeniedMessage = () => {
   const userInfo = jwtDecode(localStorage.getItem("token"));
-  
+    // Allow admins and moderators to send messages in all channels
+    if (["admin", "moderator"].includes(userInfo.role)) {
+      return null; // No access denied message for admins and moderators
+    }
   if (owner?.type === "algeria" && userInfo.region !== "algeria") {
     return "Only users from Algeria can send messages in this channel";
   }
@@ -296,14 +302,13 @@ const getAccessDeniedMessage = () => {
   return "You don't have permission to send messages in this channel";
 };
   return (
-    <div className="flex h-full flex-col bg-[ #0A1720]">
+    <div className="flex h-full flex-col bg-[ #0A1720] scrollbar-custom">
       <div className="z-20 flex flex-col flex-1">
         <div className="relative h-full flex-1 bg-neutral">
           <div className="absolute top-0 right-0 left-0 z-20 flex flex-col">
             {/* for the title of the channel */}
             <header
               className="flex flex-shrink-0 items-end justify-between !pt-0 relative z-10 border-grey-secondary bg-base-300"
-              
             >
               <section className="flex h-full w-full items-center justify-between pl-3 py-2 text-lg bg-[#0E1C26]">
                 <div className="flex w-full items-center font-medium">

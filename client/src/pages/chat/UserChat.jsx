@@ -3,7 +3,6 @@ import Message from "@/components/chatComponents/Message";
 import { FaArrowDown, FaHashtag } from "react-icons/fa6";
 import { useSocket } from "../../socketContext";
 import { Plus, X } from 'lucide-react'
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
 import { useState, useEffect, useRef, useContext } from "react";
@@ -25,7 +24,7 @@ export default function UserChat() {
   const [isFetching, setIsFetching] = useState(false); // Prevent duplicate fetches
 
   const socket = useSocket();
-  const {isSidebarOpen, setIsSidebarOpen,userMessages,chatId} = useContext(UserContext);
+  const {isSidebarOpen, setIsSidebarOpen,userMessages,chatId,isDashboardSidebarOpen,setIsDashboardSidebarOpen} = useContext(UserContext);
   const [messages, setMessages] = useState(userMessages || []);
 
   const [images, setImages] = useState([])
@@ -33,6 +32,8 @@ export default function UserChat() {
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
+    setIsDashboardSidebarOpen(!isDashboardSidebarOpen);
+
   };
   const lastMessageRef = useRef(null);
   const topMessageRef = useRef(null);
@@ -283,25 +284,20 @@ export default function UserChat() {
   }, [messages]);
 
   return (
-    <div className="flex h-full flex-col bg-neutral-950">
+    <div className="flex h-full flex-col bg-[ #0A1720] scrollbar-custom">
       <div className="z-20 flex flex-col flex-1">
         <div className="relative h-full flex-1 bg-neutral">
           <div className="absolute top-0 right-0 left-0 z-20 flex flex-col">
             {/* for the title of the channel */}
             <header
-              className="flex flex-shrink-0 items-end justify-between !pt-0 relative z-10 border-grey-secondary border-b bg-base-300"
-              style={{
-                height: "48px",
-                minHeight: "48px",
-                maxHeight: "48px",
-                paddingTop: 0,
-              }}
+              className="flex flex-shrink-0 items-end justify-between !pt-0 relative z-10   bg-base-300"
+              
             >
-              <section className="flex h-full w-full items-center justify-between pl-3">
+              <section className="flex h-full w-full items-center justify-between pl-3 py-2 text-lg bg-[#0E1C26]">
                 <div className="flex w-full items-center font-medium">
                   <div className="flex items-center justify-center gap-3">
                     <div className="flex items-center gap-3 font-medium">
-                      <GiHamburgerMenu className="md:hidden text-2xl"onClick={toggleSidebar}/>
+                      <GiHamburgerMenu className="lg:hidden text-2xl cursor-pointer"onClick={toggleSidebar}/>
                       <span className="flex items-center gap-[2px]">
                         <FaHashtag />| {recipient}
                       </span>
@@ -393,16 +389,16 @@ export default function UserChat() {
             }`}
           >
             <footer
-              className="relative mb-inset-bottom   z-20 w-full bg-base-100 transition-transform duration-keyboard translate-y-0"
+              className="relative mb-inset-bottom z-20 w-full bg-[#0E1C26] transition-transform duration-keyboard translate-y-0"
               style={{ paddingBottom: "0px" }}
             >
               {/* this for the user when he scroll up he can return and scroll to the present msg */}
-              <div className="w-full user-select-none flex h-[28px] items-center justify-between overflow-hidden text-ellipsis whitespace-nowrap bg-opacity-80 px-3 font-medium text-sm backdrop-blur-[20px] backdrop-filter  z-100 mb-inset-bottom transform cursor-pointer transition-all duration-75 bg-base-300 text-base-content translate-y-0 opacity-100 bottom-full">
+              {/* <div className="w-full user-select-none flex h-[28px] items-center justify-between overflow-hidden text-ellipsis whitespace-nowrap bg-opacity-80 px-3 font-medium text-sm backdrop-blur-[20px] backdrop-filter  z-100 mb-inset-bottom transform cursor-pointer transition-all duration-75 bg-base-300 text-base-content translate-y-0 opacity-100 bottom-full">
                 <div>Viewing older messages</div>
                 <div className="flex items-center">
                   See present <FaArrowDown className="ml-2" />
                 </div>
-              </div>
+              </div> */}
               {/* for the input  */}
               <div className="flex flex-shrink-0 w-full items-center gap-3 border-gray-700 border-t px-3">
             <div className="w-full max-w-md mx-auto flex flex-col-reverse">

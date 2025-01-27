@@ -17,6 +17,9 @@ export default function Header() {
     const clearSearch = () => {
         setSearchTerm('');
     };
+    const onOpenModal = ()=>{
+        onOpen(MODAL_TYPE.SEARCH_MODAL)
+    }
     return (
         <>
         <div className="sm:hidden flex flex-shrink-0 items-end justify-between border-grey-secondary  relative bg-alt-header" style={{
@@ -38,9 +41,7 @@ export default function Header() {
                 </div>
                 <div className="flex items-center">
                     <div >
-                        <button className="btn mr-2 btn-sm btn-circle btn-ghost" onClick={()=>{
-                            onOpen(MODAL_TYPE.SEARCH_MODAL);
-                        }}>
+                        <button className="btn mr-2 btn-sm btn-circle btn-ghost" onClick={onOpenModal}>
                             <FaSearchDollar height="24px" width="24px" className=" m-auto text-gray-300"/>
                         </button>
                     </div>
