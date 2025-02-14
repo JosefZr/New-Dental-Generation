@@ -6,8 +6,7 @@ import styled from "styled-components"
 import "../job.css"
 import { useGetAllJobs } from "@/hooks/job/useGetAllJobs"
 import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select"
 const Section = styled.section`
   background-image: url(https://www.jointherealworld.com/campus/images/new_hero_bg.png);
   background-size: auto;
