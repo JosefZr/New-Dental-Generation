@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import "./BuisnessSecret.css"
+import "./buisnessSecret.css"
 import { LiaChessBishopSolid } from "react-icons/lia"
 const Hero = styled.div`
   opacity: 1;
