@@ -53,7 +53,7 @@ export default function DailyEarnings() {
                 {
                 title: newTaskData,
                 completed: false,
-                category: "Advanced",
+                type: "Earnings",
                 },
             ]);
         const id = userInfo.userId
@@ -95,16 +95,16 @@ export default function DailyEarnings() {
         setNewTaskData((prev) => ({ ...prev, [field]: value }));
     };
 return (
-    <Container className="carousel carousel-start overflow-y-hidden overscroll-none">
+    <Container className="carousel carousel-start  overscroll-none">
     <div
-        className="carousel-item relative h-full max-h-full max-w-[100dvw] overflow-hidden"
+        className="carousel-item relative h-full max-h-full  w-full"
         style={{
         scrollSnapStop: "always",
         scrollSnapAlign: "start",
         overflowAnchor: "none",
         }}
     >
-        <div className="w-full max-w-md px-5 z-10 pt-2 flex flex-row justify-center gap-2">
+        <div className="w-full   z-10 pb-2 flex flex-row justify-center gap-2">
             <div className="relative w-full">
                 <Input
                 className="w-full bg-[#1A1F24] border-gray-800  text-white placeholder:text-gray-500 "
@@ -206,7 +206,7 @@ return (
         </div>
         </DialogContent>
     </Dialog> */}
-    <div
+    {/* <div
         className=" h-full max-h-full max-w-[100dvw] overflow-hidden"
         style={{
         scrollSnapStop: "always",
@@ -216,7 +216,7 @@ return (
     >
         <EarningsChart />
 
-    </div>
+    </div> */}
 
     </Container>
 )

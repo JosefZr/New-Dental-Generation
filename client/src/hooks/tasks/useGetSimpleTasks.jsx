@@ -1,7 +1,6 @@
 import { useQuery } from "react-query";
 
 const fetchUserSimpleTasks = async (id,category) => {
-    console.log(id,category)
     const response = await fetch(`http://localhost:3000/api/v1/tasks/getAllSimple`,{
         method: "POST",
         headers: {
@@ -13,7 +12,6 @@ const fetchUserSimpleTasks = async (id,category) => {
         throw new Error("Failed to fetch tasks");
     }
     const data = await response.json();
-    console.log(data)
     return data.tasks;
 };
 

@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
-import { GiCrownCoin, GiLaurelCrown } from "react-icons/gi";
+import { GiLaurelCrown } from "react-icons/gi";
 import { FaRegChessKnight } from "react-icons/fa6";
 import { LiaChessBishopSolid, LiaChessKingSolid, LiaChessPawnSolid, LiaChessQueenSolid, LiaChessRookSolid } from "react-icons/lia";
-import { IoIosInformationCircleOutline } from "react-icons/io";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { LiaChessKnightSolid } from "react-icons/lia";
+import Informations from "./Informations";
+import Journey from "./Journey";
+import { useState } from "react";
 
-const progress=[
+export const progress=[
     {
         name:"Pawn",
         progress:0,
@@ -118,9 +120,24 @@ const progress=[
         maxDays: 540
         },
 ]
+const menuItems = [
+  {
+    label: "infromation",
+    value: "infromation",
+    component: (props) => <Informations {...props} />,
+  },
+  {
+    label: "Your Dental Journey",
+    value: "Your Dental Journey",
+    component: (props) => <Journey {...props} />,
+  },
+]
+
 // eslint-disable-next-line react/prop-types
 export default function Preview({user}) {
    // Fix date difference calculation
+     const [activeTab, setActiveTab] = useState("infromation")
+   
     const getDaysDifference = (createdAt) => {
     const created = new Date(createdAt);
     const now = new Date();
@@ -169,6 +186,8 @@ const getRank = (days) => {
     if (days <= 540) return "Diamond";
     return "Diamond King";
 };
+const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.component;
+
     return (
         <div className="preview-container relative w-full bg-base-100 text-white">
         {/* Background Image */}
@@ -282,7 +301,7 @@ const getRank = (days) => {
                 {nextProgress.logo}
             </div>
             <div>
-                <span className="hidden md:inline">
+                <span className="">
                 {getRank(diffDays)}{' '}
                     {diffDays <= 540 ? 
                         `${nextProgress.name} in ${daysRemaining} days` : 
@@ -302,79 +321,34 @@ const getRank = (days) => {
                     left:`${percentage}%`}}></div>
             </div>
         </div>
-        <div className="flex items-center gap-1 rounded-md bg-top px-[6px] py-1 font-bold text-primary text-sm cursor-pointer mt-[15px] bg-my-dark-blue">
+        {/* <div className="flex items-center gap-1 rounded-md bg-top px-[6px] py-1 font-bold text-primary text-sm cursor-pointer mt-[15px] bg-my-dark-blue">
             <GiCrownCoin className="flex self-start text-my-gold" style={{height:"18px", width:"18px"}}/>
             <span className="text-my-gold">{user.coin}</span>
-        </div>
+        </div> */}
         </section>
 
-        <section className="line-clamp-4 px-[50px] pt-3 text-center text-sm">{user.bio}</section>
+        <section className="line-clamp-4 px-[50px] pt-3 text-center text-sm break-words">{user.bio}</section>
 
-        <div className="relative flex font-medium mt-[24px] h-[40px] w-full bg-top hover:bg-slate-700">
-        <button className="relative flex flex-1 cursor-pointer items-center justify-center transition-all ">
-            <span className="relative whitespace-nowrap bg-clip-text  text-my-white ">Information</span>
-        </button>
-        </div>
-        <div className=" h-[370px] overflow-y-auto p-[24px] swipe-dialog-scroll-descendant w-full">
-            <div className="flex flex-col gap-6">
-                <div className="flex flex-col gap-3">
-                    <div className="flex items-center justify-between ">
-                        <div className="flex items-center gap-1 transition-all text-sm font-semibold ">Power Level:
-                            <span className="bg-primary-gradient bg-clip-text text-my-gold">{user.coin}</span>
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger> 
-                                        <IoIosInformationCircleOutline className=" self-start w-4 h-auto text-my-gray"/>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                    <div className="bg-black p-4 rounded-lg text-lg">Gain Power Level By:
-                                        <ul className="list-disc ml-8 ">
-                                            <li>By Logging in Daily</li>
-                                            
-                                        </ul>
-                                    </div>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
-                        </div>
-                        <div className="flex items-end gap-1 text-grey-500 text-sm">
-                            <div className=" text-my-gold  text-[35px] w-[35px] h-[35px] left-[70px]" style={{bottom:"-2px"}}>{currentProgress.logo}</div>
-                            <span >{user.role ==="admin" && user.role==="moderator"? <FaRegChessKnight className="h-8 w-auto "/>: user.subscriptionPlan==="freeTrial" ?<GiLaurelCrown className=" h-8 w-auto text-my-gray"/> : <GiLaurelCrown className=" h-8 w-auto text-my-gold"/>}</span>
-                            <span className="text-yellow-500 text-[22px] self-center">⚡</span>
-                        </div>
-                    </div>
-                </div> 
-            </div>
-            <section>
-                <div className="flex items-center justify-between">
-                    <div className="font-semibold text-sm">Roles</div>
-                </div>
-                <div className="mt-[14px] flex flex-wrap gap-1">
-                        <div className="flex items-center rounded-md bg-neutral-900 px-2 py-1 font-semibold text-sm">
-                            <div className="mr-2 h-3 w-3 rounded-full"style={{backgroundColor:"rgb(52, 152, 219)"}}></div>
-                            <span 
-                                style={{
-                                    fontWeight:"bold",
-                                    color:`${user.role==="dentist" ?  "#ECC879":
-                                        user.role==="store" ?"rgb(52, 152, 219)":
-                                        user.role==="lab"? "rgb(255, 255, 255)":
-                                        user.role==="admin"? "rgb(99, 99, 99)":
-                                        user.role==="moderator"?"#C0C0C0"
-                                        :"rgb(201, 142, 215)"
-                                    }`
-                                }}>
-                                {user.role==="dentist" ? "Dentist":
-                                user.role==="store" ?"Dental Store":
-                                user.role==="lab"? "Dental Lab":
-                                user.role==="admin"? "Boss":
-                                user.role==="moderator"?"Soldier of Dr.Truth"
-                                :"TOP DENTIST"
-                                }
-                            </span>
-                        </div>
-                    </div>
-            </section>
-        </div>
+        <div
+  style={{ position: "relative" }}
+  className="flex flex-row font-medium mt-[24px] h-[40px] w-full border-b border-gray-600"
+>
+  {menuItems.map((menuItem, index) => (
+    <button
+      key={index}
+      className={`flex-1 cursor-pointer flex items-center justify-center transition-all hover:bg-slate-700 border-b-[2px] ${
+        activeTab === menuItem.label ? "bg-slate-800 border-blue-50" : "border-transparent"
+      }`}
+      onClick={() => setActiveTab(menuItem.label)}
+    >
+      <span className="whitespace-nowrap bg-clip-text text-my-white">{menuItem.label}</span>
+    </button>
+  ))}
+</div>
+
+        {/* Mobile Content */}
+        <div className="flex-1 overflow-hidden mt-4 w-[90%]">{ActiveComponent && <ActiveComponent user={user} />}</div>
+
         </div>
     )
     }

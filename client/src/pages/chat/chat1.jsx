@@ -9,6 +9,7 @@ import { useState, useEffect, useRef, useContext } from "react";
 import { jwtDecode } from "jwt-decode";
 import { UserContext } from "@/context/UserContext";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useAddJourney } from "@/hooks/user/useAddJourney";
 
 export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const [messages, setMessages] = useState(initialMessages || []);
@@ -29,13 +30,20 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const userInfo = jwtDecode(localStorage.getItem("token"));
   const userRole = userInfo.role;
   const userRegion = userInfo.region;
-// Admin and Moderator override: allow access to all channels
-if (userRole === "admin" || userRole === "moderator") {
-  console.log("Access granted for admin/moderator override.");
-  return true;
-}
+  // Allow everyone if allowedUsers is "all"
+  if (owner?.allowedUsers === "all") {
+    return true;
+  }
+  // Admin and Moderator override: allow access to all channels
+  if (userRole === "admin" || userRole === "moderator") {
+    return true;
+  }
   // Handle region-specific channels
-  if (owner?.type === "algeria" || owner?.type === "russia") {
+  if (owner?.type === "algeria" ||
+    owner?.type === "russia" ||
+    owner?.type === "egypt" ||
+    owner?.type === "europe" 
+  ) {
     const channelRegion = owner.type;
     const hasRegionAccess = userRegion === channelRegion;
     console.log(`Region-based access check for ${channelRegion}:`, hasRegionAccess);
@@ -129,22 +137,33 @@ if (userRole === "admin" || userRole === "moderator") {
       setDisable(false); 
     }
   }
+  const addJourney = useAddJourney();
   function sendMessage() {
     if (!msgToSend.trim() && !imagesTosnd) return;
 
     console.log(imagesTosnd , msgToSend)
-
+    console.log()
     socket.emit("channelMessage", {
       content: msgToSend,
       channelId: chanId,
       images: imagesTosnd,
       type: "text",
+      sender: userInfo.userId, // Ensure sender is included
     });
-
+    if(owner?.allowedUsers ==="all"){
+      addJourney.mutate({
+        userId: userInfo.userId,
+        content:msgToSend,
+        images:imagesTosnd,
+        chanTitle:cahnTitle,
+        chanId:chanId,
+      });
+    }
     setMessageToSend("")
     setImages([])
     setImagesToSnd([])
   }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     console.log('Submitting files:', images.map(img => img.file))
@@ -162,7 +181,6 @@ if (userRole === "admin" || userRole === "moderator") {
     }
     e.target.value="";
   }
-
 
   const socket = useSocket();
   const userInfo = jwtDecode(localStorage.getItem("token"));
@@ -203,6 +221,7 @@ if (userRole === "admin" || userRole === "moderator") {
       socket.off("channelMessage");
     };
   }, [socket, chanId, initialMessages]);
+  
   const [disable , setDisable] = useState(false)
   async function handleKeyDown(e) {
     if (e.key === "Enter") {
@@ -277,30 +296,36 @@ if (userRole === "admin" || userRole === "moderator") {
       }
     };
   }, [messages]);
-const getAccessDeniedMessage = () => {
-  const userInfo = jwtDecode(localStorage.getItem("token"));
-    // Allow admins and moderators to send messages in all channels
+  const getAccessDeniedMessage = () => {
+    const userInfo = jwtDecode(localStorage.getItem("token"));
+      // Allow admins and moderators to send messages in all channels
     if (["admin", "moderator"].includes(userInfo.role)) {
       return null; // No access denied message for admins and moderators
     }
-  if (owner?.type === "algeria" && userInfo.region !== "algeria") {
-    return "Only users from Algeria can send messages in this channel";
-  }
-  
-  if (owner?.type === "russia" && userInfo.region !== "russia") {
-    return "Only users from Russia can send messages in this channel";
-  }
-  
-  if (owner?.allowedUsers === "ADMD" && !["admin", "moderator"].includes(userInfo.role)) {
-    return "Only administrators and moderators can send messages in this channel";
-  }
-  
-  if (owner?.allowedUsers && owner.allowedUsers !== userInfo.role) {
-    return `Only ${owner.allowedUsers}s can send messages in this channel`;
-  }
-  
-  return "You don't have permission to send messages in this channel";
-};
+    if (owner?.type === "algeria" && userInfo.region !== "algeria") {
+      return "Only users from Algeria can send messages in this channel";
+    }
+    
+    if (owner?.type === "russia" && userInfo.region !== "russia") {
+      return "Only users from Russia can send messages in this channel";
+    }
+    if (owner?.type === "egypt" && userInfo.region !== "egypt") {
+      return "Only users from egypt can send messages in this channel";
+    }
+    if (owner?.type === "europe" && userInfo.region !== "europe") {
+      return "Only users from europe can send messages in this channel";
+    }
+    
+    if (owner?.allowedUsers === "ADMD" && !["admin", "moderator"].includes(userInfo.role)) {
+      return "Only administrators and moderators can send messages in this channel";
+    }
+    
+    if (owner?.allowedUsers && owner.allowedUsers !== userInfo.role) {
+      return `Only ${owner.allowedUsers}s can send messages in this channel`;
+    }
+    
+    return "You don't have permission to send messages in this channel";
+  };
   return (
     <div className="flex h-full flex-col bg-[ #0A1720] scrollbar-custom">
       <div className="z-20 flex flex-col flex-1">
@@ -313,8 +338,8 @@ const getAccessDeniedMessage = () => {
               <section className="flex h-full w-full items-center justify-between pl-3 py-2 text-lg bg-[#0E1C26]">
                 <div className="flex w-full items-center font-medium">
                   <div className="flex items-center justify-center gap-3">
-                    <div className="flex items-center gap-3 font-medium">
-                      <GiHamburgerMenu className="md:hidden text-2xl"onClick={toggleSidebar}/>
+                    <div className="flex items-center gap-3 font-medium cursor-pointer">
+                      <GiHamburgerMenu className=" text-2xl"onClick={toggleSidebar}/>
                       <span className="flex items-center gap-[2px]">
                         {cahnTitle}
                       </span>

@@ -88,6 +88,17 @@ const userSchema = new mongoose.Schema(
     subscriptionEndDate: { type: Date },
     // Friend functionality
     friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    journey:[
+      {
+        content:String,
+        images: [{ type: String }],
+        date:Date,
+        chanTitle:String,
+        chanId:{
+          type: mongoose.Schema.Types.ObjectId,
+        }
+      }
+    ]
   },
   {
     timestamps: true,

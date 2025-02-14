@@ -24,6 +24,8 @@ export const useCreatePayment = () => {
         console.log('payment created successfully:', data);
         // Invalidate queries related to user tasks to refresh the data
         queryClient.invalidateQueries(["userPayments"]);
+        queryClient.invalidateQueries(["userEarnings"]);
+
         // queryClient.invalidateQueries(["userInventroyTasks"])
         toast.success('payment created successfully!'); // Optional success notification
         },

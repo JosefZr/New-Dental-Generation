@@ -5,7 +5,7 @@ import "@schedule-x/theme-shadcn/dist/index.css";
 import { useUserTasks } from "@/hooks/tasks/useGetUserTasks";
 import { useUserSimpleTasks } from "@/hooks/tasks/useGetSimpleTasks";
 import { jwtDecode } from "jwt-decode";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -14,14 +14,16 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useCreateTask } from "@/hooks/tasks/useCreateTask";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { LucideCalendar } from "lucide-react";
+import { LucideCalendar} from "lucide-react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { Calendar } from "@/components/ui/calendar";
+import DynamicScheduler from "./DynamicScheduler";
+import { UserContext } from "@/context/UserContext";
 
 export default function Schedular() {
   const userInfo = jwtDecode(localStorage.getItem("token"));
   const [selectedRepeatDays, setSelectedRepeatDays] = useState([]);
-  const [isNewTaskOpen, setIsNewTaskOpen] = useState(false);
+  const {isNewTaskOpen, setIsNewTaskOpen} = useContext(UserContext);
   const [showReminder, setShowReminder] = useState(false);
   const [showRepeat, setShowRepeat] = useState(false);
 
@@ -152,33 +154,11 @@ const toggleDatePicker = () => {
         setSelectedRepeatDays([]);
         setShowDatePicker(false);
     };
-
   return (
     <div className="h-full w-full rounded-xl bg-next-midnight text-white flex flex-col">
-      <div className="container mx-auto px-2 flex-shrink-0">
-        <div className="flex flex-row justify-between items-center px-2 py-4">
-          <div className="text-xl font-semibold md:block">Daily Schedule</div>
-          <button className="btn btn-square btn-md group rounded-md border-none bg-my-gold hover:bg-my-beige text-black" onClick={() => setIsNewTaskOpen(true)}>
-            <IoCalendarNumber />
-          </button>
-        </div>
-      </div>
-      <div className="carousel-item relative h-full w-full overflow-hidden">
-        <div className="scrollbar-custom relative h-full w-full animate-fade-in">
-          <div className="scrollbar-none overflow-y-scroll h-full w-full">
-            <div className="h-full max-h-[80vh] rounded-lg pb-4">
-              <div className="flex-grow overflow-hidden">
-                <div className="w-full h-full overflow-auto">
-                  <ScheduleXCalendar 
-                    calendarApp={calendar} 
-                    className="w-full h-full min-h-[500px] main-container" 
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="overflow-auto ">
+    <DynamicScheduler events={events} />
+    </div>
       <Dialog open={isNewTaskOpen} onOpenChange={setIsNewTaskOpen}>
             <DialogContent className="bg-[#1A1F24] text-white border-gray-800">
             <DialogHeader>

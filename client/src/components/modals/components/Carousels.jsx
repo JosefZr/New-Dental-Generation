@@ -69,12 +69,11 @@ export default function Carousels({handleClose}) {
     };
     const navigate = useNavigate()
     return (
-        <div className="col-span-3 row-span-3">
             <div className="h-full flex-row">
                 <section></section>
-                <div style={{position:"relative"}} className="h-full min-h-[200px]">
-                    <Carousel ref={carouselRef} className="flex flex-row justify-start h-full min-h-[189px] gap-4 overflow-x-auto overflow-y-hidden whitespace-nowrap rounded-lg pt-4">
-                        <Card className="h-full min-w-[25dvw] gap-4 border-transparent sm:bg-gray-900">
+                <div style={{position:"relative"}} className="h-full">
+                    <Carousel ref={carouselRef} className="flex flex-row justify-start h-full min-h-[217px] gap-4 overflow-x-auto overflow-y-hidden whitespace-nowrap rounded-lg pt-4">
+                        <Card className="h-full min-w-[25dvw] gap-4 border-transparent bg-my-Modal-back">
                             <div className="flex h-full w-full flex-col items-center justify-center whitespace-pre-wrap text-balance bg-gradient-to-r from-white/70 via-white/90 to-white/70 bg-clip-text px-3 py-6 pt-7 text-center">
                                  {/* Add a loading or fallback state */}
                             {isLoading && <LoadingSpinner/>}
@@ -154,7 +153,6 @@ export default function Carousels({handleClose}) {
                     </div>
                 </div>
             </div>
-        </div>
     )
 }
 

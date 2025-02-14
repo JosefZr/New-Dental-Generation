@@ -56,26 +56,25 @@ const calculatePercentage = () => {
         return "Diamond King";
     };
   return (
-    <div className="col-span-3 row-span-3 flex flex-col justify-between gap-2">
-        <div className="grid h-full w-full grid-cols-2 grid-rows-1 gap-3">
-            <div className="flex flex-col items-between col-span-2 row-span-1  justify-between rounded-xl sm:mt-4 sm:bg-gray-900 sm:p-4 h-full">
-                <div className="m-[2px] flex items-start gap-4">
+    
+            <div className="flex flex-col justify-between rounded-xl sm:mt-4 bg-my-Modal-back sm:p-4 h-[200px]">
+                <div className="m-[2px] flex items-start gap-2">
                 <section style={{position:"relative"}} className=" flex-shrink-0 rounded-full bg-base-300 mr-2 cursor-pointer">
-                    <Logo style={{ backgroundImage: `url(http://localhost:3000/uploads/${user.avatar})` ,width:"40px", height:"40px"}}  className="rounded-full object-cover "  />
-                    <div className="absolute text-[22px] w-[22px] h-[22px] left-[25px] " style={{bottom:"2px"}}>
+                    <Logo style={{ backgroundImage: `url(http://localhost:3000/uploads/${user.avatar})` ,width:"51px", height:"51px"}}  className="rounded-full object-cover "  />
+                    <div className="absolute text-[22px] w-[22px] h-[18px] left-[30px] " style={{bottom:"2px"}}>
                         {React.createElement(currentProgress.logo)}
                     </div>
                 </section>
                 <section className="flex min-h-[40px] flex-1 flex-col items-baseline justify-between sm:min-h-[56px]">
                     <div className="subtitle font-light text-base opacity-80">Welcome,</div>
-                    <div className="text-xl sm:font-medium sm:text-2xl">{user.firstName} {user.lastName}</div>
+                    <div className="text-xl sm:font-medium sm:text-2xl uppercase">{user.firstName} {user.lastName}</div>
                 </section>
                 </div>
                 <hr className="mt-2 opacity-25"/>
                 <div className=" items-between mt-4 mb-1 flex flex-col gap-2">
-                    <div className="flex w-full items-center flex-col justify-center whitespace-nowrap text-center font-semibold text-md transition-opacity duration-500 ease-linear md:text-md opacity-1 gap-2">
+                    <div className="flex w-full items-center flex-col justify-center whitespace-nowrap text-center font-semibold text-lg transition-opacity duration-500 ease-linear md:text-md opacity-1 gap-2">
                         <div className="flex flex-row items-center">
-                        <div className=" text-[30px] w-[30px] h-[30px] " >
+                        <div className=" text-[34px] w-[34px] h-[34px] " >
                             {React.createElement(nextProgress.logo)}
                         </div>
                         <span className="hidden md:inline">
@@ -98,8 +97,7 @@ const calculatePercentage = () => {
                         </div>
                     </div>
                     </div>
-                </div>
             </div>
-        </div>
+
   )
 }

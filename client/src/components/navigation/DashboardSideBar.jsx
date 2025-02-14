@@ -159,7 +159,6 @@ const {isDashboardSidebarOpen,setIsDashboardSidebarOpen,isSidebarOpen, setIsSide
       }
     }
   }, [privateChats, isFirstCallMade, userInfo]);
-console.log(privateChats)
   return (
     <section className="flex flex-1 flex-col overflow-x-hidden pt-inset-top lg:border-0 transition-all">
       <div className="flex w-full flex-1 flex-col items-center overflow-y-auto overflow-x-hidden pt-3">

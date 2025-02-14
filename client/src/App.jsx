@@ -53,6 +53,9 @@ export default function App() {
           <Route path="/channels" element={<Chat />}/>
           <Route path="/chat2/*" element={<Chat />} />
           <Route path="/chat3/*" element={<Chat />} />
+          <Route path="/growth-support/*" element={<Chat />} />
+          <Route path="/top-dentist-opportunity/*" element={<Chat />} />
+          <Route path="/job-opportunities/*" element={<Chat/>}/>
         </Route>
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/" element={<Intro />} />

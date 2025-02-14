@@ -14,6 +14,7 @@ import { FaTasks } from "react-icons/fa";
 import { FaRegChessKnight } from "react-icons/fa6";
 import { GiLaurelCrown } from "react-icons/gi";
 import { progress } from "@/lib/ProgressData";
+// import { type } from "os";
 
 export const Logo = styled.div`
     background-position: center center;
@@ -64,15 +65,19 @@ const currentProgress = progress.find(stage =>
       });
     }
   }, [data]);
-
+console.log(channels)
   const groupedChannels = {
     control: channels.filter(chan => chan.type === "control" && chan.allowedUsers === "ADMD"),
     dentist: channels.filter(chan => chan.allowedUsers === "dentist"),
     lab: channels.filter(chan => chan.allowedUsers === "lab"),
     store: channels.filter(chan => chan.allowedUsers === "store"),
     algeria: channels.filter(chan=>chan.type==="algeria"),
-    russia: channels.filter(chan=>chan.type==="russia")
-
+    russia: channels.filter(chan=>chan.type==="russia"),
+    egypt:channels.filter(chan=>chan.type==="egypt"),
+    europe:channels.filter(chan=>chan.type==="europe"),
+    guide:channels.filter(chan=>chan.type==="guide"),
+    announce:channels.filter(chan=>chan.type==="announce"),
+    journey:channels.filter(chan=>chan.type==="journey")
   };
   const { isSidebarOpen, setIsSidebarOpen } = useContext(UserContext);
 
@@ -174,7 +179,9 @@ const handlePinChannel = async (channel) => {
             {["admin", "moderator"].includes(userInfo.role) && groupedChannels.control.length > 0 && (
               <div className="mx-2">
                 <ServerSection label="Admin & Moderators" allowedRole="ADMD" channelType="control">
-                  {groupedChannels.control.map((chan) => (
+                  {groupedChannels.control
+                  .sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
+                  .map((chan) => (
                     <ServerChannel
                       id={chan._id}
                       key={chan._id}
@@ -183,14 +190,71 @@ const handlePinChannel = async (channel) => {
                       onEditClick={()=>handleEditChannel(chan)}
                       onDeleteClick={() => handleDeleteChannel(chan._id)}
                       onClickChan={() => handleChannelClick(chan._id, chan.title)}
-                      onPinClick={()=>handlePinChannel(chan)}
+                      onPinClick={() => handlePinChannel(chan)}
                       isPinned={chan.locked}
-                    />
+                      />
                   ))}
                 </ServerSection>
               </div>
             )}
-
+            {groupedChannels.announce.length >= 0 && (
+              <div className="mx-2">
+                <ServerSection label="YDN-announcements" allowedRole="ADMD" channelType="announce">
+                {groupedChannels.announce
+                .sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
+                .map((channel) => (
+                  <ServerChannel
+                    key={channel._id}
+                    channel={channel.title}
+                    id={channel._id}
+                    memberRole=""
+                    onEditClick={() => handleEditChannel(channel)}
+                    onPinClick={() => handlePinChannel(channel)}
+                    isPinned={channel.locked}
+                    onDeleteClick={() => handleDeleteChannel(channel._id)}
+                    onClickChan={() => {
+                      handleChannelClick(channel._id, channel.title);
+                      setOwner({
+                        ownerId: channel.owner,
+                        allowedUsers: channel.allowedUsers,
+                        chanId: channel._id,
+                        type:"announce"
+                      });
+                    }}
+                  />
+                ))}
+                </ServerSection>
+              </div>
+            )}
+            {groupedChannels.guide.length >= 0 && (
+              <div className="mx-2">
+                <ServerSection label="Community Guidelines" allowedRole="ADMD" channelType="guide">
+                {groupedChannels.guide
+                .sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
+                .map((channel) => (
+                  <ServerChannel
+                    key={channel._id}
+                    channel={channel.title}
+                    id={channel._id}
+                    memberRole=""
+                    onEditClick={() => handleEditChannel(channel)}
+                    onPinClick={() => handlePinChannel(channel)}
+                    isPinned={channel.locked}
+                    onDeleteClick={() => handleDeleteChannel(channel._id)}
+                    onClickChan={() => {
+                      handleChannelClick(channel._id, channel.title);
+                      setOwner({
+                        ownerId: channel.owner,
+                        allowedUsers: channel.allowedUsers,
+                        chanId: channel._id,
+                        type:"all"
+                      });
+                    }}
+                  />
+                ))}
+                </ServerSection>
+              </div>
+            )}
             {groupedChannels.dentist.length > 0 && (
               <div className="mx-2">
                 <ServerSection label="Dentists channels" allowedRole="dentist" channelType="room">
@@ -219,7 +283,6 @@ const handlePinChannel = async (channel) => {
                 </ServerSection>
               </div>
             )}
-
             {groupedChannels.lab.length > 0 && (
               <div className="mx-2">
                 <ServerSection label="Labs channels" allowedRole="lab" channelType="room">
@@ -247,7 +310,6 @@ const handlePinChannel = async (channel) => {
                 </ServerSection>
               </div>
             )}
-
             {groupedChannels.store.length > 0 && (
               <div className="mx-2">
                 <ServerSection label="Stores Channels" allowedRole="store" channelType="room">
@@ -275,9 +337,8 @@ const handlePinChannel = async (channel) => {
                 </ServerSection>
               </div>
             )}
-
             {/* for the algerian channel */}
-            {groupedChannels.store.length > 0 && (
+            {groupedChannels.algeria.length > 0 && (
               <div className="mx-2">
                 <ServerSection label="Algeria Channels" allowedRole="all"  channelType="algeria">
                   {groupedChannels.algeria.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
@@ -305,9 +366,8 @@ const handlePinChannel = async (channel) => {
                 </ServerSection>
               </div>
             )}
-
             {/* for the russian channel */}
-            {groupedChannels.store.length > 0 && (
+            {groupedChannels.russia.length > 0 && (
               <div className="mx-2">
                 <ServerSection label="Russia Channels" allowedRole="all" channelType="russia">
                   {groupedChannels.russia.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
@@ -335,16 +395,102 @@ const handlePinChannel = async (channel) => {
                 </ServerSection>
               </div>
             )}
+            {/* for the egypt channel */}
+            {groupedChannels.egypt.length > 0 && (
+              <div className="mx-2">
+                <ServerSection label="Egypt Channels" allowedRole="all" channelType="egypt">
+                  {groupedChannels.egypt.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
+                .map((channel) => (
+                    <ServerChannel
+                      key={channel._id}
+                      channel={channel.title}
+                      id={channel._id}
+                      memberRole=""
+                      onEditClick={()=>handleEditChannel(channel)}
+                      onDeleteClick={() => handleDeleteChannel(channel._id)}
+                      onPinClick={()=>handlePinChannel(channel)}
+                      isPinned={channel.locked}
+                      onClickChan={() => {
+                        handleChannelClick(channel._id, channel.title);
+                        setOwner({
+                          ownerId: channel.owner,
+                          allowedUsers: channel.allowedUsers,
+                          chanId: channel._id,
+                          type: "egypt"
+                        });
+                      }}
+                    />
+                  ))}
+                </ServerSection>
+              </div>
+            )}
+            {/* for the europe channel */}
+            {groupedChannels.europe.length > 0 && (
+              <div className="mx-2">
+                <ServerSection label="Europe Channels" allowedRole="all" channelType="europe">
+                  {groupedChannels.europe.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
+                .map((channel) => (
+                    <ServerChannel
+                      key={channel._id}
+                      channel={channel.title}
+                      id={channel._id}
+                      memberRole=""
+                      onEditClick={()=>handleEditChannel(channel)}
+                      onDeleteClick={() => handleDeleteChannel(channel._id)}
+                      onPinClick={()=>handlePinChannel(channel)}
+                      isPinned={channel.locked}
+                      onClickChan={() => {
+                        handleChannelClick(channel._id, channel.title);
+                        setOwner({
+                          ownerId: channel.owner,
+                          allowedUsers: channel.allowedUsers,
+                          chanId: channel._id,
+                          type: "europe"
+                        });
+                      }}
+                    />
+                  ))}
+                </ServerSection>
+              </div>
+            )}
+            {groupedChannels.journey.length >= 0 && (
+              <div className="mx-2">
+                <ServerSection label="Your Dental Journey" allowedRole="all" channelType="journey">
+                  {groupedChannels.journey.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
+                .map((channel) => (
+                    <ServerChannel
+                      key={channel._id}
+                      channel={channel.title}
+                      id={channel._id}
+                      memberRole=""
+                      onEditClick={()=>handleEditChannel(channel)}
+                      onDeleteClick={() => handleDeleteChannel(channel._id)}
+                      onPinClick={()=>handlePinChannel(channel)}
+                      isPinned={channel.locked}
+                      onClickChan={() => {
+                        handleChannelClick(channel._id, channel.title);
+                        setOwner({
+                          ownerId: channel.owner,
+                          allowedUsers: channel.allowedUsers,
+                          chanId: channel._id,
+                          type: "journey"
+                        });
+                      }}
+                    />
+                  ))}
+                </ServerSection>
+              </div>
+            )}
           </>
         )}
       </ScrollArea>
 
       <div className="relative flex w-full items-center justify-between bg-neutral pr-2 pl-1" >
         <button className="group relative flex flex-1 p-[1px]" onClick={handleBirClick}>
-          <div className="absolute inset-0 rounded-md opacity-30 group-hover:opacity-80 group-active:opacity-80"  
-          style={{
-            backgroundImage: 'linear-gradient(94.38deg, #ECC879 -14.69%, #D46B32 210%)',
-          }}
+          <div className="absolute inset-0 rounded-md border-[1px] border-solid border-my-gold opacity-30 group-hover:opacity-80 group-active:opacity-80"  
+          // style={{
+          //   backgroundImage: 'linear-gradient(94.38deg, #ECC879 -14.69%, #D46B32 210%)',
+          // }}
           ></div>
           <div className="relative z-10 inline-flex flex-1 items-center justify-between rounded-md bg-neutral px-2 py-1 cursor-pointer "
             style={{
@@ -352,7 +498,7 @@ const handlePinChannel = async (channel) => {
             }}
           >
             <div className="pointer-events-none flex items-center">
-              <section className="flex-shrink-0 rounded-full bg-base-300 mr-2 cursor-pointer">
+              <section className="flex-shrink-0 rounded-full  mr-2 cursor-pointer">
                 <Logo style={{ backgroundImage: `url(http://localhost:3000/uploads/${user.avatar})` ,width:"40px", height:"40px"}}  className="rounded-full object-cover "  />
                 <div className="absolute   text-[22px] w-[22px] h-[22px] left-[30px] " style={{bottom:"2px"}}>
                     {React.createElement(currentProgress.logo)}

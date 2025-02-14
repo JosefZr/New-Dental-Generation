@@ -189,7 +189,22 @@ export default function NavBar() {
         navigate("/login");
       }
     };
-    
+    const handleDropdownClick = async () => {
+      if (Notification.permission === "granted") {
+        new Notification("Notification test", {
+          body: "You have opened the dropdown menu.",
+          icon: "/CompressJPEG.Online_img(512x512).png",
+        });
+      } else if (Notification.permission !== "denied") {
+        const permission = await Notification.requestPermission();
+        if (permission === "granted") {
+          new Notification("Notification test", {
+            body: "You have opened the dropdown menu.",
+            icon: "/CompressJPEG.Online_img(512x512).png",
+          });
+        }
+      }
+    };
     return (
         <>
         {showNavBar && (
@@ -197,9 +212,9 @@ export default function NavBar() {
             <PaddingGlobal>
                 <div className="container-large">
                 <Content>
-                    <Link to="/chat">
+                    <button >
                       <NavLeft>
-                        <Boss href="https://icons8.com/icon/11214/businessman" target="_blank" rel="noopener noreferrer">
+                        <Boss  rel="noopener noreferrer" onClick={handleDropdownClick}>
                             <img 
                             src='https://img.icons8.com/?size=100&id=11214&format=png&color=5E5E5E' 
                             width="40px" 
@@ -208,7 +223,7 @@ export default function NavBar() {
                             />
                         </Boss>
                       </NavLeft>
-                    </Link>
+                    </button>
                     <NavRight>
                     <LoginButton className='uppercase' onClick={handleLogin}>
                       <div>{t('login')}</div>

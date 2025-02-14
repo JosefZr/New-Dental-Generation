@@ -1,8 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "../ui/scroll-area";
 import NavigationItem from "./NavigationItem";
-import { IoChatbubblesOutline } from "react-icons/io5";
-import { SiWorldhealthorganization } from "react-icons/si";
 import { GiEarthAfricaEurope, GiTakeMyMoney } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 import ProfileImage from "../chatComponents/ProfileImage";
@@ -10,26 +8,36 @@ import { useContext, useEffect } from "react";
 import { UserContext } from "@/context/UserContext";
 import { fetchUserData } from "@/hooks/useFetchUserData";
 import { jwtDecode } from "jwt-decode";
-import { FaRegChessKnight } from "react-icons/fa6";
+import { FaMoneyBillTrendUp, FaRegChessKnight, FaRegChessQueen } from "react-icons/fa6";
+import { MdWorkHistory } from "react-icons/md";
 export default function NavigationSidebar() {
   const servers = [
     {
       id: "channels",
-      name: "dental lab",
       imageUrl: <GiEarthAfricaEurope className="object-cover w-full h-full" />,
     },
     {
       id: "chat2",
-      name: "dental store",
       imageUrl: 
         <FaRegChessKnight className=" object-cover w-full h-full"/>,
       
     },
     {
       id: "chat3",
-      name: "dentist",
       imageUrl: <GiTakeMyMoney  className="object-cover w-full h-full" />,
     },
+    {
+      "id": "growth-support",
+      imageUrl:<FaMoneyBillTrendUp className="object-cover w-[90%] h-[90%] items-center text-center mx-auto" />
+    },
+    {
+      "id": "top-dentist-opportunity",
+      imageUrl:<FaRegChessQueen className="object-cover w-[90%] h-[90%] items-center text-center mx-auto" />
+    },
+    {
+      "id":"job-opportunities",
+      imageUrl:<MdWorkHistory className="object-cover w-[90%] h-[90%] items-center text-center mx-auto" />
+    }
   ];
   const userInfo= jwtDecode(localStorage.getItem("token"))
       const {user, setUser } = useContext(UserContext);
@@ -61,7 +69,6 @@ export default function NavigationSidebar() {
           <div key={index}>
             <NavigationItem
               id={server.id}
-              name={server.name}
               imageUrl={server.imageUrl}
             />
           </div>

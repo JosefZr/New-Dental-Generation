@@ -40,8 +40,8 @@ export default function ServerChannel({
       )}
       <div
         className={cn(
-          "group mb-[2px] ml-[2px] flex h-[38px] items-center justify-between rounded-md pr-[6px] pl-[2px] text-grey-400 text-lg cursor-pointer hover:bg-zinc-700/10 hover:bg-opacity-50",
-          clickedChannel === id && "bg-zinc-700/50"
+          "group mb-[2px] ml-[2px] flex h-[38px] items-center font-medium justify-between rounded-md pr-[6px] pl-[2px]  text-gray-400 text-xl cursor-pointer hover:bg-zinc-700/10 hover:bg-opacity-50",
+          clickedChannel === id && "bg-zinc-700/50 text-my-white-gray"
         )}
         onClick={onClickChan}
       >

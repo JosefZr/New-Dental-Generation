@@ -1,14 +1,14 @@
 import { useQuery } from "react-query";
 
-const fetchUserEarnings = async (id, type) => {
-    console.log("Fetching earnings for ID:", id, "and type:", type);
+const fetchUserEarnings = async (id) => {
+    console.log("Fetching earnings for ID:", id);
 
-    const response = await fetch(`http://localhost:3000/api/v1/payment/managment/get`, {
+    const response = await fetch(`http://localhost:3000/api/v1/payment/managment/getEarnings`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id, type }),
+        body: JSON.stringify({ id }),
     });
 
     if (!response.ok) {
@@ -17,13 +17,12 @@ const fetchUserEarnings = async (id, type) => {
     }
 
     const data = await response.json();
-    console.log("Fetched earnings data:", data);
     return data.earnings;
 };
 
 
-export const useUserEarnings = ({id,type}) => {
-    return useQuery(["userPayments", id], () => fetchUserEarnings(id,type), {
+export const useUserEarnings = ({id}) => {
+    return useQuery(["userEarnings", id], () => fetchUserEarnings(id), {
         enabled: !!id, // Fetch only when userId is provided
         staleTime: 5 * 60 * 1000, // Cache data for 5 minutes
     });

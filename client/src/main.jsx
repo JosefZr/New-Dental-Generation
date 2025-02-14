@@ -10,7 +10,10 @@ import CourseProvider from "./context/CoursesContext.jsx";
 import { ModalProvider } from "./components/providers/modal-provider.jsx";
 import UserProvider from "./context/UserContext.jsx";
 import { UserChatProvider } from "./context/ToChatUser.jsx";
-
+import swDev from "./swDev.js";
+// import { registerServiceWorker } from "@/serviceworker.js";
+// import { requestNotificationPermission } from "./push.js";
+// import swDev from "./swDev.js";
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById("root")).render(
@@ -52,3 +55,14 @@ createRoot(document.getElementById("root")).render(
     </StrictMode>
   </QueryClientProvider>
 );
+
+
+
+window.addEventListener("load", () => {
+    swDev();
+});
+// Register Service Worker
+// registerServiceWorker();
+
+// Request Notification Permission
+// requestNotificationPermission();

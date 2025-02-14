@@ -11,6 +11,7 @@ import { addingFriendRequest, deletePendingRequests, getFriendsRequest } from "@
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useUserToChatContext } from "@/context/ToChatUser";
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "../ui/dialog";
 
 export default function Message({ message }) {
   const userInfo = jwtDecode(localStorage.getItem("token"));
@@ -121,9 +122,9 @@ export default function Message({ message }) {
           alignItems: "flex-start",
         }}>
         <div className="h-full flex items-start justify-center flex-shrink-0 w-20 ">
-          <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
-            <DrawerTitle>{""}</DrawerTitle>
-            <DrawerTrigger asChild>
+          <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+            <DialogTitle>{""}</DialogTitle>
+            <DialogTrigger asChild>
               <div
                 className="relative rounded-full bg-base-300 block flex-shrink-0 cursor-pointer"
                 style={{ width: "40px", height: "40px" }}
@@ -136,9 +137,9 @@ export default function Message({ message }) {
                   alt=""
                 />
               </div>
-            </DrawerTrigger>
-            <DrawerContent className="border-none rounded-none text-white p-0 bg-my-dark-blue">
-              <DrawerDescription className="border-none p-0">
+            </DialogTrigger>
+            <DialogContent className="border-none rounded-none text-white p-0 bg-my-dark-blue">
+              <DialogDescription className="border-none p-0">
                 {userPreview && <Preview user={userPreview} />}
                 <div className="absolute top-3 right-4 z-[11] flex justify-end gap-1 sm:z-10">
                 <button
@@ -176,9 +177,9 @@ export default function Message({ message }) {
                     <IoMdClose className="text-2xl text-my-white" />
                   </button>
                 </div>
-              </DrawerDescription>
-            </DrawerContent>
-          </Drawer>
+              </DialogDescription>
+            </DialogContent>
+          </Dialog>
         </div>
 
         <div className="inline-block w-full rounded-md bg-[#0E1C26] border  p-5 border-transparent">
@@ -195,7 +196,7 @@ export default function Message({ message }) {
           </div>
           <span className="custom-break-words break-words text-sm">
             <div className="sc-jEACwC gqSGRP markdown break-wordsfalse">
-              <p className="text-sm">{message.content}</p>
+              <p className="text-sm whitespace-pre-wrap">{message.content}</p>
               {message?.images.length > 0 && 
                 message.images.map((file)=>{
                   return <img src={file} />

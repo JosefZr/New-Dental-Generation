@@ -2,7 +2,8 @@ import express from "express";
 import { signup, login, refresh, logout, userData,
   updateUserName,updateUserEmail,updateUserPassword,
   updateUserDescription,uploadUserAvatar,getAllUsers
-  ,uploadBackground,deleteUser
+  ,uploadBackground,deleteUser,
+  addJurney
 } from "../controllers/auth.js";
 import jwt from "jsonwebtoken";
 import { authenticateToken } from "../middlewares/auth.js";
@@ -105,8 +106,8 @@ router.put("/update/username", updateUserName);
 router.put("/update/email", updateUserEmail);
 router.put("/update/password", updateUserPassword);
 router.put("/update/description",updateUserDescription)
+router.put("/update/journey",addJurney);
 router.delete("/delete/user", deleteUser);
-
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/'); // Ensure the 'uploads' directory exists

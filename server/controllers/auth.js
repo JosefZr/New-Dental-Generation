@@ -372,7 +372,47 @@ export const updateUserDescription = async (req, res)=>{
   }
 }
 
+export const addJurney = async(req, res)=>{
+  const { userId, content, images,chanTitle,chanId } = req.body;
+  if (!userId || !content || !images || !chanTitle || !chanId) {
+    console.log("Missing data:", { userId, content, images });
+    return res.status(400).json({
+      success: false,
+      message: "Missing required fields.",
 
+    })
+  }
+  try {
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      })
+    }
+    // Create a new journey entry
+    const newJourney = {
+      content,
+      images, // Ensure this is a single string, or modify for multiple images
+      date: new Date(),
+      chanId,
+      chanTitle
+    };
+    user.journey.push(newJourney);
+    await user.save();
+    return res.status(201).json({
+      success: true,
+      message: "Journey added successfully.",
+      journey: newJourney,
+    });
+  } catch (error) {
+    console.log("Error finding user:", error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while finding the user.", 
+    })
+  }
+}
 export const uploadUserAvatar = async(req, res)=>{
   console.log("Request body:", req.body);
   console.log("Request file:", req.file);

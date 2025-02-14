@@ -18,7 +18,8 @@ export const MODAL_TYPE = {
     USER_PREVIEW:"userPreview",
     BIR:"bir",
     SEARCH_MODAL:"searchModal",
-    VIDEO_MODAL:"videoModal"
+    VIDEO_MODAL:"videoModal",
+    CREATE_EVENT:"createEvent",
   };
 
 export const useModal = create((set)=>({

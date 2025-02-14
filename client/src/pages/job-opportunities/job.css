@@ -1,0 +1,89 @@
+.hero_component.blue-bg-glow.crypto {
+    background-image: radial-gradient(circle farthest-side at 50% 0px, rgba(236, 200, 112, 0.53), rgba(255, 255, 255, 0) 46%, rgba(255, 255, 255, 0));
+}
+.hero_component.blue-bg-glow {
+    background-image: radial-gradient(circle farthest-side at 50% 0%, var(--crypto-blue), #fff0 46%);
+}
+.hero_component {
+    column-gap: 1rem;
+    row-gap: 1rem;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 2rem;
+    display: flex
+;
+}
+@media screen and (max-width: 991px) {
+    .hero_component {
+        max-width: 40rem;
+    }
+}
+.h11 {
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-family: "Urbanist", serif;
+    font-size: 4.7rem;
+    font-weight: 900;
+    line-height: 1;
+}
+.text-color-silver {
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(117deg, rgb(255, 255, 255) 66%, rgb(153, 153, 153));
+    background-clip: text;
+}
+.h11.text-color-silver {
+    font-family: "Urbanist", serif;
+    font-size: 110px;
+}
+@media screen and (max-width: 991px) {
+    .h11.text-color-silver {
+        font-size: 3rem;
+    }
+}
+.h22.is-18-ch.mobile-hidden.crypto {
+    background-image: url(	https://www.jointherealworld.com/campus/images/grain_1grain.webp), linear-gradient(158deg, rgb(236, 200, 112) 23%, rgb(255, 255, 255) 52%);
+    background-size: auto, auto;
+    background-position: 0px 0px, 0px 0px;
+}
+.h22.is-18-ch {
+    background-image: url(../images/grain_1grain.webp), linear-gradient(158deg, rgb(35, 83, 255) 23%, rgb(255, 255, 255) 52%);
+    background-size: auto, auto;
+    max-width: 28ch;
+    font-family: "Urbanist", serif;
+    background-position: 0px 0px, 0px 0px;
+}
+.h22 {
+    background-image: url(	https://www.jointherealworld.com/campus/images/grain_1grain.webp), linear-gradient(135deg, var(--white) 62%, #999);
+    text-align: center;
+    -webkit-text-fill-color: transparent;
+    background-size: auto, auto;
+    background-clip: text;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-family: "Urbanist", serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1.05;
+    background-position: 0px 0px, 0px 0px;
+}
+@media screen and (max-width: 991px) {
+    .h22 {
+        font-size: 2.5rem;
+    }
+}
+.h3-timeline {
+    letter-spacing: 0;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(148deg, #fff 46%, #ffffff7a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    font-family: "Urbanist", sans-serif;
+    font-weight: 900;
+}

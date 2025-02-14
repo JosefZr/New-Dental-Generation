@@ -4,8 +4,12 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 const Back = styled.div`
-  background-image: url("https://app.jointherealworld.com/assets/matrix-bg-bw-hYk5JvoA.jpg");
+  background-image: url("/photo_2025-02-03_20-17-15.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom;
 `;
+
 const fetchUserData = async (data) => {
   try {
     const response = await fetch("http://localhost:3000/api/v1/auth/login", {
@@ -65,10 +69,10 @@ export default function Login() {
   return (
     <section className="absolute inset-0 flex flex-col">
       <div className="relative flex-1">
-        <div className="absolute inset-0 bg-black">
+        <div className="absolute inset-0 ">
           <Back
-            style={{ backgroundSize: "cover", backgroundRepeat: "no-repeat" }}
-            className="pointer-events-none absolute inset-0 opacity-40 grayscale"
+            style={{ backgroundSize: "cover", backgroundRepeat: "repeat" }}
+            className="pointer-events-none absolute inset-0 opacity-100 "
           ></Back>
           <div className="absolute inset-0 max-h-[100vh] overflow-y-auto pt-inset-top pb-inset-bottom flex flex-col items-center justify-between">
             <div className=" flex flex-col items-center">

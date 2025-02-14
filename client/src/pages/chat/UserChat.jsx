@@ -96,7 +96,6 @@ export default function UserChat() {
 
     
     if(clickedUser){
-      console.log(clickedUser);
       setRec(clickedUser.username)
     }
     else {
@@ -232,9 +231,7 @@ export default function UserChat() {
     setIsFetching(true);
 
     try {
-      console.log("gonna fetch more messages");
       let nextPage = page + 1;
-      console.log(nextPage);
       const response = await fetch(
         `http://localhost:3000/api/v1/chats/history/${chatId}/${nextPage}`,
         {
@@ -250,15 +247,11 @@ export default function UserChat() {
         throw new Error("Failed to fetch messages");
       }
 
-      console.log(data);
 
       if (data.data) {
-        console.log("fetched more messages");
         setMessages((prev) => [...data.data, ...prev]);
         if (data.data.length < 30) {
-          console.log("the message now are ", messages.length);
           setPrevent(true);
-          console.log("prevented fetch");
         }
       }
     } catch (error) {
@@ -298,9 +291,10 @@ export default function UserChat() {
                   <div className="flex items-center justify-center gap-3">
                     <div className="flex items-center gap-3 font-medium">
                       <GiHamburgerMenu className="lg:hidden text-2xl cursor-pointer"onClick={toggleSidebar}/>
-                      <span className="flex items-center gap-[2px]">
-                        <FaHashtag />| {recipient}
-                      </span>
+                      <p className="flex items-center gap-[2px]">
+                        <span className="text-slate-500 pr-1 pt-1 ">@</span> 
+                        {recipient}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -446,7 +440,7 @@ export default function UserChat() {
                     <textarea
                       id="chat-input"
                       className="top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none w-full"
-                      placeholder="Message #⭐ | lifestyle-flexing"
+                      placeholder={`Message @ ${recipient}`}
                       style={{ height: "32px" }}
                       onChange={(e) => setMessageToSend(e.target.value)}
                       onKeyDown={handleKeyDown}

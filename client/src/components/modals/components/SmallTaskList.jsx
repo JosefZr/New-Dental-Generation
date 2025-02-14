@@ -188,32 +188,30 @@ export default function SmallTaskList() {
     return (
         <Container className=" mx-2 mt-1 flex h-auto flex-col overflow-hidden  ">
 
-            <div className={`w-full z-10 pt-2 flex flex-row justify-center gap-2 ${isActive ?"":"max-w-md px-5"}`}>
-                <div className="relative w-full">
-                    <Input
-                    className="w-full bg-[#1A1F24] border-gray-800 pr-12 text-white placeholder:text-gray-500 "
-                    placeholder="Describe your task"
-                    value={newTaskData.title}
-                    onChange={(e) => handleTaskInputChange("title", e.target.value)}
-                    onKeyDown={handleQuickAdd}
-                    />
-                    <Button
-                        size="icon"
-                        variant="ghost"
-                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
-                        onClick={() => setIsNewTaskOpen(true)}
-                        >
-                        <LucideCalendar className="w-5 h-5" />
-                    </Button>
-                    
-                </div>
-                <Button 
-                    className="rounded-md bg-my-gold hover:bg-my-gold hover:opacity-90" 
-                    onClick={HandleAddQuickTaskTask}
-                >
-                        <LucidePlus className="h-[24px] w-[24px] text-black" />
-                    </Button>
-            </div>
+<div className={`col-span-3 row-span-1 flex items-center justify-stretch gap-2 p-1  rounded-lg border-[1px]  border-[#365169] border-solid ${isActive && "w-full"} w-[400px] max-sm:w-full`}>
+            <div className="relative z-20 w-full h-full">
+        <input
+            className="outline-none focus:outline-none border-none focus:border-none focus:bg-transparent rounded-none h-full w-full bg-transparent pl-3 text-xl placeholder:text-white/45"
+            placeholder="Describe your task"
+            value={newTaskData.title}
+            onChange={(e) => handleTaskInputChange("title", e.target.value)}
+            onKeyDown={handleQuickAdd}
+        />
+        <button
+            size="icon"
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+            onClick={() => setIsNewTaskOpen(true)}
+        >
+            <LucideCalendar className="w-5 h-5" />
+        </button>
+    </div>
+        <button 
+            className=" rounded-md bg-my-gold hover:bg-my-gold hover:opacity-90 text-center flex justify-center items-center h-14 w-14" 
+            onClick={HandleAddQuickTaskTask}
+        >
+            <LucidePlus className=" text-black " />
+            </button>
+        </div>
             
             <AdvancedCheckList title={"Advanced Check List"} tasks={advanced || []} isLoading={isGettingAdvanced} />
             <AdvancedCheckList title={"Check List"} tasks={simple || []} isLoading={isGettingSimple} />

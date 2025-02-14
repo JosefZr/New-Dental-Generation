@@ -1,5 +1,5 @@
 import Task from "../models/Task.js";
-
+import {AllTasks,AllSimple,AllInventoryTasks} from "../database.js"
 const createUserTask =async (req, res) => {
 
     const { id, task } = req.body;
@@ -44,6 +44,7 @@ const getAllTasks = async(req, res)=>{
             if (!tasks) {
                 return res.status(404).json({ message: "No tasks found", tasks: [], success: false });
             }
+            AllTasks.push({tasks})
             return res.status(200).json({
                 message: "Tasks fetched successfully",
                 tasks: tasks,
@@ -65,6 +66,7 @@ const getAllInventoryTasks = async(req, res)=>{
         if (!tasks) {
             return res.status(404).json({ message: "No tasks found", tasks: [], success: false });
         }
+        AllInventoryTasks.push(tasks)
         return res.status(200).json({
             message: "Tasks fetched successfully",
             tasks: tasks,
@@ -86,6 +88,7 @@ const getAllSimpleTasks = async(req, res)=>{
         if (!tasks) {
             return res.status(404).json({ message: "No tasks found", tasks: [], success: false });
         }
+        AllSimple.push(tasks)
         return res.status(200).json({
             message: "Tasks fetched successfully",
             tasks: tasks,

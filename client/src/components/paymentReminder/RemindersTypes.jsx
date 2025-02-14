@@ -8,12 +8,12 @@ import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { Calendar } from "../ui/calendar"
 import { useCreatePayment } from "@/hooks/payments/useCreatePayment"
-// import { format } from "date-fns"
 
 export default function RemindersTypes({tasks }) {
     const userInfo = jwtDecode(localStorage.getItem('token'))
     const [isVisible, setIsVisible] = useState(true)
     const [isUpdateTask, setIsUpdateTask] = useState(false);
+
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [newTaskData, setNewTaskData] = useState({
         amount: 0,
@@ -35,18 +35,11 @@ export default function RemindersTypes({tasks }) {
     const createPayment = useCreatePayment();
 
     const handleUpdateTask = () => {
-        // Task and User ID to send to the backend
         const id = userInfo.userId
         const payment = {
             ...newTaskData,
-
         };
-        
-        // Remove 'hasCustomEnd' and 'hasReminder' if they are not needed
-        // Trigger the mutation
-        console.log("Sending payload:", { id, payment});
         createPayment.mutate({ id, payment });
-        
         // Resetting the form state
         setIsUpdateTask(false);
         setNewTaskData({
@@ -58,34 +51,32 @@ export default function RemindersTypes({tasks }) {
         });
     };
     return (
-        <div className="relative size-full animate-fade-in pt-10">
-            <div className="scrollbar-none overflow-x-visible overscroll-y-none h-full w-full">
-                <div className="scrollbar-none relative h-full overflow-y-scroll overscroll-y-none sm:max-h-none bg-next-midnight rounded-lg px-0 pb-4 sm:px-5 swipe-dialog-scroll-descendant">
-                    <div className="scrollbar-none mx-2 mt-1 flex h-auto flex-col overflow-hidden min-w-[400px]">
-                        <div className="group relative flex w-full items-center">
-                            <div className="group relative w-full rounded-xl bg-next-d mt-2 mb-2 inline-flex flex-col justify-around overflow-visible">
-                                <div className="group rounded-xl m-[1px] px-[5.5px] pt-[7.5px] pb-[0.79rem] z-10 inline-flex flex-col justify-around gap-1 w-[calc(100%-2px)] transition-all" style={{
-                                    background:"rgb(13, 26, 37, 1)"
+        <div className=" w-full animate-fade-in ">
+            <div className="scrollbar-none overflow-x-visible overscroll-y-none">
+                <div style={{position:"relative"}} className="scrollbar-none  h-full overflow-y-hidden    rounded-[0.75rem] border-[1px] border-[#282F35] swipe-dialog-scroll-descendant">
+                    <div className="scrollbar-none   flex h-auto flex-col  overflow-x-hidden overflow-y-hidden">
+                        <div className="group flex items-center ">
+                            <div className="group  w-full   flex-col  ">
+                                <div className="group  m-[1px]  p-[7.5px] pb-[0.79rem] z-10 inline-flex flex-col justify-around w-full h-full transition-all" style={{
+                                    background:"#101214"
                                 }}>
-                                    <div className="z-10 flex items-center rounded-xl  text-white py-2 pr-3 pl-5" style={{
-                                        backgroundColor: "rgb(6, 14, 21, 1)",
-                                    }} >
-                                        <span className="mr-auto flex items-center px-1 pr-3 font-semibold">
+                                    <div className="z-10 flex items-center rounded-[0.5rem]  text-white py-2 pr-3 pl-5 bg-[#CF1827] "  >
+                                        <span className="mr-auto flex items-center px-1 pr-3 font-semibold text-my-white">
                                             Payment Reminder
                                         </span>
                                         <Button
                                             variant="ghost"
                                             size="sm"
                                             onClick={() => setIsVisible(!isVisible)}
-                                            className="text-gray-400 hover:text-white"
+                                            className="text-black hover:text-white hover:bg-slate-800/50"
                                         >
-                                            <ChevronDown className={`w-5 h-5 transition-transform ${isVisible ? '' : 'rotate-180'}`} />
+                                            <ChevronDown className={`w-5 h-5 transition-transform ${isVisible ? 'rotate-180' : ''}`} />
                                         </Button>
                                     </div>
                                     {isVisible && (
-                                    <div className="rounded-lg px-2 ">
+                                    <div className="rounded-lg px-2 mt-2 ">
                                         {tasks.map((task) => (
-                                            <div key={task.id} className="flex items-center justify-between group hover:bg-black rounded-md cursor-pointer" onClick={() => {
+                                            <div key={task.id} className="flex items-center justify-between group  hover:bg-black rounded-lg cursor-pointer h-12" onClick={() => {
                                                 setIsUpdateTask(true);
                                                 setNewTaskData({
                                                     type:task.title
@@ -93,7 +84,7 @@ export default function RemindersTypes({tasks }) {
                                             }}>
                                                 <div className="flex items-center">
                                                     <div>
-                                                        <div className="flex items-center gap-3 px-4 py-4">
+                                                        <div className="flex items-center  gap-3 px-4 py-4">
                                                             <span 
                                                             >
                                                                 {task.title}

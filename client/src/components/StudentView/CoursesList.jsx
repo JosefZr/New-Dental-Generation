@@ -59,7 +59,7 @@ export default function CoursesList({studentCourseList,isLoading, isError, error
     };
     
     return (
-        <div className="relative mx-auto w-full flex-1 transition-all duration-200 ease-in-out">
+        <div style={{position:"relative"}} className=" mx-auto w-full flex-1 transition-all duration-200 ease-in-out">
             {filteredCourses.length === 0 ? (
                 <div className="text-center text-gray-500">No courses available.</div>
             ) : (

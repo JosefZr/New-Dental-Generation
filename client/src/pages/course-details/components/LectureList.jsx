@@ -1,6 +1,7 @@
 import { LoadingSpinner } from "@/components/server/ServerSideBar";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { CoursesContext } from "@/context/CoursesContext";
+import { UserContext } from "@/context/UserContext";
 import { fetchUserData } from "@/hooks/useFetchUserData";
 import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 import { setLectureAsViewed } from "@/services";
@@ -14,13 +15,11 @@ import ReactPlayer from "react-player";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function LectureList() {
-      const { isOpen, onClose, type } = useModal();
-  const params = useParams();
-  const navigate = useNavigate();
-  const [showNextButton, setShowNextButton] = useState(false);
-    
-    const isModalOpen = isOpen && type === MODAL_TYPE.VIDEO_MODAL;
-    const {
+       // Fix date difference calculation
+        // Effect to fetch user data
+        const userInfo = jwtDecode(localStorage.getItem("token"))
+       const {user,setUser} = useContext(UserContext)
+       const {
         selectedTitle,
         free,
         setProgress,
@@ -28,10 +27,43 @@ export default function LectureList() {
         setSelectedTitle,
         selectedVideo,
         setSelectedVideo,
-        studentViewCourseDetails,
-      } = useContext(CoursesContext);
+        studentViewCourseDetails,//
+    } = useContext(CoursesContext);
+
+      useEffect(() => {
+        const fetchData = async () => {
+        try {
+            const data = await fetchUserData(userInfo.userId);
+            setUser(data.user);
+        } catch (err) {
+            console.error("Error fetching user data:", err);
+        }
+        };
+        fetchData();
+    }, [setUser, userInfo.userId]);
+       const getDaysDifference = (createdAt) => {
+        const created = new Date(createdAt);
+        const now = new Date();
+        
+        // Reset time portion to ensure accurate day calculation
+        created.setHours(0, 0, 0, 0);
+        now.setHours(0, 0, 0, 0);
+        
+        const diffTime = Math.abs(now - created);
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays;
+    };
+    
+    const diffDays = getDaysDifference(user.createdAt);
+
+    const { isOpen, onClose, type } = useModal();
+    const params = useParams();
+    const navigate = useNavigate();
+    const [showNextButton, setShowNextButton] = useState(false);
+    
+    const isModalOpen = isOpen && type === MODAL_TYPE.VIDEO_MODAL;
+   
     const {onOpen}= useModal()
-    const userInfo = jwtDecode(localStorage.getItem("token"));
     const {  loading, searchDeatiledCourse, progress, setFree } =
     useContext(CoursesContext); // State for search input
     
@@ -152,67 +184,53 @@ export default function LectureList() {
                                 (prog) => prog.lectureId === curr._id
                             );
                             const isLectureViewed = progressData?.viewed === true; //
+                            // Determine if the lecture should be locked
+                            const isLocked = diffDays < studentViewCourseDetails.level && !curr?.freePreview;
                             return (
                                 <div
-                                    className="flex w-full flex-col text-start items-start justify-start gap-2 transition-all cursor-pointer hover:bg-primary/10 mb-1 rounded-[4px] p-3"
-                                    key={index}
-                                >
-                                    <div
-                                        className={`${
-                                            !curr?.freePreview && isFreeUser
-                                                ? "cursor-not-allowed opacity-50"
-                                                : "cursor-pointer"
-                                        } flex w-full items-center gap-1 rounded-sm bg-opacity-5 text-sm duration-75 ease-in-out ${
-                                            selectedTitle === curr?.title
-                                                ? "border-l-4 border-my-green"
-                                                : ""
-                                        }`}
-                                        onClick={() => {
-                                            handleVideoSelect(
-                                                curr.videoUrl,
-                                                curr.title,
-                                                !curr?.freePreview && isFreeUser
-                                            );
-                                            onOpen(MODAL_TYPE.VIDEO_MODAL);
-                                        }}
-                                        
-                                    >
-                                        {/* Display different icons based on progress */}
-                                        {isLectureViewed ? (
-                                            <div
-                                                className="mr-1 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-[4px] bg-base-300 font-bold text-lg border border-my-gold  text-my-gold"
-                                                style={{
-                                                    backgroundColor:
-                                                        "hsl(41.217 75.163% 70%/0.2)",
-                                                }}
-                                            >
-                                                ✓
-                                            </div>
-                                        ) : curr?.freePreview || !isFreeUser ? (
-                                            <div
-                                                className="mr-1 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-[4px] font-bold text-lg"
-                                                style={{
-                                                    backgroundColor: "hsl(213.53 34% 19.608%)",
-                                                }}
-                                            >
-                                                {index}
-                                            </div>
-                                        ) : (
-                                            <Lock className="text-my-white mr-2 h-6 w-6" />
-                                        )}
-                                        <span className="flex w-full items-center justify-between">
-                                            {curr?.title}
-                                        </span>
+            className={`flex w-full flex-col text-start items-start justify-start gap-2 transition-all mb-1 rounded-[4px] p-3 ${
+                isLocked ? "cursor-not-allowed opacity-50" : "hover:bg-primary/10 cursor-pointer"
+            }`}
+            key={index}
+            onClick={() => {
+                if (!isLocked) {
+                    handleVideoSelect(curr.videoUrl, curr.title, isLocked);
+                    onOpen(MODAL_TYPE.VIDEO_MODAL);
+                }
+            }}
+        >
+            <div className="flex w-full items-center gap-1 rounded-sm bg-opacity-5 text-sm duration-75 ease-in-out">
+                {/* Icon Handling */}
+                {isLocked ? (
+                    <Lock className="text-my-white mr-2 h-6 w-6" />
+                ) : isLectureViewed ? (
+                    <div
+                        className="mr-1 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-[4px] bg-base-300 font-bold text-lg border border-my-gold text-my-gold"
+                        style={{
+                            backgroundColor: "hsl(41.217 75.163% 70%/0.2)",
+                        }}
+                    >
+                        ✓
+                    </div>
+                ) : (
+                    <div
+                        className="mr-1 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-[4px] font-bold text-lg"
+                        style={{
+                            backgroundColor: "hsl(213.53 34% 19.608%)",
+                        }}
+                    >
+                        {index}
+                    </div>
+                )}
 
-                                        {isLectureViewed ? (
-                                            <FaChevronRight className="h-6 w-6" />
-                                        ) : curr?.freePreview || !isFreeUser ? (
-                                            <Lock className="text-my-white h-6 w-6" />
-                                        ) : (
-                                            <Lock className="text-my-white  h-6 w-6" />
-                                        )}
-                                    </div>
-                                </div>
+                <span className="flex w-full items-center justify-between">
+                    {curr?.title}
+                </span>
+
+                {/* Show lock icon if locked */}
+                {isLocked ? <Lock className="text-my-white h-6 w-6" /> : <FaChevronRight className="h-6 w-6" />}
+            </div>
+        </div>
                             );
                         })
                     ) : (

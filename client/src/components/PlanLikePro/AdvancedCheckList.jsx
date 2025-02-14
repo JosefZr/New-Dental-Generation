@@ -7,7 +7,7 @@ import { useSetTaskToComplete } from "@/hooks/tasks/useSetTaskToComplete"
 import {DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuTrigger} from "@/components/ui/dropdown-menu"
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { useDeleteTask } from "@/hooks/tasks/useDeleteTask"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog"
 import { Input } from "../ui/input"
 import { Textarea } from "../ui/textarea"
 import { Label } from "../ui/label"
@@ -18,8 +18,9 @@ import { useUpdateTask } from "@/hooks/tasks/useUpdateTask"
 import { format } from "date-fns"
 import { LoadingSpinner } from "../server/ServerSideBar"
 import { useLocation } from "react-router-dom"
+import { FaCheck } from "react-icons/fa6"
 
-export default function dAdvancedCheckList({tasks = [], isLoading, title}) {
+export default function AdvancedCheckList({tasks = [], isLoading, title}) {
     const [todayTasks, setTodayTasks] = useState([]);
     const location = useLocation(); // Get the current location
     const isActive = location.pathname.includes('/channels');
@@ -53,7 +54,6 @@ export default function dAdvancedCheckList({tasks = [], isLoading, title}) {
       setTodayTasks(tasks);
     }
   }, [tasks, isActive,title]);
-    console.log(todayTasks)
 
     const userInfo = jwtDecode(localStorage.getItem('token'))
     const [isVisible, setIsVisible] = useState(true)
@@ -64,6 +64,26 @@ export default function dAdvancedCheckList({tasks = [], isLoading, title}) {
     const [selectedRepeatDays, setSelectedRepeatDays] = useState([]);
     const [showRepeat, setShowRepeat] = useState(false);
     const [taskId,setTaskId ]= useState("");
+    const handleCloseModal = () => {
+        setIsUpdateTask(false);
+        setShowDatePicker(false);
+        setShowReminder(false);
+        setShowRepeat(false);
+        setSelectedRepeatDays([]);
+        setSliderValue([30]);
+        setTaskId("");
+        setNewTaskData({
+            title: "",
+            description: "",
+            startDate: "",
+            startTime: "",
+            duration: 30,
+            hasCustomEnd: false,
+            hasReminder: false,
+            isRepeating: false,
+            category: "General Tasks",
+        });
+    };
     const [newTaskData, setNewTaskData] = useState({
         title: "",
         description: "",
@@ -140,23 +160,21 @@ export default function dAdvancedCheckList({tasks = [], isLoading, title}) {
         <div className="relative size-full animate-fade-in ">
             <div className="scrollbar-none overflow-x-visible  overscroll-y-none h-full w-full ">
                 <div className={`scrollbar-none relative h-full overflow-y-scroll overscroll-y-none sm:max-h-none bg-next-midnight rounded-lg px-0 pb-4 swipe-dialog-scroll-descendant ${isActive? " sm:px-0":" sm:px-5"}`}>
-                    <div className={`scrollbar-none mx-2 mt-1 flex h-auto flex-col overflow-hidden  ${isActive ? "w-full":"w-[400px]"} `}>
+                    <div className={`scrollbar-none mx-2 mt-1 flex h-auto flex-col overflow-hidden  ${isActive ? "w-full":" w-[400px] max-sm:w-full"} `}>
                         <div className="group relative flex w-full items-center rounded-lg" >
-                            <div className="group relative w-full rounded-xl bg-next-d mt-2 mb-2 inline-flex flex-col justify-around overflow-visible " style={{border:"1px solid gray"}}>
-                                <div className="group rounded-xl m-[1px] px-[5.5px] pt-[7.5px] pb-[0.79rem] z-10 inline-flex flex-col justify-around gap-1 w-[calc(100%-2px)] transition-all" style={{
-                                    background:"#0E1C26"
-                                }}>
+                        <div className="group relative w-full rounded-xl bg-next-d mt-2 mb-2 inline-flex flex-col justify-around overflow-visible border-[1px]  border-[#365169] border-solid " >
+                                <div className="group rounded-xl m-[1px] px-[5.5px] pt-[7.5px] pb-[0.79rem] z-10 inline-flex flex-col justify-around gap-1 w-[calc(100%-2px)] transition-all bg-my-Modal-back" >
                                     <div className="z-10 flex items-center rounded-xl  text-white py-2 pr-3 pl-5" style={{
                                         backgroundColor: "rgb(6, 14, 21, 1)",
                                     }} >
-                                        <span className="mr-auto flex items-center px-1 pr-3 font-semibold">
+                                        <span className="mr-auto flex items-center px-1 pr-3 font-semibold text-lg">
                                             {title}
                                         </span>
                                         <Button
                                             variant="ghost"
                                             size="sm"
                                             onClick={() => setIsVisible(!isVisible)}
-                                            className="text-gray-400 hover:text-white"
+                                            className="text-gray-400 hover:text-white hover:bg-slate-900"
                                         >
                                             <ChevronDown className={`w-5 h-5 transition-transform ${isVisible ? '' : 'rotate-180'}`} />
                                         </Button>
@@ -168,16 +186,16 @@ export default function dAdvancedCheckList({tasks = [], isLoading, title}) {
                                             <div key={index} className="flex items-center justify-between group">
                                                 <div className="flex items-center gap-3 ">
                                                 <button
-                                                    size="icon"
-                                                    className="h-6 w-6 rounded border bg-slate-900"
-                                                    style={{
-                                                        color: "white",        // Text color
-                                                        borderColor: "gold",   // Border color
-                                                        borderWidth: "2px",    // Ensures border is thick enough to be visible
-                                                    }}
-                                                    onClick={() => toggleCompletion(task)}
-                                                    >
-                                                    {task.completed && <Check className="w-5 h-6 text-center text-white" />}
+                                                        size="icon"
+                                                        className="h-6 w-6 rounded border bg-slate-900"
+                                                        style={{
+                                                            color: "white",        // Text color
+                                                            borderColor: "#EDE8D0",   // Border color
+                                                            borderWidth: "2px",    // Ensures border is thick enough to be visible
+                                                        }}
+                                                        onClick={() => toggleCompletion(task)}
+                                                        >
+                                                        {task.completed && <FaCheck  className="w-[20px] h-3 font-bold text-center" />}
                                                     </button>
                                                     <div>
                                                         <div className="flex items-center gap-2">
@@ -231,76 +249,62 @@ export default function dAdvancedCheckList({tasks = [], isLoading, title}) {
                                                         )}
                                                     </div>
                                                 </div>
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button
-                                                            size="icon"
-                                                            variant="ghost"
-                                                            className="opacity-0 group-hover:opacity-100"
-                                                        >
-                                                            <MoreHorizontal className="w-5 h-5" />
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent 
-                                                        align="start" 
-                                                        className="w-[160px] bg-[#1a2634]  border-[#2a3744]"
-                                                    >
-                                                        <DropdownMenuItem 
-                                                            className=" gap-2 px-3 py-2 text-sm text-gray-200 hover:bg-[#2a3744] cursor-pointer"
-                                                            onClick={() => {
-                                                                setNewTaskData({
-                                                                    title: task.title,
-                                                                    description: task.description,
-                                                                    startDate: format(new Date(task.startDate), 'MM/dd/yyyy'),
-                                                                    startTime: task.startTime,
-                                                                    duration: task.duration || 30,
-                                                                    hasCustomEnd: task.hasCustomEnd || false,
-                                                                    hasReminder: task.hasReminder || false, 
-                                                                    isRepeating: task.repeatDays?.length > 0,
-                                                                    category: task.category || "Advanced"
-                                                                });
-                                                                setIsUpdateTask(true);
-                                                                if (task.repeatDays) {
-                                                                    setSelectedRepeatDays(task.repeatDays);
-                                                                    setShowRepeat(true);
-                                                                }
-                                                                if (task.duration) {
-                                                                    setSliderValue([task.duration]); // Set initial slider value
-                                                                }
-                                                                setTaskId(task._id);
+                                                <div className="flex">
+                                                {/* Edit Icon */}
+                                                <Button 
+                                                    size="icon" 
+                                                    variant="ghost" 
+                                                    onClick={() => {
+                                                        setNewTaskData({
+                                                            title: task.title,
+                                                            description: task.description,
+                                                            startDate: format(new Date(task.startDate), 'MM/dd/yyyy'),
+                                                            startTime: task.startTime,
+                                                            duration: task.duration || 30,
+                                                            hasCustomEnd: task.hasCustomEnd || false,
+                                                            hasReminder: task.hasReminder || false, 
+                                                            isRepeating: task.repeatDays?.length > 0,
+                                                            category: task.category || "Advanced"
+                                                        });
+                                                        setIsUpdateTask(true);
+                                                        if (task.repeatDays) {
+                                                            setSelectedRepeatDays(task.repeatDays);
+                                                            setShowRepeat(true);
+                                                        }
+                                                        if (task.duration) {
+                                                            setSliderValue([task.duration]); // Set initial slider value
+                                                        }
+                                                        setTaskId(task._id);
+                                                    }}
+                                                    className="opacity-100"
+                                                >
+                                                    <Pencil className="w-4 h-4" />
+                                                </Button>
 
-                                                            }}
-                                                            style={{
-                                                                flexDirection:"row",
-                                                                justifyContent:"start",
-                                                                alignItems:"start"
-                                                            }}
-                                                        >
-                                                            <Pencil className="w-4 h-4" />
-                                                            Edit Task
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem 
-                                                            className="flex  gap-2 px-3 py-2 text-sm text-red-500 hover:bg-[#2a3744] cursor-pointer"
-                                                            onClick={() => onDeleteTaskToggle(task)}
-                                                            style={{
-                                                                flexDirection:"row",
-                                                                justifyContent:"start",
-                                                                alignItems:"start"
-                                                            }}
-                                                        >
-                                                            <Trash className="w-4 h-4" />
-                                                            Delete Task
-                                                        </DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
+                                                {/* Delete Icon */}
+                                                <Button 
+                                                    size="icon" 
+                                                    variant="ghost" 
+                                                    onClick={() => onDeleteTaskToggle(task)}
+                                                    className="opacity-100"
+                                                >
+                                                    <Trash className="w-4 h-4 text-red-500" />
+                                                </Button>
+                                            </div>
                                             </div>
                                         ))}
                                     </div>
                                     )}
                                     <Dialog open={isUpdateTask} onOpenChange={setIsUpdateTask}>
-                                        <DialogContent className="bg-[#1A1F24] text-white border-gray-800">
-                                        <DialogHeader>
+                                    <DialogContent 
+                                        className="bg-[#1A1F24] text-white border-gray-800"
+                                        aria-describedby="dialog-description"
+                                        >
+                                            <DialogHeader>
                                             <DialogTitle>New Task</DialogTitle>
+                                            <DialogDescription id="dialog-description">
+                                            Fill in the details to update your task.
+                                            </DialogDescription>
                                         </DialogHeader>
                                         <div className="space-y-6">
                                             <Input

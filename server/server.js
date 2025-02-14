@@ -16,6 +16,11 @@ import tasksRoutes from "./routes/Task.js"
 import inventoryRoute from "./routes/inventory.js";
 import quoteRoute from "./routes/quotes.js"
 import paymentManagmentRoute from "./routes/paymentManagment.js"
+import SettingsRoute from "./routes/Settings.js"
+import analyseRoute from "./routes/analyse.js"
+import JobRoute from "./routes/Job.js"
+
+
 import logger from "./utils/logger.js";
 import cors from "cors";
 import { ApiError } from "./utils/ApiError.js";
@@ -72,6 +77,9 @@ app.use("/api/v1/tasks",tasksRoutes);
 app.use("/api/v1/inventory",inventoryRoute);
 app.use("/api/v1/quoate",quoteRoute);
 app.use("/api/v1/payment/managment",paymentManagmentRoute);
+app.use("/api/v1/settings",SettingsRoute)
+app.use("/api/v1/analyse",analyseRoute)
+app.use("/api/v1/job",JobRoute)
 
 // Wrong Api Route handler
 app.use((req, res, next) => {

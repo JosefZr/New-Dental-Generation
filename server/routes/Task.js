@@ -1,7 +1,6 @@
 import express from "express";
 import { createUserTask, getAllTasks,getAllInventoryTasks ,getAllSimpleTasks} from "../controllers/task.js";
 import Task from "../models/Task.js";
-
 const router = express.Router();
 
 // Your other routes here
@@ -57,19 +56,18 @@ router.delete("/delete", async (req, res) => {
         }
 
         return res.status(200).json({
-            message: "Task checked successfully",
+            message: "Task deleted successfully",
             task,
             success: true,
         });
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ message: "Error updating task", error });
+        return res.status(500).json({ message: "Error deleting task", error });
     }
 });
 
 router.patch("/update",async(req, res)=>{
     const {id,taskId, task} = req.body;
-    console.log(id,taskId, task)
     if (!id || !taskId) {
         return res.status(400).json({ message: "Please fill in all fields." });
     }

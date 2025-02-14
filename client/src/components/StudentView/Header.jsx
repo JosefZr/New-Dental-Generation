@@ -4,12 +4,12 @@ import { GraduationCap } from "lucide-react";
 import { useContext } from "react";
 import { FaSearchDollar } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
     const { onOpen } = useModal();
     const {searchTerm, setSearchTerm} = useContext(CoursesContext)
-    
+    const navigate = useNavigate()
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
     };
@@ -22,12 +22,30 @@ export default function Header() {
     }
     return (
         <>
-        <div className="sm:hidden flex flex-shrink-0 items-end justify-between border-grey-secondary  relative bg-alt-header" style={{
+        <div className="flex shrink-0 items-end justify-between border-gray-800 border-b relative bg-[#0A1720]">
+            <div className="flex h-full w-full items-center justify-between pr-3">
+                <div className="flex w-full items-center font-medium">
+                    <div className="flex items-center justify-center gap-3"></div>
+                </div>
+                <div className="flex items-center">
+                <button
+                    className="h-12 w-12 rounded-full hover:bg-[#0E1C26] flex items-center justify-center"
+                    onClick={()=>{
+                        navigate("/channels")
+                    }}
+                    >
+                    <IoMdClose className="h-6 w-6 text-my-white" />
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div className="sm:hidden flex flex-shrink-0 items-end justify-between border-grey-secondary bg-alt-header" style={{
             height:"62px",
             minHeight:"62px",
             maxHeight:"62px",
             paddingTop:"0"
         }}>
+            
             <div className="flex h-full w-full items-center justify-between pr-3">
                 <div className="flex w-full items-center font-medium">
                     <div className="flex items-center justify-center gap-3">
@@ -61,7 +79,7 @@ export default function Header() {
 
                 <h2  className="flex flex-col">
                     <span className="text-base text-base-content/80 md:text-lg">Learning Center</span>
-                    <span className="font-semibold text-2xl md:text-4xl">Business Mastery</span>
+                    <span className="font-semibold text-2xl md:text-4xl">The Skill Up Blueprint</span>
                 </h2>
             </div>
             <div className="">

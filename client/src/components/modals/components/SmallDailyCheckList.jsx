@@ -3,7 +3,7 @@ import SmallTaskList from "./SmallTaskList";
 
 export default function SmallDailyCheckList() {
   return (
-    <div className="carousel-item relative h-full w-full overflow-hidden">
+    <div className="carousel-item relative h-[calc(100dvh-10rem)] w-full overflow-hidden">
       <div className="scrollbar-custom  relative h-full w-full animate-fade-in">
         <div
           className="scrollbar-none overflow-y-scroll h-full w-full"
@@ -12,8 +12,7 @@ export default function SmallDailyCheckList() {
           }}
         >
           <div
-            className="h-full max-h-[80vh]  bg-next-midnight rounded-lg px-4 pb-4 sm:px-5"
-            style={{backgroundColor:"rgb(6 14 21 )"}}
+            className="h-full  bg-next-midnight rounded-lg px-4 pb-4 sm:px-5"
           >
             {/* Include SmallTaskList and DentalAssistantList components */}
             <SmallTaskList />

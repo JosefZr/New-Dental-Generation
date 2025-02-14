@@ -22,6 +22,8 @@ const UserProvider = ({ children }) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [isDashboardSidebarOpen,setIsDashboardSidebarOpen] = useState(false);
     const [isDhaboardOpen, setIsDhaboardOpen]= useState("")
+    const [isNewTaskOpen, setIsNewTaskOpen] = useState(false);
+
   const fetchMessages = async (recipientId) => {
     try {
       const response = await fetch(
@@ -65,7 +67,8 @@ const UserProvider = ({ children }) => {
         onSettingsToggle, setOnSettingsToggle,
         clickedChannel, setClickedChannel,
         isDashboardSidebarOpen,setIsDashboardSidebarOpen,
-        isDhaboardOpen, setIsDhaboardOpen
+        isDhaboardOpen, setIsDhaboardOpen,
+        isNewTaskOpen, setIsNewTaskOpen,
     }}>
       {children}
     </UserContext.Provider>

@@ -14,6 +14,7 @@ import CreateChannelStoreModal from "../modals/create-channel-store-lab";
 import UpdateChannelModal from "../modals/update-channel-modal";
 import BireModal from "../modals/bire-modal";
 import SerachModal from "../modals/search-modal";
+import AdvancedModal from "../modals/AdvancedModal";
 // import PreviewModal from "../modals/preview-modal";
 
 export const ModalProvider = ({ children })=>{
@@ -44,6 +45,7 @@ export const ModalProvider = ({ children })=>{
             <UpdateChannelModal/>
             <BireModal/>
             <SerachModal/>
+            <AdvancedModal/>
             {/* <PreviewModal/> */}
         </div>
     )

@@ -111,6 +111,9 @@ export default function PersonalInformationForm({formData,handleInputChange, han
                 <SelectLabel>regions</SelectLabel>
                 <SelectItem value="algeria">Algeria</SelectItem>
                 <SelectItem value="russia">Russia</SelectItem>
+                <SelectItem value="egypt">Egypt</SelectItem>
+                <SelectItem value="europe">Europe</SelectItem>
+                <SelectItem value="autre">Somewhere in the world</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 export default function Home({handleClose}) {
     const navigate = useNavigate()
   return (
-    <div className="carousel carousel-center relative h-[calc(100dvh-7rem)] w-[100dvw] overflow-y-hidden overscroll-none"
+    <div className="carousel carousel-center relative h-[calc(100dvh-10rem)] w-[100dvw] overflow-y-hidden overscroll-none"
         style={{scrollSnapStop:"always",overflowAnchor:"auto",scrollSnapAlign:"start"}}
     >
         <div className="relative size-full animate-fade-in">

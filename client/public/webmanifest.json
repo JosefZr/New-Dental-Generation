@@ -1,0 +1,28 @@
+{
+    "id": "/",
+    "start_url": "/",
+    "scope": "/",
+    "name": "Build Your Dental Network",
+    "short_name": "buildydn",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "permissions": ["notifications"],
+    "background_color": "#000000",
+    "gcm_sender_id": "103953800507",
+    "icons": [
+        {
+            "src": "/maskable_icon_x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable any"
+        }
+    ],
+    "screenshots": [
+    {
+        "src": "/screenshots.png",
+        "sizes": "1920x1080",
+        "type": "image/png",
+        "form_factor": "narrow"
+    }
+]
+}

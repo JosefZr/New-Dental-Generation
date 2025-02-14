@@ -69,7 +69,7 @@ export default function DentalAssistantList() {
                     overflowAnchor: "none",
                 }}
             >
-                <div className={`w-full z-10 pt-2 flex flex-row justify-center gap-2 ${isActive ? "" : "max-w-md px-5"}`}>
+                <div className={` z-10  flex flex-row justify-center gap-2 p-1  rounded-lg border-[1px]  border-[#365169] border-solid  ${isActive ? "w-full":" w-[400px] max-sm:w-full"}`}>
                     <div className="relative w-full">
                         {isCustomInput ? (
                             <Input
@@ -77,7 +77,7 @@ export default function DentalAssistantList() {
                                 placeholder="Enter custom item"
                                 value={newTaskData.title}
                                 onChange={(e) => handleTaskInputChange(e.target.value)}
-                                className="w-full bg-[#1A1F24] border-slate-800 h-10 text-white px-3"
+                                className="w-full h-10 text-white px-3"
                             />
                         ) : (
                             <select
@@ -91,7 +91,7 @@ export default function DentalAssistantList() {
                                     }
                                 }}
                                 value={newTaskData.title}
-                                className="w-full bg-[#1A1F24] border-slate-800 h-10 text-white px-3"
+                                className={`w-full bg-[#0B1015] border-none h-full cursor-pointer ${isActive && "bg-my-Modal-back"} h-10 text-white px-3`}
                             >
                                 <option value="" disabled>
                                     Select a Dental Inventory
@@ -121,12 +121,12 @@ export default function DentalAssistantList() {
                             </Button>
                         )}
                     </div>
-                    <Button 
-                        className="rounded-md bg-my-gold hover:bg-my-gold hover:opacity-90" 
+                    <button 
+                        className="rounded-md bg-my-gold hover:bg-my-gold hover:opacity-90 text-center flex justify-center items-center h-14 w-14" 
                         onClick={handleCreateTask}
                     >
-                        <LucidePlus className="h-[24px] w-[24px] text-black" />
-                    </Button>
+                        <LucidePlus className=" text-black " />
+                    </button>
                 </div>
                 <DentalAssistant tasks={tasks} isLoading={isLoading} />
             </div>

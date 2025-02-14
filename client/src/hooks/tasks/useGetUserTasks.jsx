@@ -12,7 +12,6 @@ const fetchUserTasks = async (id,category) => {
         throw new Error("Failed to fetch tasks");
     }
     const data = await response.json();
-    console.log(data)
     return data.tasks;
 };
 

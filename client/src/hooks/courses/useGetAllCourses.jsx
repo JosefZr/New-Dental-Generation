@@ -11,7 +11,6 @@ const getAllCourses = async () => {
         throw new Error("Failed to fetch inventory");
     }
     const {data} = await response.json();
-    console.log(data)
     return data;
 };
 
