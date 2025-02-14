@@ -6,9 +6,9 @@ import { useContext, useState } from "react"
 import { UserContext } from "@/context/UserContext"
 import PlanLikePro from "./PlanLikePro"
 import PaymentReminder from "./PaymentReminder"
-import GrowthSupport from "@/pages/growth-support/index"
 import TopDentistOpportunity from "./top-dentist"
 import JobOpportunities from "./job-opportunities"
+import GrowthSupport from "./growth-support"
 
 export default function Chat() {
   const [messages, setMessages] = useState([])
