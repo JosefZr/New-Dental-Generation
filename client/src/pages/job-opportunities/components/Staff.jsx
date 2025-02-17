@@ -1,17 +1,16 @@
-"use client"
+import { useState, useMemo } from "react";
+import { size } from "@/lib/mediaQuerys";
+import styled from "styled-components";
+import "../job.css";
+import { useGetAllJobs } from "@/hooks/job/useGetAllJobs";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
 
-import { useState, useMemo } from "react"
-import { size } from "@/lib/mediaQuerys"
-import styled from "styled-components"
-import "../job.css"
-import { useGetAllJobs } from "@/hooks/job/useGetAllJobs"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select"
 const Section = styled.section`
   background-image: url(https://www.jointherealworld.com/campus/images/new_hero_bg.png);
   background-size: auto;
   background-position: 0px 0px;
-`
+`;
 
 const Global = styled.section`
   opacity: 1;
@@ -21,7 +20,7 @@ const Global = styled.section`
     padding-left: 0.5rem;
     padding-right: 0.5rem;
   }
-`
+`;
 
 const Container = styled.div`
   display: flex;
@@ -33,25 +32,28 @@ const Container = styled.div`
   margin-left: auto;
   margin-right: auto;
   position: relative;
-`
+`;
 
 export default function Staff() {
-  const { data, isLoading, isError, error } = useGetAllJobs()
-  const [searchTerm, setSearchTerm] = useState("")
-  const [genderFilter, setGenderFilter] = useState("")
-  const [locationFilter, setLocationFilter] = useState("")
+  const { data, isLoading, isError, error } = useGetAllJobs();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [genderFilter, setGenderFilter] = useState("");
+  const [locationFilter, setLocationFilter] = useState("");
 
   const filteredJobs = useMemo(() => {
-    return data?.filter(
-      (job) =>
-        job.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (genderFilter === "" || job.gender.toLowerCase() === genderFilter.toLowerCase()) &&
-        (locationFilter === "" || job.location.toLowerCase() === locationFilter.toLowerCase()),
-    )
-  }, [data, searchTerm, genderFilter, locationFilter])
+    return data?.filter((job) => {
+      const matchesSearch = job.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesGender = genderFilter === "" || genderFilter === "all" || 
+                           job.gender.toLowerCase() === genderFilter.toLowerCase();
+      const matchesLocation = locationFilter === "" || locationFilter === "all" || 
+                             job.location.toLowerCase() === locationFilter.toLowerCase();
+      
+      return matchesSearch && matchesGender && matchesLocation;
+    });
+  }, [data, searchTerm, genderFilter, locationFilter]);
 
-  const uniqueLocations = useMemo(() => [...new Set(data?.map((job) => job.location))], [data])
-  const uniqueGenders = useMemo(() => [...new Set(data?.map((job) => job.gender))], [data])
+  const uniqueLocations = useMemo(() => [...new Set(data?.map((job) => job.location))], [data]);
+  const uniqueGenders = useMemo(() => [...new Set(data?.map((job) => job.gender))], [data]);
 
   return (
     <Section>
@@ -61,8 +63,7 @@ export default function Staff() {
             className="hero_component blue-bg-glow crypto"
             style={{
               opacity: "1",
-              transform:
-                "translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)",
+              transform: "translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)",
               transformStyle: "preserve-3d",
             }}
           >
@@ -85,7 +86,7 @@ export default function Staff() {
                 }}
               >
                 You need to have more trusted dentists working around you. Give The opportunity to the ones who needs
-                job, <span className="font-bold"> and grow your clinic. </span>.
+                job, <span className="font-bold"> and grow your clinic. </span>
               </div>
             </div>
           </div>
@@ -142,7 +143,9 @@ export default function Staff() {
                     <th className="px-4 py-2 text-left text-xs font-medium text-white uppercase tracking-wider">
                       Gender
                     </th>
-                    <th className="px-4 py-2 text-left text-xs font-medium text-white uppercase tracking-wider">Age</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-white uppercase tracking-wider">
+                      Age
+                    </th>
                     <th className="px-4 py-2 text-left text-xs font-medium text-white uppercase tracking-wider">
                       Location
                     </th>
@@ -193,6 +196,5 @@ export default function Staff() {
         </Container>
       </Global>
     </Section>
-  )
+  );
 }
-

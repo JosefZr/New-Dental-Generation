@@ -60,7 +60,33 @@ router.patch("/goal", async (req, res) => {
         return res.status(500).json({ message: "Error updating goal", error });
     }
 });
+router.patch("/IstighfarGoal", async (req, res) => {
+    const { userId, goal } = req.body;
+    if (!userId || !goal) {
+        return res.status(400).json({ message: "User ID and Istighfar Goal are required" });
+    }
 
+    try {
+        const updatedGoal = await Settings.findOneAndUpdate(
+            { userId },
+            { IstighfarGoal:goal },
+            { new: true }
+        );
+
+        if (!updatedGoal) {
+            return res.status(404).json({ message: "Settings not found", success: false });
+        }
+
+        return res.status(200).json({
+            message: "Istighfar Goal updated successfully",
+            updatedGoal,
+            success: true,
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: "Error updating Istighfar Goal", error });
+    }
+});
 router.patch("/currency", async (req, res) => {
     const { userId, currency } = req.body; // Fixed typo
 

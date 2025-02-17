@@ -23,6 +23,8 @@ const UserProvider = ({ children }) => {
     const [isDashboardSidebarOpen,setIsDashboardSidebarOpen] = useState(false);
     const [isDhaboardOpen, setIsDhaboardOpen]= useState("")
     const [isNewTaskOpen, setIsNewTaskOpen] = useState(false);
+    const [viewType, setViewType] = useState("daily");
+
 
   const fetchMessages = async (recipientId) => {
     try {
@@ -69,6 +71,7 @@ const UserProvider = ({ children }) => {
         isDashboardSidebarOpen,setIsDashboardSidebarOpen,
         isDhaboardOpen, setIsDhaboardOpen,
         isNewTaskOpen, setIsNewTaskOpen,
+        viewType, setViewType
     }}>
       {children}
     </UserContext.Provider>

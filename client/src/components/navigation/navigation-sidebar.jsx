@@ -10,6 +10,7 @@ import { fetchUserData } from "@/hooks/useFetchUserData";
 import { jwtDecode } from "jwt-decode";
 import { FaMoneyBillTrendUp, FaRegChessKnight, FaRegChessQueen } from "react-icons/fa6";
 import { MdWorkHistory } from "react-icons/md";
+import { FaUssunnah } from "react-icons/fa";
 export default function NavigationSidebar() {
   const servers = [
     {
@@ -37,6 +38,10 @@ export default function NavigationSidebar() {
     {
       "id":"job-opportunities",
       imageUrl:<MdWorkHistory className="object-cover w-[90%] h-[90%] items-center text-center mx-auto" />
+    },
+    {
+      "id":"sunnah",
+      imageUrl:<FaUssunnah className="object-cover w-[90%] h-[90%] items-center text-center mx-auto" />
     }
   ];
   const userInfo= jwtDecode(localStorage.getItem("token"))

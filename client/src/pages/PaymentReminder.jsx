@@ -20,31 +20,7 @@ import { useUpdateCurrency } from "@/hooks/payments/useUpdateCurrency";
 import { jwtDecode } from "jwt-decode";
 import { useContext, useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
-import styled from "styled-components";
 
-const Container = styled.div`
-    overscroll-behavior-block: none;
-    overscroll-behavior-x: none;
-    scroll-behavior: auto;
-    scroll-snap-stop: always;
-    scroll-snap-align: start;
-    scroll-snap-type: x mandatory;
-    width: 100%;
-`;
-const tasks =[
-  {
-      id: 1,
-      title: "Dental Supplies",
-  },
-  {
-      id: 2,
-      title: "Staff Payroll",
-  },
-  {
-      id: 3,
-      title: "Dental Lab Fees",
-  }
-]
 export default function PaymentReminder() {
   const userInfo = jwtDecode(localStorage.getItem("token"))
   const {data:Settings, isLoading:isLoadingSettings, isError:isErrorSettings, error:SettingsError} = useGetSettings({userId:userInfo.userId})

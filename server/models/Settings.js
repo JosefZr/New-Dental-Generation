@@ -15,7 +15,11 @@ const SettingsSchema = new mongoose.Schema({
         required:true,
         default: 'DZ'
     },
-    
+    IstighfarGoal:{
+        type:Number,
+        required:true,
+        default: 100
+    }
 },{
     timestamps: true
 })

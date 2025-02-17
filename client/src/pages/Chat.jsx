@@ -9,6 +9,7 @@ import PaymentReminder from "./PaymentReminder"
 import TopDentistOpportunity from "./top-dentist"
 import JobOpportunities from "./job-opportunities"
 import GrowthSupport from "./growth-support"
+import Sunnah from "./Sunnah"
 
 export default function Chat() {
   const [messages, setMessages] = useState([])
@@ -22,6 +23,8 @@ export default function Chat() {
   const isGrowthSupport = location.pathname.includes("/growth-support"); // New condition
   const isTopDentist = location.pathname.includes("/top-dentist-opportunity"); // New condition
   const isJobOpportunities = location.pathname.includes("/job-opportunities"); // New condition
+  const isSunnah = location.pathname.includes("/sunnah"); // New condition
+
 
   // useEffect(() => {
   //   if (location.pathname === "/channels" && !isPlanLikeProRoute && !isPaymentReminder) {
@@ -60,7 +63,7 @@ export default function Chat() {
       </div>
 
       {/* Server Sidebar with animation */}
-      {!isGrowthSupport && !isPlanLikeProRoute && !isPaymentReminder && !isTopDentist && !isJobOpportunities &&(
+      {!isGrowthSupport && !isPlanLikeProRoute && !isPaymentReminder && !isTopDentist && !isJobOpportunities && !isSunnah &&(
         <div
           className={`fixed left-[72px] top-0 h-full w-72 bg-[#0E1C26] transition-transform duration-300 ${
             isSidebarOpen ? "-translate-x-[360px]" : "translate-x-0"
@@ -77,7 +80,7 @@ export default function Chat() {
       {/* Main Content Area */}
       <div
         className={`flex-1 flex flex-col h-full transition-all duration-300 ${
-          isPlanLikeProRoute || isPaymentReminder || isGrowthSupport || isTopDentist || isJobOpportunities
+          isPlanLikeProRoute || isPaymentReminder || isGrowthSupport || isTopDentist || isJobOpportunities || isSunnah
             ? "ml-[72px]" // PlanLikePro & PaymentReminder should respect the sidebar width
             : isSidebarOpen
               ? "ml-0"
@@ -94,6 +97,8 @@ export default function Chat() {
           <TopDentistOpportunity />
         ): isJobOpportunities ?(
           <JobOpportunities/>
+        ): isSunnah ?(
+          <Sunnah />
         ):
         (
           <>

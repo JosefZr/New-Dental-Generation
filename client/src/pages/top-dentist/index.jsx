@@ -26,9 +26,11 @@ export default function TopDentistOpportunity() {
         <div className="container">
           <div className="hero-content">
             <h1 className="h1 uppercase">Top Dentist Opportunity</h1>
+            <br />            
             <Link to="#" className="button-h w-button">
               Coming <strong>Soon</strong>
             </Link>
+            <br />
             <div className="text-title-hero">Transform your dental expertise into income.</div>
           </div>
           <div className="hero-content-flex">

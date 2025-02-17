@@ -20,10 +20,10 @@ import Staff from "./components/Staff";
 export default function JobOpportunities() {
         const [activeTab, setActiveTab] = useState("I WANT A JOB"); // Default active tab
     
-      const { setIsSidebarOpen, isSidebarOpen } = useContext(UserContext)
-      const toggleSidebar = () => {
-        setIsSidebarOpen((prev) => !prev)
-      }
+        const { setIsSidebarOpen, isSidebarOpen } = useContext(UserContext)
+        const toggleSidebar = () => {
+            setIsSidebarOpen((prev) => !prev)
+        }
     return (
         <div
         className={`min-h-screen bg-[#0B1015] text-white transition-transform duration-300 ${

@@ -19,7 +19,7 @@ import paymentManagmentRoute from "./routes/paymentManagment.js"
 import SettingsRoute from "./routes/Settings.js"
 import analyseRoute from "./routes/analyse.js"
 import JobRoute from "./routes/Job.js"
-
+import IstighfarRoute from "./routes/Istighfar.js"
 
 import logger from "./utils/logger.js";
 import cors from "cors";
@@ -80,6 +80,7 @@ app.use("/api/v1/payment/managment",paymentManagmentRoute);
 app.use("/api/v1/settings",SettingsRoute)
 app.use("/api/v1/analyse",analyseRoute)
 app.use("/api/v1/job",JobRoute)
+app.use("/api/v1/istighfar",IstighfarRoute)
 
 // Wrong Api Route handler
 app.use((req, res, next) => {

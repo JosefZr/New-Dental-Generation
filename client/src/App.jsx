@@ -56,6 +56,8 @@ export default function App() {
           <Route path="/growth-support/*" element={<Chat />} />
           <Route path="/top-dentist-opportunity/*" element={<Chat />} />
           <Route path="/job-opportunities/*" element={<Chat/>}/>
+          <Route path="/sunnah/*" element={<Chat/>}/>
+
         </Route>
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/" element={<Intro />} />

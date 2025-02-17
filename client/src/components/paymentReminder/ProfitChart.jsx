@@ -1,9 +1,8 @@
-"use client"
-
+/* eslint-disable react/prop-types */
 import { TrendingDown, TrendingUp } from "lucide-react"
 import { Area, AreaChart, CartesianGrid, XAxis, ResponsiveContainer } from "recharts"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { ChartContainer, ChartTooltip } from "@/components/ui/chart"
 import { subMonths, format } from "date-fns"
 import { useMemo } from "react"
 
@@ -52,6 +51,7 @@ export function ProfitChart({ earnings = [], payments = [] ,money}) {
   const percentageChange = lastMonthProfit ? ((currentMonthProfit - lastMonthProfit) / lastMonthProfit * 100).toFixed(1) : 0;
 
   // Custom tooltip content
+  // eslint-disable-next-line react/prop-types
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
