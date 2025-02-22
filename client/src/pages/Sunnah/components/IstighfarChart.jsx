@@ -57,7 +57,7 @@ export default function IstighfarChart({ earnings = [] }) {
     return null;
   };
   return (
-    <Card className="h-full dark">
+    <Card className="h-full dark ">
       <CardHeader>
         <CardTitle className="text-foreground text-3xl flex gap-3 items-center">
           Istighfar Performance

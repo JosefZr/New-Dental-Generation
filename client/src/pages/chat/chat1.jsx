@@ -6,12 +6,13 @@ import { Input } from "@/components/ui/input"
 import { IoIosSend } from "react-icons/io";
 
 import { useState, useEffect, useRef, useContext } from "react";
-import { jwtDecode } from "jwt-decode";
 import { UserContext } from "@/context/UserContext";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useAddJourney } from "@/hooks/user/useAddJourney";
+import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 
 export default function Chat1({ initialMessages, chanId,cahnTitle }) {
+  const userInfo = useAuthUser();
   const [messages, setMessages] = useState(initialMessages || []);
   const [msgToSend, setMessageToSend] = useState("");
   const [imagesTosnd, setImagesToSnd] = useState([])
@@ -25,9 +26,9 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const containerRef = useRef(null);
   const lastMessageRef = useRef(null);
   const fileInputRef = useRef(null)
+
  // Function to check if the current user can send messages
  const canSendMessages = () => {
-  const userInfo = jwtDecode(localStorage.getItem("token"));
   const userRole = userInfo.role;
   const userRegion = userInfo.region;
   // Allow everyone if allowedUsers is "all"
@@ -150,7 +151,7 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
       type: "text",
       sender: userInfo.userId, // Ensure sender is included
     });
-    if(owner?.allowedUsers ==="all"){
+    if(owner?.type ==="journey"){
       addJourney.mutate({
         userId: userInfo.userId,
         content:msgToSend,
@@ -183,7 +184,6 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   }
 
   const socket = useSocket();
-  const userInfo = jwtDecode(localStorage.getItem("token"));
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
@@ -297,7 +297,6 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
     };
   }, [messages]);
   const getAccessDeniedMessage = () => {
-    const userInfo = jwtDecode(localStorage.getItem("token"));
       // Allow admins and moderators to send messages in all channels
     if (["admin", "moderator"].includes(userInfo.role)) {
       return null; // No access denied message for admins and moderators
@@ -327,15 +326,18 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
     return "You don't have permission to send messages in this channel";
   };
   return (
-    <div className="flex h-full flex-col bg-[ #0A1720] scrollbar-custom">
-      <div className="z-20 flex flex-col flex-1">
-        <div className="relative h-full flex-1 bg-neutral">
-          <div className="absolute top-0 right-0 left-0 z-20 flex flex-col">
+    <div className="flex h-full flex-col "
+    style={{
+      backgroundColor:"hsl(211.3 46.939% 9.6078%)"
+    }}>
+      <div className="z-20 flex flex-col flex-1 ">
+        <div className="relative h-full flex-1 bg-neutral ">
+          <div className="absolute top-0 right-0 left-0 z-20 flex flex-col ">
             {/* for the title of the channel */}
             <header
               className="flex flex-shrink-0 items-end justify-between !pt-0 relative z-10 border-grey-secondary bg-base-300"
             >
-              <section className="flex h-full w-full items-center justify-between pl-3 py-2 text-lg bg-[#0E1C26]">
+              <section className="flex h-full w-full items-center justify-between pl-3 py-2 text-lg bg-[#213043] ">
                 <div className="flex w-full items-center font-medium">
                   <div className="flex items-center justify-center gap-3">
                     <div className="flex items-center gap-3 font-medium cursor-pointer">
@@ -393,12 +395,12 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
 
           {/* for the chat  */}
           <div
-            className="absolute translate-y-0 opacity-100"
+            className="absolute translate-y-0 opacity-100 "
             style={{ top: "48px", left: "0", width: "100%", bottom: "66px" }}
           >
             <div
               ref={containerRef}
-              className="z-10 overflow-y-auto overflow-x-hidden transition-transform duration-keyboard will-change-transform "
+              className="z-10 overflow-y-auto overflow-x-hidden transition-transform duration-keyboard will-change-transform custom-scroll"
               style={{ height: "100%" }}
             >
               <div className="viewport relative will-change-transform translate-y-0 ">
@@ -427,8 +429,8 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
             }`}
           >
             <footer
-              className="relative mb-inset-bottom   z-20 w-full bg-[#0E1C26] transition-transform duration-keyboard translate-y-0"
-              style={{ paddingBottom: "0px" }}
+              className="relative mb-inset-bottom   z-20 w-full transition-transform duration-keyboard translate-y-0"
+              style={{ paddingBottom: "0px",backgroundColor:"hsl(211.03 33.333% 17.059%)" }}
             >
               {/* this for the user when he scroll up he can return and scroll to the present msg */}
               {/* <div className="w-full user-select-none flex h-[28px] items-center justify-between overflow-hidden text-ellipsis whitespace-nowrap bg-opacity-80 px-3 font-medium text-sm backdrop-blur-[20px] backdrop-filter  z-100 mb-inset-bottom transform cursor-pointer transition-all duration-75 bg-base-300 text-base-content translate-y-0 opacity-100 bottom-full">
@@ -470,7 +472,7 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
               )}
             </div>
           </div>
-          <div className="w-full flex flex-row items-center px-2 py-1 gap-3">
+          <div className="w-full flex flex-row items-center px-2 py-1  mb-1 gap-3">
             <label htmlFor="dropzone-file" className="cursor-pointer bg-slate-700 rounded-full">
               <Plus className="w-6 h-6 text-white hover:text-gray-500 transition-colors m-1" />
               <Input
@@ -483,7 +485,9 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
                 ref={fileInputRef}
               />
             </label>
-            <form onSubmit={handleSubmit} className="relative block min-h-[32px] rounded-2xl bg-neutral-950 flex-1">
+            <form onSubmit={handleSubmit} className="relative block min-h-[32px] rounded-2xl flex-1"style={{
+              backgroundColor:"hsl(213.53 34% 19.608%)"
+            }}>
               <textarea
                 id="chat-input"
                 className="top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none w-full"

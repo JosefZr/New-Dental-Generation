@@ -15,6 +15,11 @@ import UpdateChannelModal from "../modals/update-channel-modal";
 import BireModal from "../modals/bire-modal";
 import SerachModal from "../modals/search-modal";
 import AdvancedModal from "../modals/AdvancedModal";
+import TimeModal from "../modals/time-modal";
+import AddModal from "../modals/addModal";
+import Limitations from "../modals/Limitations";
+import ImagesModal from "../modals/images-modal";
+import LevelModal from "../modals/level-modal";
 // import PreviewModal from "../modals/preview-modal";
 
 export const ModalProvider = ({ children })=>{
@@ -46,6 +51,11 @@ export const ModalProvider = ({ children })=>{
             <BireModal/>
             <SerachModal/>
             <AdvancedModal/>
+            <TimeModal/>
+            <AddModal/>
+            <Limitations/>
+            <ImagesModal/>
+            <LevelModal/>
             {/* <PreviewModal/> */}
         </div>
     )

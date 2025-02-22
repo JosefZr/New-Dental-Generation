@@ -19,6 +19,10 @@ const SettingsSchema = new mongoose.Schema({
         type:Number,
         required:true,
         default: 100
+    },
+    Sunnah:{
+        type:Boolean,
+        default: false
     }
 },{
     timestamps: true

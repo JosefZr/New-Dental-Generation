@@ -11,6 +11,7 @@ import { ModalProvider } from "./components/providers/modal-provider.jsx";
 import UserProvider from "./context/UserContext.jsx";
 import { UserChatProvider } from "./context/ToChatUser.jsx";
 import swDev from "./swDev.js";
+import SunnahProvider from "./context/sunnahContext.jsx";
 // import { registerServiceWorker } from "@/serviceworker.js";
 // import { requestNotificationPermission } from "./push.js";
 // import swDev from "./swDev.js";
@@ -24,6 +25,7 @@ createRoot(document.getElementById("root")).render(
           <CourseProvider>
             <UserProvider>
               <UserChatProvider>
+                <SunnahProvider>
             <Toaster
               position="top-center"
               gutter={12}
@@ -46,7 +48,9 @@ createRoot(document.getElementById("root")).render(
             />
             <ModalProvider>
               <App />
+              
             </ModalProvider>
+            </SunnahProvider>
             </UserChatProvider>
             </UserProvider>
           </CourseProvider>

@@ -2,13 +2,15 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import styled from "styled-components";
-import { jwtDecode } from "jwt-decode";
 import { useCreateTask } from "@/hooks/tasks/useCreateTask";
 import DentalAssistant from "./DentalAssistant";
 import { useGetAllInventory } from "@/hooks/inventory/useGetAllInventory";
 import { LucidePlus } from "lucide-react";
 import { useUserInventoryTasks } from "@/hooks/tasks/useUserInventoryTasks";
 import { useLocation } from "react-router-dom";
+import { useAuthUser } from "@/hooks/jwt/useAuthUser";
+import useGetSubscriptionStatus from "@/hooks/limitation/useGetSubscriptionStatus";
+import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 
 const Container = styled.div`
   overscroll-behavior-block: none;
@@ -21,6 +23,9 @@ const Container = styled.div`
 
 export default function DentalAssistantList() {
     const location = useLocation();
+    const {onOpen} = useModal()
+    const status = useGetSubscriptionStatus()
+    
     const isActive = location.pathname.includes('/channels');
     const [isCustomInput, setIsCustomInput] = useState(false);
     const [newTaskData, setNewTaskData] = useState({
@@ -29,7 +34,7 @@ export default function DentalAssistantList() {
     });
 
     const { data: inventorys = [], isLoading: isLoadingInventory } = useGetAllInventory();
-    const userInfo = jwtDecode(localStorage.getItem("token"));
+    const userInfo = useAuthUser();
     const id = userInfo.userId;
     const { data: tasks, isLoading } = useUserInventoryTasks({ id, category: "Assistant" });
     const mutation = useCreateTask();
@@ -43,14 +48,19 @@ export default function DentalAssistantList() {
             alert("Please provide a task title.");
             return;
         }
-
-        mutation.mutate({ 
-            id, 
-            task: {
-                ...newTaskData,
-                title: newTaskData.title.trim()
-            } 
-        });
+        if(status ==="off"){
+            onOpen(MODAL_TYPE.LIMITATION_MODAL)
+        }
+        else{
+            mutation.mutate({ 
+                id, 
+                task: {
+                    ...newTaskData,
+                    title: newTaskData.title.trim()
+                } 
+            });
+        }
+        
 
         setNewTaskData({
             title: "",

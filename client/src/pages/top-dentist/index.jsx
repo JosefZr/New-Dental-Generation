@@ -11,11 +11,18 @@ export default function TopDentistOpportunity() {
     setIsSidebarOpen((prev) => !prev)
   }
 
+
   return (
     <div
-      className={`min-h-screen bg-[#0B1015] text-white transition-transform duration-300 ${
+      className={`  text-white transition-transform duration-300 ${
         isSidebarOpen ? "ml-[-72px]" : ""
       }`}
+      style={{
+        backgroundImage: `url("/TOP DENTISTS .svg")`,
+        backgroundSize: "cover",
+        backgroundRepeat: "repeat",
+      }}
+      
     >
       <div className="flex items-center">
         <button className="p-2 hover:bg-gray-800 rounded-full" onClick={toggleSidebar} id="push">
@@ -26,12 +33,13 @@ export default function TopDentistOpportunity() {
         <div className="container">
           <div className="hero-content">
             <h1 className="h1 uppercase">Top Dentist Opportunity</h1>
-            <br />            
+            <div className="text-title-hero text-[#b4b4b4]">Transform your dental expertise into <span className=" italic font-bold text-white">income.</span></div>
+            <br />
+
             <Link to="#" className="button-h w-button">
               Coming <strong>Soon</strong>
             </Link>
-            <br />
-            <div className="text-title-hero">Transform your dental expertise into income.</div>
+            
           </div>
           <div className="hero-content-flex">
             <p className="p p-hero">

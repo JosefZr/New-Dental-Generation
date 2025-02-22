@@ -4,7 +4,7 @@ import { addUserToCourse, fetchStudentCourseDetailsService, fetchStudentCoursePr
 import { jwtDecode } from "jwt-decode";
 import { useContext, useEffect } from "react";
 import toast from "react-hot-toast";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Header from "./components/Header";
 import LectureList from "./components/LectureList";
 
@@ -13,72 +13,11 @@ export default function StudentViewCourseDetailsPage() {
     const {progress, setProgress} = useContext(CoursesContext)
     const {  setStudentViewCourseDetails, currentCoursedetailsId, setCurrentCourseDetailsId, studentCurrentCourseProgress, setStudentCurrentCourseProgress } = useContext(CoursesContext);
 
-    const { loading, setLoading, studentViewCourseDetails } = useContext(CoursesContext);
+    const { setLoading } = useContext(CoursesContext);
     const { id } = useParams();
     const location = useLocation();
     const params = useParams();
     const userInfo = jwtDecode(localStorage.getItem("token"));
-
-//     setVideoProgress(progress.played); // Update progress (value between 0 and 1)
-//     if (progress.played >= 0.5 && !showNextButton) {
-//         setShowNextButton(true); // Show "Next Lecture" button when progress is >= 50%
-//     }
-// };
-
-// const handleNextLecture = async () => {
-//     const currentIndex = studentViewCourseDetails.curriculum.findIndex(
-//         (curr) => curr.title === selectedTitle
-//     );
-
-//     if (currentIndex >= 0 && currentIndex < studentViewCourseDetails.curriculum.length - 1) {
-//         // Handle progressing to the next lecture
-//         const nextLecture = studentViewCourseDetails.curriculum[currentIndex + 1];
-//         const currentLecture = studentViewCourseDetails.curriculum[currentIndex];
-
-//         try {
-//             // Call API to mark the current lecture as viewed
-//             const response = await setLectureAsViewed(
-//                 userInfo.userId,
-//                 params.id,
-//                 currentLecture._id
-//             );
-
-//             if (response.success) {
-//                 toast.success("Lecture marked as viewed.");
-//                 // Update the curriculum array to reflect the new progress
-//                 setProgress(response)
-//             } else {
-//                 toast.error("Failed to update lecture progress.");
-//             }
-
-//             // Proceed to the next lecture
-//             handleVideoSelect(nextLecture.videoUrl, nextLecture.title, !nextLecture?.freePreview && isFreeUser);
-//         } catch (error) {
-//             console.error("Error updating lecture progress:", error);
-//             toast.error("An error occurred while updating progress.");
-//         }
-//     } else {
-//         // Handle marking the last lecture as viewed and redirecting
-//         const lastLecture = studentViewCourseDetails.curriculum[currentIndex];
-//         try {
-//             const response = await setLectureAsViewed(
-//                 userInfo.userId,
-//                 params.id,
-//                 lastLecture._id
-//             );
-
-//             if (response.success) {
-//                 toast.success("You've completed the course!");
-//                 navigate(-1); // Redirect to the previous page
-//             } else {
-//                 toast.error("Failed to update lecture progress.");
-//             }
-//         } catch (error) {
-//             console.error("Error updating last lecture progress:", error);
-//             toast.error("An error occurred while completing the course.");
-//         }
-//     }
-// };
     async function setUserToProgress() {
         try {
             const course = await fetchStudentCourseProgressionDetails(userInfo.userId, params.id);

@@ -20,15 +20,20 @@ export default function ServerSection({ label ,allowedRole, children,channelType
     };
     return (
         <div>
-            <div className="flex items-center justify-between py-2">
-                <div className="flex items-center gap-2">
+            <div className=" flex justify-between items-center">
+                <div className="mt-3 mb-1 flex shrink-0 cursor-pointer gap-1 items-center font-bold hover:text-gray-200" style={{
+                        color:"rgb(156 163 175)",
+                        lineHeight:"1rem",
+                        fontSize:"0.75rem",
+                    }}
+                    onClick={() => setIsExpanded(!isExpanded)}
+                >
                     <button 
-                        onClick={() => setIsExpanded(!isExpanded)}
-                        className="text-zinc-400 hover:text-zinc-600 transition"
+                        className="  transition"
                     >
-                        <ArrowDown className={`h-4 w-4 transition-transform ${isExpanded ? '-rotate-90' : ''}`}/>
+                        <ArrowDown className={` transition-transform mr-[2px] ml-[2px] h-3 w-3 transform ${isExpanded ? '-rotate-90' : ''}`}/>
                     </button>
-                    <p className="text-xs uppercase font-bold text-zinc-400">
+                    <p className=" uppercase  " >
                         {label}
                     </p>
                 </div>

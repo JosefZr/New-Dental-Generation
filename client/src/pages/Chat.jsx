@@ -55,9 +55,12 @@ export default function Chat() {
     <div className="flex h-screen ">
       {/* Navigation Sidebar with animation */}
       <div
-        className={`fixed left-0 top-0 h-full w-[72px] bg-[#0A1720] transition-transform duration-300 ${
+        className={`fixed left-0 top-0 h-full w-[72px] border-r-[1px] border-[#213043] transition-transform duration-300 ${
           isSidebarOpen ? "-translate-x-full" : "translate-x-0"
         }`}
+        style={{
+          backgroundColor:"hsl(211.3 46.939% 9.6078%)"
+        }}
       >
         <NavigationSidebar />
       </div>
@@ -65,9 +68,12 @@ export default function Chat() {
       {/* Server Sidebar with animation */}
       {!isGrowthSupport && !isPlanLikeProRoute && !isPaymentReminder && !isTopDentist && !isJobOpportunities && !isSunnah &&(
         <div
-          className={`fixed left-[72px] top-0 h-full w-72 bg-[#0E1C26] transition-transform duration-300 ${
+          className={`fixed left-[72px] top-0 h-full w-72 transition-transform duration-300 ${
             isSidebarOpen ? "-translate-x-[360px]" : "translate-x-0"
           }`}
+          style={{
+            backgroundColor:"hsl(211.03 33.333% 17.059%)"
+          }}
         >
           <ServerSideBar
             fetchMessages={setMessages}

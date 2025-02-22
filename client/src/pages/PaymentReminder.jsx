@@ -1,7 +1,5 @@
 import GreenLoader from "@/components/GreenLoader";
 import { AddEarnings } from "@/components/paymentReminder/AddEarnings";
-import { CustomerList } from "@/components/paymentReminder/CustomerList";
-import DailyEarnings from "@/components/paymentReminder/DailyEarnings";
 import { MetricCards } from "@/components/paymentReminder/MetricCard";
 import { MonthlyGoal } from "@/components/paymentReminder/MonthlyGoal";
 import PaymentCheckList from "@/components/paymentReminder/PaymentCheckList";
@@ -9,20 +7,17 @@ import { PremiumPlanCard } from "@/components/paymentReminder/PremiumPlanCard";
 import { ProfitChart } from "@/components/paymentReminder/ProfitChart";
 import { ProgressCard } from "@/components/paymentReminder/ProgressCard";
 import Reminders from "@/components/paymentReminder/Reminders";
-import { SalesDonut } from "@/components/paymentReminder/SalesDonut";
-import AdvancedCheckList from "@/components/PlanLikePro/AdvancedCheckList";
-import { LoadingSpinner } from "@/components/server/ServerSideBar";
 import { UserContext } from "@/context/UserContext";
+import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 import { useUserEarnings } from "@/hooks/payments/useGetEarnings";
 import { useGetPaymentReminders } from "@/hooks/payments/useGetPaymentReminders";
 import { useGetSettings } from "@/hooks/payments/useGetSettings";
 import { useUpdateCurrency } from "@/hooks/payments/useUpdateCurrency";
-import { jwtDecode } from "jwt-decode";
 import { useContext, useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 export default function PaymentReminder() {
-  const userInfo = jwtDecode(localStorage.getItem("token"))
+    const userInfo = useAuthUser();
   const {data:Settings, isLoading:isLoadingSettings, isError:isErrorSettings, error:SettingsError} = useGetSettings({userId:userInfo.userId})
   const [currency, setCurrency] = useState(null);
 

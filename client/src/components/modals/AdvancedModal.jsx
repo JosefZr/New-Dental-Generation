@@ -9,24 +9,13 @@ import {  LucideCalendar } from "lucide-react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { Calendar } from "@/components/ui/calendar";
 import { useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 import { DAYS_OF_WEEK, REMINDER_TIMES } from "../PlanLikePro/TaskList";
+import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 
 export default function AdvancedModal() {
-    const token = localStorage.getItem("token"); // ou la source du token
-
-    if (typeof token === "string" && token.trim() !== "") {
-      try {
-        const decoded = jwtDecode(token);
-      } catch (error) {
-        console.error("Invalid token:", error);
-      }
-    } else {
-      console.warn("Token is missing or invalid");
-    }
-      const { isOpen, onClose, type } = useModal();
-  
+    const userInfo = useAuthUser()
+    const { isOpen, onClose, type } = useModal();
     const isModalOpen = isOpen && type === MODAL_TYPE.CREATE_EVENT;
 
     const [selectedRepeatDays, setSelectedRepeatDays] = useState([]);

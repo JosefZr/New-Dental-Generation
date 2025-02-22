@@ -12,11 +12,13 @@ import styled from "styled-components";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { UserContext } from "@/context/UserContext";
 import AdvancedCheckList from "./AdvancedCheckList";
-import { jwtDecode } from "jwt-decode";
 import { useCreateTask } from "@/hooks/tasks/useCreateTask";
 import { useUserTasks } from "@/hooks/tasks/useGetUserTasks";
 import { useLocation } from "react-router-dom";
 import { useUserSimpleTasks } from "@/hooks/tasks/useGetSimpleTasks";
+import { useAuthUser } from "@/hooks/jwt/useAuthUser";
+import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
+import useGetSubscriptionStatus from "@/hooks/limitation/useGetSubscriptionStatus";
 const Container = styled.div`
   overscroll-behavior-block: none;
   overscroll-behavior-x: none;
@@ -51,6 +53,8 @@ export const REMINDER_TIMES = [
 
 export default function TaskList() {
     const location = useLocation(); // Get the current location
+        const status = useGetSubscriptionStatus()
+    
     const isActive = location.pathname.includes(`/channels`); // Check if the current path includes the id
     const [sliderValue, setSliderValue] = useState([30]);
     const [isNewTaskOpen, setIsNewTaskOpen] = useState(false);
@@ -68,7 +72,9 @@ export default function TaskList() {
         isRepeating: false,
         category: "",
     });
-    const userInfo = jwtDecode(localStorage.getItem("token"));
+      const {onOpen} = useModal();
+    
+    const userInfo = useAuthUser();
     const toggleSidebar = () => {
         setIsSidebarOpen((prev) => !prev);
     };
@@ -160,8 +166,13 @@ export default function TaskList() {
             // Remove 'hasCustomEnd' and 'hasReminder' if they are not needed
           // Trigger the mutation
             console.log("Sending payload:", { id, task });
-
-            mutation.mutate({ id, task });
+              // Helper function to determine subscription status
+            if(status ==="off" ){
+                onOpen(MODAL_TYPE.LIMITATION_MODAL)
+            }
+            else{
+                mutation.mutate({ id, task });
+            }
             
             // Resetting the form state
             setIsNewTaskOpen(false);

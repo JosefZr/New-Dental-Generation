@@ -11,7 +11,8 @@
   --gray: #5E5E5E;
   --whiteGray:#EBEBEB;
   --smallTittle:#FFFFF6;
-  
+  --sidebar:hsl(211.3 46.939% 9.6078%)
+
   --murcery:#EBEBEB;
   --tin:#919191;
   --beige:#EDE8D0;
@@ -96,6 +97,9 @@
 }
 .business-heading {
   font-family: "Oswald", sans-serif;
+}
+.amiri-regular {
+  font-family: "Amiri", serif;
 }
 body {
   font-family: 'Jost', sans-serif;
@@ -1052,7 +1056,7 @@ body {
 /* checout button */
 
 /* From Uiverse.io by SelfMadeSystem */ 
-.buttonCheckout {
+.buttonCheckout{
   position: relative;
   cursor: pointer;
   border: none;
@@ -1061,7 +1065,17 @@ body {
   background: #111;
   color: #fff;
 }
-
+.buttonCheckout-limit{
+  position: relative;
+  cursor: pointer;
+  border: none;
+  min-width: 200px;
+  max-width: 600px;
+  padding: 0 15px;
+  height: 40px;
+  background: #111;
+  color: #fff;
+}
 .text {
   position: relative;
   z-index: 1;

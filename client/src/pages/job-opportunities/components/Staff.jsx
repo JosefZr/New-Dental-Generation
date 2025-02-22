@@ -5,6 +5,9 @@ import "../job.css";
 import { useGetAllJobs } from "@/hooks/job/useGetAllJobs";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
+import useGetSubscriptionStatus from "@/hooks/limitation/useGetSubscriptionStatus";
+import { useNavigate } from "react-router-dom";
+import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 
 const Section = styled.section`
   background-image: url(https://www.jointherealworld.com/campus/images/new_hero_bg.png);
@@ -39,14 +42,16 @@ export default function Staff() {
   const [searchTerm, setSearchTerm] = useState("");
   const [genderFilter, setGenderFilter] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
-
+  const status = useGetSubscriptionStatus()
+    const navigate = useNavigate()
+  const userInfo = useAuthUser()
   const filteredJobs = useMemo(() => {
     return data?.filter((job) => {
       const matchesSearch = job.name.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesGender = genderFilter === "" || genderFilter === "all" || 
-                           job.gender.toLowerCase() === genderFilter.toLowerCase();
+        job.gender.toLowerCase() === genderFilter.toLowerCase();
       const matchesLocation = locationFilter === "" || locationFilter === "all" || 
-                             job.location.toLowerCase() === locationFilter.toLowerCase();
+        job.location.toLowerCase() === locationFilter.toLowerCase();
       
       return matchesSearch && matchesGender && matchesLocation;
     });
@@ -54,7 +59,9 @@ export default function Staff() {
 
   const uniqueLocations = useMemo(() => [...new Set(data?.map((job) => job.location))], [data]);
   const uniqueGenders = useMemo(() => [...new Set(data?.map((job) => job.gender))], [data]);
-
+  const handleLimitation = ()=>{
+    navigate(`/profile/${userInfo.userId}`)
+  }
   return (
     <Section>
       <Global>
@@ -92,7 +99,52 @@ export default function Staff() {
           </div>
           <div className="h22 is-18-ch mobile-hidden crypto">Find Your Loyal Team</div>
 
-          <div className="w-full max-w-4xl mt-8">
+          {status === "off" ? (
+            <div className="max-w-3xl w-full mt-8 min-h-[60vh] flex flex-col justify-center"> {/* Updated height */}
+              <div className="relative w-full flex-1 flex flex-col items-center justify-center p-4 sm:p-6">
+                {/* Spinning loader */}
+                <div className="relative h-20 w-20 sm:h-28 sm:w-28 mb-6">
+                  <div className="absolute inset-0 rounded-full border-2 border-white/20"></div>
+                  <div className="absolute inset-0 rounded-full border-t-2 border-white animate-spin"></div>
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-col items-center gap-4 text-center max-w-2xl">
+                  <div className="space-y-3 sm:space-y-4">
+                    <p className="text-base sm:text-lg font-medium">Wait… What Just Happened?</p>
+                    <p className="text-sm sm:text-base text-white/80">You were about to access something BIG—but it's locked.</p>
+                    <p className="text-sm sm:text-base text-white/80">Why? Because this feature is only for Zirconium Plan members—the dentists who know that playing small won't get them far.</p>
+                    <p className="text-sm sm:text-base text-white/80">Now, you've got two options:</p>
+                    <p className="text-sm sm:text-base text-white/80">
+                      01- Close this page and pretend you didn't just see the door to next-level growth.
+                    </p>
+                    <p className="text-sm sm:text-base text-white/80">02- Upgrade now and unlock the cheat codes to double your monthly profit.</p>
+                  </div>
+
+                  <div className="w-full max-w-sm px-4 my-6">
+                    <button className="buttonCheckout-limit w-full" onClick={handleLimitation}>
+                      <div className="a l"></div>
+                      <div className="a r"></div>
+                      <div className="a t"></div>
+                      <div className="a b"></div>
+                      <div className="text">UPGRADE NOW & JOIN THE WINNERS!</div>
+                    </button>
+                  </div>
+
+                  <p className="text-sm sm:text-base text-white/80 max-w-lg">
+                    P.S: For less than the price of a single patient visit, you'll get access to strategies that can 10X your income.
+                  </p>
+
+                  <button 
+                    onClick={() => console.log("close")} 
+                    className="mt-4 text-sm text-white/60 hover:text-white transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          ):(<div className="w-full max-w-4xl mt-8">
             <div className="flex flex-col sm:flex-row gap-4 mb-4">
               <Input
                 placeholder="Search by name..."
@@ -192,7 +244,7 @@ export default function Staff() {
                 </tbody>
               </table>
             </div>
-          </div>
+          </div>)}
         </Container>
       </Global>
     </Section>

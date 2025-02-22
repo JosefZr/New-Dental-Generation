@@ -68,7 +68,7 @@ const getRank = (days) => {
                                         <IoIosInformationCircleOutline className=" self-start w-4 h-auto text-my-gray"/>
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                    <div className="bg-black p-4 rounded-lg text-lg">Gain Power Level By:
+                                    <div className="bg-[hsl(211.3 46.939% 9.6078%)] p-4 rounded-lg text-lg">Gain Power Level By:
                                         <ul className="list-disc ml-8 ">
                                             <li>By Logging in Daily</li>
                                             
@@ -92,14 +92,24 @@ const getRank = (days) => {
                 </div>
                 <div className="mt-[14px] flex flex-wrap gap-1">
                         <div className="flex items-center rounded-md bg-neutral-900 px-2 py-1 font-semibold text-sm">
-                            <div className="mr-2 h-3 w-3 rounded-full"style={{backgroundColor:"rgb(52, 152, 219)"}}></div>
+                            <div className="mr-2 h-3 w-3 rounded-full" 
+                            style={{
+                                backgroundColor:`${user.role==="dentist" ?  "#ECC879":
+                                    user.role==="store" ?"rgb(52, 152, 219)":
+                                    user.role==="lab"? "rgb(255, 255, 255)":
+                                    user.role==="admin"? "rgb(179, 51, 51)":
+                                    user.role==="moderator"?"#C0C0C0"
+                                    :"rgb(201, 142, 215)"
+                                }`
+                            }}
+                            ></div>
                             <span 
                                 style={{
                                     fontWeight:"bold",
                                     color:`${user.role==="dentist" ?  "#ECC879":
                                         user.role==="store" ?"rgb(52, 152, 219)":
                                         user.role==="lab"? "rgb(255, 255, 255)":
-                                        user.role==="admin"? "rgb(99, 99, 99)":
+                                        user.role==="admin"? "rgb(179, 51, 51)":
                                         user.role==="moderator"?"#C0C0C0"
                                         :"rgb(201, 142, 215)"
                                     }`
@@ -107,7 +117,7 @@ const getRank = (days) => {
                                 {user.role==="dentist" ? "Dentist":
                                 user.role==="store" ?"Dental Store":
                                 user.role==="lab"? "Dental Lab":
-                                user.role==="admin"? "Boss":
+                                user.role==="admin"? "Dr.Truth":
                                 user.role==="moderator"?"Soldier of Dr.Truth"
                                 :"TOP DENTIST"
                                 }

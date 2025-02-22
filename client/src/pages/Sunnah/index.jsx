@@ -61,7 +61,7 @@ const [activeTab, setActiveTab] = useState("Home"); // Default active tab
     
     return (
         <div
-        className={`min-h-screen bg-[#1E1E1E] text-white  transition-transform duration-300 pb-24 ${
+        className={`min-h-screen bg-gradient-to-l from-[#8B704E] to-[#101010] text-white  transition-transform duration-300 pb-24 ${
             isSidebarOpen ? "ml-[-72px]" : ""
         }`}
         >
@@ -71,7 +71,6 @@ const [activeTab, setActiveTab] = useState("Home"); // Default active tab
                     <button className="p-2 hover:bg-gray-800 rounded-full" onClick={toggleSidebar} id="push">
                         <GiHamburgerMenu className=" text-2xl text-white" />
                     </button>
-                    <h1 className="text-xl sm:text-2xl font-semibold text-white ml-2">MONEY IN</h1>
                 </div>
                 <div className="flex flex-row items-center  p-2">
                 <select

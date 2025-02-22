@@ -51,7 +51,10 @@ export function IstighfarCount() {
     return (
         <Card className="bg-[#101214] border-[#282F35] text-white">
             <CardHeader>
-                <CardTitle>عداد الإستغفار</CardTitle>
+                <CardTitle className="amiri-regular" style={{
+                    fontSize: "1.5rem",
+                    lineHeight:'0.6rem'
+                }}>عداد الإستغفار</CardTitle>
             </CardHeader>
             <CardContent>
                 <form onSubmit={handleAddEarnings} className="space-y-4">

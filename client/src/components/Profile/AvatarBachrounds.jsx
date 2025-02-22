@@ -90,10 +90,17 @@ const onBackgroundChange = async (e)=>{
             >
             <div className="group relative h-[92px] w-[92px] cursor-pointer rounded-full">
                 <div className="h-[92px] w-[92px] rounded-full">
-                <Logo
+                {user.avatar === import.meta.env.VITE_DEFAULT_AVATAR?
+                (<Logo
                     className="h-full w-full rounded-full"
-                    style={{ backgroundImage: `url(http://localhost:3000/uploads/${user.avatar})` }}
-                    />
+                    style={{ backgroundImage: `url(${import.meta.env.VITE_DEFAULT_AVATAR})` }}
+                />):(
+                    (<Logo
+                        className="h-full w-full rounded-full"
+                        style={{ backgroundImage: `url(${import.meta.env.VITE_UPLOAD_AVATAR_URL}${user.avatar}` }}
+                    />)
+
+                )}
                 <div className="absolute inset-0 hidden items-center justify-center rounded-full bg-black bg-opacity-30 group-hover:flex">
                     <BsPen style={{ width: "30px", height: "30px" }} />
                 </div>
@@ -119,10 +126,16 @@ const onBackgroundChange = async (e)=>{
                 "linear-gradient(94.38deg, #ECC879 -14.69%, #D46B32 210%)",
             }}>
                 <div className="group relative h-[180px] w-full cursor-pointer overflow-hidden rounded-md bg-settings-background">
+               { user.background ===import.meta.env.VITE_DEFAULT_BG ?(
                 <Logo
                     className="h-full w-full "
-                    style={{ backgroundImage: `url(http://localhost:3000/uploads/${user.background})`}}
+                    style={{ backgroundImage: `url(${user.background})`}}
+                />):(
+                    <Logo
+                    className="h-full w-full "
+                    style={{ backgroundImage: `url(${import.meta.env.VITE_UPLOAD_AVATAR_URL}${user.background})`}}
                 />
+                )}
                 <div className="absolute inset-0 hidden items-center justify-center  bg-black bg-opacity-30 group-hover:flex">
                     <BsPen style={{ width: "30px", height: "30px" }} />
                 </div>

@@ -27,7 +27,7 @@ export function IstighfarGoal({ settings }) {
             <h3 className="text-3xl font-normal text-white border-r-2 pr-2">
               {settings?.settings?.IstighfarGoal}
             </h3>
-            <div className="text-white/70 text-xl text-start"> المهدوف اليومي</div>
+            <div className="text-white/70 text-xl text-start amiri-regular"> المهدوف اليومي</div>
           </div>
         </div>
         <form onSubmit={handleSubmit} className="flex items-center gap-2 justify-between flex-col">

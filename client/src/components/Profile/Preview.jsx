@@ -135,7 +135,7 @@ const menuItems = [
 
 // eslint-disable-next-line react/prop-types
 export default function Preview({user}) {
-   // Fix date difference calculation
+    // Fix date difference calculation
      const [activeTab, setActiveTab] = useState("infromation")
    
     const getDaysDifference = (createdAt) => {
@@ -191,26 +191,51 @@ const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.comp
     return (
         <div className="preview-container relative w-full bg-base-100 text-white">
         {/* Background Image */}
-        <div
-        className="relative h-[120px] w-full"
-        style={{
-            backgroundImage: `url(http://localhost:3000/uploads/${user.background})`,
-            backgroundPosition: "center",
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-        }}
-        >
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        </div>
+        {user.background===import.meta.env.VITE_DEFAULT_BG ?
+        (
+            <div
+                className="relative h-[120px] w-full"
+                style={{
+                    backgroundImage: `url(${user.background})`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                }}
+            >
+                <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+            </div>
+        ):(
+            <div
+                className="relative h-[120px] w-full"
+                style={{
+                    backgroundImage: `url(${import.meta.env.VITE_UPLOAD_AVATAR_URL}${user.background})`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                }}
+            >
+                <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+            </div>
+        )}
+       
         {/* Avatar and Name */}
         <div className="relative flex px-4 -mt-[55px]" style={{alignSelf:"flex-start",flexDirection:"row" }}>
         {/* Avatar */}
         <div className="flex-shrink-0 rounded-full border-4 border-black overflow-hidden" style={{ width: "88px", height: "88px" }}>
-            <img
-            src={`http://localhost:3000/uploads/${user.avatar}`}
-            alt="Avatar"
-            className="w-full h-full object-cover"
+            {user.avatar === import.meta.env.VITE_DEFAULT_AVATAR?
+           ( <img
+                src={`${import.meta.env.VITE_DEFAULT_AVATAR}`}
+                alt="Avatar"
+                className="w-full h-full object-cover"
+            />):
+            (
+                <img
+                src={`${import.meta.env.VITE_UPLOAD_AVATAR_URL}/${user.avatar}`}
+                alt="Avatar"
+                className="w-full h-full object-cover"
             />
+            )
+            }
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger asChild> 

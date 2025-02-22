@@ -1,7 +1,7 @@
 import { UserContext } from "@/context/UserContext";
 import React, { useContext } from "react";
 import { progress } from "@/lib/ProgressData";
-import { Logo } from "@/components/server/ServerSideBar";
+import BigProfileLogo from "@/components/BigProfileLogo";
 
 
 export default function Welcome() {
@@ -60,7 +60,7 @@ const calculatePercentage = () => {
             <div className="flex flex-col justify-between rounded-xl sm:mt-4 bg-my-Modal-back sm:p-4 h-[200px]">
                 <div className="m-[2px] flex items-start gap-2">
                 <section style={{position:"relative"}} className=" flex-shrink-0 rounded-full bg-base-300 mr-2 cursor-pointer">
-                    <Logo style={{ backgroundImage: `url(http://localhost:3000/uploads/${user.avatar})` ,width:"51px", height:"51px"}}  className="rounded-full object-cover "  />
+                    <BigProfileLogo image={user.avatar}/>
                     <div className="absolute text-[22px] w-[22px] h-[18px] left-[30px] " style={{bottom:"2px"}}>
                         {React.createElement(currentProgress.logo)}
                     </div>
@@ -81,7 +81,8 @@ const calculatePercentage = () => {
                         {getRank(diffDays)}{' '}
                             {diffDays <= 540 ? 
                                 `${nextProgress.name} in ${daysRemaining} days` : 
-                                'Diamond King'}
+                                'Diamond King'
+                        }
                         </span>
                         </div>
                         <div className="relative flex-shrink-0 rounded-md bg-gray-600 w-full" style={{height:"5px"}}>

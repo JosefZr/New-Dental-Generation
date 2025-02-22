@@ -28,10 +28,14 @@ const Container= styled.div`
 import "../job.css"
 import { useForm } from "react-hook-form"
 import { useCreateJob } from "@/hooks/job/useCreateJob"
-import { jwtDecode } from "jwt-decode"
 import { size } from "@/lib/mediaQuerys"
+import { useAuthUser } from "@/hooks/jwt/useAuthUser"
+import useGetSubscriptionStatus from "@/hooks/limitation/useGetSubscriptionStatus"
+import { MODAL_TYPE, useModal } from "@/hooks/useModalStore"
+
 export default function Job() {
-    const userInfo = jwtDecode(localStorage.getItem("token"));
+    const {onOpen} = useModal()
+    const userInfo = useAuthUser();
     const userId = userInfo.userId
     const createJob = useCreateJob()
         const {
@@ -45,15 +49,23 @@ export default function Job() {
         const isDisabled = lastSubmissionTime 
         ? Date.now() - Number(lastSubmissionTime) < 24 * 60 * 60 * 1000 
         : false;
+        const status = useGetSubscriptionStatus()
+
         const onSubmit = (data) => {
-            // Include userId in the submission data
-            const formData = { ...data, userId };
-        createJob.mutate(formData, {
-            onSuccess: () => {
-                reset(); // Reset form after successful submission
-                localStorage.setItem(`lastJobSubmission_${userId}`, Date.now()); // Store submission time
-            },
-            });
+            if(status ==="off"){
+                onOpen(MODAL_TYPE.LIMITATION_MODAL)
+            }
+            else{
+                // Include userId in the submission data
+                const formData = { ...data, userId };
+                createJob.mutate(formData, {
+                    onSuccess: () => {
+                        reset(); // Reset form after successful submission
+                        localStorage.setItem(`lastJobSubmission_${userId}`, Date.now()); // Store submission time
+                    },
+                });
+            }
+            
         };
     return (
     <Section>
@@ -215,8 +227,8 @@ export default function Job() {
                     Now, You Just did The First Step towards your success, 
                     You gotta do the second step “ Go to the local chats and Build New connections yourself, and try to get connected with many other dentists’’ 
             </div>
-            <h3 className="h3-timeline text-[2rem]">‘’Luck Isn’t Real… Make Your OWN Luck’’ Dr.Truth </h3>
-            <h3 className="h3-timeline text-[2rem]">What about The 3rd Step !? </h3>
+            <h3 className="h3-timeline text-[2rem] text-center">‘’Luck Isn’t Real… Make Your OWN Luck’’ Dr.Truth </h3>
+            <h3 className="h3-timeline text-[2rem] text-center">What about The 3rd Step !? </h3>
             <div className="p-24 is-opport mobile-hidden text-[2rem] max-md:text-[1.3rem]" 
                 style={{
                     fontFamily:"Urbanist, serif"

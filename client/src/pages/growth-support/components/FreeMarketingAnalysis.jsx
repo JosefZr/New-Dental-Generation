@@ -1,5 +1,5 @@
 import { useCreateAnalysis } from "@/hooks/analyses/useCreateAnalysis"
-import { jwtDecode } from "jwt-decode"
+import { useAuthUser } from "@/hooks/jwt/useAuthUser"
 import { useForm } from "react-hook-form"
 import styled from "styled-components"
 
@@ -15,7 +15,7 @@ const FormContainer = styled.div`
 `
 
 export default function FreeMarketingAnalysis() {
-  const userInfo = jwtDecode(localStorage.getItem("token"));
+    const userInfo = useAuthUser();
   const userId = userInfo.userId;
   const createAnalysis = useCreateAnalysis();
 

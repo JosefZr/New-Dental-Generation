@@ -83,7 +83,7 @@ const handleClose = () => {
 };
 return (
     <Dialog open={isModalOpen} onOpenChange={handleClose} className="border-none border-black">
-    <DialogContent className="border-none rounded-none text-white p-0 overflow-hidden bg-my-dark-blue">
+    <DialogContent className="border-none rounded-none text-white p-0 overflow-hidden bg-my-dark-blue max-w-4xl h-full">
         <DialogHeader className="bg-slate-800 flex flex-row px-10 h-[50px] flex-shrink-0 items-center justify-between border-b border-slate-700 capitalize">
         <DialogTitle className="flex flex-1 items-center font-bold text-my-white">
             Change your Email

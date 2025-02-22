@@ -1,14 +1,15 @@
 import { useGetSettings } from "@/hooks/payments/useGetSettings"
-import { jwtDecode } from "jwt-decode"
 import IstighfarChart from "./IstighfarChart"
 import { IstighfarCount } from "./IstighfarCount"
 import { IstighfarGoal } from "./IstighfarGoal"
 import { useGetIstighfarById } from "@/hooks/Istighfar/useGetIstighfarById"
 import { IstighfarProgress } from "./IstighfarProgress"
 import Prayers from "./Prayers"
+import { useAuthUser } from "@/hooks/jwt/useAuthUser"
+import RemiderDikr from "./RemiderDikr"
 
 export default function SunnahHome() {
-  const userInfo = jwtDecode(localStorage.getItem("token"))
+    const userInfo = useAuthUser();
   const {
     data: Settings,
     isLoading: isLoadingSettings,
@@ -20,7 +21,7 @@ export default function SunnahHome() {
   return (
     <div className="p-4 sm:p-6 bg-gradient-to-l from-[#8B704E] to-[#101010]">
       <div className="flex flex-row items-center text-center gap-2 pr-5 mb-4 sm:mb-6">
-        <h1 className="text-[38px] w-full">تحيتهم فيها سلام</h1>
+        <h1 className="text-[38px] w-full amiri-regular">تحيتهم فيها سلام</h1>
       </div>
       <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-3 mb-4 sm:mb-6">
         <div className="sm:col-span-2">
@@ -41,6 +42,7 @@ export default function SunnahHome() {
       </div>
       <div className="w-full">
         <Prayers />
+        <RemiderDikr/>
       </div>
     </div>
   )

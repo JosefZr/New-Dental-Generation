@@ -42,7 +42,22 @@ export default function MyAccount() {
       <div>
       <div className="flex items-center gap-3">
         <section className="relative flex-shrink-0 rounded-full bg-base-300" style={{width:"62px", height:"62px"}}>
-          <img src={`http://localhost:3000/uploads/${user.avatar}`} alt="" className="rounded-full object-cover" style={{width:"62px",height:"62px"}} loading="lazy"/>
+          {user.avatar ==="http://localhost:5173/public/default-avatar.jpg"?
+            (<img 
+              src={`http://localhost:5173/public/default-avatar.jpg`} 
+              alt="" className="rounded-full object-cover" 
+              style={{width:"62px",height:"62px"}} 
+              loading="lazy"
+            />):
+            (
+              <img 
+              src={`http://localhost:3000/uploads/${user.avatar}`} 
+              alt="" className="rounded-full object-cover" 
+              style={{width:"62px",height:"62px"}} 
+              loading="lazy"
+            />
+            )
+          }
         </section>
         <div className="flex-1">
           <span className="inline-flex items-center text-xl uppercase">@{user.firstName} {user.lastName}</span>

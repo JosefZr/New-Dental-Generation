@@ -35,12 +35,12 @@ export default function MyProfile() {
 
   return (
     <>
-     <button
-                className="absolute top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
-                onClick={toggleSidebar}
-              >
-                <GiHamburgerMenu className="md:hidden text-2xl text-white" />
-              </button>
+    <button
+      className="absolute top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
+      onClick={toggleSidebar}
+    >
+      <GiHamburgerMenu className="md:hidden text-2xl text-white" />
+    </button>
       <AvatarBachrounds userInfo={user}/>
       <h3 className="mt-3 p-2 font-bold text-md">BIO (Max 200 characters)</h3>
       <Bio/>

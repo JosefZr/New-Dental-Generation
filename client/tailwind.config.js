@@ -30,6 +30,7 @@ export default {
 				'my-tin': 'var(--tin)',
 				'my-beige': 'var(--beige)',
 				'my-Modal-back':'var(--back-modal)',
+				'my-sideBar':'var(--sidebar)',
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'

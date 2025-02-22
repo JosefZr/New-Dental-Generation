@@ -20,6 +20,11 @@ export const MODAL_TYPE = {
     SEARCH_MODAL:"searchModal",
     VIDEO_MODAL:"videoModal",
     CREATE_EVENT:"createEvent",
+    SUNNAH_REMINDER:"sunnahReminder",
+    ADD_MODAL:"addModal",
+    LIMITATION_MODAL:"limitaionModal",
+    IMAGES_MODAL:"imagesModal",
+    LEVEL_MODAL:"level_modal"
   };
 
 export const useModal = create((set)=>({

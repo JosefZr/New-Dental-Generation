@@ -10,8 +10,6 @@ import {useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/UserContext";
 import { fetchUserData } from "@/hooks/useFetchUserData";
 import { useParams } from "react-router-dom";
-
-
 const Settings = styled.section`
     background-image: url("https://app.jointherealworld.com/assets/lines_background-DOaYsgXf.webp");
     height: 100vh;

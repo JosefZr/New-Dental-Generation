@@ -10,7 +10,7 @@ export default function MyMembership() {
   const { id } = useParams();
   const { user, setUser } = useContext(UserContext);
   const { onOpen } = useModal();
-  const { onSettingsToggle, setOnSettingsToggle } = useContext(UserContext)
+  const { setOnSettingsToggle } = useContext(UserContext)
 
   const toggleSidebar = () => {
     setOnSettingsToggle((prev) => !prev)
@@ -52,7 +52,7 @@ export default function MyMembership() {
   if (!user) return <div>Loading...</div>;
 
   // Subscription-related dates
-  const startDate = user.subscriptionPlan === "freeTrial" ? user.trialStartDate : user.subscriptionStartDate;
+  // const startDate = user.subscriptionPlan === "freeTrial" ? user.trialStartDate : user.subscriptionStartDate;
   const endDate = user.subscriptionPlan === "freeTrial" ? user.trialEndDate : user.subscriptionEndDate;
 
   return (
@@ -76,7 +76,7 @@ export default function MyMembership() {
                     </div>
                   </div>
                   <div className="form-control px-3 py-3 text-xl">
-                    <div>Started: {formatDate(startDate)}</div>
+                    {/* <div>Started: {formatDate(startDate)}</div> */}
                     <div>Renews: {formatDate(endDate)}</div>
                   </div>
                   <div className="flex flex-col rounded-md border border-gray-800 mt-3 rounded-t-none border-x-0 border-b-0">

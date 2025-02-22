@@ -40,13 +40,15 @@ export default function ServerChannel({
       )}
       <div
         className={cn(
-          "group mb-[2px] ml-[2px] flex h-[38px] items-center font-medium justify-between rounded-md pr-[6px] pl-[2px]  text-gray-400 text-xl cursor-pointer hover:bg-zinc-700/10 hover:bg-opacity-50",
+          "group group  mb-[2px] ml-[2px] flex h-[34px] flex-1 shrink-0  items-center justify-between rounded-md pr-[6px] pl-[2px] cursor-pointer text-[#bdbdbd] hover:bg-zinc-700/10 hover:bg-opacity-50",
           clickedChannel === id && "bg-zinc-700/50 text-my-white-gray"
         )}
         onClick={onClickChan}
       >
         <div className="ml-2 flex flex-1 items-center overflow-hidden">
-          <span className="overflow-hidden overflow-ellipsis whitespace-nowrap">
+          <span className="overflow-hidden overflow-ellipsis whitespace-nowrap text-[#eeeeee] font-medium"style={{
+                fontFamily: "inter, system-ui, sans-serif"
+            }}>
             {channel}
           </span>
           {userInfo.role === "admin" && (
