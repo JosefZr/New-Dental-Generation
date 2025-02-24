@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { jwtDecode } from "jwt-decode";
-import { useCreateIstighfar } from "@/hooks/Istighfar/usecreateIstighfar";
+import { useCreateIstighfar } from "@/hooks/Istighfar/useCreateIstighfar";
 
 export function IstighfarCount() {
     const userInfo = jwtDecode(localStorage.getItem("token"));
