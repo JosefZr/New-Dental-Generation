@@ -74,7 +74,7 @@ export default function Login() {
             style={{ backgroundSize: "cover", backgroundRepeat: "repeat" }}
             className="pointer-events-none absolute inset-0 opacity-100 "
           ></Back>
-          <div className="absolute inset-0 max-h-[100vh] overflow-y-auto pt-inset-top pb-inset-bottom flex flex-col items-center justify-between">
+          <div className="absolute inset-0 max-h-[100vh] overflow-y-auto pt-inset-top pb-inset-bottom flex flex-col items-center justify-center">
             <div className=" flex flex-col items-center">
             <div className="relative lg:mr-3 mx-auto lg:mx-0 max-w-[35vh] max-h-[35vh] rounded-full overflow-hidden mt-[20%]">
                 <img

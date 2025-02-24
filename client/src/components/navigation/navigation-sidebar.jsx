@@ -15,7 +15,8 @@ import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 import { useGetSettings } from "@/hooks/payments/useGetSettings";
 import { LoadingSpinner } from "../LoadingSpinner";
 import toast from "react-hot-toast";
-
+import { GiFlatPawPrint } from "react-icons/gi";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 
 
 export default function NavigationSidebar() {
@@ -135,13 +136,39 @@ export default function NavigationSidebar() {
 
   return (
     <div className="space-y-4 flex flex-col items-center h-full text-my-white-gray w-full py-6">
-      <div
-        className="relative flex h-[64px] w-full items-center justify-center transition-opacity cursor-pointer"
-        onClick={() => navigate("/dashboard")}
-      >
-        <ProfileImage image={user.avatar} />
-      </div>
+      <TooltipProvider delayDuration={0}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div
+              className="relative flex h-[64px] w-full items-center justify-center transition-opacity cursor-pointer"
+              onClick={() => navigate("/dashboard")}
+            >
+              <ProfileImage image={user.avatar} />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="right"  className="text-md py-[2px] font-semibold bg-black" style={{
+                fontFamily: "inter, system-ui, sans-serif"
+            }}>
+            Your Profile
+          </TooltipContent>
+        </Tooltip>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div className="bg-gray-700 rounded-full h-[50px] p-2 border-[1px] border-my-gold cursor-pointer">
+              <GiFlatPawPrint className="object-cover w-[100%] h-[100%] items-center text-center mx-auto" />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent side="right"  className="text-md py-[2px] font-semibold bg-black" style={{
+                fontFamily: "inter, system-ui, sans-serif"
+            }}>
+            SAVAGE-DENTAL-AI
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
       <Separator className="h-[2px] bg-zinc-700 rounded-md w-10 mx-auto" />
+      
       {isLoadingSettings ? (
         <LoadingSpinner/>
       ) : (
@@ -154,26 +181,42 @@ export default function NavigationSidebar() {
               />
             </div>
           ))}
-          <div className="cursor-pointer py-2 text-my-gold">        
-            <FaPlus 
-              className="object-cover w-[50%] h-[50%] items-center text-center mx-auto" 
-              onClick={() => onOpen(MODAL_TYPE.ADD_MODAL)}
-            />
-          </div>
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="cursor-pointer py-2 text-my-gold">        
+                  <FaPlus 
+                    className="object-cover w-[50%] h-[50%] items-center text-center mx-auto" 
+                    onClick={() => onOpen(MODAL_TYPE.ADD_MODAL)}
+                  />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="right">
+                Add New Channel
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </ScrollArea>
       )}
+
       <div className="pb-3 mt-auto flex flex-col items-center gap-4">
         <Separator className="h-[2px] bg-zinc-700 rounded-md w-10 mx-auto" />
         {isInstallable && (
-          <div className="cursor-pointer group relative">
-            <FaDownload 
-              className="w-[24px] h-[24px] text-zinc-400 group-hover:text-zinc-200 transition"
-              onClick={handleInstallClick}
-            />
-            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap">
-              Install app
-            </div>
-          </div>
+          <TooltipProvider delayDuration={0}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="cursor-pointer group relative">
+                  <FaDownload 
+                    className="w-[24px] h-[24px] text-zinc-400 group-hover:text-zinc-200 transition"
+                    onClick={handleInstallClick}
+                  />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="right">
+                Install Application
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         )}
       </div>
     </div>

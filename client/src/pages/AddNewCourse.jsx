@@ -36,39 +36,49 @@ export default function AddNewCourse() {
     
     function validateFormData() {
         console.log("Validating form data...");
-    
+      
         // Validate course landing form
         for (const key in courseLandingFormData) {
-            if (isEmpty(courseLandingFormData[key])) {
-                console.error(`Landing page field "${key}" is empty.`);
-                return false;
-            }
+          if (isEmpty(courseLandingFormData[key])) {
+            console.error(`Landing page field "${key}" is empty.`);
+            return false;
+          }
         }
-    
+      
         // Validate curriculum
         let hasFreePreview = false;
-        for (const item of courseCurriculmFormData) {
-            if (isEmpty(item.title)) {
-                console.error("Curriculum item missing title:", item);
-                return false;
-            }
-            if (isEmpty(item.videoUrl)) {
-                console.error("Curriculum item missing video URL:", item);
-                return false;
-            }
-            if (item.freePreview) {
-                hasFreePreview = true;
-            }
-        }
-    
-        if (!hasFreePreview) {
-            console.error("No free preview available in curriculum.");
+        
+        // Check each module
+        for (const module of courseCurriculmFormData) {
+          if (isEmpty(module.title)) {
+            console.error("Module missing title:", module);
             return false;
+          }
+      
+          // Check each lecture in module
+          for (const lecture of module.lectures) {
+            if (isEmpty(lecture.title)) {
+              console.error("Lecture missing title:", lecture);
+              return false;
+            }
+            if (isEmpty(lecture.videoUrl)) {
+              console.error("Lecture missing video URL:", lecture);
+              return false;
+            }
+            if (lecture.freePreview) {
+              hasFreePreview = true;
+            }
+          }
         }
-    
+      
+        if (!hasFreePreview) {
+          console.error("No free preview available in curriculum.");
+          return false;
+        }
+      
         console.log("Validation passed.");
         return true;
-    }
+      }
     
     async function handleCreateCourse(){
         const token = localStorage.getItem("token"); // Replace 'yourTokenKey' with the actual key
@@ -83,22 +93,23 @@ export default function AddNewCourse() {
             console.error("Invalid or missing token.");
             return;
         }
-        const courseFinalFormData={
-            instructorId:decoded?.userId,
-            instructorName : name,
+        const courseFinalFormData = {
+            instructorId: decoded?.userId,
+            instructorName: name,
             date: new Date(),
-            Primarylanguage:courseLandingFormData.primaryLanguage,
+            primaryLanguage: courseLandingFormData.primaryLanguage, // Fixed casing
             ...courseLandingFormData,
-            students:[
-                {
-                    studentId:String,
-                    studentName:String,
-                    studentEmail:String
-                }
-            ],
-            curriculum:courseCurriculmFormData,
-            isPublished:true
-        }
+            students: [], // Update this if you need actual student data
+            modules: courseCurriculmFormData.map(module => ({
+              title: module.title,
+              lectures: module.lectures.map(lecture => ({
+                title: lecture.title,
+                videoUrl: lecture.videoUrl,
+                freePreview: lecture.freePreview
+              }))
+            })),
+            isPublished: true
+          };
         if(currentEditedCourseId !==null){
             const response = await updateCourseByIdService(currentEditedCourseId, courseFinalFormData)
             if(response?.success){
@@ -118,18 +129,20 @@ export default function AddNewCourse() {
             }
         }
     }
-    async function fetchInstructorCourseDetails(){
-        const response = await fetchInstructorCourseDetailsService(currentEditedCourseId)
-        if(response?.success){
-            const setCourseFormData = Object.keys(courseLandingInitialFormData).reduce((acc,key)=>{
-                acc[key]=response?.data[key] || courseLandingInitialFormData[key]
-                return acc
-            },{})
-            // console.log(setCourseFormData, response?.data)
-            setCourseLandingFormData(setCourseFormData)
-            setCourseCurriculmFormData(response?.data?.curriculum)
+    async function fetchInstructorCourseDetails() {
+        const response = await fetchInstructorCourseDetailsService(currentEditedCourseId);
+        if (response?.success) {
+          const setCourseFormData = Object.keys(courseLandingInitialFormData).reduce((acc, key) => {
+            acc[key] = response?.data[key] || courseLandingInitialFormData[key];
+            return acc;
+          }, {});
+          
+          setCourseLandingFormData(setCourseFormData);
+          
+          // Map the API response to match our module structure
+          setCourseCurriculmFormData(response?.data?.modules || []);
         }
-    }
+      }
     useEffect(()=>{
         if(currentEditedCourseId!==null) fetchInstructorCourseDetails()
     },[currentEditedCourseId])

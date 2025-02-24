@@ -14,14 +14,14 @@ const stripePromise = loadStripe(
 
 const Filter = () => (
     <svg style={{ position: 'absolute', width: 0, height: 0 }}>
-      <filter width="3000%" x="-1000%" height="3000%" y="-1000%" id="unopaq">
-        <feColorMatrix
-          values="1 0 0 0 0 
-                  0 1 0 0 0 
-                  0 0 1 0 0 
-                  0 0 0 3 0"
-        ></feColorMatrix>
-      </filter>
+        <filter width="3000%" x="-1000%" height="3000%" y="-1000%" id="unopaq">
+            <feColorMatrix
+            values="1 0 0 0 0 
+                    0 1 0 0 0 
+                    0 0 1 0 0 
+                    0 0 0 3 0"
+            ></feColorMatrix>
+        </filter>
     </svg>
     );
     
@@ -241,7 +241,7 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
                 {card.dentistFreeTrial && role === "dentist" ? (
                     <div className="flex items-center justify-between w-full">
                     <div className="text-[18px] font-semibold">
-                        6 days free trial
+                        2 days free trial
                     </div>
                     <button
                         className={`absolute bottom-3 right-5 2xl:hidden transition-transform group-hover:translate-y-[-1px] group-hover:text-my-gold ${
@@ -270,7 +270,7 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
                     (role === "lab" || role === "store") ? (
                     <div className="flex items-center justify-between w-full">
                     <div className="text-[18px] font-semibold">
-                        40 days free trial
+                        2 days free trial
                     </div>
                     <button
                         className={`absolute bottom-3 right-5 2xl:hidden transition-transform group-hover:translate-y-[-1px] group-hover:text-my-gold ${
@@ -303,7 +303,7 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
                     <>
                     <div className="flex items-center justify-between w-full">
                         <div className="flex items-center">
-                        <div className="text-[27px] font-extrabold">€14.5</div>
+                        <div className="text-[27px] font-extrabold">€19.9</div>
                         <div className="text-[16px] text-[#FFFFFF80] ml-1">
                             / monthly
                         </div>
@@ -393,7 +393,7 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
                     </span>
                     <div className="flex items-center justify-between w-full">
                         <div className="flex items-center">
-                        <div className="text-[27px] font-extrabold">€55</div>
+                        <div className="text-[27px] font-extrabold">€59.9</div>
                         <div className="text-[16px] text-[#FFFFFF80] ml-1">
                             / 4 months
                         </div>
@@ -594,7 +594,6 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
             <div className="a b"></div>
             <div className="text">Checkout Now</div>
             </button>
-            
             </>
         </div>
         </>

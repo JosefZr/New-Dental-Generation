@@ -1,21 +1,28 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
+
 const LectureProgressSchema = new mongoose.Schema({
-    lectureId:String,
-    viewed:Boolean,
+    lectureId: String,
+    viewed: Boolean,
     dateViewed: Date
-}
-)
-const CourseProgressSchema = new mongoose.Schema({
+  });
+  
+  const ModuleProgressSchema = new mongoose.Schema({
+    moduleId: String,
+    completed: Boolean,
+    lectures: [LectureProgressSchema]
+  });
+  
+  const CourseProgressSchema = new mongoose.Schema({
     userId: String,
     courseId: String,
     completed: Boolean,
-    complitionDate: Date,
-    isFavorite:{
-        type: Boolean,
-        default: false
+    completionDate: Date,
+    isFavorite: {
+      type: Boolean,
+      default: false
     },
-    lectureProgress: [LectureProgressSchema]
-})
-const CourseProgress = mongoose.model('Progress', CourseProgressSchema) 
-
-export default CourseProgress;
+    moduleProgress: [ModuleProgressSchema] // Changed from lectureProgress to moduleProgress
+  });
+  
+  const CourseProgress = mongoose.model('Progress', CourseProgressSchema);
+  export default CourseProgress;

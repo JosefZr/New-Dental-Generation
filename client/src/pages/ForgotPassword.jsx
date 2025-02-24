@@ -1,10 +1,12 @@
 
 import {  useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 const Back = styled.div`
-    background-image: url("https://app.jointherealworld.com/assets/matrix-bg-bw-hYk5JvoA.jpg");
+  background-image: url("/photo_2025-02-03_20-17-15.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom;
 `;
 const fetchUserData = async (data) => {
 try {
@@ -23,7 +25,6 @@ try {
 };
 
 export default function ForgotPassword() {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
   });
@@ -59,17 +60,16 @@ const handleSubmit = async (e) => {
   return (
     <section className="absolute inset-0 flex flex-col">
       <div className="relative flex-1">
-        <div className="absolute inset-0 bg-black">
+        <div className="absolute inset-0 ">
           <Back
-            style={{ backgroundSize: "cover", backgroundRepeat: "no-repeat" }}
-            className="pointer-events-none absolute inset-0 opacity-40 grayscale"
+            className="pointer-events-none absolute inset-0  "
           ></Back>
-          <div className="absolute inset-0 max-h-[100vh] overflow-y-auto pt-inset-top pb-inset-bottom flex flex-col items-center justify-between">
-            <div className="flex flex-col items-center">
+          <div className="absolute inset-0 max-h-[100vh] overflow-y-auto pt-inset-top pb-inset-bottom flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center rounded-full">
               <img
-                src="https://app.jointherealworld.com/icons/logo-512.png"
+                src="/signLogo.jpg"
                 alt="logo"
-                className="mx-auto mt-[30%] h-[256px] max-h-[35vh] w-auto"
+                className="mx-auto mt-[30%] h-[256px] max-h-[35vh] w-auto  rounded-full"
               />
               <h2 className="mt-[10%] text-center font-bold text-[30px] text-white uppercase">
                 The Real World
@@ -80,7 +80,7 @@ const handleSubmit = async (e) => {
               {/* <Link to={"/login"}>
             <button className='btn mt-3 btn-lg btn-primary btn-block'></button>
           </Link> */}
-              <div className="relative z-10 mx-auto mt-2 flex max-w-[500px] flex-col overflow-auto rounded-xl bg-base-100 p-6 shadow-lg ">
+              <div className="relative z-10 mx-auto mt-2 flex max-w-[500px] flex-col overflow-auto rounded-xl bg-my-dark-blue p-6 shadow-lg ">
                 <div className="w-full max-w-[95vw] text-center md:max-w-md">
                   <div className=" text-center font-bold text-3xl pb-4">
                     Forgot Password ?
@@ -106,7 +106,7 @@ const handleSubmit = async (e) => {
                     <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
                       <button
                         type="submit"
-                        className="btn btn-no-effects hover:bg-my-gold hover:opacity-80 relative mt-6 btn-primary w-full"
+                        className="btn btn-no-effects bg-my-gold hover:bg-my-gold hover:opacity-80 relative mt-6 text-black w-full"
                       >
                         Send 
                       </button>

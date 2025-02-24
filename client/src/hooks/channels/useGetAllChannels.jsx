@@ -1,13 +1,15 @@
 import { useQuery } from "react-query";
 
 const fetchChannels = async () => {
+  const token = localStorage.getItem("token").toString() 
+  console.warn(token)
   const resp = await fetch(
-    "http://localhost:3000/api/v1/channels?type=control/",
+    "http://localhost:3000/api/v1/channels/",
     {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token").toString(),
+        Authorization: token,
       },
     }
   );

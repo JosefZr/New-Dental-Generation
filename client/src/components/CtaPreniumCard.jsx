@@ -139,7 +139,7 @@ export default function CtaPreniumCard({actor}) {
   const checks = GetChecks(actor)
   return (
     <Cta>
-        <div className="vflex-center-8 w-layout-vflex">
+        <div className="vflex-center-8 w-layout-vflex items-center">
         <IconImbedCustom>
           <GiLaurelCrown className=" h-14 w-auto text-my-gold"/>
         </IconImbedCustom>
@@ -151,8 +151,8 @@ export default function CtaPreniumCard({actor}) {
         </svg>
         </IconLine>
         <CtaPrice className="w-layout-hflex font-medium text-5xl ">
-        <h1 className=" text-my-white line-through  ">€29</h1>
-        <h1 className=" text-my-gold">€14.5</h1>
+        <h1 className=" text-my-white line-through  ">€59</h1>
+        <h1 className=" text-my-gold">€19.9</h1>
         </CtaPrice>
         <CtaChecks>
         {checks.map((check, index) => (

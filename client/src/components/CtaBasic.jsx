@@ -131,7 +131,7 @@ export default function CtaBasicCard({actor}) {
   const checks = GetChecks(actor)
   return (
     <Cta>
-        <div className="vflex-center-8 w-layout-vflex">
+        <div className="vflex-center-8 w-layout-vflex items-center">
         <IconImbedCustom>
           <GiLaurels className=" h-12 w-auto"/>
         </IconImbedCustom>

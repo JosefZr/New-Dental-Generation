@@ -12,13 +12,13 @@ const plans = [
     id: 5487,
     name: "Cadet",
     duration: "1m", // 1 month
-    amount: 14.5,
+    amount: 19.9,
   },
   {
     id: 8976,
     name: "Challenger",
     duration: "4m", // 4 months
-    amount: 55,
+    amount: 59.99,
   },
   {
     id: 93197,

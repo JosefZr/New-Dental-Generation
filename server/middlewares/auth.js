@@ -17,11 +17,13 @@ export const authenticateToken = async (req, res, next) => {
       return res.status(404).json({ code: 404, error: "User not found" });
 
     // Check if trial has expired
-    if (new Date() > user.trialEndDate && !user.isPaid) {
-      return res
-        .status(403)
-        .json({ code: 403, error: "Trial expired. Please make a payment." });
-    }
+    // if (new Date() > user.trialEndDate && !user.isPaid && new Date() > user.subscriptionEndDate) {
+    //   return res
+    //     .status(403)
+    //     .json({ code: 403, error: "Trial expired. Please make a payment." });
+    // }
+
+    console.log("=========================\n\n",user,token)
 
     req.user = user; // Attach user to request object
     next();

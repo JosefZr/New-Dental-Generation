@@ -15,6 +15,7 @@ import { GiLaurelCrown } from "react-icons/gi";
 import { progress } from "@/lib/ProgressData";
 import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 import SmallProfileLogo from "../SmallProfileLogo";
+import useGetSubscriptionStatus from "@/hooks/limitation/useGetSubscriptionStatus";
 
 export const Logo = styled.div`
     background-position: center center;
@@ -79,6 +80,7 @@ const currentProgress = progress.find(stage =>
     journey:channels.filter(chan=>chan.type==="journey")
   };
   const { isSidebarOpen, setIsSidebarOpen } = useContext(UserContext);
+  const status = useGetSubscriptionStatus()
 
   const handleChannelClick = async (id, title) => {
     setClickedChannel(id)
@@ -97,10 +99,14 @@ const currentProgress = progress.find(stage =>
   
       clickedChannelID(id);
       clickChannelName(title);
-      
-      if (response.ok) {
-        const data = await response.json();
-        fetchMessages(data.data.messages);
+      if (status === "off"){
+        onOpen(MODAL_TYPE.LIMITATION_MODAL)
+      }
+      else{
+        if (response.ok) {
+          const data = await response.json();
+          fetchMessages(data.data.messages);
+        }
       }
     } catch (error) {
       console.error("Error fetching messages:", error);
@@ -281,9 +287,9 @@ const handlePinChannel = async (channel) => {
                 </ServerSection>
               </div>
             )}
-             {groupedChannels.guide.length >= 0 && (
+            {groupedChannels.guide.length >= 0 && (
               <div className="mx-2">
-                <ServerSection label="DENTAL-$-CHEAT-CODES" allowedRole="ADMD" channelType="guide">
+                <ServerSection label="DENTAL-$$$-CHEATCODES" allowedRole="ADMD" channelType="guide">
                 {groupedChannels.guide
                 .sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
                 .map((channel) => (

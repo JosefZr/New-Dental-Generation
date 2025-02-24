@@ -156,12 +156,16 @@ export const courseLandingInitialFormData = {
 
 export const courseCurriculumInitialFormData = [
   {
-    title: "",
-    videoUrl: "",
-    freePreview: false,
+    title: "Module 1",
+    lectures: [
+      {
+        title: "",
+        videoUrl: "",
+        freePreview: false,
+      },
+    ],
   },
 ];
-
 export const sortOptions = [
   { id: "price-lowtohigh", label: "Price: Low to High" },
   { id: "price-hightolow", label: "Price: High to Low" },

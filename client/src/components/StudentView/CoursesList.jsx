@@ -65,18 +65,26 @@ export default function CoursesList({studentCourseList,isLoading, isError, error
             ) : (
                 <div className="grid w-full gap-4 overflow-auto pb-3 lg:grid-cols-2 xl:grid-cols-3 px-3">
                     {filteredCourses.map((item, index) => {
-                        const progressData = allProgress?.find(
-                            (prog) => prog.courseId === item._id
-                        );
-    
-                        const progressPercentage = progressData
-                            ? Math.round(
-                                    (progressData.lectureProgress.filter((lecture) => lecture.viewed).length /
-                                        progressData.lectureProgress.length) *
-                                        100
-                                )
-                            : 0;
-                        const isFav = progressData?.isFavorite
+                    const progressData = allProgress?.find(
+                        (prog) => prog.courseId === item._id
+                    );
+
+                    // Updated progress calculation
+                    const totalViewed = progressData?.moduleProgress?.reduce(
+                        (acc, module) => acc + module.lectures.filter(l => l.viewed).length,
+                        0
+                    ) || 0;
+
+                    const totalLectures = progressData?.moduleProgress?.reduce(
+                        (acc, module) => acc + module.lectures.length,
+                        0
+                    ) || 1; // Prevent division by zero
+
+                    const progressPercentage = totalLectures > 0 
+                        ? Math.round((totalViewed / totalLectures) * 100)
+                        : 0;
+
+                    const isFav = progressData?.isFavorite;
                         return (
                             <div
                                 onClick={() => {

@@ -10,6 +10,8 @@ import { UserContext } from "@/context/UserContext";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useAddJourney } from "@/hooks/user/useAddJourney";
 import { useAuthUser } from "@/hooks/jwt/useAuthUser";
+import useGetSubscriptionStatus from "@/hooks/limitation/useGetSubscriptionStatus";
+import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 
 export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const userInfo = useAuthUser();
@@ -82,7 +84,11 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   return true;
 };
   const handleFileChange = (event) => {
-    const files = event.target.files;
+    if(status==="off"){
+      onOpen(MODAL_TYPE.LIMITATION_MODAL)
+    }
+    else{
+      const files = event.target.files;
     if (files) {
       const newImages = Array.from(files).map((file) => ({
         id: Math.random().toString(36).substr(2, 9),
@@ -90,6 +96,7 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
         preview: URL.createObjectURL(file),
       }));
       setImages((prevImages) => [...prevImages, ...newImages]);
+    }
     }
   };
 
@@ -139,26 +146,35 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
     }
   }
   const addJourney = useAddJourney();
+  const status = useGetSubscriptionStatus()
+  const {onOpen} = useModal()
+  console.log("funcing",status)
   function sendMessage() {
-    if (!msgToSend.trim() && !imagesTosnd) return;
+    if(status==='off'){
+      onOpen(MODAL_TYPE.LIMITATION_MODAL)
+    }
+    else{
+      if (!msgToSend.trim() && !imagesTosnd) return;
 
-    console.log(imagesTosnd , msgToSend)
-    console.log()
-    socket.emit("channelMessage", {
-      content: msgToSend,
-      channelId: chanId,
-      images: imagesTosnd,
-      type: "text",
-      sender: userInfo.userId, // Ensure sender is included
-    });
-    if(owner?.type ==="journey"){
-      addJourney.mutate({
-        userId: userInfo.userId,
-        content:msgToSend,
-        images:imagesTosnd,
-        chanTitle:cahnTitle,
-        chanId:chanId,
+      console.log(imagesTosnd , msgToSend)
+      console.log()
+      socket.emit("channelMessage", {
+        content: msgToSend,
+        channelId: chanId,
+        images: imagesTosnd,
+        type: "text",
+        sender: userInfo.userId, // Ensure sender is included
       });
+      if(owner?.type ==="journey"){
+        addJourney.mutate({
+          userId: userInfo.userId,
+          content:msgToSend,
+          images:imagesTosnd,
+          chanTitle:cahnTitle,
+          chanId:chanId,
+        });
+      }
+      
     }
     setMessageToSend("")
     setImages([])
@@ -166,21 +182,26 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    console.log('Submitting files:', images.map(img => img.file))
-    setImages([])
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ''
-    }
-    e.preventDefault();
-    if (images.length > 0) {
-      console.log(images)
-      const resp = await storeImages() ;
-      setImagesToSnd(resp)
-    }else {
-      sendMessage();
+    if(status==="off"){
+      onOpen(MODAL_TYPE.LIMITATION_MODAL)
+    }else{
+      e.preventDefault()
+      console.log('Submitting files:', images.map(img => img.file))
+      setImages([])
+      if (fileInputRef.current) {
+        fileInputRef.current.value = ''
+      }
+      e.preventDefault();
+      if (images.length > 0) {
+        console.log(images)
+        const resp = await storeImages() ;
+        setImagesToSnd(resp)
+      }else {
+        sendMessage();
+      }
     }
     e.target.value="";
+
   }
 
   const socket = useSocket();

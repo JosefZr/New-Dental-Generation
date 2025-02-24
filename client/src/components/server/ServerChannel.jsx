@@ -46,7 +46,7 @@ export default function ServerChannel({
         onClick={onClickChan}
       >
         <div className="ml-2 flex flex-1 items-center overflow-hidden">
-          <span className="overflow-hidden overflow-ellipsis whitespace-nowrap text-[#eeeeee] font-medium"style={{
+          <span className="overflow-hidden overflow-ellipsis whitespace-nowrap text-[#eeeeee] font-medium" style={{
                 fontFamily: "inter, system-ui, sans-serif"
             }}>
             {channel}

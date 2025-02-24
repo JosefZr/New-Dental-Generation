@@ -80,7 +80,7 @@
   },
   "dentist":{
     "hero":{
-      "title":"FOCUS MORE. STRESS LESS.",
+      "title":"MORE PROFIT. LESS STRESS.",
       "description":"As a dentist, your time is valuable, and managing your clinic can be tough."
     },
     "services":{
@@ -131,17 +131,17 @@
         "title":"The Zirconium Plan",
         "checks":"Connect with other dentists.Enhance professionalism.Advanced checklists.Money management. Privacy and security. Mystery Feature. Sales access. Save time.",
         "cta":"Cancel anytime, risk free.",
-        "cta2":"14.5 € /month forever",
+        "cta2":"19.9 € /month forever",
         "cta3":"Lock in your price before it increases."
       }
     },
     "increasing":{
       "title": "Price increasing Soon ",
-      "from":"Get",
+      "from":"Join with",
       "to": "before it goes up to",
       "month":"month ",
-      "dentist":"Enjoy a 6-day free trial to discover all features.Join dentists building their networks!",
-      "lock":"Secure your price now before the increase!"
+      "dentist":"Enjoy a 2-day free trial to discover all features. Our Dentists are winning!",
+      "lock":"Lock in your price now before the increase!"
     }
 },
 "store":{
@@ -205,8 +205,8 @@
       "table":"This platform saves you time, letting you manage your dental practice from your phone  or laptop  anytime, anywhere.",
       "free":{
         "title":"Exclusive Offer for Dental Stores",
-        "title2":"40 Days Free Access: Get full access to the platform for free.",
-        "after":"After 40 Days: Only €14.5/month.",
+        "title2":"2 Days Free Access: Get full access to the platform for free.",
+        "after":"After 2 Days: Only €19.9/month.",
         "checks":"Reach new clients instantly. Manage orders and supplies efficiently. Access exclusive discounts on materials. Boost your visibility in the dental community.",
         "cta":"Join for free"
       }
@@ -216,7 +216,7 @@
       "from":"Get",
       "to": "before it goes up to",
       "month":"month ",
-      "dentist":"Enjoy a 6-day free trial to discover all features.Join dentists building their networks!",
+      "dentist":"Enjoy a 2-day free trial to discover all features.Join dentists building their networks!",
       "lock":"Secure your price now before the increase!"
     }
   },
@@ -277,8 +277,8 @@
       "table":"This platform saves you time, letting you manage your dental practice from your phone  or laptop  anytime, anywhere.",
       "free":{
         "title":"Exclusive Offer for Dental Labs",
-        "title2":"40 Days Free Access: Get full access to the platform for free.",
-        "after":"After 40 Days: Only €14.5/month.",
+        "title2":"2 Days Free Access: Get full access to the platform for free.",
+        "after":"After 2 Days: Only €19.9/month.",
         "checks":"Reach new clients instantly. Manage orders and supplies efficiently. Access exclusive discounts on materials. Boost your visibility in the dental community.",
         "cta":"Join for free"
       }

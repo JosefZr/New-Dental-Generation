@@ -17,7 +17,7 @@ export default function Instructor() {
     const {isSidebarOpen, setIsSidebarOpen } = useContext(UserContext)
     const toggleSidebar = () => {
         setIsSidebarOpen((prev) => !prev)
-      }
+    }
     async function fetchAllCourses(){
         const response = await fetchInstructorCourseListService()
         console.log(response)

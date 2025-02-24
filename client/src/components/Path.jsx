@@ -25,8 +25,6 @@ const PathContent = styled.div`
   align-items: center;
   display: flex;
 `
-
-
 const LinePoint = styled.div`
     flex-direction: column;
     justify-content: center;

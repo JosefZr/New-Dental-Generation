@@ -115,7 +115,7 @@ export default function TimeLineSection({actor}) {
         <div className="padding-section-large">
           <div className="padding-global">
             <div className="container-large">
-              <div className="w-layout-vflex vflex-center-8">
+              <div className="w-layout-vflex vflex-center-8 items-center text-center">
                   <SubText >{t(`${actor}.services.subText`)}</SubText>
                   <TitleGrey className="reveal-horizontal-left reveal-vertical">{t(`${actor}.services.p`)}</TitleGrey>
                   <H2 className="reveal-vertical">YOUR DENTAL NETWORK</H2>

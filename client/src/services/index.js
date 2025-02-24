@@ -89,8 +89,8 @@ export async function updateLectureProgress(userId, courseId, lectureId) {
       throw error;
   }
 }
-export async function setLectureAsViewed(userId,courseId,lectureId){
-  const {data} = await axiosInstance.patch("/api/v1/student/progression/setLectureViewed",{userId,courseId,lectureId})
+export async function setLectureAsViewed(userId, courseId, moduleId, lectureId){
+  const {data} = await axiosInstance.patch("/api/v1/student/progression/setLectureViewed",{userId, courseId, moduleId, lectureId})
   return data;
 }
 

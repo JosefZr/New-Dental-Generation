@@ -10,12 +10,13 @@ import { useUpdateSunnahSettings } from "@/hooks/payments/useUpdateSunnahSetting
 
 export default function CourseModal() {
     const  userInfo  = useAuthUser();
+    
     const { 
         data: settings, 
         isLoading,
         isError,
         error 
-    } = useGetSettings({ userId:userInfo.userId });
+    } = useGetSettings({ userId:userInfo?.userId });
     const updateSunnah = useUpdateSunnahSettings();
     const [isExpanded, setIsExpanded] = useState(true);
     const { isOpen, onClose, type } = useModal();

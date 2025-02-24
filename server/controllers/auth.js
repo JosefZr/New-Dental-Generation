@@ -96,7 +96,7 @@ export const signup = async (req, res) => {
     // Regular user flow
     const subscriptionPlan = name || 'freeTrial';
     const isFreeTrial = subscriptionPlan === 'freeTrial';
-    const subscriptionDuration = userData.role === "dentist" ? 6 : 40;
+    const subscriptionDuration = 2
     
     const user = await User.create({
       ...userData,

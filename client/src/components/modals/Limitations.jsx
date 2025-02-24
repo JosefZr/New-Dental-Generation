@@ -16,7 +16,7 @@ export default function Limitations() {
   }
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl border-0 bg-[#0a1520]/95 p-0 text-white">
+      <DialogContent className="max-w-3xl  bg-my-dark-blue p-0 text-white border-[1px] border-my-gold">
         {/* Matrix-style background */}
         <div className="absolute inset-0 -z-10 overflow-hidden">
           <div className="absolute inset-0  opacity-10"></div>
@@ -42,7 +42,8 @@ export default function Limitations() {
               <p className="text-white/80 max-sm:text-sm">02- Upgrade now and unlock the cheat codes to double your monthly profit.</p>
             </div>
             <br />
-            <div className="backdrop "></div>
+            <div  style={{position:"relative"}}>
+            <div className="backdrop-modal "></div>
             <button className="buttonCheckout-limit" onClick={handleLimitation}>
             <div className="a l"></div>
             <div className="a r"></div>
@@ -50,6 +51,7 @@ export default function Limitations() {
             <div className="a b"></div>
             <div className="text">UPGRADE NOW & JOIN THE WINNERS!</div>
             </button>
+            </div>
             <br />
             <p className="mt-4 text-white/80 max-sm:text-sm">
             P.S: For less than the price of a single patient visit, you’ll get access to strategies that can 10X your income.

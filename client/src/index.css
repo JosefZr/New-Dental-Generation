@@ -633,6 +633,7 @@ body {
 .w-layout-vflex {
   flex-direction: column;
   display: flex;
+  align-items: center;
 }
 .w-layout-hflex {
   flex-direction: row;
@@ -1173,6 +1174,18 @@ body {
 .backdrop {
   position: absolute;
   inset: -9900%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    #0000 0,
+    #0000 20%,
+    #111111aa 50%
+  );
+  background-size: 3px 3px;
+  z-index: -1;
+}
+.backdrop-modal {
+  position: absolute;
+  inset: -25%;
   background: radial-gradient(
     circle at 50% 50%,
     #0000 0,

@@ -72,7 +72,7 @@ export default function TaskList() {
         isRepeating: false,
         category: "",
     });
-      const {onOpen} = useModal();
+    const {onOpen} = useModal();
     
     const userInfo = useAuthUser();
     const toggleSidebar = () => {

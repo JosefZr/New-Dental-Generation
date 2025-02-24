@@ -1,20 +1,6 @@
 import Course from "../models/Course.js";
 import CourseProgress from "../models/CourseProgress.js";
 
-
-
-//mark current levture as viewed
-const MarkCurrentLectureAsViewed= async ()=>{
-    try {
-        
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            success:false,
-            message:"Error marking"
-        })
-    }
-}
 export const getAllCurrentCourseProgress= async (req, res)=>{
     const { userId } = req.body; // Pass userId and courseId as query param
     if (!userId) {
@@ -38,86 +24,94 @@ export const getAllCurrentCourseProgress= async (req, res)=>{
     }
 }
 //get our currnet course Progress
-const getCurrentCourseProgress = async (req, res)=>{
-    try {
-        const { userId, courseId } = req.body; // Pass userId and courseId as query params
-        if (!userId ) {
-            return res.status(402).json({ success: false, message: "Missing userId or userId" });
-        }
-        if (!courseId) {
-            return res.status(403).json({ success: false, message: "Missing userId or courseId" });
-        }
-
-        // Check if progress exists
-        let courseProgress = await CourseProgress.findOne({ userId, courseId });
-
-        // Initialize if not exists
-        if (!courseProgress) {
-            // Fetch course details (e.g., curriculum/lectures)
-            const courseDetails = await Course.findById(courseId);
-            if (!courseDetails) {
-                return res.status(404).json({ success: false, message: "Course not found" });
-            }
-
-            const lectureProgress = courseDetails.curriculum.map((lecture) => ({
-                lectureId: lecture._id,
-                viewed: false,
-                dateViewed: null,
-            }));
-
-            courseProgress = await CourseProgress.create({
-                userId,
-                courseId,
-                completed: false,
-                completionDate: null,
-                lectureProgress,
-            });
-        }
-
-        res.status(200).json({ success: true, data: courseProgress });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, message: "Error fetching course progress" });
+// In getCurrentCourseProgress controller
+const getCurrentCourseProgress = async (req, res) => {
+  try {
+    const { userId, courseId } = req.body;
+    
+    if (!userId || !courseId) {
+      return res.status(400).json({ success: false, message: "Missing required fields" });
     }
+
+    let courseProgress = await CourseProgress.findOne({ userId, courseId });
+
+    if (!courseProgress) {
+      const course = await Course.findById(courseId);
+      if (!course) {
+        return res.status(404).json({ success: false, message: "Course not found" });
+      }
+
+      // Initialize module progress based on course structure
+      const moduleProgress = course.modules.map(module => ({
+        moduleId: module._id,
+        title: module.title,
+        completed: false,
+        lectures: module.lectures.map(lecture => ({
+          lectureId: lecture._id,
+          title: lecture.title,
+          viewed: false,
+          dateViewed: null
+        }))
+      }));
+
+      courseProgress = await CourseProgress.create({
+        userId,
+        courseId,
+        completed: false,
+        completionDate: null,
+        isFavorite: false,
+        moduleProgress
+      });
+    }
+
+    res.status(200).json({ success: true, data: courseProgress });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Error fetching course progress" });
+  }
 };
+// Update updateLectureProgress controller
 export const updateLectureProgress = async (req, res) => {
     try {
-        const { userId, courseId, lectureId } = req.body;
-
-        const courseProgress = await CourseProgress.findOne({ userId, courseId });
-        if (!courseProgress) {
-            return res.status(404).json({ success: false, message: "Progress not found" });
-        }
-
-        const lecture = courseProgress.lectureProgress.find((l) => l.lectureId === lectureId);
-        if (lecture) {
-            lecture.viewed = true;
-            lecture.dateViewed = new Date();
-            await courseProgress.save();
-            res.status(200).json({ success: true, message: "Progress updated" });
-        } else {
-            res.status(404).json({ success: false, message: "Lecture not found in progress" });
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, message: "Error updating progress" });
-    }
-};
-
-// reset Course Progress
-
-const resetCurrentCourseProgress =async ()=>{
-    try {
+      const { userId, courseId, moduleId, lectureId } = req.body;
+  
+      const progress = await CourseProgress.findOne({ userId, courseId });
+      if (!progress) {
+        return res.status(404).json({ success: false, message: "Progress not found" });
+      }
+  
+      const moduleProgress = progress.moduleProgress.find(
+        mp => mp.moduleId === moduleId
+      );
+  
+      if (!moduleProgress) {
+        return res.status(404).json({ success: false, message: "Module not found" });
+      }
+  
+      const lecture = moduleProgress.lectures.find(
+        l => l.lectureId === lectureId
+      );
+  
+      if (lecture) {
+        lecture.viewed = true;
+        lecture.dateViewed = new Date();
         
+        // Update module completion status
+        moduleProgress.completed = moduleProgress.lectures.every(l => l.viewed);
+        
+        // Update course completion status
+        progress.completed = progress.moduleProgress.every(mp => mp.completed);
+        
+        await progress.save();
+        res.status(200).json({ success: true, message: "Progress updated" });
+      } else {
+        res.status(404).json({ success: false, message: "Lecture not found" });
+      }
     } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            success:false,
-            message:"Error reseting"
-        })
+      console.error(error);
+      res.status(500).json({ success: false, message: "Error updating progress" });
     }
-}
-
+  };
 const setToCourse=async (req, res)=>{
     const { userId, studentName, studentEmail } = req.body;
     if (!userId || !studentName || !studentEmail) {
@@ -149,8 +143,6 @@ const setToCourse=async (req, res)=>{
     }
     }
 export {
-    MarkCurrentLectureAsViewed,
     getCurrentCourseProgress,
-    resetCurrentCourseProgress,
     setToCourse
 }

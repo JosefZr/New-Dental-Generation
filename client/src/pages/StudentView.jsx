@@ -7,16 +7,15 @@ import { useGetAllCourses } from "@/hooks/courses/useGetAllCourses";
 import { CoursesContext } from "@/context/CoursesContext";
 import toast from "react-hot-toast";
 import { fetchStudentCourseProgression } from "@/services";
-import { jwtDecode } from "jwt-decode";
 import { FaRegBookmark } from "react-icons/fa6";
+import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 
 export default function StudentViewCommonLayout() {
-    const userInfo = jwtDecode(localStorage.getItem("token"));
+    const userInfo = useAuthUser()
 
-    const {  setAllProgress,allProgress   } = useContext(CoursesContext);
+    const { setAllProgress, allProgress } = useContext(CoursesContext);
     const { data: studentCourseList, isLoading, isError, error } = useGetAllCourses();
 
-    
     useEffect(() => {
         if (studentCourseList) {
             setUserToProgress();
@@ -32,6 +31,7 @@ export default function StudentViewCommonLayout() {
             toast.error("An error occurred while setting progress.");
         }
     }
+    
     // Manage active tab state
     const [activeTab, setActiveTab] = useState("Categories"); // Default active tab
 
@@ -41,15 +41,21 @@ export default function StudentViewCommonLayout() {
         
         return studentCourseList.filter(course => {
             const progressData = allProgress.data.find(prog => prog.courseId === course._id);
-            if (!progressData) return false;
+            if (!progressData || !progressData.lectureProgress) return false;
+            
+            const viewedLectures = progressData.lectureProgress.filter(lecture => lecture.viewed);
+            const totalLectures = progressData.lectureProgress.length;
+            
+            if (!totalLectures) return false;
             
             const progressPercentage = Math.round(
-                (progressData.lectureProgress.filter(lecture => lecture.viewed).length /
-                    progressData.lectureProgress.length) * 100
+                (viewedLectures.length / totalLectures) * 100
             );
+            
             return progressPercentage > 0;
         });
     };
+    
     // Function to get favorite courses
     const getFavoriteCourses = () => {
         if (!studentCourseList || !allProgress?.data) return [];
@@ -59,6 +65,7 @@ export default function StudentViewCommonLayout() {
             return progressData?.isFavorite === true;
         });
     };
+    
     // Tab configuration
     const menuItems = [
         {
@@ -70,7 +77,7 @@ export default function StudentViewCommonLayout() {
                 isError={isError}
                 error={error}
             />,
-            logo:()=><MdCategory />
+            logo: () => <MdCategory />
         },
         {
             label: "In Progress",
@@ -81,7 +88,7 @@ export default function StudentViewCommonLayout() {
                 isError={isError}
                 error={error}
             />,
-            logo:()=><AiOutlineLoading3Quarters />
+            logo: () => <AiOutlineLoading3Quarters />
         },
         {
             label: "Favoris",
@@ -92,7 +99,7 @@ export default function StudentViewCommonLayout() {
                 isError={isError}
                 error={error}
             />,
-            logo:()=><FaRegBookmark />
+            logo: () => <FaRegBookmark />
         },
     ];
 

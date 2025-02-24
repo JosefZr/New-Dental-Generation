@@ -28,20 +28,20 @@ export const GetCardData = () => {
   return [
     {
       name: "Cadet",
-      amount: 14.5,
+      amount: 19.9,
       monthType: "cadet",
       monthButton: "",
-      monthTitle:"",
+      monthTitle:"-0,6/ daily ",
       month: transformDescriptionToTable(
         plans.starter.desc
       ),
     },
     {
       name: "Challenger",
-      amount: 55,
+      amount: 59.99,
       threeMonthsType: "challenger",
-      threeMonthsButton: "Most Popular",
-      threeMonthsTitle: "",
+      threeMonthsButton: "Save €20",
+      threeMonthsTitle: "-14.99/ monthly",
       threeMonths: transformDescriptionToTable(
         plans.pro.desc
       ),
@@ -50,19 +50,19 @@ export const GetCardData = () => {
       name: "Hero",
       amount: 150,
       yearType: "hero",
-      yearButton: "save €24",
-      yearTitle: "",
+      yearButton: "save €90",
+      yearTitle: "-12,5/ monthly ",
       year: transformDescriptionToTable(
         plans.elite.desc
       ),
     },
     {
       name:"freeDentist",
-      dentistFreeTrial: "6 days free trial",
+      dentistFreeTrial: "2 days free trial",
     },
     {
       name:"freeLab",
-      storeLabFreeTrial: "40 days free trial",
+      storeLabFreeTrial: "2 days free trial",
     },
   ];
 };
@@ -247,22 +247,7 @@ export default function Signup() {
               userData={formData}
             />
           </div>
-          {/* Payment card info */}
-          {/* <CreditCardInformations formData={formData} handleInputChange={handleInputChange}/> */}
-
-          {/* <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-            <button type="submit">Login</button>
-            <p className="mt-4 text-sm text-gray-500 sm:mt-0">
-              Already have an account?
-              <Link to="/signup" className="text-gray-700 underline">
-                Log in
-              </Link>
-              .
-            </p>
-          </div> */}
         </form>
-
-        {/* </div> */}
       </main>
     </section>
   );

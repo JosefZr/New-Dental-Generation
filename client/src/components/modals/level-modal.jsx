@@ -58,7 +58,7 @@ const rank = getRank(studentLevel);
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-        <DialogContent className="max-w-3xl border-0 bg-[#0a1520]/95 p-0 text-white">
+        <DialogContent className="max-w-3xl  bg-my-dark-blue p-0 text-white border-[1px] border-my-gold">
         {/* Matrix-style background */}
         <DialogTitle>
         <div className="absolute inset-0 -z-10 overflow-hidden">
@@ -78,25 +78,20 @@ const rank = getRank(studentLevel);
                 <p className="text-lg max-sm:text-sm font-medium">This Lesson is Locked... But Not for Long!</p>
                 <p className="text-white/80 max-sm:text-sm">Unlock knowledge worth $3,596 at [Level {rank} {nextProgress.name}] (after {studentLevel-diffDays} days on YDN). </p>
                 <p className="text-white/80 max-sm:text-sm">Keep learning, keep progressing, and this valuable knowledge will be yours before you know it!</p>
-                <p className="text-white/80 max-sm:text-sm">In the meantime, check out DENTAL-$-CHEAT-CODES. 
-                <button  
-                  className="hover:underline"
-                  onClick={()=>{
-                    
-                  navigate("/channels")
-                  onClose()
-                }}>[Link to channels]</button> </p>
+                <p className="text-white/80 max-sm:text-sm">In the meantime, check out DENTAL-$-CHEAT-CODES. </p>
                 
             </div>
             <br />
-            <div className="backdrop "></div>
+            <div  style={{position:"relative"}}>
+            <div className="backdrop-modal "></div>
             <button className="buttonCheckout-limit" onClick={handleLimitation}>
             <div className="a l"></div>
             <div className="a r"></div>
             <div className="a t"></div>
             <div className="a b"></div>
-            <div className="text">Track Your Progress</div>
+            <div className="text">UPGRADE NOW & JOIN THE WINNERS!</div>
             </button>
+            </div>
             <br />
             <p className="mt-4 text-white/80 max-sm:text-sm">
             P.S: For less than the price of a single patient visit, you’ll get access to strategies that can 10X your income.

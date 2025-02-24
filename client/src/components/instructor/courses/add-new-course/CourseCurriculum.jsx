@@ -4,132 +4,170 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { InstructorContext } from "@/context/InstructorContext";
-import { courseCurriculumInitialFormData } from "@/lib/default";
-import ReactPlayer from "react-player"; // Import ReactPlayer
+import ReactPlayer from "react-player";
 import { useContext } from "react";
 
 export default function CourseCurriculum() {
-  const {
-    courseCurriculmFormData,
-    setCourseCurriculmFormData,
-  } = useContext(InstructorContext);
+  const { courseCurriculmFormData, setCourseCurriculmFormData } = useContext(InstructorContext);
 
-  function handleNewLecture() {
+  // Add new module
+  function handleAddModule() {
     setCourseCurriculmFormData([
       ...courseCurriculmFormData,
       {
-        ...courseCurriculumInitialFormData,
+        title: `Module ${courseCurriculmFormData.length + 1}`,
+        lectures: [{ title: "", videoUrl: "", freePreview: false }],
       },
     ]);
   }
 
-  function handleCourseTitleChange(event, currentIndex) {
-    let cpyCourseCurriculumFormData = [...courseCurriculmFormData];
-    cpyCourseCurriculumFormData[currentIndex] = {
-      ...cpyCourseCurriculumFormData[currentIndex],
-      title: event.target.value,
-    };
-
-    setCourseCurriculmFormData(cpyCourseCurriculumFormData);
-  }
-
-  function handleFreePreviewChange(currentValue, currentIndex) {
-    let cpyCourseCurriculumFormData = [...courseCurriculmFormData];
-    cpyCourseCurriculumFormData[currentIndex] = {
-      ...cpyCourseCurriculumFormData[currentIndex],
-      freePreview: currentValue,
-    };
-
-    setCourseCurriculmFormData(cpyCourseCurriculumFormData);
-  }
-
-  function handleYouTubeUrlChange(event, currentIndex) {
-    const url = event.target.value;
-
-    let cpyCourseCurriculumFormData = [...courseCurriculmFormData];
-    cpyCourseCurriculumFormData[currentIndex] = {
-      ...cpyCourseCurriculumFormData[currentIndex],
-      videoUrl: url, // Keep the raw URL for ReactPlayer
-    };
-
-    setCourseCurriculmFormData(cpyCourseCurriculumFormData);
-  }
-
-  function handleDeleteLecture(indexToDelete) {
-    const updatedLectures = courseCurriculmFormData.filter(
-      (_, index) => index !== indexToDelete
+  // Add lecture to specific module
+  function handleAddLecture(moduleIndex) {
+    const updatedModules = courseCurriculmFormData.map((module, index) => 
+      index === moduleIndex ? {
+        ...module,
+        lectures: [...module.lectures, { title: "", videoUrl: "", freePreview: false }]
+      } : module
     );
-    setCourseCurriculmFormData(updatedLectures);
+    setCourseCurriculmFormData(updatedModules);
+  }
+
+  // Handle module title change
+  function handleModuleTitleChange(event, moduleIndex) {
+    const updatedModules = courseCurriculmFormData.map((module, index) =>
+      index === moduleIndex ? { ...module, title: event.target.value } : module
+    );
+    setCourseCurriculmFormData(updatedModules);
+  }
+
+  // Handle lecture field changes
+  function handleLectureChange(moduleIndex, lectureIndex, field, value) {
+    const updatedModules = courseCurriculmFormData.map((module, modIdx) => {
+      if (modIdx === moduleIndex) {
+        const updatedLectures = module.lectures.map((lecture, lectIdx) => 
+          lectIdx === lectureIndex ? { ...lecture, [field]: value } : lecture
+        );
+        return { ...module, lectures: updatedLectures };
+      }
+      return module;
+    });
+    setCourseCurriculmFormData(updatedModules);
+  }
+
+  // Delete a lecture
+  function handleDeleteLecture(moduleIndex, lectureIndex) {
+    const updatedModules = courseCurriculmFormData.map((module, modIdx) => 
+      modIdx === moduleIndex ? {
+        ...module,
+        lectures: module.lectures.filter((_, lectIdx) => lectIdx !== lectureIndex)
+      } : module
+    );
+    setCourseCurriculmFormData(updatedModules);
+  }
+
+  // Delete a module
+  function handleDeleteModule(moduleIndex) {
+    const updatedModules = courseCurriculmFormData.filter((_, modIdx) => modIdx !== moduleIndex);
+    setCourseCurriculmFormData(updatedModules);
   }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Create Course Curriculum</CardTitle>
+        <CardTitle>Course Curriculum</CardTitle>
       </CardHeader>
       <CardContent>
-        <Button
-          className="ml-4 space-y-4"
-          onClick={handleNewLecture}
-          style={{ backgroundColor: "black" }}
-        >
-          Add Lecture
-        </Button>
-        <div className="mt-4">
-          {courseCurriculmFormData.map((curriculm, index) => (
-            <div key={index} className="border p-5 rounded-md">
-              <div className="flex gap-5 items-center">
-                <h3 className="font-semibold">Lecture {index + 1}</h3>
+        <div className="space-y-6">
+          {courseCurriculmFormData.map((module, moduleIndex) => (
+            <div key={moduleIndex} className="border p-5 rounded-md">
+              <div className="flex justify-between items-center mb-4">
                 <Input
-                  name={`title-${index + 1}`}
-                  placeholder="Enter lecture title"
-                  className="max-w-96"
-                  onChange={(event) => handleCourseTitleChange(event, index)}
-                  value={courseCurriculmFormData[index]?.title}
+                  value={module.title}
+                  onChange={(e) => handleModuleTitleChange(e, moduleIndex)}
+                  className="text-xl font-bold w-auto"
                 />
-                <div className="flex items-center space-x-2">
-                  <Switch
-                    onCheckedChange={(value) =>
-                      handleFreePreviewChange(value, index)
-                    }
-                    checked={courseCurriculmFormData[index]?.freePreview}
-                    style={courseCurriculmFormData[index]?.freePreview?{ backgroundColor: "black" }:{}}
-                    id={`freePreview-${index + 1}`}
-                  />
-                  <Label htmlFor={`freePreview-${index + 1}`}>
-                    Free Preview
-                  </Label>
-                </div>
-              </div>
-              <div className="mt-6 flex flex-col gap-3">
-                <Card>
-                  <Input
-                    type="url"
-                    placeholder="Enter video URL"
-                    value={courseCurriculmFormData[index]?.videoUrl}
-                    onChange={(event) => handleYouTubeUrlChange(event, index)}
-                  />
-                  {courseCurriculmFormData[index]?.videoUrl && (
-                    <div className="mt-4">
-                      <ReactPlayer
-                        url={courseCurriculmFormData[index].videoUrl}
-                        controls
-                        width="100%"
-                        height="calc(37vw)" // Adjusted height for better visibility
-                        className="react-player"
-                      />
-                    </div>
-                  )}
-                </Card>
                 <Button
-                  className="bg-red-500 hover:bg-red-400"
-                  onClick={() => handleDeleteLecture(index)} // Delete functionality
+                  variant="destructive"
+                  onClick={() => handleDeleteModule(moduleIndex)}
                 >
-                  Delete Lecture
+                  Delete Module
                 </Button>
               </div>
+
+              {module.lectures.map((lecture, lectureIndex) => (
+                <div key={lectureIndex} className="border p-4 rounded-md mb-4">
+                  <div className="flex gap-4 items-center mb-4">
+                    <h4 className="font-semibold">Lecture {lectureIndex + 1}</h4>
+                    <Input
+                      placeholder="Lecture title"
+                      value={lecture.title}
+                      onChange={(e) => handleLectureChange(
+                        moduleIndex,
+                        lectureIndex,
+                        'title',
+                        e.target.value
+                      )}
+                    />
+                    <div className="flex items-center space-x-2">
+                      <Switch
+                        checked={lecture.freePreview}
+                        style={lecture.freePreview?{ backgroundColor: "black" }:{}}
+
+                        onCheckedChange={(value) => handleLectureChange(
+                          moduleIndex,
+                          lectureIndex,
+                          'freePreview',
+                          value
+                        )}
+                      />
+                      <Label>Free Preview</Label>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <Input
+                      type="url"
+                      placeholder="Video URL"
+                      value={lecture.videoUrl}
+                      onChange={(e) => handleLectureChange(
+                        moduleIndex,
+                        lectureIndex,
+                        'videoUrl',
+                        e.target.value
+                      )}
+                    />
+                    {lecture.videoUrl && (
+                      <ReactPlayer
+                        url={lecture.videoUrl}
+                        controls
+                        width="100%"
+                        height="400px"
+                      />
+                    )}
+                  </div>
+
+                  <Button
+                    variant="destructive"
+                    className="mt-4"
+                    onClick={() => handleDeleteLecture(moduleIndex, lectureIndex)}
+                  >
+                    Delete Lecture
+                  </Button>
+                </div>
+              ))}
+
+              <Button
+                className="mt-4 text-black"
+                onClick={() => handleAddLecture(moduleIndex)}
+              >
+                Add Lecture
+              </Button>
             </div>
           ))}
+
+          <Button onClick={handleAddModule} className="text-black">
+            Add New Module
+          </Button>
         </div>
       </CardContent>
     </Card>

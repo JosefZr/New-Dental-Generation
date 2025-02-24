@@ -31,7 +31,7 @@ const IconEmbed = styled.div`
     display: flex;
 `
 const H2 = styled.h2`
-      background-color: var(--smallTittle);
+  background-color: var(--smallTittle);
   text-align: center;
   text-transform: uppercase;
   background-repeat: no-repeat;
@@ -64,14 +64,14 @@ export default function FinalSection({actor}) {
           <div className="container-large">
             <div className="padding-section-medium">
               <Increasing>
-                <div className="w-layout-vflex vflex-center-8c sm:flex-row gap-5 items-center">
+                <div className="w-layout-vflex vflex-center-8 sm:flex-row gap-5 items-center">
                     <TiWarningOutline className="h-14 w-14"/>
                   <div className="hflex-center-16">
                     <H2>{t(`${actor}.increasing.title`)}</H2>
                   </div>
                 </div>
                 <div className=" max-w-[35rem] mt-[-.7] mb-0 leading-7 text-my-small-white-title">
-                  <h1 className=" flex flex-row items-center justify-center gap-4 font-medium text-xl">{t(`${actor}.increasing.from`)} €14.5/{t(`${actor}.increasing.month`)} {t(`${actor}.increasing.to`)} €29/{t(`${actor}.increasing.month`)}</h1>
+                  <h1 className=" flex flex-row items-center justify-center gap-4 font-medium text-xl">{t(`${actor}.increasing.from`)} €19.9/{t(`${actor}.increasing.month`)} {t(`${actor}.increasing.to`)} €59/{t(`${actor}.increasing.month`)}</h1>
                   <br />
                   <br />
                   <p className=" font-normal text-my-white-gray text-2xl">{t(`${actor}.increasing.dentist`)}</p>
