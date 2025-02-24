@@ -53,7 +53,7 @@
     background-position: 0px 0px, 0px 0px;
 }
 .h22.is-18-ch {
-    background-image: url(../images/grain_1grain.webp), linear-gradient(158deg, rgb(35, 83, 255) 23%, rgb(255, 255, 255) 52%);
+    /* background-image: url(../images/grain_1grain.webp), linear-gradient(158deg, rgb(35, 83, 255) 23%, rgb(255, 255, 255) 52%); */
     background-size: auto, auto;
     max-width: 28ch;
     font-family: "Urbanist", serif;
