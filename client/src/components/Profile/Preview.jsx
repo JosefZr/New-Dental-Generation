@@ -355,20 +355,20 @@ const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.comp
         <section className="line-clamp-4 px-[50px] pt-3 text-center text-sm break-words">{user.bio}</section>
 
         <div
-  style={{ position: "relative" }}
-  className="flex flex-row font-medium mt-[24px] h-[40px] w-full border-b border-gray-600"
->
-  {menuItems.map((menuItem, index) => (
-    <button
-      key={index}
-      className={`flex-1 cursor-pointer flex items-center justify-center transition-all hover:bg-slate-700 border-b-[2px] ${
-        activeTab === menuItem.label ? "bg-slate-800 border-blue-50" : "border-transparent"
-      }`}
-      onClick={() => setActiveTab(menuItem.label)}
-    >
-      <span className="whitespace-nowrap bg-clip-text text-my-white">{menuItem.label}</span>
-    </button>
-  ))}
+            style={{ position: "relative" }}
+            className="flex flex-row font-medium mt-[24px] h-[40px] w-full border-b border-gray-600"
+            >
+            {menuItems.map((menuItem, index) => (
+                <button
+                key={index}
+                className={`flex-1 cursor-pointer flex items-center justify-center transition-all hover:bg-slate-700 border-b-[2px] ${
+                    activeTab === menuItem.label ? "bg-slate-800 border-blue-50" : "border-transparent"
+                }`}
+                onClick={() => setActiveTab(menuItem.label)}
+                >
+                <span className="whitespace-nowrap bg-clip-text text-my-white">{menuItem.label}</span>
+                </button>
+            ))}
 </div>
 
         {/* Mobile Content */}

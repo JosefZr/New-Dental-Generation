@@ -87,7 +87,7 @@ export default function Instructor() {
                     className="absolute top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
                     onClick={toggleSidebar}
                   >
-                    <GiHamburgerMenu className="md:hidden text-2xl text-white" />
+                    <GiHamburgerMenu className=" text-2xl text-white" />
                   </button>
                 <div className="max-w-7xl mx-auto">
                     <h1 className="text-3xl font-bold mb-8">

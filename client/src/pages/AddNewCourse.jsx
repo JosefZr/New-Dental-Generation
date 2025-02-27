@@ -35,28 +35,35 @@ export default function AddNewCourse() {
     } 
     
     function validateFormData() {
-        console.log("Validating form data...");
-      
-        // Validate course landing form
-        for (const key in courseLandingFormData) {
-          if (isEmpty(courseLandingFormData[key])) {
-            console.error(`Landing page field "${key}" is empty.`);
-            return false;
-          }
+      console.log("Validating form data...");
+    
+      // Validate course landing form
+      for (const key in courseLandingFormData) {
+        if (isEmpty(courseLandingFormData[key])) {
+          console.error(`Landing page field "${key}" is empty.`);
+          return false;
         }
+      }
+    
+      // Validate curriculum
+      let hasFreePreview = false;
       
-        // Validate curriculum
-        let hasFreePreview = false;
-        
-        // Check each module
-        for (const module of courseCurriculmFormData) {
-          if (isEmpty(module.title)) {
-            console.error("Module missing title:", module);
+      // Check each module
+      for (const module of courseCurriculmFormData) {
+        if (isEmpty(module.title)) {
+          console.error("Module missing title:", module);
+          return false;
+        }
+    
+        // Check each submodule
+        for (const subModule of module.subModules) {
+          if (isEmpty(subModule.title)) {
+            console.error("Submodule missing title:", subModule);
             return false;
           }
-      
-          // Check each lecture in module
-          for (const lecture of module.lectures) {
+    
+          // Check each lecture in submodule
+          for (const lecture of subModule.lectures) {
             if (isEmpty(lecture.title)) {
               console.error("Lecture missing title:", lecture);
               return false;
@@ -70,15 +77,16 @@ export default function AddNewCourse() {
             }
           }
         }
-      
-        if (!hasFreePreview) {
-          console.error("No free preview available in curriculum.");
-          return false;
-        }
-      
-        console.log("Validation passed.");
-        return true;
       }
+    
+      if (!hasFreePreview) {
+        console.error("No free preview available in curriculum.");
+        return false;
+      }
+    
+      console.log("Validation passed.");
+      return true;
+    }
     
     async function handleCreateCourse(){
         const token = localStorage.getItem("token"); // Replace 'yourTokenKey' with the actual key
@@ -94,22 +102,27 @@ export default function AddNewCourse() {
             return;
         }
         const courseFinalFormData = {
-            instructorId: decoded?.userId,
-            instructorName: name,
-            date: new Date(),
-            primaryLanguage: courseLandingFormData.primaryLanguage, // Fixed casing
-            ...courseLandingFormData,
-            students: [], // Update this if you need actual student data
-            modules: courseCurriculmFormData.map(module => ({
-              title: module.title,
-              lectures: module.lectures.map(lecture => ({
+          instructorId: decoded?.userId,
+          instructorName: name,
+          date: new Date(),
+          primaryLanguage: courseLandingFormData.primaryLanguage,
+          ...courseLandingFormData,
+          students: [],
+          modules: courseCurriculmFormData.map(module => ({
+            title: module.title,
+            subModules: module.subModules.map(subModule => ({
+              title: subModule.title,
+              lectures: subModule.lectures.map(lecture => ({
                 title: lecture.title,
                 videoUrl: lecture.videoUrl,
-                freePreview: lecture.freePreview
+                freePreview: lecture.freePreview,
+                descriptionTitle: lecture.descriptionTitle, // Add this line
+                description: lecture.description // Add this line
               }))
-            })),
-            isPublished: true
-          };
+            }))
+          })),
+          isPublished: true
+        };
         if(currentEditedCourseId !==null){
             const response = await updateCourseByIdService(currentEditedCourseId, courseFinalFormData)
             if(response?.success){
@@ -130,19 +143,42 @@ export default function AddNewCourse() {
         }
     }
     async function fetchInstructorCourseDetails() {
-        const response = await fetchInstructorCourseDetailsService(currentEditedCourseId);
-        if (response?.success) {
-          const setCourseFormData = Object.keys(courseLandingInitialFormData).reduce((acc, key) => {
-            acc[key] = response?.data[key] || courseLandingInitialFormData[key];
-            return acc;
-          }, {});
-          
-          setCourseLandingFormData(setCourseFormData);
-          
-          // Map the API response to match our module structure
-          setCourseCurriculmFormData(response?.data?.modules || []);
-        }
+      const response = await fetchInstructorCourseDetailsService(currentEditedCourseId);
+      if (response?.success) {
+        const setCourseFormData = Object.keys(courseLandingInitialFormData).reduce((acc, key) => {
+          acc[key] = response?.data[key] || courseLandingInitialFormData[key];
+          return acc;
+        }, {});
+        
+        setCourseLandingFormData(setCourseFormData);
+        
+        // Map API response to match our submodule structure
+        const mappedCurriculum = response?.data?.modules?.map(module => ({
+          title: module.title || "New Module",
+          subModules: module.subModules?.map(subModule => ({
+            title: subModule.title || "New Submodule",
+            lectures: subModule.lectures?.map(lecture => ({
+              title: lecture.title || "",
+              videoUrl: lecture.videoUrl || "",
+              freePreview: lecture.freePreview || false,
+              descriptionTitle: lecture.descriptionTitle || "",
+              description: lecture.description || ""
+            })) || []
+          })) || [{
+            title: "New Submodule",
+            lectures: [{
+              title: "",
+              videoUrl: "",
+              freePreview: false,
+              descriptionTitle: "",
+              description: ""
+            }]
+          }]
+        })) || courseCurriculumInitialFormData;
+        
+        setCourseCurriculmFormData(mappedCurriculum);
       }
+    }
     useEffect(()=>{
         if(currentEditedCourseId!==null) fetchInstructorCourseDetails()
     },[currentEditedCourseId])

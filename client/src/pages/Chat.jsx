@@ -23,34 +23,7 @@ export default function Chat() {
   const isGrowthSupport = location.pathname.includes("/growth-support"); // New condition
   const isTopDentist = location.pathname.includes("/top-dentist-opportunity"); // New condition
   const isJobOpportunities = location.pathname.includes("/job-opportunities"); // New condition
-  const isSunnah = location.pathname.includes("/sunnah"); // New condition
-
-
-  // useEffect(() => {
-  //   if (location.pathname === "/channels" && !isPlanLikeProRoute && !isPaymentReminder) {
-  //     onOpen(MODAL_TYPE.BIR)
-  //   } else {
-  //     onClose()
-  //   }
-  // }, [location.pathname, onOpen, onClose, isPlanLikeProRoute, isPaymentReminder])
-
-  // useEffect(() => {
-  //   if (!channelID) return
-  // }, [channelID, messages]) // Fixed dependency
-
-  // useEffect(() => {
-  //   const handleEsc = (event) => {
-  //     if (event.keyCode === 27) {
-  //       onClose()
-  //     }
-  //   }
-  //   window.addEventListener("keydown", handleEsc)
-
-  //   return () => {
-  //     window.removeEventListener("keydown", handleEsc)
-  //   }
-  // }, [onClose])
-
+  const isSunnah = location.pathname.includes("/sunnah");
   return (
     <div className="flex h-screen ">
       {/* Navigation Sidebar with animation */}
@@ -117,9 +90,6 @@ export default function Chat() {
           </>
         )}
       </div>
-
-      {/* Modal Overlay */}
-      {/* {isOpen && <div className="fixed inset-0 bg-black bg-opacity-50 z-50" onClick={onClose} />} */}
     </div>
   )
 }

@@ -76,10 +76,10 @@ const Main = styled.main`
                 {menuItems.map((menuItem, index) => (
                 <button
                     key={index}
-                    className={`flex flex-row items-center gap-3 p-3 text-left text-sm w-full 
+                    className={`flex flex-row  items-center gap-3 p-3 text-left text-sm w-full 
                     ${
                         activeTab === menuItem.value
-                        ? "bg-my-gold font-bold"
+                        ? "bg-my-gold font-bold text-black"
                         : "hover:bg-white hover:bg-opacity-10"
                     }`}
                     onClick={() => setActiveTab(menuItem.value)}
@@ -105,7 +105,7 @@ const Main = styled.main`
 
         {/* Main Content */}
         <Main className="flex-1 bg-center bg-settings-background-alt p-4 pt-32">
-            <div className="max-h-full max-w-[700px] overflow-y-auto m-auto swipe-dialog-scroll-descendant">
+            <div className="max-h-full max-w-[700px] overflow-y-auto m-auto swipe-dialog-scroll-descendant custom-scroll">
             <h1 className="text-3xl font-bold mb-8">{activeTab}</h1>
             {menuItems.map(
                 (menuItem) =>

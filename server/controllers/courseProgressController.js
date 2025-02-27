@@ -41,22 +41,28 @@ const getCurrentCourseProgress = async (req, res) => {
         return res.status(404).json({ success: false, message: "Course not found" });
       }
 
-      // Initialize module progress based on course structure
-      const moduleProgress = course.modules.map(module => ({
-        moduleId: module._id,
-        title: module.title,
+      // Initialize module progress with string IDs
+    const moduleProgress = course.modules.map(module => ({
+      moduleId: module._id.toString(), // Convert to string
+      title: module.title,
+      completed: false,
+      subModules: module.subModules.map(subModule => ({
+        subModuleId: subModule._id.toString(), // Convert to string
+        title: subModule.title,
         completed: false,
-        lectures: module.lectures.map(lecture => ({
-          lectureId: lecture._id,
-          title: lecture.title,
+        lectures: subModule.lectures.map(lecture => ({
+          lectureId: lecture._id.toString(), // Convert to string
           viewed: false,
           dateViewed: null
         }))
-      }));
+      }))
+    }));
+
 
       courseProgress = await CourseProgress.create({
         userId,
         courseId,
+        moduleProgress,
         completed: false,
         completionDate: null,
         isFavorite: false,
@@ -73,41 +79,49 @@ const getCurrentCourseProgress = async (req, res) => {
 // Update updateLectureProgress controller
 export const updateLectureProgress = async (req, res) => {
     try {
-      const { userId, courseId, moduleId, lectureId } = req.body;
+      const { userId, courseId, moduleId,subModuleId, lectureId } = req.body;
   
       const progress = await CourseProgress.findOne({ userId, courseId });
       if (!progress) {
         return res.status(404).json({ success: false, message: "Progress not found" });
       }
   
+      // Find module progress
       const moduleProgress = progress.moduleProgress.find(
         mp => mp.moduleId === moduleId
       );
-  
+
+      // Find submodule progress
+        const subModuleProgress = moduleProgress.subModuleProgress.find(
+          sm => sm.subModuleId === subModuleId
+        );
+
       if (!moduleProgress) {
         return res.status(404).json({ success: false, message: "Module not found" });
       }
   
-      const lecture = moduleProgress.lectures.find(
-        l => l.lectureId === lectureId
-      );
+      // Find lecture
+        const lecture = subModuleProgress.lectures.find(
+          l => l.lectureId === lectureId
+        );
   
-      if (lecture) {
-        lecture.viewed = true;
-        lecture.dateViewed = new Date();
-        
-        // Update module completion status
-        moduleProgress.completed = moduleProgress.lectures.every(l => l.viewed);
-        
-        // Update course completion status
-        progress.completed = progress.moduleProgress.every(mp => mp.completed);
-        
-        await progress.save();
-        res.status(200).json({ success: true, message: "Progress updated" });
-      } else {
-        res.status(404).json({ success: false, message: "Lecture not found" });
-      }
-    } catch (error) {
+        if (lecture) {
+          lecture.viewed = true;
+          lecture.dateViewed = new Date();
+          
+          // Update submodule completion
+          subModuleProgress.completed = subModuleProgress.lectures.every(l => l.viewed);
+          
+          // Update module completion
+          moduleProgress.completed = moduleProgress.subModuleProgress.every(sm => sm.completed);
+          
+          // Update course completion
+          progress.completed = progress.moduleProgress.every(mp => mp.completed);
+          
+          await progress.save();
+          res.status(200).json({ success: true, message: "Progress updated" });
+        }
+      } catch (error) {
       console.error(error);
       res.status(500).json({ success: false, message: "Error updating progress" });
     }

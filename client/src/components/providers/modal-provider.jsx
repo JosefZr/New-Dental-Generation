@@ -20,6 +20,8 @@ import AddModal from "../modals/addModal";
 import Limitations from "../modals/Limitations";
 import ImagesModal from "../modals/images-modal";
 import LevelModal from "../modals/level-modal";
+import JobDetailedModal from "../modals/job-detailed-modal";
+import AddRoleModal from "../modals/add-role-modal";
 // import PreviewModal from "../modals/preview-modal";
 
 export const ModalProvider = ({ children })=>{
@@ -56,6 +58,8 @@ export const ModalProvider = ({ children })=>{
             <Limitations/>
             <ImagesModal/>
             <LevelModal/>
+            <JobDetailedModal/>
+            <AddRoleModal/>
             {/* <PreviewModal/> */}
         </div>
     )

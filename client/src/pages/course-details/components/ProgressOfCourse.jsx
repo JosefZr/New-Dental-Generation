@@ -25,22 +25,22 @@ export default function ProgressOfCourse() {
     data: allProgress,
     isLoading: isAllProgress,
   } = useGetAllUserProgress(userInfo.userId);
-
+console.log(allProgress)
   // Find progress data for the current course
   const progressData = allProgress?.find(
     (prog) => prog.courseId === studentViewCourseDetails?._id
   );
-
-// Calculate total viewed lectures across all modules
-const totalViewed = progressData?.moduleProgress?.reduce(
-  (acc, module) => acc + module.lectures.filter(l => l.viewed).length,
-  0
-) || 0;
-
-const totalLectures = progressData?.moduleProgress?.reduce(
-  (acc, module) => acc + (module.lectures ? module.lectures.length : 0),
-  0
-) || 0;
+  const totalViewed = progressData?.moduleProgress?.reduce((acc, module) => 
+    acc + module.subModuleProgress?.reduce((subAcc, subModule) => 
+      subAcc + subModule.lectures?.filter(l => l.viewed).length
+    , 0)
+  , 0) || 0;
+  
+  const totalLectures = progressData?.moduleProgress?.reduce((acc, module) => 
+    acc + module.subModuleProgress?.reduce((subAcc, subModule) => 
+      subAcc + subModule.lectures?.length
+    , 0)
+  , 0) || 0;
 
 
 // Calculate progress percentage
@@ -52,7 +52,7 @@ const progressPercentage = totalLectures > 0
   console.log("Total Viewed:", totalViewed);
   console.log("Total Lectures:", totalLectures);
   console.log("Progress Percentage:", progressPercentage);
-  console.log("Module Progress Data:", progressData?.moduleProgress);
+  console.log("Module Progress Data:", progressData);
 
   if (isAllProgress) return <LoadingSpinner />;
 
@@ -78,13 +78,27 @@ const progressPercentage = totalLectures > 0
           ></Progress>
         </section>
         <section className="mt-2 flex gap-2">
-          <p className="font-light text-gray-400 text-xs">
-            <span className="font-semibold text-my-white pr-1">
-              {totalLectures}
-            </span>
-            lessons
-          </p>
-        </section>
+  <p className="font-light text-gray-400 text-xs">
+    <span className="font-semibold text-my-white pr-1">
+      {progressData?.moduleProgress?.length || 0}
+    </span>
+    modules
+  </p>
+  <p className="font-light text-gray-400 text-xs">
+    <span className="font-semibold text-my-white pr-1">
+      {progressData?.moduleProgress?.reduce((acc, module) => 
+        acc + (module.subModuleProgress?.length || 0), 0
+      )}
+    </span>
+    submodules
+  </p>
+  <p className="font-light text-gray-400 text-xs">
+    <span className="font-semibold text-my-white pr-1">
+      {totalLectures}
+    </span>
+    lectures
+  </p>
+</section>
       </div>
     </div>
   );

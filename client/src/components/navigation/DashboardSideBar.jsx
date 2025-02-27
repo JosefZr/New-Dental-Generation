@@ -76,6 +76,11 @@ export default function DashboardSidebar() {
         icon: userInfo.role === 'admin' ? IoMdPeople : FaUserShield,
         label: 'Users',
         path: '/users'
+      },
+      {
+        icon: userInfo.role === 'admin' ? IoMdPeople : FaUserShield,
+        label: 'Free Analyses',
+        path: 'analyse'
       }
     ];
 

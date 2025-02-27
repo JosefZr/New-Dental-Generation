@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --gold: #EDE8D0;
-  --smallGold:#BC9C22;
+  --gold: #F4EBD0;
+  --smallGold:#EDE8D0;
   --white:#EBEBEB;
   --darkBlue:#0d0f18;
   --black:#060e15;

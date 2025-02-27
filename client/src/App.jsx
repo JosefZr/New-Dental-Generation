@@ -28,6 +28,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import SignupAdmins from "./pages/SignupAmins";
 import Quotes from "./pages/Quotes";
+import FreeAnalyses from "./pages/FreeAnalyses";
 
 export default function App() {
   return (
@@ -46,6 +47,7 @@ export default function App() {
             <Route path="dental-stuff" element={<DentalStuff/>}/>
             <Route path="quotes" element={<Quotes/>}/>
             <Route path="user-chat" element={<UserChat/>}/>
+            <Route path="analyse" element={<FreeAnalyses/>}/>
           </Route>
           
           <Route path="/profile/:id" element={<Profile />}/>
@@ -65,7 +67,7 @@ export default function App() {
         <Route path="/dental-lab" element={<DentalLab />} />
         <Route path="/dental-store" element={<DentalStore />} />
         <Route path="/sign-up" element={<Signup />} />
-        <Route path="/macha" element={<SignupAdmins />} />
+        <Route path="/chama" element={<SignupAdmins />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />

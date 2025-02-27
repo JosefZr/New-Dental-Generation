@@ -157,11 +157,18 @@ export const courseLandingInitialFormData = {
 export const courseCurriculumInitialFormData = [
   {
     title: "Module 1",
-    lectures: [
+    subModules: [
       {
-        title: "",
-        videoUrl: "",
-        freePreview: false,
+        title: "module 1",
+        lectures: [
+          {
+            title: "",
+            descriptionTitle: "",
+            description:"",
+            videoUrl: "",
+            freePreview: false,
+          },
+        ],
       },
     ],
   },

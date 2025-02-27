@@ -72,7 +72,7 @@ const handleSubmit = async (e) => {
                 className="mx-auto mt-[30%] h-[256px] max-h-[35vh] w-auto  rounded-full"
               />
               <h2 className="mt-[10%] text-center font-bold text-[30px] text-white uppercase">
-                The Real World
+                YOUR DENTAL NETWORK
               </h2>
             </div>
             <div className="w-full max-w-[500px] p-8">

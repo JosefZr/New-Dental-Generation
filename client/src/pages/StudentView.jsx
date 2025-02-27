@@ -15,7 +15,7 @@ export default function StudentViewCommonLayout() {
 
     const { setAllProgress, allProgress } = useContext(CoursesContext);
     const { data: studentCourseList, isLoading, isError, error } = useGetAllCourses();
-
+    console.log(studentCourseList)
     useEffect(() => {
         if (studentCourseList) {
             setUserToProgress();

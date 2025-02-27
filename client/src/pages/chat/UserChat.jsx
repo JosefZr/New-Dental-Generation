@@ -277,7 +277,9 @@ export default function UserChat() {
   }, [messages]);
 
   return (
-    <div className="flex h-full flex-col bg-[ #0A1720] scrollbar-custom">
+    <div className="flex h-full flex-col" style={{
+      backgroundColor:"hsl(211.3 46.939% 9.6078%)"
+    }}>
       <div className="z-20 flex flex-col flex-1">
         <div className="relative h-full flex-1 bg-neutral">
           <div className="absolute top-0 right-0 left-0 z-20 flex flex-col">
@@ -286,11 +288,11 @@ export default function UserChat() {
               className="flex flex-shrink-0 items-end justify-between !pt-0 relative z-10   bg-base-300"
               
             >
-              <section className="flex h-full w-full items-center justify-between pl-3 py-2 text-lg bg-[#0E1C26]">
+              <section className="flex h-full w-full items-center justify-between pl-3 py-2 text-lg bg-[#213043] ">
                 <div className="flex w-full items-center font-medium">
                   <div className="flex items-center justify-center gap-3">
                     <div className="flex items-center gap-3 font-medium">
-                      <GiHamburgerMenu className="lg:hidden text-2xl cursor-pointer"onClick={toggleSidebar}/>
+                      <GiHamburgerMenu className=" text-2xl cursor-pointer"onClick={toggleSidebar}/>
                       <p className="flex items-center gap-[2px]">
                         <span className="text-slate-500 pr-1 pt-1 ">@</span> 
                         {recipient}
@@ -350,7 +352,7 @@ export default function UserChat() {
           >
             <div
               ref={containerRef}
-              className="z-10 overflow-y-auto overflow-x-hidden transition-transform duration-keyboard will-change-transform"
+              className="z-10 overflow-y-auto overflow-x-hidden transition-transform duration-keyboard will-change-transform custom-scroll"
               style={{ height: "100%" }}
             >
               <div className="viewport relative will-change-transform translate-y-0 ">
@@ -382,9 +384,9 @@ export default function UserChat() {
               disable ? "opacity-50 pointer-events-none" : ""
             }`}
           >
-            <footer
-              className="relative mb-inset-bottom z-20 w-full bg-[#0E1C26] transition-transform duration-keyboard translate-y-0"
-              style={{ paddingBottom: "0px" }}
+             <footer
+              className="relative mb-inset-bottom   z-20 w-full transition-transform duration-keyboard translate-y-0"
+              style={{ paddingBottom: "0px",backgroundColor:"hsl(211.03 33.333% 17.059%)" }}
             >
               {/* this for the user when he scroll up he can return and scroll to the present msg */}
               {/* <div className="w-full user-select-none flex h-[28px] items-center justify-between overflow-hidden text-ellipsis whitespace-nowrap bg-opacity-80 px-3 font-medium text-sm backdrop-blur-[20px] backdrop-filter  z-100 mb-inset-bottom transform cursor-pointer transition-all duration-75 bg-base-300 text-base-content translate-y-0 opacity-100 bottom-full">
@@ -436,7 +438,9 @@ export default function UserChat() {
                           ref={fileInputRef}
                         />
                       </label>
-              <form onSubmit={handleSubmit} className="relative block min-h-[32px] rounded-2xl bg-neutral-950 flex-1">
+                      <form onSubmit={handleSubmit} className="relative block min-h-[32px] rounded-2xl flex-1"style={{
+                        backgroundColor:"hsl(213.53 34% 19.608%)"
+                      }}>                    
                     <textarea
                       id="chat-input"
                       className="top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none w-full"

@@ -66,27 +66,7 @@ export default function GrowthSupport() {
                             </button>
                         ))}
                     </section>
-    
-                    {/* Mobile Tabs */}
-                    {/* <section className="sm:hidden flex font-medium h-[40px] max-w-[100vw] min-w-1">
-                        {menuItems.map((menuItem, index) => (
-                            <button
-                                key={index}
-                                className={`flex w-fit flex-1 cursor-pointer rounded-none items-center justify-center transition-all ${
-                                    activeTab === menuItem.value
-                                        ? "font-bold text-my-beige border-b-2 border-my-beige"
-                                        : "text-my-gold border-b-2 border-transparent"
-                                }`}
-                                onClick={() => setActiveTab(menuItem.value)}
-                            >
-                                <span className="whitespace-nowrap w-full text-md font-medium rounded-md duration-300 flex items-center justify-center h-full">
-                                    {menuItem.label}
-                                </span>
-                            </button>
-                        ))}
-                    </section> */}
                 </div>
-    
                 {/* Scrollable Tab Content */}
                 <div className="flex-1 custom-scroll overflow-y-auto">
                     {menuItems.find((menuItem) => menuItem.value === activeTab)?.component()}

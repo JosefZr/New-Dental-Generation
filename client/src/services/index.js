@@ -89,9 +89,20 @@ export async function updateLectureProgress(userId, courseId, lectureId) {
       throw error;
   }
 }
-export async function setLectureAsViewed(userId, courseId, moduleId, lectureId){
-  const {data} = await axiosInstance.patch("/api/v1/student/progression/setLectureViewed",{userId, courseId, moduleId, lectureId})
-  return data;
+export async function setLectureAsViewed(userId, courseId, moduleId, subModuleId, lectureId) {
+  try {
+    const { data } = await axiosInstance.patch("/api/v1/student/progression/setLectureViewed", {
+      userId,
+      courseId,
+      moduleId,
+      subModuleId, // Include subModuleId only if it exists
+      lectureId,
+    });
+    return data;
+  } catch (error) {
+    console.error("Error marking lecture as viewed:", error);
+    throw error;
+  }
 }
 
 export async function updateUsername(userId,firstName,lastName){

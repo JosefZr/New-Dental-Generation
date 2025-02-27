@@ -2,13 +2,18 @@ import mongoose from "mongoose";
 
 const LectureSchema = new mongoose.Schema({
     title: String,
+    descriptionTitle: String,
+    description:String,
     videoUrl: String,
     freePreview: Boolean
 });
-
+const SubModuleSchema = new mongoose.Schema({
+    title: String,
+    lectures: [LectureSchema]
+});
 const ModuleSchema = new mongoose.Schema({
     title: String,
-    lectures: [LectureSchema]  // Array of lectures inside each module
+    subModules: [SubModuleSchema]
 });
 
 const courseSchema = new mongoose.Schema({

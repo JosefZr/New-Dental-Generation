@@ -37,7 +37,7 @@ export default function MyAccount() {
                 className="absolute top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
                 onClick={toggleSidebar}
               >
-                <GiHamburgerMenu className="md:hidden text-2xl text-white" />
+                <GiHamburgerMenu className=" text-2xl text-white" />
               </button>
       <div>
       <div className="flex items-center gap-3">

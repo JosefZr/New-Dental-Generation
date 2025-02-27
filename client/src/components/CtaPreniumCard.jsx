@@ -75,8 +75,7 @@ const Cta = styled.div`
 `
 const IconImbedCustom = styled.div`
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  margin: 0 auto;
   width: 4rem;
   height: 3.125rem;
   display: flex;
@@ -139,7 +138,7 @@ export default function CtaPreniumCard({actor}) {
   const checks = GetChecks(actor)
   return (
     <Cta>
-        <div className="vflex-center-8 w-layout-vflex items-center">
+        <div className="vflex-center-8 w-layout-vflex items-center text-center">
         <IconImbedCustom>
           <GiLaurelCrown className=" h-14 w-auto text-my-gold"/>
         </IconImbedCustom>

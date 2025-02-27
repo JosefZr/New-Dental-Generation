@@ -61,7 +61,7 @@ export default function MyMembership() {
             className="absolute top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
             onClick={toggleSidebar}
           >
-            <GiHamburgerMenu className="md:hidden text-2xl text-white" />
+            <GiHamburgerMenu className=" text-2xl text-white" />
           </button>
       <div className="mt-6 flex w-full flex-col">
         <div className="flex flex-col rounded-md border border-slate-600">

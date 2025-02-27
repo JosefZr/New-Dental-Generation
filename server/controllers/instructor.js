@@ -26,7 +26,6 @@ const addNewCourse = async(req, res)=>{
         })
     }
 }
-
 const getAllCourses = async(req, res)=>{
     try {
         const coursesList = await Course.find({})
@@ -43,7 +42,6 @@ const getAllCourses = async(req, res)=>{
         })
     }
 }
-
 const getCourseDetailsById = async(req, res)=>{
     try {
         const {id} = req.params;
@@ -91,7 +89,6 @@ const updateCourseById = async (req, res) => {
         // Get all existing progress records for this course
         const allProgress = await CourseProgress.find({ courseId: id });
 
-        // Update each user's progress to match new course structure
         for (const progress of allProgress) {
             const existingModulesMap = new Map();
             progress.moduleProgress.forEach(mp => {
@@ -99,65 +96,56 @@ const updateCourseById = async (req, res) => {
             });
 
             const newModuleProgress = [];
-            
+
             // Iterate through updated course modules
             for (const courseModule of updatedCourse.modules) {
                 const moduleIdStr = courseModule._id.toString();
                 const existingModule = existingModulesMap.get(moduleIdStr);
 
                 if (existingModule) {
-                    // Update lectures within this module
+                    // Preserve progress for existing module
                     const existingLecturesMap = new Map();
                     existingModule.lectures.forEach(l => {
                         existingLecturesMap.set(l.lectureId.toString(), l);
                     });
 
-                    const updatedLectures = [];
-                    for (const courseLecture of courseModule.lectures) {
+                    const updatedLectures = courseModule.lectures.map(courseLecture => {
                         const lectureIdStr = courseLecture._id.toString();
-                        const existingLecture = existingLecturesMap.get(lectureIdStr);
+                        return existingLecturesMap.get(lectureIdStr) || {
+                            lectureId: courseLecture._id,
+                            viewed: false, // New lectures start as unviewed
+                            dateViewed: null
+                        };
+                    });
 
-                        if (existingLecture) {
-                            // Preserve existing progress
-                            updatedLectures.push({
-                                lectureId: courseLecture._id,
-                                viewed: existingLecture.viewed,
-                                dateViewed: existingLecture.dateViewed
-                            });
-                        } else {
-                            // Add new lecture with default values
-                            updatedLectures.push({
-                                lectureId: courseLecture._id,
-                                viewed: false,
-                                dateViewed: null
-                            });
-                        }
-                    }
-
-                    // Update module while preserving completion status
-                    const newModule = {
+                    newModuleProgress.push({
                         ...existingModule.toObject(),
-                        lectures: updatedLectures,
-                        completed: updatedLectures.every(l => l.viewed)
-                    };
-                    newModuleProgress.push(newModule);
+                        lectures: updatedLectures
+                    });
                 } else {
-                    // Add new module with default progress
+                    // Add new module without changing existing progress
                     newModuleProgress.push({
                         moduleId: courseModule._id,
-                        completed: false,
-                        lectures: courseModule.lectures.map(lecture => ({
-                            lectureId: lecture._id,
-                            viewed: false,
-                            dateViewed: null
+                        subModules: courseModule.subModules.map(subModule => ({
+                            subModuleId: subModule._id,
+                            completed: false, // Default for new modules
+                            lectures: subModule.lectures.map(lecture => ({
+                                lectureId: lecture._id,
+                                viewed: false,
+                                dateViewed: null
+                            }))
                         }))
                     });
                 }
             }
 
-            // Update the progress record
-            progress.moduleProgress = newModuleProgress;
-            progress.completed = newModuleProgress.every(mp => mp.completed);
+            // Preserve the previous progress without resetting
+            progress.moduleProgress = newModuleProgress.map(module => {
+                const existingModule = existingModulesMap.get(module.moduleId.toString());
+                return existingModule ? { ...module, completed: existingModule.completed } : module;
+            });
+
+            progress.completed = progress.moduleProgress.every(mp => mp.completed);
             await progress.save();
         }
 
@@ -175,6 +163,8 @@ const updateCourseById = async (req, res) => {
         });
     }
 };
+
+
 const deleteCourseById = async (req, res) => {
     try {
         const { id } = req.body;

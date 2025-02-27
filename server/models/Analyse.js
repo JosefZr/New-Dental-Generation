@@ -17,7 +17,7 @@ const analyseSchema = new mongoose.Schema({
     },
     Phone: {
         type: Number,
-        required: false
+        required: true
     },
     question: {
         type: String,

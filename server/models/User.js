@@ -98,7 +98,10 @@ const userSchema = new mongoose.Schema(
           type: mongoose.Schema.Types.ObjectId,
         }
       }
-    ]
+    ],
+    moreRole: [{
+      name: { type: String }
+    }]
   },
   {
     timestamps: true,

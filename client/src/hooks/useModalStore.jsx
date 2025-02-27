@@ -24,7 +24,9 @@ export const MODAL_TYPE = {
     ADD_MODAL:"addModal",
     LIMITATION_MODAL:"limitaionModal",
     IMAGES_MODAL:"imagesModal",
-    LEVEL_MODAL:"level_modal"
+    LEVEL_MODAL:"level_modal",
+    JOB_DETAILS:"jobDetails",
+    ADD_ROLE:"addRole"
   };
 
 export const useModal = create((set)=>({
