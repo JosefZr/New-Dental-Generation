@@ -64,8 +64,8 @@ export default function FinalSection({actor}) {
           <div className="container-large">
             <div className="padding-section-medium">
               <Increasing>
-                <div className="w-layout-vflex vflex-center-8 sm:flex-row gap-5 items-center">
-                    <TiWarningOutline className="h-14 w-14"/>
+                <div  className="text-center flex flex-col justify-center w-auto">
+                    <TiWarningOutline className="h-14 w-full"/>
                   <div className="hflex-center-16">
                     <H2>{t(`${actor}.increasing.title`)}</H2>
                   </div>

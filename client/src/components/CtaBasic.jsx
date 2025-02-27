@@ -77,8 +77,7 @@ const Cta = styled.div`
 `
 const IconImbedCustom = styled.div`
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  margin: 0 auto;
   width: 4rem;
   height: 3.125rem;
   display: flex;
