@@ -116,7 +116,7 @@ router.post("/forgot", async(req,res)=>{
       from: 'zeraibiredha@gmail.com',
       to:email,
       subject: 'reset your email',
-      text: `http://localhost:5173/#/reset-password/${token}`
+      text: `https://www.buildydn.com/#/reset-password/${token}`
     };
     
     transporter.sendMail(mailOptions, function(error, info){
