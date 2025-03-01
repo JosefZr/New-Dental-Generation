@@ -47,11 +47,11 @@ export default function App() {
             <Route path="dental-stuff" element={<DentalStuff/>}/>
             <Route path="quotes" element={<Quotes/>}/>
             <Route path="user-chat" element={<UserChat/>}/>
+            <Route path="users" element={<Users />}/>
             <Route path="analyse" element={<FreeAnalyses/>}/>
           </Route>
           
           <Route path="/profile/:id" element={<Profile />}/>
-          <Route path="/users" element={<Users />}/>
           <Route path="/channels" element={<Chat />}/>
           <Route path="/chat2/*" element={<Chat />} />
           <Route path="/chat3/*" element={<Chat />} />

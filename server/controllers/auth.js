@@ -62,6 +62,10 @@ export const userData = async (req, res)=>{
 export const signup = async (req, res) => {
   try {
     const { name, userData } = req.body;
+    console.log("------",userData)
+    if(!userData || !name){
+      return res.status(400).json({error:"Invalid Request"})
+    }
     const isAdminOrModerator = userData.role === 'admin' || userData.role === 'moderator';
 
     if (isAdminOrModerator) {

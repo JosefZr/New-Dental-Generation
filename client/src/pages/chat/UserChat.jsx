@@ -1,6 +1,5 @@
 import Devider from "@/components/chatComponents/Devider";
 import Message from "@/components/chatComponents/Message";
-import { FaArrowDown, FaHashtag } from "react-icons/fa6";
 import { useSocket } from "../../socketContext";
 import { Plus, X } from 'lucide-react'
 import { Input } from "@/components/ui/input"
@@ -14,13 +13,13 @@ import { IoIosSend } from "react-icons/io";
 
 export default function UserChat() {
 
-  const {clickedUser,setClickedUserId} = useUserToChatContext();
+  const {clickedUser} = useUserToChatContext();
 
   const [recipient, setRec] = useState("");
   const [msgToSend, setMessageToSend] = useState("");
   const [preventFetch, setPrevent] = useState(false);
 
-  const [page, setPage] = useState(1); // Track the current page
+  const [page] = useState(1); // Track the current page
   const [isFetching, setIsFetching] = useState(false); // Prevent duplicate fetches
 
   const socket = useSocket();

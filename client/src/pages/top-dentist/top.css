@@ -56,12 +56,12 @@
   }
   @media screen and (max-width: 991px) {
     .h1 {
-      font-size: 54px;
+      font-size: 54px !important;
     }
   }
   @media screen and (max-width: 479px) {
     .h1 {
-      font-size: 48px;
+      font-size: 42px !important;
     }
   }
   .w-button {

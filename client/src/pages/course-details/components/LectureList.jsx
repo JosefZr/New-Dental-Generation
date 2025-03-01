@@ -33,7 +33,7 @@ export default function LectureList() {
     searchDeatiledCourse,
     setFree,
   } = useContext(CoursesContext)
-
+  const [currentLecture, setCurrentLecture] = useState(null);
   const [showNextButton, setShowNextButton] = useState(false)
   const navigate = useNavigate()
   const params = useParams()
@@ -83,187 +83,126 @@ console.log(studentViewCourseDetails)
     }
     fetchData()
   }, [userInfo.userId, setFree])
+  // Add these new state variables at the top of your component
+const [showDescription, setShowDescription] = useState(false);
+const [nextLecture, setNextLecture] = useState(null);
 // Updated handleNextLecture to mark current lecture as viewed before moving to next
 const handleNextLecture = async () => {
+  // Handle description view first
+  if (showDescription && nextLecture) {
+    setCurrentLecture(nextLecture);
+    setShowDescription(false);
+    handleVideoSelect(nextLecture.videoUrl, nextLecture.title, 
+      diffDays < studentViewCourseDetails.level && !nextLecture?.freePreview);
+    return;
+  }
+
+  // Find current position
   let currentModuleIndex = -1;
   let currentLectureIndex = -1;
   let isInSubModule = false;
   let currentSubModuleIndex = -1;
-  let currentSubModule = null; // Declare currentSubModule here
+  let currentSubModule = null;
 
-  // Find current position
-  if (studentViewCourseDetails?.modules) {
-    studentViewCourseDetails.modules.forEach((module, modIdx) => {
-      // Check if lectures exists directly in the module
-      if (module.lectures && Array.isArray(module.lectures)) {
-        module.lectures.forEach((lecture, lectIdx) => {
-          if (lecture.title === selectedTitle) {
-            currentModuleIndex = modIdx;
-            currentLectureIndex = lectIdx;
-          }
-        });
-      }
-      
-      // Check if lectures are in subModules
-      if (module.subModules && Array.isArray(module.subModules)) {
-        module.subModules.forEach((subModule, subModIdx) => {
-          if (subModule.lectures && Array.isArray(subModule.lectures)) {
-            subModule.lectures.forEach((lecture, lectIdx) => {
-              if (lecture.title === selectedTitle) {
-                currentModuleIndex = modIdx;
-                currentSubModuleIndex = subModIdx;
-                currentLectureIndex = lectIdx;
-                isInSubModule = true;
-                currentSubModule = subModule; // Assign currentSubModule here
-              }
-            });
-          }
-        });
+  studentViewCourseDetails?.modules?.forEach((module, modIdx) => {
+    // Check direct lectures
+    module.lectures?.forEach((lecture, lectIdx) => {
+      if (lecture.title === selectedTitle) {
+        currentModuleIndex = modIdx;
+        currentLectureIndex = lectIdx;
       }
     });
-  }
+
+    // Check submodule lectures
+    module.subModules?.forEach((subModule, subModIdx) => {
+      subModule.lectures?.forEach((lecture, lectIdx) => {
+        if (lecture.title === selectedTitle) {
+          currentModuleIndex = modIdx;
+          currentSubModuleIndex = subModIdx;
+          currentLectureIndex = lectIdx;
+          isInSubModule = true;
+          currentSubModule = subModule;
+        }
+      });
+    });
+  });
 
   if (currentModuleIndex === -1 || currentLectureIndex === -1) return;
 
   const currentModule = studentViewCourseDetails.modules[currentModuleIndex];
   if (!currentModule) {
-    console.error("Current module not found in course structure");
-    toast.error("Course structure appears corrupted");
+    toast.error("Course structure error");
     return;
   }
 
-  let currentLecture;
-  let lectureExists = false;
-  
-  // Get the current lecture based on where it was found
-  if (isInSubModule) {
-    if (!currentSubModule || !currentSubModule.lectures) {
-      console.error("Current submodule or lectures not found");
-      toast.error("Course structure appears corrupted");
-      return;
-    }
-    currentLecture = currentSubModule.lectures[currentLectureIndex];
-    
-    // Verify the lecture exists in the course
-    lectureExists = currentSubModule.lectures.some(l => l._id === currentLecture._id);
-  } else {
-    if (!currentModule.lectures) {
-      console.error("Current module lectures not found");
-      toast.error("Course structure appears corrupted");
-      return;
-    }
-    currentLecture = currentModule.lectures[currentLectureIndex];
-    
-    // Verify the lecture exists in the course
-    lectureExists = currentModule.lectures.some(l => l._id === currentLecture._id);
-  }
-  
+  // Get current lecture
+  const currentLecture = isInSubModule
+    ? currentSubModule?.lectures?.[currentLectureIndex]
+    : currentModule?.lectures?.[currentLectureIndex];
+
   if (!currentLecture) {
-    console.error("Current lecture not found in course structure");
-    toast.error("Course structure appears corrupted");
+    toast.error("Lecture not found");
     return;
   }
-  
-  if (!lectureExists) {
-    console.error("Lecture not found in course modules", {
-      currentLectureId: currentLecture._id,
-      isInSubModule
-    });
-    toast.error("Invalid lecture structure");
-    return;
-  }
-  
-  // First mark current lecture as viewed
+
   try {
-    // Find the corresponding module in the progress data
+    // Mark lecture as viewed
     const moduleInProgress = findModuleInProgress(currentModule);
-    
     if (!moduleInProgress) {
-      console.error("Module not found in progress data", {
-        currentModuleId: currentModule._id,
-        progressModules: progress?.data?.moduleProgress?.map(m => m.moduleId)
-      });
-      toast.error("Could not update progress: Module mismatch");
+      toast.error("Progress tracking error");
       return;
     }
-    console.log(moduleInProgress)
-      // When calling setLectureAsViewed:
-      const response = await setLectureAsViewed(
-        userInfo.userId, 
-        params.id, 
-        moduleInProgress.moduleId,
-        currentSubModule._id,
-        currentLecture._id
-      );
-    
+
+    const response = await setLectureAsViewed(
+      userInfo.userId, 
+      params.id, 
+      moduleInProgress.moduleId,
+      isInSubModule ? currentSubModule._id : null,
+      currentLecture._id
+    );
+
     if (response.success) {
       toast.success("Lecture completed!");
       setProgress(response);
-      
-      // Navigate to next lecture based on the structure (subModule or direct)
+
+      // Find next lecture
+      let foundNextLecture = null;
+      const getFirstLecture = (module) => 
+        module.lectures?.[0] || module.subModules?.[0]?.lectures?.[0];
+
       if (isInSubModule) {
         if (currentLectureIndex < currentSubModule.lectures.length - 1) {
-          // Next lecture in same submodule
-          const nextLecture = currentSubModule.lectures[currentLectureIndex + 1];
-          handleVideoSelect(nextLecture.videoUrl, nextLecture.title, 
-            diffDays < studentViewCourseDetails.level && !nextLecture?.freePreview);
+          foundNextLecture = currentSubModule.lectures[currentLectureIndex + 1];
         } else if (currentSubModuleIndex < currentModule.subModules.length - 1) {
-          // First lecture in next submodule
-          const nextSubModule = currentModule.subModules[currentSubModuleIndex + 1];
-          if (nextSubModule.lectures && nextSubModule.lectures.length > 0) {
-            const nextLecture = nextSubModule.lectures[0];
-            handleVideoSelect(nextLecture.videoUrl, nextLecture.title,
-              diffDays < studentViewCourseDetails.level && !nextLecture?.freePreview);
-          }
-        } else if (currentModuleIndex < studentViewCourseDetails.modules.length - 1) {
-          // Move to next module
-          const nextModule = studentViewCourseDetails.modules[currentModuleIndex + 1];
-          if (nextModule.lectures && nextModule.lectures.length > 0) {
-            // If next module has direct lectures
-            const nextLecture = nextModule.lectures[0];
-            handleVideoSelect(nextLecture.videoUrl, nextLecture.title,
-              diffDays < studentViewCourseDetails.level && !nextLecture?.freePreview);
-          } else if (nextModule.subModules && nextModule.subModules.length > 0 && 
-                    nextModule.subModules[0].lectures && nextModule.subModules[0].lectures.length > 0) {
-            // If next module has lectures in submodules
-            const nextLecture = nextModule.subModules[0].lectures[0];
-            handleVideoSelect(nextLecture.videoUrl, nextLecture.title,
-              diffDays < studentViewCourseDetails.level && !nextLecture?.freePreview);
-          }
+          foundNextLecture = currentModule.subModules[currentSubModuleIndex + 1]?.lectures?.[0];
         } else {
-          // Course completed
-          toast.success("Course completed!");
-          navigate(-1);
+          foundNextLecture = getFirstLecture(studentViewCourseDetails.modules[currentModuleIndex + 1]);
         }
       } else {
-        // Direct module lectures navigation
         if (currentLectureIndex < currentModule.lectures.length - 1) {
-          // Next lecture in same module
-          const nextLecture = currentModule.lectures[currentLectureIndex + 1];
-          handleVideoSelect(nextLecture.videoUrl, nextLecture.title, 
-            diffDays < studentViewCourseDetails.level && !nextLecture?.freePreview);
-        } else if (currentModuleIndex < studentViewCourseDetails.modules.length - 1) {
-          // First lecture in next module
-          const nextModule = studentViewCourseDetails.modules[currentModuleIndex + 1];
-          if (nextModule.lectures && nextModule.lectures.length > 0) {
-            const nextLecture = nextModule.lectures[0];
-            handleVideoSelect(nextLecture.videoUrl, nextLecture.title,
-              diffDays < studentViewCourseDetails.level && !nextLecture?.freePreview);
-          } else if (nextModule.subModules && nextModule.subModules.length > 0 && 
-                    nextModule.subModules[0].lectures && nextModule.subModules[0].lectures.length > 0) {
-            const nextLecture = nextModule.subModules[0].lectures[0];
-            handleVideoSelect(nextLecture.videoUrl, nextLecture.title,
-              diffDays < studentViewCourseDetails.level && !nextLecture?.freePreview);
-          }
+          foundNextLecture = currentModule.lectures[currentLectureIndex + 1];
         } else {
-          // Course completed
-          toast.success("Course completed!");
-          navigate(-1);
+          foundNextLecture = getFirstLecture(studentViewCourseDetails.modules[currentModuleIndex + 1]);
         }
+      }
+
+      if (!foundNextLecture) {
+        toast.success("Course completed!");
+        navigate(-1);
+        return;
+      }
+
+      // Show description if current lecture has one
+      if (currentLecture.description) {
+        setNextLecture(foundNextLecture);
+        setShowDescription(true);
+      } else {
+        handleVideoSelect(foundNextLecture.videoUrl, foundNextLecture.title,
+          diffDays < studentViewCourseDetails.level && !foundNextLecture?.freePreview);
       }
     }
   } catch (error) {
-    console.error("Error updating lecture progress:", error);
+    console.error("Progress update failed:", error);
     toast.error("Failed to update progress");
   }
 };
@@ -316,45 +255,42 @@ const handleLectureSelection = (modIndex, lectIndex, lecture) => {
 
 // Updated handleVideoSelect to work with modules
 const handleVideoSelect = (videoUrl, title, isLocked) => {
-
-  // Find lecture in modules
-  let currentLecture;
- // Check if modules exist before iterating
-    if (studentViewCourseDetails?.modules) {
-      studentViewCourseDetails.modules.forEach(module => {
-        // Safely access lectures with optional chaining
-        if (module.lectures && Array.isArray(module.lectures)) {
-          const lecture = module.lectures.find(lect => lect.title === title);
-          if (lecture) currentLecture = lecture;
-    }
-    // If lectures are nested in subModules, check there too
-    if (module.subModules && Array.isArray(module.subModules)) {
-      module.subModules.forEach(subModule => {
-        if (subModule.lectures && Array.isArray(subModule.lectures)) {
-          const lecture = subModule.lectures.find(lect => lect.title === title);
-          if (lecture) currentLecture = lecture;
-        }
-      });
-    }
+  let foundLecture = null;
+  
+  studentViewCourseDetails?.modules?.forEach(module => {
+    // Check direct lectures
+    module.lectures?.forEach(lecture => {
+      if (lecture.title === title) foundLecture = lecture;
     });
-    }
+    
+    // Check submodule lectures
+    module.subModules?.forEach(subModule => {
+      subModule.lectures?.forEach(lecture => {
+        if (lecture.title === title) foundLecture = lecture;
+      });
+    });
+  });
 
+  setCurrentLecture(foundLecture);
+
+  // Rest of your existing code
   if (isLocked) {
     onOpen(MODAL_TYPE.LEVEL_MODAL);
     return;
   }
 
-  if (currentLecture?.freePreview) {
+  if (foundLecture?.freePreview) {
     setSelectedVideo(videoUrl);
     setSelectedTitle(title);
     setVideoProgress(0);
     return;
   }
 
-  if(status==="off"){
-    onOpen(MODAL_TYPE.LIMITATION_MODAL)
-    return
+  if(status === "off") {
+    onOpen(MODAL_TYPE.LIMITATION_MODAL);
+    return;
   }
+  
   setSelectedVideo(videoUrl);
   setSelectedTitle(title);
   setVideoProgress(0);
@@ -386,7 +322,6 @@ const isLastLecture = () => {
   return selectedTitle === lastLecture.title;
 };
 
-
 // Add this helper function to get lecture progress
 const getLectureProgress = (lectureId) => {
   if (!progress?.data?.moduleProgress) return null;
@@ -408,8 +343,6 @@ const handleProgress = (progress) => {
 }
 
 if (loading) return <LoadingSpinner />
-// Add these helper functions
-// Updated calculateModuleProgress function
 const calculateModuleProgress = (module) => {
   if (!progress?.data?.moduleProgress) return 0;
   
@@ -433,55 +366,75 @@ const calculateModuleProgress = (module) => {
 
   return totalLectures > 0 ? Math.round((viewedLectures / totalLectures) * 100) : 0;
 };
-
-
-
-
-
 return (
   <div className="flex flex-col md:flex-row h-[100dvh] bg-[#0A1720]">
     {/* Main Content - Video Player */}
     <div className="flex-1 flex flex-col min-h-[50dvh] md:h-full overflow-hidden">
-      <div className="relative flex-1 w-full">
-        {selectedVideo ? (
-          <div className="absolute inset-0 flex flex-col">
-            <div className="relative w-full h-full bg-black">
-              <ReactPlayer
-                url={selectedVideo}
-                controls
-                width="100%"
-                height="100%"
-                className="absolute top-0 left-0"
-                onProgress={handleProgress}
-              />
-            </div>
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-4 bg-[#0A1720] gap-4">
-              <h2 className="text-lg md:text-xl font-semibold text-white truncate max-w-full md:max-w-[60%]">
-                {selectedTitle}
-              </h2>
-              <button
-                onClick={
-                    handleNextLecture
-                  }
-                
-                disabled={!showNextButton}
-                className={`w-full md:w-auto px-4 md:px-6 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  showNextButton
-                    ? "bg-[#F7B955] hover:bg-[#F7B955]/90 text-black"
-                    : "bg-gray-700/50 text-gray-400 cursor-not-allowed"
-                }`}
-              >
-                {isLastLecture() ? "End Course" : "Next Lecture"}
-              </button>
-            </div>
+    <div className="relative flex-1 w-full">
+    {showDescription ? (
+  <div className="absolute inset-0 flex flex-col bg-black p-6 text-white overflow-y-auto">
+    <h2 className="text-2xl font-bold mb-4">
+      {currentLecture?.title || 'Lecture'} Description
+    </h2>
+    <pre className="whitespace-pre-wrap font-sans text-gray-300">
+      {currentLecture?.description || "No description available"}
+    </pre>
+    <button
+              onClick={handleNextLecture}
+              disabled={!showNextButton}
+              className={`w-full md:w-auto px-4 md:px-6 py-2 rounded-lg text-sm font-medium transition-colors ${
+                showNextButton
+                  ? "bg-[#F7B955] hover:bg-[#F7B955]/90 text-black"
+                  : "bg-gray-700/50 text-gray-400 cursor-not-allowed"
+              }`}
+            >
+              {showDescription 
+                ? "Continue to Next Lecture"
+                : isLastLecture() 
+                  ? "End Course" 
+                  : "Next Lecture"}
+            </button>
+  </div>
+) : selectedVideo ? (
+        <div className="absolute inset-0 flex flex-col">
+          <div className="relative w-full h-full bg-black">
+            <ReactPlayer
+              url={selectedVideo}
+              controls
+              width="100%"
+              height="100%"
+              className="absolute top-0 left-0"
+              onProgress={handleProgress}
+            />
           </div>
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-            Select a video to watch
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between p-4 bg-[#0A1720] gap-4">
+            <h2 className="text-lg md:text-xl font-semibold text-white truncate max-w-full md:max-w-[60%]">
+              {selectedTitle}
+            </h2>
+            <button
+              onClick={handleNextLecture}
+              disabled={!showNextButton}
+              className={`w-full md:w-auto px-4 md:px-6 py-2 rounded-lg text-sm font-medium transition-colors ${
+                showNextButton
+                  ? "bg-[#F7B955] hover:bg-[#F7B955]/90 text-black"
+                  : "bg-gray-700/50 text-gray-400 cursor-not-allowed"
+              }`}
+            >
+              {showDescription 
+                ? "Continue to Next Lecture"
+                : isLastLecture() 
+                  ? "End Course" 
+                  : "Next Lecture"}
+            </button>
           </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center text-gray-400">
+          Select a video to watch
+        </div>
+      )}
     </div>
+  </div>
 
    {/* Updated Sidebar with Modules */}
   {/* Updated Sidebar with Modules → Submodules → Lectures */}
@@ -573,7 +526,9 @@ return (
                             </div>
                           )}
                           </div>
-                          <span className="flex-1 text-sm truncate">{lecture.title}</span>
+                          <span className="flex-1 text-sm truncate flex flex-col">{lecture.title}
+                          {lecture.descriptionTitle && <span className="flex-1 text-sm truncate text-white font-semibold">{lecture.descriptionTitle}</span>}
+                          </span>
                           <ChevronRight className="h-6 w-6 text-white" />
                         </div>
                       </button>

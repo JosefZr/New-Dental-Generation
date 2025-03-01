@@ -17,20 +17,55 @@ import { LoadingSpinner } from "../LoadingSpinner";
 import toast from "react-hot-toast";
 import { GiFlatPawPrint } from "react-icons/gi";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
+import { useUserToChatContext } from "@/context/ToChatUser";
+import { useGetAdmin } from "@/hooks/user/useGetAdmin";
 
 
 export default function NavigationSidebar() {
   const userInfo = useAuthUser();
   const { user, setUser } = useContext(UserContext);
+    const { setClickedUserId } = useUserToChatContext();
+
   const { data: Settings, isLoading: isLoadingSettings } = useGetSettings({ userId: userInfo.userId });
   const { onOpen } = useModal();
   const navigate = useNavigate();
+  const handleAssistance = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/v1/auth/getAdmin`, {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
   
+      if (!response.ok) {
+        throw new Error('Failed to fetch admin');
+      }
+  
+      const data = await response.json();
+      
+      if (!data.data) {
+        toast.error('Admin user not found');
+        return;
+      }
+  
+      setClickedUserId({
+        userId: data.data._id,
+        username: `${data.data.firstName} ${data.data.lastName}`,
+      });
+      navigate("/dashboard/user-chat");
+      
+    } catch (error) {
+      console.error('Error fetching admin:', error);
+      toast.error('Failed to connect to support');
+    }
+  };
   // State to store the install prompt
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isInstallable, setIsInstallable] = useState(false);
 
-  const servers = [{
+  const servers = [
+    {
       id: "channels",
       imageUrl: <GiEarthAfricaEurope className="object-cover w-full h-full" />,
     },
@@ -133,7 +168,40 @@ export default function NavigationSidebar() {
       toast.error('Failed to install application');
     }
   };
+// Update the useEffect for installation handling
+useEffect(() => {
+  const handleBeforeInstallPrompt = (e) => {
+    e.preventDefault();
+    setDeferredPrompt(e);
+    setIsInstallable(true);
+  };
 
+  const handleAppInstalled = () => {
+    setIsInstallable(false);
+  };
+
+  const checkInstallation = () => {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const isInstalled = navigator.standalone || isStandalone;
+    setIsInstallable(!isInstalled && !!deferredPrompt);
+  };
+
+  // Add event listeners
+  window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+  window.addEventListener('appinstalled', handleAppInstalled);
+  
+  // Check installation status periodically
+  const interval = setInterval(checkInstallation, 1000);
+  
+  // Initial check
+  checkInstallation();
+
+  return () => {
+    window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.removeEventListener('appinstalled', handleAppInstalled);
+    clearInterval(interval);
+  };
+}, [deferredPrompt]);
   return (
     <div className="space-y-4 flex flex-col items-center h-full text-my-white-gray w-full py-6">
       <TooltipProvider delayDuration={0}>
@@ -155,7 +223,7 @@ export default function NavigationSidebar() {
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="bg-gray-700 rounded-full h-[50px] p-2 border-[1px] border-my-gold cursor-pointer">
+            <div className="bg-gray-700 rounded-full h-[50px] p-2 border-[1px] border-my-gold cursor-pointer" onClick={handleAssistance}>
               <GiFlatPawPrint className="object-cover w-[100%] h-[100%] items-center text-center mx-auto" />
             </div>
           </TooltipTrigger>
@@ -201,23 +269,23 @@ export default function NavigationSidebar() {
 
       <div className="pb-3 mt-auto flex flex-col items-center gap-4">
         <Separator className="h-[2px] bg-zinc-700 rounded-md w-10 mx-auto" />
-        {isInstallable && (
-          <TooltipProvider delayDuration={0}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div className="cursor-pointer group relative">
-                  <FaDownload 
-                    className="w-[24px] h-[24px] text-zinc-400 group-hover:text-zinc-200 transition"
-                    onClick={handleInstallClick}
-                  />
-                </div>
-              </TooltipTrigger>
-              <TooltipContent side="right">
-                Install Application
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        )}
+{isInstallable && (
+  <TooltipProvider delayDuration={0}>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <div className="cursor-pointer group relative">
+          <FaDownload 
+            className="w-[24px] h-[24px] text-zinc-400 group-hover:text-zinc-200 transition"
+            onClick={handleInstallClick}
+          />
+        </div>
+      </TooltipTrigger>
+      <TooltipContent side="right">
+        Install Application
+      </TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
+)}
       </div>
     </div>
   );

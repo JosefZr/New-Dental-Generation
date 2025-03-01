@@ -31,10 +31,11 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
 
  // Function to check if the current user can send messages
  const canSendMessages = () => {
+  console.log(owner)
   const userRole = userInfo.role;
-  const userRegion = userInfo.region;
+  const userRegion = userInfo.region?.toLowerCase(); // Case-insensitive
   // Allow everyone if allowedUsers is "all"
-  if (owner?.allowedUsers === "all") {
+  if (owner?.type === "journey") {
     return true;
   }
   // Admin and Moderator override: allow access to all channels
@@ -318,6 +319,7 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
     };
   }, [messages]);
   const getAccessDeniedMessage = () => {
+
       // Allow admins and moderators to send messages in all channels
     if (["admin", "moderator"].includes(userInfo.role)) {
       return null; // No access denied message for admins and moderators

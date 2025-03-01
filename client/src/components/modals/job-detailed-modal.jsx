@@ -22,18 +22,20 @@ const formatCurrency = (value) => {
 
 // Utility function to format phone number
 const formatPhoneNumber = (phoneNumber) => {
-  if (!phoneNumber) return ""
-
+// Handle null/undefined and non-string values
+  if (!phoneNumber) return "Not provided"
   // Remove all non-numeric characters
-  const cleaned = phoneNumber.replace(/\D/g, "")
+  const phoneString = String(phoneNumber)
 
-  // Format as (XXX) XXX-XXXX if it's a 10-digit US number
-  if (cleaned.length === 10) {
-    return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`
-  }
+  const cleaned = phoneString.replace(/\D/g, "")
 
-  // Otherwise return as is
-  return phoneNumber
+ // Format as (XXX) XXX-XXXX if it's a 10-digit US number
+ if (cleaned.length === 10) {
+  return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`
+}
+
+// Return original if it doesn't match expected format
+return phoneString
 }
 
 export default function JobDetailedModal() {

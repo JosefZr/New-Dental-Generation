@@ -35,7 +35,7 @@ const Input = styled.input`
     }
 `
 
-export default function PersonalInformationFormAdmins({formData,handleInputChange, handleProfessionChange,handleRegionChange}) {
+export default function PersonalInformationFormAdmins({formData,handleInputChange, handleProfessionChange,handleRegionChange,handleDurationChange}) {
     return (
         <div className="flex flex-col">
         <div className='lg:mx-0 lg:text-lg flex mx-auto text-[#B7B7B7]'>
@@ -111,6 +111,9 @@ export default function PersonalInformationFormAdmins({formData,handleInputChang
                 <SelectLabel>regions</SelectLabel>
                 <SelectItem value="algeria">Algeria</SelectItem>
                 <SelectItem value="russia">Russia</SelectItem>
+                <SelectItem value="egypt">Egypt</SelectItem>
+                <SelectItem value="europe">Europe</SelectItem>
+                <SelectItem value="autre">Somewhere in the world</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -133,9 +136,33 @@ export default function PersonalInformationFormAdmins({formData,handleInputChang
                 <SelectLabel>Role</SelectLabel>
                 <SelectItem value="admin">Admin</SelectItem>
                 <SelectItem value="moderator">moderator</SelectItem>
+                <SelectItem value="dentist">Dentist</SelectItem>
+                <SelectItem value="store">Dental Store</SelectItem>
+                <SelectItem value="lab">Dental Lab</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
+<Label htmlFor="subscriptionPlan">Subscription Plan</Label>
+<Select
+  id="subscriptionPlan"
+  name="subscriptionPlan"
+  value={formData.subscriptionPlan}
+  onValueChange={handleDurationChange}
+>
+  <SelectTrigger className="w-full bg-black h-12 border-gray-500">
+    <SelectValue placeholder="Select Subscription Plan" />
+  </SelectTrigger>
+  <SelectContent className="bg-black text-my-white">
+    <SelectGroup>
+      <SelectLabel>Admin Plans</SelectLabel>
+      <SelectItem value="monthly">1 Month</SelectItem>
+      <SelectItem value="quarterly">4 Months</SelectItem>
+      <SelectItem value="yearly">1 Year</SelectItem>
+      <SelectItem value="decade">10 Years</SelectItem>
+      <SelectItem value="century">Lifetime (100 Years)</SelectItem>
+    </SelectGroup>
+  </SelectContent>
+</Select>
         </div>
       </div>
     )

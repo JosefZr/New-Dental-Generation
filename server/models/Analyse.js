@@ -15,7 +15,7 @@ const analyseSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    Phone: {
+    phone: {
         type: Number,
         required: true
     },

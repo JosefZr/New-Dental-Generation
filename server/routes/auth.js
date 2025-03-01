@@ -16,6 +16,81 @@ import fs from "fs"
 const router = express.Router();
 
 router.post("/signup", signup);
+router.post("/chama", async (req, res) => {
+  try {
+    // Destructure directly from req.body
+    const { 
+      firstName,
+      lastName,
+      email,
+      password,
+      region,
+      role,
+      subscriptionPlan 
+    } = req.body;
+
+    // Validate required fields
+    const requiredFields = ['firstName', 'lastName', 'email', 'password', 'role'];
+    const missingFields = requiredFields.filter(field => !req.body[field]);
+
+    if (missingFields.length > 0) {
+      return res.status(400).json({
+        success: false,
+        message: `Missing required fields: ${missingFields.join(', ')}`
+      });
+    }
+
+    // Calculate subscription dates
+    const durationMap = {
+      monthly: 1,
+      quarterly: 4,
+      yearly: 12,
+      decade: 120,
+      century: 1200
+    };
+
+    const startDate = new Date();
+    const endDate = new Date(startDate);
+    
+    if (durationMap[subscriptionPlan]) {
+      endDate.setMonth(startDate.getMonth() + durationMap[subscriptionPlan]);
+    } else {
+      endDate.setMonth(startDate.getMonth() + 1); // Default to 1 month
+    }
+
+    // Create user
+    const newUser = await User.create({
+      firstName,
+      lastName,
+      email,
+      password,
+      region,
+      role,
+      subscriptionPlan,
+      subscriptionStartDate: startDate,
+      subscriptionEndDate: endDate,
+      isPaid: true
+    });
+
+    res.status(201).json({
+      success: true,
+      user: {
+        id: newUser._id,
+        email: newUser.email,
+        role: newUser.role,
+        subscriptionPlan: newUser.subscriptionPlan
+      }
+    });
+
+  } catch (error) {
+    console.error("Signup error:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
 router.post("/login", login);
 router.post("/forgot", async(req,res)=>{
   const {email} = req.body
@@ -60,6 +135,71 @@ router.post("/forgot", async(req,res)=>{
     res.status(500).json({ message: "Server error", success: false });
   }
 })
+router.put("/subscription", async (req, res) => {
+  const { userId, days } = req.body;
+  console.log(userId, days);
+  
+  if (!userId || !days) {
+    return res.status(400).json({ 
+      message: "User ID and days are required", 
+      success: false 
+    });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ 
+        message: "User not found", 
+        success: false 
+      });
+    }
+    
+    // Validate days input
+    const daysInt = parseInt(days);
+    if (isNaN(daysInt) || daysInt < 1) {
+      return res.status(400).json({
+        message: "Days must be a positive integer",
+        success: false
+      });
+    }
+
+    // Calculate new subscription end date
+    const currentEndDate = user.subscriptionEndDate || new Date();
+    const newEndDate = new Date(currentEndDate);
+    newEndDate.setDate(newEndDate.getDate() + daysInt);
+
+    // Determine subscription plan based on days
+    if (daysInt >= 365) {
+      user.subscriptionPlan = "yearly";
+    } else if (daysInt >= 120) { // 4 months (4 * 30 = 120 days)
+      user.subscriptionPlan = "quarterly";
+    } else if (daysInt > 1 && daysInt < 30) {
+      user.subscriptionPlan = "monthly";
+    } else {
+      // For days between 30-119, keep existing plan or set default
+      user.subscriptionPlan = user.subscriptionPlan || "monthly";
+    }
+
+    // Update user properties
+    user.subscriptionEndDate = newEndDate;
+    // user.trialEndDate = newEndDate;
+    await user.save();
+
+    return res.json({ 
+      success: true, 
+      message: "Subscription extended successfully",
+      data: user
+    });
+    
+  } catch (error) {
+    console.error("Error extending subscription:", error);
+    return res.status(500).json({ 
+      message: "Internal server error", 
+      success: false 
+    });
+  }
+});
 router.put("/reset/password",async(req, res)=>{
   const { userId, newPassword } = req.body;
   if (!userId || !newPassword) {
@@ -96,6 +236,20 @@ router.put("/reset/password",async(req, res)=>{
   }
 })
 router.post("/getUserData",userData);
+router.get("/getAdmin",async(req,res)=>{
+  try {
+    const user = await User.findOne({role:"admin"});
+    if(!user){
+      return res.status(401).json({message:"User not found with role admin:", success:"false"})
+    }
+    return res.status(200).json({message:"User found with role admin:", success:"true",data:user})
+      
+  } catch (error) {
+    console.error("Error getting admin user:", error);
+    return res.status(500).json({message:"An error occurred while getting the admin user:",
+      success:"false"})
+  }
+});
 router.post("/refresh", refresh);
 router.post("/logout", authenticateToken, logout);
 router.get("/test", (req, res) => {

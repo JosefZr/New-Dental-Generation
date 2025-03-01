@@ -178,8 +178,9 @@ const nextProgress = progress.find(stage =>
 // Calculate days remaining until next stage
 const daysRemaining = Math.max(0, currentProgress.maxDays - diffDays);
 
-// Helper function to determine rank based on days
+// Helper function to determine rank
 const getRank = (days) => {
+    if (user.role === 'admin') return "Diamond King"; // Admins always have highest rank
     if (days <= 180) return "Silver";
     if (days <= 330) return "Gold";
     if (days <= 450) return "Platinum";
@@ -240,7 +241,11 @@ const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.comp
                     <Tooltip>
                         <TooltipTrigger asChild> 
                         <div className="absolute text-my-gold  text-[35px] w-[35px] h-[35px] left-[70px]" style={{bottom:"-2px"}}>
-                            {currentProgress.logo}
+                        {user.role==="admin" ?(
+                            <LiaChessKingSolid style={{color:"rgb(185, 242, 255)"}}/>
+                        ):(
+                            nextProgress.logo
+                        )}
                         </div>
                         </TooltipTrigger>
                         <TooltipContent>
@@ -323,27 +328,33 @@ const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.comp
         <div className="flex-1 ">
             <div className="flex w-full items-center justify-center text-center transition-opacity duration-500 ease-linear opacity-1">
             <div className=" text-my-gold  text-[30px] w-[30px] h-[30px] " >
-                {nextProgress.logo}
+                {user.role==="admin" ?(
+                    <LiaChessKingSolid style={{color:"rgb(185, 242, 255)"}}/>
+                ):(
+                    nextProgress.logo
+                )}
             </div>
             <div>
-                <span className="">
-                {getRank(diffDays)}{' '}
-                    {diffDays <= 540 ? 
-                        `${nextProgress.name} in ${daysRemaining} days` : 
-                        'Diamond King'}
-                </span>
+                {user.role==="admin" ? (
+                    <span  style={{color:"rgb(185, 242, 255)"}}>Diamond King</span>
+                ):(<span >
+                    {getRank(diffDays)}{' '}
+                        {diffDays <= 540 ? 
+                            `${nextProgress.name} in ${daysRemaining} days` : 
+                            'Diamond King'}
+                    </span>)}
             </div>
             </div>
             <div className="relative flex-shrink-0 rounded-md bg-gray-600 w-full" style={{height:"5px"}}>
             <div className="absolute top-0 left-0 h-full origin-left rounded-md bg-my-gold transition-transform duration-500 ease-linear" 
-                style={{width:`${percentage}%`}}
+                style={{width:`${user.role ==="admin" ?100  : percentage}%`}}
             ></div>
             <div className="absolute top-0 left-0 rounded-full bg-my-gold transition-transform duration-500 ease-linear will-change-transform" 
                 style={{
                     width: "8px",
                     height: "8px" ,
                     top: "-1.5px", 
-                    left:`${percentage}%`}}></div>
+                    left:`${user.role ==="admin" ?100  : percentage}%`}}></div>
             </div>
         </div>
         {/* <div className="flex items-center gap-1 rounded-md bg-top px-[6px] py-1 font-bold text-primary text-sm cursor-pointer mt-[15px] bg-my-dark-blue">

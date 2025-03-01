@@ -13,9 +13,10 @@ import { Badge } from "@/components/ui/badge";
 import { getUsers } from "@/services";
 import { UserContext } from "@/context/UserContext";
 import toast from "react-hot-toast";
-import { Delete, Edit, Eye } from "lucide-react";
+import { CalendarDays, Delete, Edit, Eye } from "lucide-react";
 import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 import { Pagination } from "@/components/Pagination";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 export default function Users() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,7 +27,11 @@ export default function Users() {
   const { users, setUsers } = useContext(UserContext);
   const { setUser } = useContext(UserContext);
   const { onOpen } = useModal();
+  const { setIsDashboardSidebarOpen } = useContext(UserContext)
 
+  const toggleSidebar = () => {
+    setIsDashboardSidebarOpen((prev) => !prev)
+  }
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -37,7 +42,7 @@ export default function Users() {
       const response = await getUsers();
       if (response?.success && Array.isArray(response.data)) {
         setUsers(response.data); // Ensure data is an array
-        toast.success(response.message);
+        // toast.success(response.message);
       } else {
         toast.error(response.message || "Invalid data format.");
       }
@@ -91,25 +96,33 @@ const filteredUsers = useMemo(() => {
   if (isLoading)
     return <div className="w-full h-[100vh] flex justify-center items-center">Loading...</div>;
 
+  console.log(users)
   return (
     <>
-      <div className="flex items-center justify-between mb-6 pt-10 px-10">
-        <h1 className="text-2xl font-bold text-white">Users & Profession</h1>
-        <div className="flex items-center gap-4">
-          <div className="relative">
+    <button
+                className=" top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
+                onClick={toggleSidebar}
+              >
+                <GiHamburgerMenu className="text-2xl text-white" />
+              </button>
+      <div className="flex items-center justify-between max-sm:flex-col mb-6 pt-10 px-10">
+        
+        <h1 className="text-2xl font-bold text-white mb-2 uppercase ">Users & Profession</h1>
+        <div className="flex items-center gap-4 max-sm:flex-col max-sm:w-full">
+          <div className="relative w-full">
             <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
               type="text"
               placeholder="Search users..."
               value={searchQuery}
               onChange={handleSearch}
-              className="pl-10 pr-4 py-2 rounded-md border border-input bg-background focus:border-primary focus:ring-1 focus:ring-primary focus:text-my-black"
+              className="pl-10 pr-4 py-2  w-full fle rounded-md border border-input bg-background focus:border-primary focus:ring-1 focus:ring-primary focus:text-my-black"
             />
           </div>
           {/* Status Filter Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="flex items-center gap-2 text-my-black">
+              <Button variant="outline" className="flex items-center gap-2 text-my-black w-full">
                 <FilterIcon className="w-5 h-5" />
                 <span>Filter by status</span>
               </Button>
@@ -138,7 +151,7 @@ const filteredUsers = useMemo(() => {
           {/* Role Filter Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="flex items-center gap-2 text-my-black">
+              <Button variant="outline" className="flex items-center gap-2 text-my-black w-full">
                 <FilterIcon className="w-5 h-5" />
                 <span>Filter by role</span>
               </Button>
@@ -223,6 +236,16 @@ const filteredUsers = useMemo(() => {
                   </Button>
                     ):""
                   }
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => {
+                      setUser(user);
+                      onOpen(MODAL_TYPE.EXTEND_SUBSCRIPTION);
+                    }}
+                  >
+                    <CalendarDays className="w-5 h-5 text-blue-500" />
+                  </Button>
                 </td>
               </tr>
             ))}

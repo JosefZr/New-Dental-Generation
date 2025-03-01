@@ -32,9 +32,12 @@ export const makePayment = async (req, res, next) => {
 
   try {
     const { plan_name, userData } = req.body;
+    if(!userData){
+      throw new ApiError("User data is required", 400);
+    }
     const plan = plans.find((p) => p.name === plan_name);
 
-    console.log(userData);
+    console.log("data from chackeout",userData);
     //call the service to create the user
     const user = await createUser({
       firstName: userData.firstName,

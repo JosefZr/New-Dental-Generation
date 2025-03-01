@@ -78,7 +78,7 @@ export default function FreeAnalyses() {
         </div>
 
         <div className="overflow-x-hidden shadow-md rounded-lg mx-2 my-4">
-          <table className="w-full table-auto">
+          <table className="w-full max-w-2xl mx-auto table-auto">
             <thead className="bg-gray-800 text-white">
               <tr>
                 <th className="px-4 py-2 text-left text-xs font-medium text-white uppercase tracking-wider">Name</th>

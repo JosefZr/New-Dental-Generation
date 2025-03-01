@@ -1,7 +1,7 @@
 {
     "id": "/",
-    "start_url": "/",
-    "scope": "/",
+    "start_url": "/#/channels",
+    "scope": "/channels",
     "name": "Build Your Dental Network",
     "short_name": "buildydn",
     "display": "standalone",
@@ -11,7 +11,7 @@
     "gcm_sender_id": "103953800507",
     "icons": [
         {
-            "src": "/maskable_icon_x512.png",
+            "src": "/bg-black-logo.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable any"

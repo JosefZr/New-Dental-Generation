@@ -1,69 +1,11 @@
-// import { Link } from "react-router-dom";
-import { FaCheckCircle } from "react-icons/fa";
 import { useState } from "react";
-
 import {
   LeftSignup,
-  PersonalInformationForm,
-  // SelectPaymentMethod,
 } from "@/components/signup";
-import PaymentCardV1 from "@/components/signup/paymentCard-v1";
 import PersonalInformationFormAdmins from "@/components/signup/PersonalInformationFormAdmins";
-// import { loadStripe } from "@stripe/stripe-js";
-// import axios from "axios";
 
-export const getCardData = () => {
-  
-  const transformDescriptionToTable = (description) => {
-    // Split the description by '.' and filter out any empty strings
-    return description
-      .split(".")
-      .map((item) => item.trim())
-      .filter((item) => item.length > 0);
-  };
-  return [
-    {
-      name: "Cadet",
-      amount: 14.5,
-      monthType: "cadet",
-      monthButton: "",
-      monthTitle: "A first step towards breaking free",
-      month: transformDescriptionToTable(
-        "Access to all TRW Campuses. Daily live broadcasts. Daily course updates."
-      ),
-    },
-    {
-      name: "Challenger",
-      amount: 55,
-      threeMonthsType: "challenger",
-      threeMonthsButton: "Most Popular",
-      threeMonthsTitle: "Three months to harness your power.",
-      threeMonths: transformDescriptionToTable(
-        "All of Cadet. Daily coin bonus. Power level boost"
-      ),
-    },
-    {
-      name: "Hero",
-      amount: 150,
-      yearType: "hero",
-      yearButton: "save €24",
-      yearTitle: "One year of complete commitment",
-      year: transformDescriptionToTable(
-        "Maximum daily coin bonus. Big power level boost. Exclusive chats and lessons."
-      ),
-    },
-    {
-      name:"freeDentist",
-      dentistFreeTrial: "6 days free trial",
-    },
-    {
-      name:"freeLab",
-      storeLabFreeTrial: "40 days free trial",
-    },
-  ];
-};
+
 export default function SignupAdmins() {
-  const data = getCardData();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -71,11 +13,8 @@ export default function SignupAdmins() {
     password: "",
     region:"",
     role: "",
+    subscriptionPlan :""
   });
-
-  // const stripePromise = loadStripe(
-  //   "pk_test_51Q6FSwRsgnrIRIXHVv98PFAvJYYVK9gElLXl8fV16Xquu3PHduekcmJ182SsDLAcgNRjOSKzxAJmTZQO8nUpo720001usG5YNY"
-  // );
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -97,40 +36,40 @@ export default function SignupAdmins() {
       region: value,
     }));
   };
-
+  const handleDurationChange = (value)=>{
+    setFormData((prev) => ({
+      ...prev,
+      subscriptionPlan : value,
+    }))
+  }
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent page reload
-
-    // const stripe = await stripePromise;
-    // const res = await axios.post("/checkout", {});
-    if (!formData.file) return;
-    try {
-      // After setting the URL, call fetchUserData with the updated formData
-      await fetchUserData(formData);
-      console.log("Form Data:", formData);
-    } catch (error) {
-      console.error("Error uploading image to Cloudinary:", error);
-    }
+    console.log(formData)
+    // if (!formData.file) return;
+      fetchUserData(formData);
   };
   const fetchUserData = async (formData) => {
     try {
-      const response = await fetch("http://localhost:3000/api/v1/auth/signup", {
+      const response = await fetch("http://localhost:3000/api/v1/auth/chama", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
-
+  
+      const data = await response.json();
+      
       if (!response.ok) {
-        const errorText = await response.text(); // Retrieve error message from server
-        throw new Error(`Failed to fetch user data: ${errorText}`);
+        throw new Error(data.message || "Registration failed");
       }
-
-      return await response.json();
+  
+      console.log("Registration successful:", data);
+      return data;
+  
     } catch (error) {
-      console.error("Error in fetchUserData:", error.message);
+      console.error("Registration error:", error);
       throw error;
     }
   };
@@ -185,20 +124,16 @@ export default function SignupAdmins() {
                 handleInputChange={handleInputChange}
                 handleProfessionChange={handleProfessionChange}
                 handleRegionChange={handleRegionChange}
+                handleDurationChange={handleDurationChange}
             />
-            <div>
-                <div className="section-title lg:mx-0 lg:text-lg flex mx-auto text-[#B7B7B7] justify-center lg:justify-start">
-                <FaCheckCircle />
-                <p className="ml-[9px] font-black">SELECT PLAN</p>
-                </div>
-                <PaymentCardV1
-                isModal={false}
-                cardData={data}
-                role={formData.role}
-                userData={formData}
-                />
+            <div className="flex items-center w-full mt-8 justify-center">
+              <button
+                className="px-12 py-4 w-[250px] bg-white hover:scale-105 transition ease-in-out text-black font-bold"
+                type="submit"
+              >
+                Complete Registration
+              </button>
             </div>
-            
             </form>
 
         </main>

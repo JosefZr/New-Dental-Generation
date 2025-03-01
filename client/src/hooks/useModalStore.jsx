@@ -26,7 +26,8 @@ export const MODAL_TYPE = {
     IMAGES_MODAL:"imagesModal",
     LEVEL_MODAL:"level_modal",
     JOB_DETAILS:"jobDetails",
-    ADD_ROLE:"addRole"
+    ADD_ROLE:"addRole",
+    EXTEND_SUBSCRIPTION:"extendSubscription"
   };
 
 export const useModal = create((set)=>({

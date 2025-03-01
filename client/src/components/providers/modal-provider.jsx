@@ -22,6 +22,7 @@ import ImagesModal from "../modals/images-modal";
 import LevelModal from "../modals/level-modal";
 import JobDetailedModal from "../modals/job-detailed-modal";
 import AddRoleModal from "../modals/add-role-modal";
+import ExtendSubscription from "../modals/extend-subscription-modal";
 // import PreviewModal from "../modals/preview-modal";
 
 export const ModalProvider = ({ children })=>{
@@ -60,6 +61,7 @@ export const ModalProvider = ({ children })=>{
             <LevelModal/>
             <JobDetailedModal/>
             <AddRoleModal/>
+            <ExtendSubscription/>
             {/* <PreviewModal/> */}
         </div>
     )

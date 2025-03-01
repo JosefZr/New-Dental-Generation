@@ -51,7 +51,7 @@ export default function GrowthSupport() {
                         {menuItems.map((menuItem, index) => (
                             <button
                                 key={index}
-                                className={`flex flex-1 cursor-pointer items-center rounded-md justify-center transition-all p-6 max-sm:p-2 ${
+                                className={`flex flex-1 cursor-pointer items-center rounded-md justify-center transition-all p-6 max-sm:p-0 ${
                                     activeTab === menuItem.value
                                         ? "text-my-black font-semibold bg-my-gold hover:bg-my-gold/80"
                                         : "text-my-white-gray bg-[#1d2932] hover:bg-[#1d2932]/80"

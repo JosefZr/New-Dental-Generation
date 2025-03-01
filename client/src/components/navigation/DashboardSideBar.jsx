@@ -9,7 +9,6 @@ import {
   IoSettingsOutline, 
 } from "react-icons/io5";
 import { 
-  FaUserFriends, 
   FaTools, 
   FaUserShield, 
   FaCouch 
@@ -27,6 +26,8 @@ export default function DashboardSidebar() {
   const userInfo = jwtDecode(localStorage.getItem('token'));
   const { clickedUser, setClickedUserId } = useUserToChatContext();
   const location = useLocation();
+  const isAdmin = userInfo?.role === 'admin' // Check if user is admin
+
   useEffect(() => {
     // Set active button based on current path
     const currentPath = location.pathname;
@@ -36,7 +37,7 @@ export default function DashboardSidebar() {
       { path: '/dashboard/friends', label: 'Friends' },
       { path: '/dashboard/dental-stuff', label: 'Dental Stuff' },
       { path: '/dashboard/quotes', label: 'Quotes' },
-      { path: '/users', label: 'Users' }
+      { path: '/dashboard/users', label: 'Users' }
     ];
 
     const activeBtn = buttons.find(btn => currentPath.includes(btn.path));
@@ -45,46 +46,59 @@ export default function DashboardSidebar() {
     }
   }, [location.pathname]);
 
-  const renderSidebarButtons = () => {
-    const buttons = [
-      {
-        icon: IoSettingsOutline,
-        label: 'Settings',
-        path: `/profile/${userInfo.userId}`
-      },
-      {
-        icon: FaCouch,
-        label: 'Courses',
-        path: '/instructor'
-      },
-      {
-        icon: TiContacts,
-        label: 'Friends',
-        path: '/dashboard/friends'
-      },
-      {
-        icon: FaTools,
-        label: 'Dental Stuff',
-        path: '/dashboard/dental-stuff'
-      },
-      {
-        icon: ImQuotesLeft,
-        label: 'Quotes',
-        path: '/dashboard/quotes'
-      },
-      {
-        icon: userInfo.role === 'admin' ? IoMdPeople : FaUserShield,
-        label: 'Users',
-        path: '/users'
-      },
-      {
-        icon: userInfo.role === 'admin' ? IoMdPeople : FaUserShield,
-        label: 'Free Analyses',
-        path: 'analyse'
-      }
-    ];
+// Updated renderSidebarButtons function
+const renderSidebarButtons = () => {
+  const buttons = [
+    {
+      icon: IoSettingsOutline,
+      label: 'Settings',
+      path: `/profile/${userInfo.userId}`,
+      everyone: true // Show to everyone
+    },
+    {
+      icon: FaCouch,
+      label: 'Courses',
+      path: '/instructor',
+      adminOnly: true
+    },
+    {
+      icon: TiContacts,
+      label: 'Friends',
+      path: '/dashboard/friends',
+      everyone: true
+    },
+    {
+      icon: FaTools,
+      label: 'Dental Stuff',
+      path: '/dashboard/dental-stuff',
+      adminOnly: true
+    },
+    {
+      icon: ImQuotesLeft,
+      label: 'Quotes',
+      path: '/dashboard/quotes',
+      adminOnly: true
+    },
+    {
+      icon: FaUserShield,
+      label: 'Users',
+      path: '/dashboard/users',
+      adminOnly: true
+    },
+    {
+      icon: IoMdPeople,
+      label: 'Free Analyses',
+      path: 'analyse',
+      adminOnly: true
+    }
+  ];
 
-    return buttons.map((button, index) => (
+  return buttons
+    .filter(button => 
+      // Show if: button is for everyone OR (button is admin-only AND user is admin)
+      button.everyone || (button.adminOnly && isAdmin)
+    )
+    .map((button, index) => (
       <button
         key={index}
         className={`flex items-center gap-3 border-b p-3 text-left text-sm last:border-0 w-full border-none ${
@@ -102,7 +116,7 @@ export default function DashboardSidebar() {
         <div className="flex-1">{button.label}</div>
       </button>
     ));
-  };
+};
 
   useEffect(() => {
     if (clickedUser.userId) {

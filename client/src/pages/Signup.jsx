@@ -147,35 +147,36 @@ export default function Signup() {
     // const stripe = await stripePromise;
     // const res = await axios.post("/checkout", {});
     if (!formData.file) return;
-    try {
-      // After setting the URL, call fetchUserData with the updated formData
-      await fetchUserData(formData);
-      console.log("Form Data:", formData);
-    } catch (error) {
-      console.error("Error uploading image to Cloudinary:", error);
-    }
+    console.log(formData)
+    // try {
+    //   // After setting the URL, call fetchUserData with the updated formData
+    //   await fetchUserData(formData);
+    // } catch (error) {
+    //   console.error("Error uploading image to Cloudinary:", error);
+    // }
   };
-  const fetchUserData = async (formData) => {
-    try {
-      const response = await fetch("http://localhost:3000/api/v1/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+  // const fetchUserData = async (formData) => {
+  //   console.log("from fetch",formData)
+  //   try {
+  //     const response = await fetch("http://localhost:3000/api/v1/auth/signup", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(formData),
+  //     });
 
-      if (!response.ok) {
-        const errorText = await response.text(); // Retrieve error message from server
-        throw new Error(`Failed to fetch user data: ${errorText}`);
-      }
+  //     if (!response.ok) {
+  //       const errorText = await response.text(); // Retrieve error message from server
+  //       throw new Error(`Failed to fetch user data: ${errorText}`);
+  //     }
 
-      return await response.json();
-    } catch (error) {
-      console.error("Error in fetchUserData:", error.message);
-      throw error;
-    }
-  };
+  //     return await response.json();
+  //   } catch (error) {
+  //     console.error("Error in fetchUserData:", error.message);
+  //     throw error;
+  //   }
+  // };
 
   return (
     <section className="scrollbar-custom lg:flex-row w-full font-sans flex flex-col h-[100vh] lg:overflow-y-scroll relative">

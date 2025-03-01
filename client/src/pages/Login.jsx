@@ -1,4 +1,5 @@
 import { UserContext } from "@/context/UserContext";
+import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 import { jwtDecode } from "jwt-decode";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -34,6 +35,7 @@ const fetchUserData = async (data) => {
 };
 
 export default function Login() {
+  const {onOpen} =useModal()
 
   const {setUser} = useContext(UserContext);
 
@@ -63,6 +65,8 @@ export default function Login() {
       const userInfo = jwtDecode(token);
       setUser(userInfo)
       navigate("/channels")
+      onOpen(MODAL_TYPE.BIR)
+
     };
   };
 

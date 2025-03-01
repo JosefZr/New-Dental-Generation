@@ -42,7 +42,7 @@ export const storePrivateMessageImages = expressAsyncHandler((req, res) => {
     }
 
     // Generate full URLs for each file
-    const uploadedFiles = req.files.map((file) => ( `http://localhost:3000/uploads/privateChats/${file.filename}`));
+    const uploadedFiles = req.files.map((file) => ( `${process.env.SERVER_URL}/uploads/privateChats/${file.filename}`));
 
     // Send response maintaining the original order
     res.status(200).json({

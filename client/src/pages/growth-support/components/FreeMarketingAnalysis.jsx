@@ -37,7 +37,6 @@ export default function FreeMarketingAnalysis() {
       alert("You can only submit this form once every 24 hours.");
       return;
     }
-
     // Include userId in the submission data
     const formData = { ...data, userId };
 

@@ -136,7 +136,7 @@ export default function Message({ message }) {
             style={{ width: "40px", height: "40px" }}
             onClick={handleImageClick}
           >
-            {message.sender.avatar ===import.meta.env.VITE_DEFAULT_AVATAR ?(
+            {message.sender?.avatar ===import.meta.env.VITE_DEFAULT_AVATAR ?(
               <img
                 src={`${message.sender.avatar}`}
                 className="rounded-full object-cover"
@@ -146,7 +146,7 @@ export default function Message({ message }) {
             />
           ):(
             <img
-              src={`${import.meta.env.VITE_UPLOAD_AVATAR_URL}${message.sender.avatar}`}
+              src={`${import.meta.env.VITE_UPLOAD_AVATAR_URL}${message.sender?.avatar}`}
               className="rounded-full object-cover"
               loading="lazy"
               style={{ width: "40px", height: "40px" }}
@@ -159,35 +159,44 @@ export default function Message({ message }) {
           <DialogDescription className="border-none p-0">
             {userPreview && <Preview user={userPreview} />}
             <div className="absolute top-3 right-4 z-[11] flex justify-end gap-1 sm:z-10">
-              <button
-                className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950"
-                onClick={() => {
-                  setClickedUserId({
-                    userId: userPreview._id,
-                    username: `${userPreview.firstName} ${userPreview.lastName}`,
-                  });
-                  handleClose();
-                  navigate("/dashboard/user-chat");
-                }}
-              >
-                <MdMessage className="text-xl text-center text-my-white" />
-              </button>
+              {userPreview?._id === userInfo?.userId ?(
+                <></>
+              ):(
+                <button
+                  className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950"
+                  onClick={() => {
+                    setClickedUserId({
+                      userId: userPreview._id,
+                      username: `${userPreview.firstName} ${userPreview.lastName}`,
+                    });
+                    handleClose();
+                    navigate("/dashboard/user-chat");
+                  }}
+                >
+                  <MdMessage className="text-xl text-center text-my-white" />
+                </button>
+              ) 
+              }
 
-              {showRemoveButton ? (
-                <button
-                  className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950 text-center"
-                  onClick={handleDeletePendingRequest}
-                >
-                  <FaUserMinus className="text-2xl text-my-white" />
-                </button>
-              ) : (
-                <button
-                  className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950 text-center"
-                  onClick={handleAddFriendRequest}
-                >
-                  <HiUserAdd className="text-2xl text-my-white" />
-                </button>
-              )}
+              { userPreview?._id === userInfo?.userId ?(
+                <></>
+              ):(
+                showRemoveButton ? (
+                  <button
+                    className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950 text-center"
+                    onClick={handleDeletePendingRequest}
+                  >
+                    <FaUserMinus className="text-2xl text-my-white" />
+                  </button>
+                ) : (
+                  <button
+                    className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950 text-center"
+                    onClick={handleAddFriendRequest}
+                  >
+                    <HiUserAdd className="text-2xl text-my-white" />
+                  </button>
+                )
+              ) }
 
               <button
                 className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950 text-center"
@@ -212,23 +221,23 @@ export default function Message({ message }) {
           className="inline-flex items-center cursor-pointer font-medium text-xs md:text-sm hover:underline"
           style={{
             color: `${
-              message.sender.role === "dentist"
+              message.sender?.role === "dentist"
                 ? "#ECC879"
-                : message.sender.role === "store"
+                : message.sender?.role === "store"
                 ? "rgb(52, 152, 219)"
-                : message.sender.role === "lab"
+                : message.sender?.role === "lab"
                 ? "rgb(255, 255, 255)"
-                : message.sender.role === "admin"
+                : message.sender?.role === "admin"
                 ? "rgb(179, 51, 51)"
-                : message.sender.role === "moderator"
+                : message.sender?.role === "moderator"
                 ? "#C0C0C0"
                 : "rgb(201, 142, 215)"
             }`,
           }}
         >
-          {message.sender._id === userInfo.userId
+          {message.sender?._id === userInfo?.userId
             ? "You"
-            : `${message.sender.firstName} ${message.sender.lastName}`}
+            : `${message?.sender?.firstName} ${message?.sender?.lastName}`}
         </span>
         <span
           className="ml-3 cursor-default pt-[1px] opacity-50"
