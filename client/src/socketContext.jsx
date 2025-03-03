@@ -10,7 +10,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     const socket = io(`${import.meta.env.VITE_SOCKET}`, {
-	transports : ["websocket","polling"],
+	transports : ["websocket"],
 	withCredentials: true,
       extraHeaders: {
         authorization: localStorage.getItem("token") || "",
