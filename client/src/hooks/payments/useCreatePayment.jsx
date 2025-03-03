@@ -6,7 +6,7 @@ export const useCreatePayment = () => {
 
     return useMutation({
         mutationFn: async ({ id, payment }) => {
-        const response = await fetch('http://localhost:3000/api/v1/payment/managment/create', {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/payment/managment/create`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',

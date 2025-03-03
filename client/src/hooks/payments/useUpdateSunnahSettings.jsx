@@ -6,7 +6,7 @@ export const useUpdateSunnahSettings = () => {
 
     return useMutation({
         mutationFn: async ({ userId }) => {
-        const response = await fetch("http://localhost:3000/api/v1/settings/sunnah", {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/settings/sunnah`, {
             method: "PATCH",
             headers: {
             "Content-Type": "application/json",

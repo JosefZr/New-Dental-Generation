@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 const fetchUserRoles = async (userId) => {
-    const response = await fetch(`http://localhost:3000/api/v1/roles/get`, {
+    const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/roles/get`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

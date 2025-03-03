@@ -31,7 +31,7 @@ export default function NavigationSidebar() {
   const navigate = useNavigate();
   const handleAssistance = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/auth/getAdmin`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/auth/getAdmin`, {
         method: "GET",
         headers: {
           'Content-Type': 'application/json',

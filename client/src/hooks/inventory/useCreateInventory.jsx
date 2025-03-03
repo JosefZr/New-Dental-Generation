@@ -6,7 +6,7 @@ export const useCreateInventory = () => {
 
     return useMutation({
         mutationFn: async ({ inventory }) => {
-        const response = await fetch('http://localhost:3000/api/v1/inventory/create', {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/inventory/create`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',

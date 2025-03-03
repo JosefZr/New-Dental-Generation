@@ -10,7 +10,7 @@ export const useUpdateChannel = ()=>{
     return useMutation({
         mutationFn: async ({id,title }) => {
             console.log({id,title })
-            const response = await fetch(`http://localhost:3000/api/v1/channels/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/channels/${id}`, {
                 method: 'PUT', // Correct method
                 headers: {
                     Authorization:

@@ -29,7 +29,7 @@ const UserProvider = ({ children }) => {
   const fetchMessages = async (recipientId) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/chats/history/${recipientId}/1`,
+        `${import.meta.env.VITE_SERVER_API}/api/v1/chats/history/${recipientId}/1`,
         {
           method: "GET",
           headers: {

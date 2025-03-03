@@ -4,7 +4,7 @@ const fetchChannels = async () => {
   const token = localStorage.getItem("token").toString() 
   console.warn(token)
   const resp = await fetch(
-    "http://localhost:3000/api/v1/channels/",
+    `${import.meta.env.VITE_SERVER_API}/api/v1/channels/`,
     {
       method: "GET",
       headers: {

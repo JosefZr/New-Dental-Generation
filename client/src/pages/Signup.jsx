@@ -114,7 +114,7 @@ export default function Signup() {
     formData.append("image", selectedImage);
 
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/auth/upload/proffession`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/auth/upload/proffession`, {
         method: "POST",
         body: formData,
         headers: {
@@ -130,7 +130,7 @@ export default function Signup() {
       console.log("Uploaded Image Filename:", data.filename);
 
       // Update the context state with the uploaded image filename
-      setPreview(`http://localhost:3000/uploads/proffession/${data.filename}`)
+      setPreview(`${import.meta.env.VITE_SERVER_API}/uploads/proffession/${data.filename}`)
       setFormData((prev) => ({
       ...prev,
       file: data.filename, // Save the filename in formData

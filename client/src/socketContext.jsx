@@ -9,7 +9,7 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const socket = io("http://localhost:3000", {
+    const socket = io(`${import.meta.env.VITE_SERVER_API}`, {
       extraHeaders: {
         authorization: localStorage.getItem("token") || "",
       },

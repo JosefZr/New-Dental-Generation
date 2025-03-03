@@ -51,7 +51,7 @@ export default function SignupAdmins() {
   };
   const fetchUserData = async (formData) => {
     try {
-      const response = await fetch("http://localhost:3000/api/v1/auth/chama", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/auth/chama`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

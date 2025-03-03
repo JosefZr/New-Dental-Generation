@@ -18,7 +18,7 @@ export default function CourseSetting() {
     formData.append("image", selectedImage);
 
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/instructor/course/upload`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/instructor/course/upload`, {
         method: "POST",
         body: formData,
         headers: {
@@ -51,7 +51,7 @@ export default function CourseSetting() {
       <CardContent>
         {courseLandingFormData?.image ? (
           <img
-            src={`http://localhost:3000/course/${courseLandingFormData.image}`} // Correct image path
+            src={`${import.meta.env.VITE_SERVER_API}/course/${courseLandingFormData.image}`} // Correct image path
             alt="Uploaded Course"
           />
         ) : (

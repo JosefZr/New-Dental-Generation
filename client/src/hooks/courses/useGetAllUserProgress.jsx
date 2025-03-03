@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 const getAllUserProgress = async (userId) => {
-    const response = await fetch(`http://localhost:3000/api/v1/student/progression/getAll`,{
+    const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/student/progression/getAll`,{
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

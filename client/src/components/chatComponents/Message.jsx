@@ -80,7 +80,7 @@ export default function Message({ message }) {
   const handleImageClick = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/users/${message.sender._id}`,
+        `${import.meta.env.VITE_SERVER_API}/api/v1/users/${message.sender._id}`,
         {
           method: "GET",
           headers: {

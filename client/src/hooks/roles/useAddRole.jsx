@@ -7,7 +7,7 @@ export const useAddRole = ()=>{
 
     return useMutation({
         mutationFn: async ({userId, role }) => {
-            const response = await fetch('http://localhost:3000/api/v1/roles/add', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/roles/add`, {
                 method: 'PATCH',
                 headers: {
                 'Content-Type': 'application/json',

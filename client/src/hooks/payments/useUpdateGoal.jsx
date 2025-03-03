@@ -6,7 +6,7 @@ export const useUpdateGoal = () => {
 
   return useMutation({
     mutationFn: async ({ userId, goal }) => {
-      const response = await fetch("http://localhost:3000/api/v1/settings/goal", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/settings/goal`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

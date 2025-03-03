@@ -6,7 +6,7 @@ export const useUpdatePrayer = () => {
 
   return useMutation({
     mutationFn: async ({ userId,name }) => {
-      const response = await fetch("http://localhost:3000/api/v1/istighfar/toggle", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/istighfar/toggle`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

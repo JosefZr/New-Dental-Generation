@@ -6,7 +6,7 @@ export const useIpdateQuoate = ()=>{
 
     return useMutation({
         mutationFn: async ({id, text }) => {
-            const response = await fetch('http://localhost:3000/api/v1/quoate/update', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/quoate/update`, {
                 method: 'PATCH',
                 headers: {
                 'Content-Type': 'application/json',

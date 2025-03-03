@@ -6,7 +6,7 @@ export const useUpdateDikr = () => {
 
     return useMutation({
         mutationFn: async ( data ) => {
-        const response = await fetch("http://localhost:3000/api/v1/istighfar/updateDikr", {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/istighfar/updateDikr`, {
             method: "PATCH",
             headers: {
             "Content-Type": "application/json",

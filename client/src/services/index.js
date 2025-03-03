@@ -1,7 +1,7 @@
 import axiosInstance from "@/api/axiosInstance";
 
 export async function mediaUploadService(formData, onProgressCallback) {
-    const { data } = await axiosInstance.post("http://localhost:3000/api/v1/media/upload", formData, {
+    const { data } = await axiosInstance.post(`${import.meta.env.VITE_SERVER_API}/api/v1/media/upload`, formData, {
       onUploadProgress: (progressEvent) => {
         const percentCompleted = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total

@@ -6,7 +6,7 @@ export const useUpdateTask = ()=>{
 
     return useMutation({
         mutationFn: async ({id,taskId, task }) => {
-            const response = await fetch('http://localhost:3000/api/v1/tasks/update', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/tasks/update`, {
                 method: 'PATCH',
                 headers: {
                 'Content-Type': 'application/json',

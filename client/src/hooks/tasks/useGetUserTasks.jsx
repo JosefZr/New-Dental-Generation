@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 const fetchUserTasks = async (id,category) => {
-    const response = await fetch(`http://localhost:3000/api/v1/tasks/get`,{
+    const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/tasks/get`,{
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

@@ -186,7 +186,7 @@ export default function Friends() {
                 <div className="flex items-center gap-3">
                   <Avatar className="h-10 w-10">
                     <AvatarImage
-                      src={`http://localhost:3000/uploads/${request.receiver.avatar}`}
+                      src={`${import.meta.env.VITE_SERVER_API}/uploads/${request.receiver.avatar}`}
                     />
                     <AvatarFallback>
                       {request.receiver.firstName?.[0] || "?"}
@@ -228,7 +228,7 @@ export default function Friends() {
                 <div className="flex items-center gap-3">
                   <Avatar className="h-10 w-10">
                     <AvatarImage
-                      src={`http://localhost:3000/uploads/${request.sender.avatar}`}
+                      src={`${import.meta.env.VITE_SERVER_API}/uploads/${request.sender.avatar}`}
                     />
                     <AvatarFallback>
                       {request.sender.firstName?.[0] || "?"}
@@ -283,7 +283,7 @@ export default function Friends() {
                   <div className="flex items-center gap-3">
                     <Avatar className="h-10 w-10">
                       <AvatarImage
-                        src={`http://localhost:3000/uploads/${friend.avatar}`}
+                        src={`${import.meta.env.VITE_SERVER_API}/uploads/${friend.avatar}`}
                       />
                       <AvatarFallback>
                         {friend.firstName?.[0] || "?"}

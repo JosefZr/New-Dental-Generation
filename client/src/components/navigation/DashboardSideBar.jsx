@@ -131,7 +131,7 @@ const renderSidebarButtons = () => {
         const token = localStorage.getItem("token");
         if (!token) throw new Error("Authorization token is missing");
 
-        const response = await fetch("http://localhost:3000/api/v1/chats/all", {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/chats/all`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

@@ -183,7 +183,7 @@ export default function UserChat() {
       formData.append("images", imageObj.file);
     });  
     try {
-      const response = await fetch("http://localhost:3000/api/v1/chats/storeMessageImages", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/chats/storeMessageImages`, {
         method: "POST",
         headers: {
           Authorization: localStorage.getItem("token"),
@@ -232,7 +232,7 @@ export default function UserChat() {
     try {
       let nextPage = page + 1;
       const response = await fetch(
-        `http://localhost:3000/api/v1/chats/history/${chatId}/${nextPage}`,
+        `${import.meta.env.VITE_SERVER_API}/api/v1/chats/history/${chatId}/${nextPage}`,
         {
           method: "GET",
           headers: {

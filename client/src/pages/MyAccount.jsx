@@ -51,7 +51,7 @@ export default function MyAccount() {
             />):
             (
               <img 
-              src={`http://localhost:3000/uploads/${user.avatar}`} 
+              src={`${import.meta.env.VITE_SERVER_API}/uploads/${user.avatar}`} 
               alt="" className="rounded-full object-cover" 
               style={{width:"62px",height:"62px"}} 
               loading="lazy"

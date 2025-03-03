@@ -28,7 +28,7 @@ const onAvatarChange = async (e) => {
     // formData.append('id', userInfo._id); // Append the user ID
 
     try {
-        const response = await fetch(`http://localhost:3000/api/v1/auth/upload/avatar?id=${user._id}`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/auth/upload/avatar?id=${user._id}`, {
             method: "POST",
             body: formData,
             headers: {
@@ -53,7 +53,7 @@ const onBackgroundChange = async (e)=>{
     const formData = new FormData();
     formData.append('image', selectedFile); // Append the file
     try {
-        const response = await fetch(`http://localhost:3000/api/v1/auth/upload/background?id=${user._id}`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/auth/upload/background?id=${user._id}`, {
             method: "POST",
             body: formData,
             headers: {

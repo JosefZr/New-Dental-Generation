@@ -37,7 +37,7 @@ export default function SmallWelcom() {
     <div style={{position:"relative"}} className=" flex flex-col rounded-[1rem] bg-gradient-to-br from-[#353F47] to-[rgba(6,14,21,0)]">
     <div className="Card Card-side card-compact m-[2px] h-full gap-4 border-transparent  p-4" style={{backgroundColor:"rgba(13 26 37)"}}>
         <section style={{position:"relative"}} className=" flex-shrink-0 rounded-full bg-base-300 ">
-            <Logo style={{ backgroundImage: `url(http://localhost:3000/uploads/${user.avatar})` ,width:"61px", height:"61px"}}  className="rounded-full object-cover "  />
+            <Logo style={{ backgroundImage: `url(${import.meta.env.VITE_SERVER_API}/uploads/${user.avatar})` ,width:"61px", height:"61px"}}  className="rounded-full object-cover "  />
             <div className="absolute text-[30px] w-[28px] h-[25px] right-0 " style={{bottom:"6px"}}>
                 {React.createElement(currentProgress.logo)}
             </div>

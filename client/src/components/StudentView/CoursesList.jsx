@@ -122,7 +122,7 @@ export default function CoursesList({studentCourseList,isLoading, isError, error
                                         <div className="relative max-w-24 flex-1">
                                             <Image
                                                 className="relative h-24 w-full rounded-lg"
-                                                imageUrl={`http://localhost:3000/course/${item.image}`}
+                                                imageUrl={`${import.meta.env.VITE_SERVER_API}/course/${item.image}`}
                                             ></Image>
                                         </div>
                                         <div className="flex w-full flex-1 flex-col sm:w-[280px]">

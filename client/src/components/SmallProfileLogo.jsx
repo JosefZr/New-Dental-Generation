@@ -22,7 +22,7 @@ export default function SmallProfileLogo({image}) {
             <Logo
             className="rounded-full object-cover"
             style={{ 
-                backgroundImage: `url(http://localhost:3000/uploads/${image})`, 
+                backgroundImage: `url(${import.meta.env.VITE_SERVER_API}/uploads/${image})`, 
                 width:"40px",
                 height:"40px"
             }}

@@ -24,7 +24,7 @@ export default function AddRoleModal() {
     const isProfile = location.pathname.includes(`/profile`);
 
     // Determine userId based on the page context
-    const userId = isProfile ? userInfo.userId : userPreview?._id;
+    const userId = isProfile ? userInfo?.userId : userPreview?._id;
 
     // Fetch roles from API
     const { data, isLoading, isError, refetch } = useGetAllOtherRoles(userId);

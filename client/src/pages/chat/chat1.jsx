@@ -124,7 +124,7 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
       formData.append("images", imageObj.file);
     });  
     try {
-      const response = await fetch("http://localhost:3000/api/v1/channels/storeMessageImages", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/channels/storeMessageImages`, {
         method: "POST",
         headers: {
           Authorization: localStorage.getItem("token"),
@@ -277,7 +277,7 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
     try {
       let nextPage = page + 1;
       const response = await fetch(
-        `http://localhost:3000/api/v1/channels/${chanId}?page=${nextPage}`,
+        `${import.meta.env.VITE_SERVER_API}/api/v1/channels/${chanId}?page=${nextPage}`,
         {
           method: "GET",
           headers: {

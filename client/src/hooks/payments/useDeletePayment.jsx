@@ -6,7 +6,7 @@ export const useDeletePayment = ()=>{
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: async ({ userId, id }) => {
-            const response = await fetch('http://localhost:3000/api/v1/payment/managment/delete', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/payment/managment/delete`, {
                 method: 'DELETE',
                 headers: {
                 'Content-Type': 'application/json',

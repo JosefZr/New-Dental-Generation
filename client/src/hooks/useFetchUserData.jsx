@@ -1,6 +1,6 @@
 export const fetchUserName = async (userId) => {
     try {
-        const response = await fetch('http://localhost:3000/api/v1/auth/getUserData', {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/auth/getUserData`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ id: userId }),
@@ -23,7 +23,7 @@ export const fetchUserName = async (userId) => {
 
 export const fetchUserData = async (userId) => {
     try {
-        const response = await fetch('http://localhost:3000/api/v1/auth/getUserData', {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/auth/getUserData`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" , Authorization : localStorage.getItem('token') },
             body: JSON.stringify({ id: userId }),

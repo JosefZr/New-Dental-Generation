@@ -6,7 +6,7 @@ export const useDeleteRole = () => {
     
     return useMutation({
         mutationFn: async ({userId, role}) => {
-            const response = await fetch('http://localhost:3000/api/v1/roles/delete', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/roles/delete`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

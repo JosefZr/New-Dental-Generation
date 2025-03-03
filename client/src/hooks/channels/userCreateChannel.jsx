@@ -6,7 +6,7 @@ export const useCreateChannel = () => {
 
     return useMutation({
         mutationFn: async (value) => {
-            const response = await fetch("http://localhost:3000/api/v1/channels/", {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/channels/`, {
                 method: "POST",
                 headers: {
                     Authorization:

@@ -31,7 +31,7 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
     const handleAdminSignup = async () => {
         try {
             const response = await axios.post(
-                "http://localhost:3000/api/v1/auth/signup",
+                `${import.meta.env.VITE_SERVER_API}/api/v1/auth/signup`,
                 {userData}
             );
             console.log(response.data);
@@ -63,7 +63,7 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
 
     const handleCheckout = async () => {
         if (name === "freeDentist" || name === "freeLab") {
-            const response = await axios.post("http://localhost:3000/api/v1/auth/signup", { name: "freeTrial", userData });
+            const response = await axios.post(`${import.meta.env.VITE_SERVER_API}/api/v1/auth/signup`, { name: "freeTrial", userData });
             console.log(response.data);
             navigate("/login");
         }
@@ -71,8 +71,8 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
     try {
 
         let link = ""
-        if (isModal) link = "http://localhost:3000/api/v1/payment/update-subscription-session"
-        else link ="http://localhost:3000/api/v1/payment/create-checkout-session"
+        if (isModal) link = `${import.meta.env.VITE_SERVER_API}/api/v1/payment/update-subscription-session`
+        else link =`${import.meta.env.VITE_SERVER_API}/api/v1/payment/create-checkout-session`
         
         const response = await axios.post(
         link ,

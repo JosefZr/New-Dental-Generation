@@ -6,7 +6,7 @@ export const useSetPaymentAsCompleted=()=>{
 
     return useMutation({
         mutationFn: async ({ userId, id,completed }) => {
-            const response = await fetch('http://localhost:3000/api/v1/payment/managment/check', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/payment/managment/check`, {
                 method: 'PATCH',
                 headers: {
                 'Content-Type': 'application/json',

@@ -6,7 +6,7 @@ export const useCreateQuoate = () => {
 
     return useMutation({
         mutationFn: async ({ text }) => {
-        const response = await fetch('http://localhost:3000/api/v1/quoate/create', {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/quoate/create`, {
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',

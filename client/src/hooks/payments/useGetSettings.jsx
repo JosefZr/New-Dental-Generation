@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 const fetchUserSettings = async (userId) => {
-    const response = await fetch(`http://localhost:3000/api/v1/settings/getSettings`, {
+    const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/settings/getSettings`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

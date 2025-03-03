@@ -7,7 +7,7 @@ export const useAddJourney = ()=>{
 
     return useMutation({
         mutationFn: async ({userId,content,images,chanTitle,chanId }) => {
-            const response = await fetch(`http://localhost:3000/api/v1/auth/update/journey`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/auth/update/journey`, {
                 method: 'PUT', // Correct method
                 headers: {
                     Authorization:

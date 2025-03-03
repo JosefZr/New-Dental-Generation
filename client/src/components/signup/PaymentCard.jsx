@@ -31,13 +31,13 @@ export default function PaymentCard({ cardData, role, userData }) {
     const stripe = await stripePromise;
     try {
       if (name === "freeDentist" || name === "freeLab") {
-        const response = await axios.post("http://localhost:3000/api/v1/auth/signup", { name: "freeTrial", userData });
+        const response = await axios.post(`${import.meta.env.VITE_SERVER_API}/api/v1/auth/signup`, { name: "freeTrial", userData });
         console.log(response.data);
         navigate("/login");
       }
       else{
         const response = await axios.post(
-          "http://localhost:3000/api/v1/payment/create-checkout-session",
+          `${import.meta.env.VITE_SERVER_API}/api/v1/payment/create-checkout-session`,
           { plan_name: name, userData },
           {
             withCredentials: true, // Allows sending cookies with the request

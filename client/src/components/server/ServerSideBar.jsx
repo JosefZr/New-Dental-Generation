@@ -87,7 +87,7 @@ const currentProgress = progress.find(stage =>
     setIsSidebarOpen(!isSidebarOpen)
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/channels/${id}`,
+        `${import.meta.env.VITE_SERVER_API}/api/v1/channels/${id}`,
         {
           method: "GET",
           headers: {
@@ -115,7 +115,7 @@ const currentProgress = progress.find(stage =>
 const handlePinChannel = async (channel) => {
   console.log("clicked")
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/channels/pin`, {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/channels/pin`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

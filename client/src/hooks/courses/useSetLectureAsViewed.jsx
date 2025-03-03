@@ -6,7 +6,7 @@ export const useSetLectureAsViewed = () => {
     
   return useMutation(
     async ({ userId, courseId, lectureId }) => {
-        const response = await fetch('http://localhost:3000/api/v1/student/progression/setLectureViewed', {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/student/progression/setLectureViewed`, {
             method: 'PATCH',
             headers: {
             'Content-Type': 'application/json',

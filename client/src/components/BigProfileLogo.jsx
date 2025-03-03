@@ -17,7 +17,7 @@ export default function BigProfileLogo({image}) {
     :(
       <Logo
       className="h-full w-full rounded-full"
-      style={{ backgroundImage: `url(http://localhost:3000/uploads/${image})`,width:"51px", height:"51px" }}
+      style={{ backgroundImage: `url(${import.meta.env.VITE_SERVER_API}/uploads/${image})`,width:"51px", height:"51px" }}
     />
     )}
     </>

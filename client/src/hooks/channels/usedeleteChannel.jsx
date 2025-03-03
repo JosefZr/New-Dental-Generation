@@ -6,7 +6,7 @@ export const useDeleteChannel = ()=>{
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: async ({ id }) => {
-            const response = await fetch(`http://localhost:3000/api/v1/channels/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/channels/${id}`, {
                 method: 'DELETE',
                 headers: {
                 'Content-Type': 'application/json',

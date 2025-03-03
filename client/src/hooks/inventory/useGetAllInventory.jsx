@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 
 const getAllInventory = async () => {
-    const response = await fetch(`http://localhost:3000/api/v1/inventory/getAll`,{
+    const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/inventory/getAll`,{
         method: "GET",
         headers: {
             'Content-Type': 'application/json',

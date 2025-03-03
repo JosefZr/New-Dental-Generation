@@ -23,7 +23,7 @@ export const SuccessPage = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:3000/api/v1/payment/validate-subscription`,
+          `${import.meta.env.VITE_SERVER_API}/api/v1/payment/validate-subscription`,
           {
             method: "POST",
             headers: {

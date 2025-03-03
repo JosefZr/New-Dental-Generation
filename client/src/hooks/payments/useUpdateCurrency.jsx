@@ -6,7 +6,7 @@ export const useUpdateCurrency = () => {
 
   return useMutation({
     mutationFn: async ({ userId, currency }) => {
-      const response = await fetch("http://localhost:3000/api/v1/settings/currency", {
+      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/settings/currency`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

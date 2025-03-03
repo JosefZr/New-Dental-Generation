@@ -7,7 +7,7 @@ export const useFavorite = ()=>{
 
     return useMutation({
         mutationFn: async ({userId, courseId }) => {
-            const response = await fetch('http://localhost:3000/api/v1/student/progression/fav', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/student/progression/fav`, {
                 method: 'PATCH',
                 headers: {
                 'Content-Type': 'application/json',

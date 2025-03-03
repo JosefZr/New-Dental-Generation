@@ -6,7 +6,7 @@ export const useIpdateInventory = ()=>{
 
     return useMutation({
         mutationFn: async ({id, name }) => {
-            const response = await fetch('http://localhost:3000/api/v1/inventory/update', {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/inventory/update`, {
                 method: 'PATCH',
                 headers: {
                 'Content-Type': 'application/json',

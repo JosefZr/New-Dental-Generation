@@ -7,7 +7,7 @@ export const useAddSubscription = ()=>{
 
     return useMutation({
         mutationFn: async ({userId,days }) => {
-            const response = await fetch(`http://localhost:3000/api/v1/auth/subscription`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/auth/subscription`, {
                 method: 'PUT', // Correct method
                 headers: {
                     Authorization:
