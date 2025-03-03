@@ -19,6 +19,7 @@ export const initializeSocket = (server) => {
       credentials: true,
     },
     transports: ["websocket", "polling"],
+	allowEIO3:true,
   });
 
   // Apply authentication middleware

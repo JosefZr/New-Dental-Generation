@@ -9,11 +9,12 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const socket = io(`${import.meta.env.VITE_SERVER_API}`, {
+    const socket = io(`${import.meta.env.VITE_SOCKET}`, {
+	transports : ["websocket","polling"],
+	withCredentials: true,
       extraHeaders: {
         authorization: localStorage.getItem("token") || "",
       },
-      transports: ["websocket", "polling"],
     });
     setSocket(socket);
 

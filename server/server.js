@@ -113,7 +113,7 @@ const server = http.createServer(app);
   try {
     await connectDB();
 
-    server.listen(PORT, () => {
+    server.listen(PORT, "0.0.0.0",() => {
       logger.info(`Server is running on http://localhost:${PORT}`);
     });
 
