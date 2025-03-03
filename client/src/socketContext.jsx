@@ -13,6 +13,7 @@ export const SocketProvider = ({ children }) => {
       extraHeaders: {
         authorization: localStorage.getItem("token") || "",
       },
+      transports: ["websocket", "polling"],
     });
     setSocket(socket);
 

@@ -18,6 +18,7 @@ export const initializeSocket = (server) => {
       allowedHeaders: ["Authorization"],
       credentials: true,
     },
+    transports: ["websocket", "polling"],
   });
 
   // Apply authentication middleware
