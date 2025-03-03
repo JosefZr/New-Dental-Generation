@@ -48,7 +48,7 @@ app.use("/course", express.static(path.join(__dirname, "course")));
 
 // Enable Corse
 app.use(cors({
-  origin: "http://localhost:5173",   // Allow only this origin
+  origin: ["http://localhost:5173","http://localhost:80","http://165.227.148.145","http://165.227.148.145:80"],   // Allow only this origin
   credentials: true,                 // Allow credentials (cookies, etc.)
   allowedHeaders: [
     "Content-Type", 
