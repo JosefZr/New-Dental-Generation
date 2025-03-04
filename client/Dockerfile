@@ -1,45 +1,36 @@
-# ────────────────────────────────────────────
-# 📌 Stage 1: Build the Vite React App
-# ────────────────────────────────────────────
+# ────────────────────────────
+# 📌 Stage 1: Build the Vite App
+# ────────────────────────────
 FROM node:22-alpine AS builder
 
-# Set working directory inside the container
 WORKDIR /app
 
-# Copy package files first for better caching
+# Copy package files and install dependencies
 COPY package.json package-lock.json ./
-
-# Install dependencies
 RUN npm install --legacy-peer-deps
 
-# Copy the rest of the source code
+# Copy source files
 COPY . .
 
-#  Load environment variables from .env file at build time
-ARG ENV_FILE_PATH
-COPY $ENV_FILE_PATH .env
-RUN cat .env  # Debugging: Check if .env is copied correctly
+# ✅ Copy the .env file into the build stage
+COPY /root/setup_files/.env_c .env  
 
-# Build the Vite app (Vite reads from .env automatically)
+# ✅ Make sure Vite reads the environment variables
 RUN npm run build
 
-# ────────────────────────────────────────────
-#  Stage 2: Serve with Caddy
-# ────────────────────────────────────────────
+# ────────────────────────────
+# 📌 Stage 2: Serve with Caddy
+# ────────────────────────────
 FROM caddy:2.7
 
-# Set working directory inside the container
 WORKDIR /srv
-
-# Copy built React files from the builder stage
 COPY --from=builder /app/dist .
 
-# Copy the Caddyfile for configuration
+# ✅ Pass .env file at runtime (for Caddy, but frontend already built)
+COPY /root/setup_files/.env_c /srv/.env  
+
 COPY Caddyfile /etc/caddy/Caddyfile
 
-# Expose HTTP and HTTPS ports
 EXPOSE 80 443
-
-# ✅ Load runtime environment variables dynamically
-CMD ["sh", "-c", "export $(grep -v '^#' /env/.env | xargs) && caddy run --config /etc/caddy/Caddyfile"]
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile"]
 
