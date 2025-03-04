@@ -39,7 +39,7 @@ export const makePayment = async (req, res, next) => {
     }
     const plan = plans.find((p) => p.name === plan_name);
 
-    console.log("data from chackeout",userData);
+    console.log("data from checkout",userData , plan);
     //call the service to create the user
     const user = await createUser({
       firstName: userData.firstName,
@@ -53,7 +53,9 @@ export const makePayment = async (req, res, next) => {
     // if the user didn't created
     if (!user) {
       throw new ApiError("Error creating user", 500);
-    }
+    } 
+
+   console.log("user created : ", user)
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -83,6 +85,8 @@ export const makePayment = async (req, res, next) => {
             : "yearly",
       },
     });
+
+    console.log("session : ", session)
 
     // Replace {CHECKOUT_SESSION_ID} with the actual session ID
     const successUrlWithSessionId = session.success_url.replace(
