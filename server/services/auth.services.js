@@ -34,6 +34,7 @@ export const createUser = async (data) => {
   // const hashedPassword = await bcrypt.hash(pass, 10);
 
   // Create new user
+  try {
   const user = await User.create({
     firstName,
     lastName,
@@ -43,7 +44,12 @@ export const createUser = async (data) => {
     role,
   });
 
-	console.log("user created  : ", user)
+  console.log("user created:", user);
+} catch (error) {
+  console.error("Error creating user:", error);
+}
+
+	//	console.log("user created  : ", user)
   const { password, ...safeUser } = user._doc;
   return safeUser;
 };

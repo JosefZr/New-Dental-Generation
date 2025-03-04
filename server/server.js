@@ -126,7 +126,9 @@ const server = http.createServer(app);
   		console.error('Unhandled Promise Rejection:', reason);
     });
 
-
+    process.on("uncaughtException", (err) => {
+  	console.error("Uncaught Exception:", err);
+    });
     process.on("SIGTERM", () => {
       logger.info("SIGTERM signal received: closing HTTP server");
       server.close(async () => {
