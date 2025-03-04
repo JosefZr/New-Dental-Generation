@@ -2,15 +2,23 @@
     root * /srv
     file_server
 
-    # Reverse proxy API calls
+    # Reverse proxy API calls (Standard HTTP requests)
     reverse_proxy /api/* server-i1:3000
 
     # Reverse proxy WebSockets (Socket.io)
-    reverse_proxy /socket.io* server-i1:3000 {
-        header_up Upgrade {http_upgrade}
-        header_up Connection {http_connection}
+    @ws {
+        path /socket.io*
+        header Connection *Upgrade*
+        header Upgrade websocket
+    }
+    
+    reverse_proxy @ws server-i1:3000 {
+        transport http {
+            versions 1.1
+        }
     }
 
-    # Enable automatic HTTPS for local IPs
+    # Enable automatic HTTPS for local IPs (uncomment if needed)
     # tls internal
 }
+
