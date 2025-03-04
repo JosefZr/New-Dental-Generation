@@ -122,6 +122,11 @@ const server = http.createServer(app);
 
     server.keepAliveTimeout = 3000;
 
+    process.on('unhandledRejection', (reason, promise) => {
+  		console.error('Unhandled Promise Rejection:', reason);
+    });
+
+
     process.on("SIGTERM", () => {
       logger.info("SIGTERM signal received: closing HTTP server");
       server.close(async () => {
