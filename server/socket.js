@@ -111,3 +111,8 @@ export const initializeSocket = (server) => {
     });
   });
 };
+
+// Handle global connection errors
+io.engine.on('connection_error', (err) => {
+  console.error('Socket.IO Connection Error:', err);
+});

@@ -22,6 +22,8 @@ export const SocketProvider = ({ children }) => {
       console.log("Connected to socket");
     });
 
+   socket.on("connect_error",(err) => {console.error("Connection Error : " , err.message)});
+
     return () => socket.close();
   }, []);
 
