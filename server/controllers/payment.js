@@ -30,6 +30,8 @@ const plans = [
 
 export const makePayment = async (req, res, next) => {
 
+   console.log(req.body)
+
   try {
     const { plan_name, userData } = req.body;
     if(!userData){

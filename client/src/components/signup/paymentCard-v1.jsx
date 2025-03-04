@@ -80,7 +80,7 @@ export default function PaymentCardV1({ isModal,cardData, role, userData }) {
         {
             withCredentials: true, // Allows sending cookies with the request
             headers: {
-            "Access-Control-Allow-Origin": "http:/localhost:3000", // Replace with your allowed origin URL
+            "Access-Control-Allow-Origin": `${import.meta.env.VITE_SERVER_API}`, // Replace with your allowed origin URL
             }
         }
         );
