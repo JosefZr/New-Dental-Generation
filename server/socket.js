@@ -22,6 +22,9 @@ export const initializeSocket = (server) => {
 	allowEIO3:true,
   });
 
+  io.on('connect_error', (error) => {
+     console.error('Socket.IO server error:', error);
+  });
   // Apply authentication middleware
   io.use(authenticateSocket);
 
@@ -112,7 +115,3 @@ export const initializeSocket = (server) => {
   });
 };
 
-// Handle global connection errors
-io.engine.on('connection_error', (err) => {
-  console.error('Socket.IO Connection Error:', err);
-});
