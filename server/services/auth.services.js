@@ -43,6 +43,7 @@ export const createUser = async (data) => {
     role,
   });
 
+	console.log("user created  : ", user)
   const { password, ...safeUser } = user._doc;
   return safeUser;
 };
