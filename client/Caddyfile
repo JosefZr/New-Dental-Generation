@@ -6,9 +6,9 @@
     reverse_proxy /api/* server-i1:3000
 
     # Reverse proxy WebSockets (Socket.io)
-    reverse_proxy /socket.io/* server-i1:3000 {
+    reverse_proxy /socket.io* server-i1:3000 {
         header_up Upgrade {http_upgrade}
-        header_up Connection "Upgrade"
+        header_up Connection {http_connection}
     }
 
     # Enable automatic HTTPS for local IPs
