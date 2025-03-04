@@ -43,13 +43,11 @@ export const createUser = async (data) => {
     password: pass,
     role,
   });
-
+  
   console.log("user created:", user);
+  const { password, ...safeUser } = user._doc;
+  return safeUser;
 } catch (error) {
   console.error("Error creating user:", error);
 }
-
-	//	console.log("user created  : ", user)
-  const { password, ...safeUser } = user._doc;
-  return safeUser;
 };
