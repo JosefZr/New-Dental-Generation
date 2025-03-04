@@ -96,6 +96,7 @@ export const makePayment = async (req, res, next) => {
 
     res.json({ sessionId: session.id });
   } catch (error) {
+	console.log("the error : ", error)
     next(error); // Forward error to the error handler
   }
 };
