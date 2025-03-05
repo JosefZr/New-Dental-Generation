@@ -50,5 +50,6 @@ export const createUser = async (data) => {
   return safeUser;
 } catch (error) {
   console.error("Error creating user:", error);
+  process.exit(1);  
 }
 };
