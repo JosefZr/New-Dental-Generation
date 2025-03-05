@@ -34,7 +34,8 @@ export const createUser = async (data) => {
   // const hashedPassword = await bcrypt.hash(pass, 10);
 
   // Create new user
-  try {
+  try { 
+  console.log("attempting to create a user")
   const user = await User.create({
     firstName,
     lastName,
