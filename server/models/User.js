@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: String,
-      default: `${import.meta.env.CLIENT_URL}/public/default-avatar.jpg`,
+      default: `${process.env.CLIENT_URL}/public/default-avatar.jpg`,
     },
     background:{
       type:String,
