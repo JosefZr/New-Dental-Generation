@@ -6,6 +6,20 @@ export const connectDB = async () => {
     const connection = await mongoose.connect(process.env.MONGO_URl,{
     });
     logger.info(`MongoDB connected: ${connection.connection.host}`);
+   
+    mongoose.connection.on("error", (err) => {
+      logger.error(" MongoDB Connection Error:", err);
+    });
+
+
+    mongoose.connection.on("disconnected", () => {
+      logger.warn("⚠️MongoDB Disconnected!");
+    });
+
+    mongoose.connection.on("reconnected", () => {
+      logger.info(" MongoDB Reconnected!");
+    });
+
   } catch (error) {
     logger.error("Error connecting to MongoDB", error.message);
     process.exit(1);

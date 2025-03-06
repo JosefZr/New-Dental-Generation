@@ -3,6 +3,8 @@ import User from "../models/User.js";
 import { ApiError } from "../utils/ApiError.js";
 
 export const createUser = async (data) => {
+
+ try {
   const {
     firstName,
     lastName,
@@ -34,8 +36,7 @@ export const createUser = async (data) => {
   // Hash the password before saving the user
   // const hashedPassword = await bcrypt.hash(pass, 10);
 
-  // Create new user
-  try { 
+  // Create new user 
   console.log("attempting to create a user")
   const user = await User.create({
     firstName,
@@ -50,8 +51,8 @@ export const createUser = async (data) => {
   console.log("user created:", user);
   const { password, ...safeUser } = user._doc;
   return safeUser;
-} catch (error) {
-  console.error("Error creating user:", error);
-  throw new ApiError(500, `Failed to create user: ${error.message}`);  
-}
+ } catch (error) {
+     console.error("❌ Error in createUser:", error);
+    throw new ApiError(500, `Failed to create user: ${error.message}`);  
+ }
 };
