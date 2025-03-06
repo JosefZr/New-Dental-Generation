@@ -112,11 +112,17 @@ userSchema.pre("save", async function (next) {
   console.log("Is subscriptionPlan defined?", this.subscriptionPlan !== undefined);
   console.log("subscriptionPlan type:", typeof this.subscriptionPlan);
 
+
+  console.log(this.isModified("password"))
   if (!this.isModified("password")) return next();
+
+ console.log("passed the test of modifiyinf")
 
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
+
+    console.log(this.password)
 
     if (!this.trialStartDate) {
       this.trialStartDate = new Date();
