@@ -10,6 +10,7 @@ export const createUser = async (data) => {
     email,
     password: pass,
     role,
+    region,
   } = data;
 
   console.log(data);
