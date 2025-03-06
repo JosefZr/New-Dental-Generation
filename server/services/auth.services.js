@@ -41,6 +41,7 @@ export const createUser = async (data) => {
     lastName,
     proofOfProfession,
     email,
+    region,
     password: pass,
     role,
   });
@@ -50,6 +51,6 @@ export const createUser = async (data) => {
   return safeUser;
 } catch (error) {
   console.error("Error creating user:", error);
-  throw new ApiError(500, "Failed to create user: " + error.message);  
+  throw new ApiError(500, `Failed to create user: ${error.message}`);  
 }
 };
