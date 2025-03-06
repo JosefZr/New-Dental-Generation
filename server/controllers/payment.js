@@ -48,6 +48,7 @@ export const makePayment = async (req, res, next) => {
       email: userData.email,
       password: userData.password,
       role: userData.role,
+     region:userData.region,
     });
 
     // if the user didn't created
