@@ -50,6 +50,6 @@ export const createUser = async (data) => {
   return safeUser;
 } catch (error) {
   console.error("Error creating user:", error);
-  process.exit(1);  
+  throw new ApiError(500, "Failed to create user: " + error.message);  
 }
 };
