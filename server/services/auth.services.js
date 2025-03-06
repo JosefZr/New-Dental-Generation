@@ -38,7 +38,7 @@ export const createUser = async (data) => {
 
   // Create new user 
   console.log("attempting to create a user")
-  const user = await User.create({
+  const user = new User({
     firstName,
     lastName,
     proofOfProfession,
@@ -47,11 +47,17 @@ export const createUser = async (data) => {
     password: pass,
     role,
   });
-  
-  console.log("user created:", user);
-  const { password, ...safeUser } = user._doc;
+
+  await user.validate();
+  const savedUser = await user.save();
+
+  console.log("user created:", savedUser);
+  const { password, ...safeUser } = savedUser._doc;
   return safeUser;
  } catch (error) {
+    if (error.name === "ValidationError") {
+      throw new ApiError(400, `validation error: ${error.message}`); 
+    }
      console.error("❌ Error in createUser:", error);
     throw new ApiError(500, `Failed to create user: ${error.message}`);  
  }
