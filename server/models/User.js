@@ -116,9 +116,12 @@ userSchema.pre("save", async function (next) {
   console.log(this.isModified("password"))
   if (!this.isModified("password")) return next();
 
- console.log("passed the test of modifiyinf")
+ console.log("passed the test of modifiying")
 
   try {
+
+console.log("Password to hash:", this.password);
+console.log("Password type:", typeof this.password);
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
 
