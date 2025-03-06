@@ -7,11 +7,11 @@ export const Logo = styled.div`
 export default function BigProfileLogo({image}) {
   return (
     <>
-    {image ==="http://localhost:5173/public/default-avatar.jpg" ?
+    {image ===`${import.meta.env.VITE_SERVER_API}/default-avatar.jpg` ?
     (
       <Logo
         className="h-full w-full rounded-full"
-        style={{ backgroundImage: `url(http://localhost:5173/public/default-avatar.jpg)`,width:"51px", height:"51px" }}
+        style={{ backgroundImage: `url(${import.meta.env.VITE_SERVER_API}/default-avatar.jpg)`,width:"51px", height:"51px" }}
       />
     )
     :(

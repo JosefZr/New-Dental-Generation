@@ -42,9 +42,9 @@ export default function MyAccount() {
       <div>
       <div className="flex items-center gap-3">
         <section className="relative flex-shrink-0 rounded-full bg-base-300" style={{width:"62px", height:"62px"}}>
-          {user.avatar ==="http://localhost:5173/public/default-avatar.jpg"?
+          {user.avatar ===`${import.meta.env.VITE_SERVER_API}/default-avatar.jpg`?
             (<img 
-              src={`http://localhost:5173/public/default-avatar.jpg`} 
+              src={`${import.meta.env.VITE_SERVER_API}/default-avatar.jpg`} 
               alt="" className="rounded-full object-cover" 
               style={{width:"62px",height:"62px"}} 
               loading="lazy"

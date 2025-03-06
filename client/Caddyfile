@@ -5,6 +5,8 @@
     # Reverse proxy API calls (Standard HTTP requests)
     reverse_proxy /api/* server-i1:3000
 
+
+    reverse_proxy /uploads/* server-i1:3000 
     # Reverse proxy WebSockets (Socket.io)
     @ws {
         path /socket.io*
