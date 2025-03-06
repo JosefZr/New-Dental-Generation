@@ -181,7 +181,7 @@ const handlePinChannel = async (channel) => {
           <LoadingSpinner />
         ) : (
           <>
-            {["admin", "moderator"].includes(userInfo.role) && groupedChannels.control.length > 0 && (
+            {["admin", "moderator"].includes(userInfo.role) && groupedChannels.control.length >= 0 && (
               <div className="mx-2">
                 <ServerSection label="Admin & Moderators" allowedRole="ADMD" channelType="control">
                   {groupedChannels.control
@@ -259,7 +259,7 @@ const handlePinChannel = async (channel) => {
                 </ServerSection>
               </div>
             )}
-            {groupedChannels.dentist.length > 0 && (
+            {groupedChannels.dentist.length >= 0 && (
               <div className="mx-2">
                 <ServerSection label="Dentists channels" allowedRole="dentist" channelType="room">
                 {groupedChannels.dentist
@@ -316,7 +316,7 @@ const handlePinChannel = async (channel) => {
                 </ServerSection>
               </div>
             )}
-            {groupedChannels.lab.length > 0 && (
+            {groupedChannels.lab.length >= 0 && (
               <div className="mx-2">
                 <ServerSection label="Labs channels" allowedRole="lab" channelType="room">
                   {groupedChannels.lab.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
@@ -343,7 +343,7 @@ const handlePinChannel = async (channel) => {
                 </ServerSection>
               </div>
             )}
-            {groupedChannels.store.length > 0 && (
+            {groupedChannels.store.length >= 0 && (
               <div className="mx-2">
                 <ServerSection label="Stores Channels" allowedRole="store" channelType="room">
                   {groupedChannels.store.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
@@ -371,7 +371,7 @@ const handlePinChannel = async (channel) => {
               </div>
             )}
             {/* for the algerian channel */}
-            {groupedChannels.algeria.length > 0 && (
+            {groupedChannels.algeria.length >= 0 && (
               <div className="mx-2">
                 <ServerSection label="Algeria Channels" allowedRole="all"  channelType="algeria">
                   {groupedChannels.algeria.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
@@ -400,7 +400,7 @@ const handlePinChannel = async (channel) => {
               </div>
             )}
             {/* for the russian channel */}
-            {groupedChannels.russia.length > 0 && (
+            {groupedChannels.russia.length >= 0 && (
               <div className="mx-2">
                 <ServerSection label="Russia Channels" allowedRole="all" channelType="russia">
                   {groupedChannels.russia.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
@@ -429,7 +429,7 @@ const handlePinChannel = async (channel) => {
               </div>
             )}
             {/* for the egypt channel */}
-            {groupedChannels.egypt.length > 0 && (
+            {groupedChannels.egypt.length >= 0 && (
               <div className="mx-2">
                 <ServerSection label="Egypt Channels" allowedRole="all" channelType="egypt">
                   {groupedChannels.egypt.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
@@ -458,7 +458,7 @@ const handlePinChannel = async (channel) => {
               </div>
             )}
             {/* for the europe channel */}
-            {groupedChannels.europe.length > 0 && (
+            {groupedChannels.europe.length >= 0 && (
               <div className="mx-2">
                 <ServerSection label="Europe Channels" allowedRole="all" channelType="europe">
                   {groupedChannels.europe.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))

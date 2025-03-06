@@ -10,12 +10,9 @@ import CourseProvider from "./context/CoursesContext.jsx";
 import { ModalProvider } from "./components/providers/modal-provider.jsx";
 import UserProvider from "./context/UserContext.jsx";
 import { UserChatProvider } from "./context/ToChatUser.jsx";
-import swDev from "./swDev.js";
 import SunnahProvider from "./context/sunnahContext.jsx";
-// import { registerServiceWorker } from "@/serviceworker.js";
-// import { requestNotificationPermission } from "./push.js";
-// import swDev from "./swDev.js";
 const queryClient = new QueryClient();
+import * as PusherPushNotifications from "@pusher/push-notifications-web";
 
 createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
@@ -60,13 +57,21 @@ createRoot(document.getElementById("root")).render(
   </QueryClientProvider>
 );
 
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js")
+    .then((registration) => {
+      console.log("✅ Service Worker registered:", registration);
 
+      const beamsClient = new PusherPushNotifications.Client({
+        instanceId: "35cd6f1f-efdb-43c0-b321-1500e97dd08d",
+      });
 
-window.addEventListener("load", () => {
-    swDev();
-});
-// Register Service Worker
-// registerServiceWorker();
-
-// Request Notification Permission
-// requestNotificationPermission();
+      beamsClient.start()
+        .then(() => beamsClient.addDeviceInterest("general"))
+        .then(() => console.log("✅ Subscribed to push notifications"))
+        .catch(console.error);
+    })
+    .catch((error) => {
+      console.error("❌ Service Worker registration failed:", error);
+    });
+}

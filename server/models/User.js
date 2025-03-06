@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: String,
-      default: "http://localhost:5173/public/default-avatar.jpg",
+      default: `${import.meta.env.CLIENT_URL}/public/default-avatar.jpg`,
     },
     background:{
       type:String,
@@ -82,7 +82,7 @@ const userSchema = new mongoose.Schema(
     subscriptionPlan: {
       type: String,
       required: true,
-      enum: ["monthly", "quarterly", "yearly","freeTrial"],
+      enum: ["monthly", "quarterly", "yearly","freeTrial","decade","century"],
       default:"freeTrial"
     },
     subscriptionStartDate: { type: Date },
