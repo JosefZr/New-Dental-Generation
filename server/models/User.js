@@ -110,12 +110,19 @@ const userSchema = new mongoose.Schema(
 
 // Hash password before saving user document
 userSchema.pre("save", async function (next) {
+  console.log("Pre-save hook - subscriptionPlan:", this.subscriptionPlan);
+  console.log("Is subscriptionPlan defined?", this.subscriptionPlan !== undefined);
+  console.log("subscriptionPlan type:", typeof this.subscriptionPlan);
+
   if (!this.isModified("password")) return next();
+
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
 
-    // Set trial end date (7 days from trialStartDate) if not already set
+    if (!this.trialStartDate) {
+      this.trialStartDate = new Date();
+    }
     if (!this.trialEndDate) {
       this.trialEndDate = new Date(this.trialStartDate);
       this.trialEndDate.setDate(this.trialEndDate.getDate() + 7);
@@ -126,6 +133,7 @@ userSchema.pre("save", async function (next) {
     next(error);
   }
 });
+
 
 // Compare provided password with stored hashed password
 userSchema.methods.comparePassword = async function (password) {
@@ -146,12 +154,6 @@ userSchema.methods.updateSubscriptionPlan = function (plan) {
   this.subscriptionPlan = plan;
   return this.save();
 };
-userSchema.pre("save", function(next) {
-  console.log("Pre-save hook - subscriptionPlan:", this.subscriptionPlan);
-  console.log("Is subscriptionPlan defined?", this.subscriptionPlan !== undefined);
-  console.log("subscriptionPlan type:", typeof this.subscriptionPlan);
-  next();
-});
 const User = mongoose.model("User", userSchema);
 
 export default User;
