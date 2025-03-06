@@ -126,8 +126,10 @@ userSchema.pre("save", async function (next) {
       this.trialEndDate.setDate(this.trialEndDate.getDate() + 7);
     }
 
+    console.log("saved the user successfuly")
     next();
   } catch (error) {
+    console.log(error)
     next(error);
   }
 });
