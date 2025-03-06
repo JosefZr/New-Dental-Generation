@@ -37,7 +37,7 @@ export const createUser = async (data) => {
   // const hashedPassword = await bcrypt.hash(pass, 10);
 
   // Create new user 
-  console.log("attempting to create a user")
+  console.log("new user object")
   const user = new User({
     firstName,
     lastName,
@@ -48,7 +48,9 @@ export const createUser = async (data) => {
     role,
   });
 
+ console.log("validation")
   await user.validate();
+ console.log("saving the user")
   const savedUser = await user.save();
 
   console.log("user created:", savedUser);
