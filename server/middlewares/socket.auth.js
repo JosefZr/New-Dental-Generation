@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 // Middleware to authenticate Socket.IO connections
 export const authenticateSocket = (socket, next) => {
-  const token = socket.handshake.headers["authorization"];
+  const token = socket.handshake.auth.token;
 
   if (!token) {
     const err = new Error("Authentication error");

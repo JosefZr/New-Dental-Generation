@@ -12,8 +12,8 @@ export const SocketProvider = ({ children }) => {
     const socket = io(`${import.meta.env.VITE_SOCKET}`, {
 	transports : ["websocket"],
 	withCredentials: true,
-      extraHeaders: {
-        authorization: localStorage.getItem("token") || "",
+      auth: {
+        token: localStorage.getItem("token") || "",
       },
     });
     setSocket(socket);
