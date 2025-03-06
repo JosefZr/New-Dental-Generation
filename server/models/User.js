@@ -61,9 +61,12 @@ const userSchema = new mongoose.Schema(
     isPaid: { type: Boolean, default: false },
     refreshToken: { type: String },
     proofOfProfession: {
-      type: String,
-      required: true,
-    },
+  type: String,
+  required: function () {
+    return !["admin", "moderator"].includes(this.role); 
+  },
+},
+
 
     // Stripe Integration Fields
     stripeCustomerId: {
