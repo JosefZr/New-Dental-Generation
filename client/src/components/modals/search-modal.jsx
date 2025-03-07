@@ -8,32 +8,40 @@ import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 import { useState } from "react";
 import { FaSearchDollar } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { LoadingSpinner } from "../server/ServerSideBar";
 
 export default function SearchModal() {
     const { isOpen, onClose, type } = useModal();
+    const location = useLocation();
+
     const isModalOpen = isOpen && type === MODAL_TYPE.SEARCH_MODAL;
-    const [searchTerm, setSearchTerm] = useState(""); // State for search input
+    const isOnCoursesPage = location.pathname.includes("/course");
+// Add this check before your filteredCourses
+
+    const [searchTerm, setSearchTerm] = useState("");
     const navigate = useNavigate();
 
-    // Fetch courses, but only enable the query when the modal is open
+    // Only fetch courses when modal is open and on courses page
     const { data: studentCourseList, isLoading, isError, error } = useGetAllCourses({
-        enabled: isModalOpen, // Controls when the query is active
+        enabled: isModalOpen && isOnCoursesPage,
     });
+    if (!isOnCoursesPage) return null;
 
     const handleInputChange = (e) => {
         setSearchTerm(e.target.value);
     };
 
-    const filteredCourses =
-        studentCourseList?.filter((course) =>
-            course.title.toLowerCase().includes(searchTerm.toLowerCase())
-        ) || [];
+    // Filter courses only if on courses page
+    const filteredCourses = isOnCoursesPage
+        ? studentCourseList?.filter((course) =>
+              course.title.toLowerCase().includes(searchTerm.toLowerCase())
+          ) || []
+        : [];
 
     const handleClose = () => {
         onClose();
-        setSearchTerm(""); // Reset search term when modal closes
+        setSearchTerm("");
     };
 
     return (
@@ -76,7 +84,11 @@ export default function SearchModal() {
                             backgroundColor: "rgb(13 26 37)",
                         }}
                     >
-                        {isLoading ? (
+                        {!isOnCoursesPage ? (
+                            <p className="text-center text-gray-500 mt-4">
+                                Navigate to the course page to search lessons.
+                            </p>
+                        ) : isLoading ? (
                             <div className="flex justify-center items-center h-full">
                                 <LoadingSpinner />
                             </div>

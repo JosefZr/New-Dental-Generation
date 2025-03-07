@@ -5,7 +5,7 @@ import { FaArrowRight } from "react-icons/fa6";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useGetRandomQuoate } from '@/hooks/quoates/useGetRandomQuoate';
 import { useGetAllCourses } from '@/hooks/courses/useGetAllCourses';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { LoadingSpinner } from '@/components/server/ServerSideBar';
 
 
@@ -51,8 +51,10 @@ const ScrollButton = styled.button`
 
 export default function Carousels({handleClose}) {
     const carouselRef = useRef(null);
-    const { data: quoate , isLoading, isError, error } = useGetRandomQuoate()
-    const { data: courses , isLoading:isGettingCourses, isError:isCoursesError, error:courseError } = useGetAllCourses()
+    const location = useLocation();
+    const isOnChannelsPage = location.pathname.includes(`/channels`);
+    const { data: quoate , isLoading, isError, error } = useGetRandomQuoate({}, { enabled: isOnChannelsPage })
+    const { data: courses , isLoading:isGettingCourses, isError:isCoursesError, error:courseError } = useGetAllCourses({}, { enabled: isOnChannelsPage })
     
     const scrollLeft = () => {
         if (carouselRef.current) {
