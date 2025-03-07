@@ -7,12 +7,12 @@ export const Logo = styled.div`
 export default function SmallProfileLogo({image}) {
     return (
         <>
-        {image ===`${import.meta.env.VITE_SERVER_API}/default-avatar.jpg` ?
+        {image ===`/default-avatar.jpg` ?
         (
             <Logo
                 className="rounded-full object-cover"
                 style={{ 
-                    backgroundImage: `url(${import.meta.env.VITE_SERVER_API}/default-avatar.jpg)` ,
+                    backgroundImage: `url(/default-avatar.jpg)` ,
                     width:"40px",
                     height:"40px"
                 }}
