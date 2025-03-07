@@ -1,6 +1,9 @@
-buildydn.com , www.buildydn.com {
+www.buildydn.com {
     redir https://buildydn.com{uri}
 
+}
+
+buildydn.com {
     root * /srv
     file_server
 
