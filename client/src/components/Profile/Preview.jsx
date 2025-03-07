@@ -223,15 +223,15 @@ const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.comp
         <div className="relative flex px-4 -mt-[55px]" style={{alignSelf:"flex-start",flexDirection:"row" }}>
         {/* Avatar */}
         <div className="flex-shrink-0 rounded-full border-4 border-black overflow-hidden" style={{ width: "88px", height: "88px" }}>
-            {user.avatar === import.meta.env.VITE_DEFAULT_AVATAR?
+            {user.avatar === "/default-avatar.jpg"?
            ( <img
-                src={`${import.meta.env.VITE_DEFAULT_AVATAR}`}
+                src={`/default-avatar.jpg`}
                 alt="Avatar"
                 className="w-full h-full object-cover"
             />):
             (
                 <img
-                src={`${import.meta.env.VITE_UPLOAD_AVATAR_URL}/${user.avatar}`}
+                src={`${import.meta.env.VITE_UPLOAD_AVATAR_URL}${user.avatar}`}
                 alt="Avatar"
                 className="w-full h-full object-cover"
             />
@@ -244,7 +244,7 @@ const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.comp
                         {user.role==="admin" ?(
                             <LiaChessKingSolid style={{color:"rgb(185, 242, 255)"}}/>
                         ):(
-                            nextProgress.logo
+                            currentProgress.logo
                         )}
                         </div>
                         </TooltipTrigger>

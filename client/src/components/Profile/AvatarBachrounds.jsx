@@ -90,10 +90,10 @@ const onBackgroundChange = async (e)=>{
             >
             <div className="group relative h-[92px] w-[92px] cursor-pointer rounded-full">
                 <div className="h-[92px] w-[92px] rounded-full">
-                {user.avatar === import.meta.env.VITE_DEFAULT_AVATAR?
+                {user.avatar === "/default-avatar.jpg"?
                 (<Logo
                     className="h-full w-full rounded-full"
-                    style={{ backgroundImage: `url(${import.meta.env.VITE_DEFAULT_AVATAR})` }}
+                    style={{ backgroundImage: `url(/default-avatar.jpg` }}
                 />):(
                     (<Logo
                         className="h-full w-full rounded-full"

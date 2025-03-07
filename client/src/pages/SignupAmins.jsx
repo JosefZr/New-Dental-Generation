@@ -3,9 +3,11 @@ import {
   LeftSignup,
 } from "@/components/signup";
 import PersonalInformationFormAdmins from "@/components/signup/PersonalInformationFormAdmins";
+import { useNavigate } from "react-router-dom";
 
 
 export default function SignupAdmins() {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -64,7 +66,7 @@ export default function SignupAdmins() {
       if (!response.ok) {
         throw new Error(data.message || "Registration failed");
       }
-  
+      navigate("/login");
       console.log("Registration successful:", data);
       return data;
   

@@ -136,7 +136,7 @@ export default function Message({ message }) {
             style={{ width: "40px", height: "40px" }}
             onClick={handleImageClick}
           >
-            {message.sender?.avatar ===import.meta.env.VITE_DEFAULT_AVATAR ?(
+            {message.sender?.avatar ==="/default-avatar.jpg" ?(
               <img
                 src={`${message.sender.avatar}`}
                 className="rounded-full object-cover"
