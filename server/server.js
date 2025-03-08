@@ -28,7 +28,7 @@ import { initializeSocket } from "./socket.js";
 import http from "http";
 import path from "path";
 import { fileURLToPath } from "url";
-
+import PushNotifications from "@pusher/push-notifications-server";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -61,6 +61,46 @@ app.use(cors({
 
 app.options("*", cors()); // Handle preflight requests for all routes
 
+const beamsClient = new PushNotifications({
+  instanceId: "35cd6f1f-efdb-43c0-b321-1500e97dd08d",  // Replace with your Pusher instance ID
+  secretKey: "46096E6C3D9CB2029675DA83D33808F82D54C9F75E2DD04200E2534E574141C8",    // Replace with your Pusher secret key
+});
+// API route to send push notifications
+app.post("/send-notification", async (req, res) => {
+  try {
+    const { title, body,interests  } = req.body;
+
+    const response = await beamsClient.publishToInterests(["hello"], {
+      web: {
+        notification: {
+          title: title || "Default Title",
+          body: body || "Default Body",
+          deep_link: "https://www.pusher.com", // Link user when clicking the notification
+        },
+      },
+      fcm: {
+        notification: {
+          title: title || "Default Title",
+          body: body || "Default Body",
+
+        }
+      },
+      apn: {
+        aps: {
+          alert: {
+            title: title || "Default Title",
+            body: body || "Default Body",
+          }
+        }
+      },
+    });
+    console.log("📨 Notification sent successfully:", response);
+    res.json({ success: true, message: "Notification sent!" });
+  } catch (error) {
+    console.error("❌ Error sending notification:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
 //ROUTES
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/channels", chanRoutes);

@@ -202,6 +202,7 @@ useEffect(() => {
     clearInterval(interval);
   };
 }, [deferredPrompt]);
+
   return (
     <div className="space-y-4 flex flex-col items-center h-full text-my-white-gray w-full py-6">
       <TooltipProvider delayDuration={0}>
@@ -255,7 +256,10 @@ useEffect(() => {
                 <div className="cursor-pointer py-2 text-my-gold">        
                   <FaPlus 
                     className="object-cover w-[50%] h-[50%] items-center text-center mx-auto" 
-                    onClick={() => onOpen(MODAL_TYPE.ADD_MODAL)}
+                    onClick={() => {
+                      onOpen(MODAL_TYPE.ADD_MODAL)
+                    }}
+                    
                   />
                 </div>
               </TooltipTrigger>

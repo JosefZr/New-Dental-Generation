@@ -9,6 +9,10 @@
     "permissions": ["notifications"],
     "background_color": "#000000",
     "gcm_sender_id": "103953800507",
+    "background": {
+        "scripts": ["sw.js"],
+        "persistent": true
+    },
     "icons": [
         {
             "src": "/bg-black-logo.png",

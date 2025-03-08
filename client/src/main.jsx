@@ -57,21 +57,31 @@ createRoot(document.getElementById("root")).render(
   </QueryClientProvider>
 );
 
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js")
-    .then((registration) => {
-      console.log("✅ Service Worker registered:", registration);
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+    .then(function(registration) {
+      console.log('Service Worker registered with scope:', registration.scope);
 
-      const beamsClient = new PusherPushNotifications.Client({
-        instanceId: "35cd6f1f-efdb-43c0-b321-1500e97dd08d",
-      });
-
-      beamsClient.start()
-        .then(() => beamsClient.addDeviceInterest("general"))
-        .then(() => console.log("✅ Subscribed to push notifications"))
-        .catch(console.error);
+      // Request permission for notifications
+      return Notification.requestPermission();
     })
-    .catch((error) => {
-      console.error("❌ Service Worker registration failed:", error);
+    .then(function(permission) {
+      if (permission === 'granted') {
+        console.log('Notification permission granted.');
+
+        // Register device with Pusher Beams
+        const beamsClient = new PusherPushNotifications.Client({
+          instanceId: '35cd6f1f-efdb-43c0-b321-1500e97dd08d',
+        });
+
+        beamsClient.start()
+          .then(() => beamsClient.addDeviceInterest('hello'))
+          .then(() => console.log('Successfully registered and subscribed!'))
+          .catch(console.error);
+      }
+    })
+    .catch(function(error) {
+      console.log('Service Worker registration failed:', error);
     });
 }
+

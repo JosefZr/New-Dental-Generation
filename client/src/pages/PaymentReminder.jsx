@@ -44,9 +44,18 @@ const handleCurrencyChange = async (e) => {
       const { data: earnings, isLoadingEarnings, isEarningsError, Earningserror } = useUserEarnings({id:userInfo.userId});
       // Filter payments by type
  
-      const toggleSidebar = () => {
+      const toggleSidebar = async() => {
+          await fetch(`${import.meta.env.VITE_SERVER_API}/send-notification`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              title: "Hello from Vite!",
+              body: "This is a test push notification.",
+            }),
+          });
         setIsSidebarOpen((prev) => !prev);
-        handleDropdownClick()
     };
       const money = Settings?.settings?.currency || "DZD";
       
@@ -58,29 +67,14 @@ const handleCurrencyChange = async (e) => {
         };
         return symbols[currency] || "DA ";
       };
-      const handleDropdownClick = async () => {
-        if (Notification.permission === "granted") {
-          new Notification("Notification test", {
-            body: "You have opened the dropdown menu.",
-            icon: "/CompressJPEG.Online_img(512x512).png",
-          });
-        } else if (Notification.permission !== "denied") {
-          const permission = await Notification.requestPermission();
-          if (permission === "granted") {
-            new Notification("Notification test", {
-              body: "You have opened the dropdown menu.",
-              icon: "/CompressJPEG.Online_img(512x512).png",
-            });
-          }
-        }
-      };
+
       
   return (
     <div className={`p-4 sm:p-6 bg-black  ${isSidebarOpen ?"ml-[-72px] ":""} `}>
       <div className={`flex flex-row justify-start items-center mb-4 `}>
       <div className="flex items-center justify-between gap-1 w-full">
         <div className="flex items-center">
-          <button className="p-2 hover:bg-gray-800 rounded-full" onClick={toggleSidebar} id="push">
+          <button className="p-2 hover:bg-gray-800 rounded-full" onClick={toggleSidebar} >
               <GiHamburgerMenu className=" text-2xl text-white" />
             </button>
           <h1 className="text-xl sm:text-2xl font-semibold text-white ml-2">MONEY IN</h1>
