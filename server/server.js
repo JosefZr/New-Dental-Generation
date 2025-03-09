@@ -154,7 +154,7 @@ const server = http.createServer(app);
     await connectDB();
 
     server.listen(PORT, "0.0.0.0",() => {
-      logger.info(`Server is running on http://localhost:${PORT}`);
+      logger.info(`Server is running on ${process.env.SERVER_URL}:${PORT}`);
     });
 
     // Initialize Socket.IO with the HTTP server
