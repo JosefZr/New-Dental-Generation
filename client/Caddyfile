@@ -4,6 +4,7 @@ www.buildydn.com {
 }
 
 buildydn.com {
+    tls /etc/caddy/certs/fullchain.pem /etc/caddy/certs/privkey.pem
     root * /srv
     file_server
 

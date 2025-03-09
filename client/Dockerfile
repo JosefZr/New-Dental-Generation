@@ -58,6 +58,8 @@ COPY --from=builder /app/dist .
 # Copy the Caddyfile for configuration
 COPY Caddyfile /etc/caddy/Caddyfile
 
+VOLUME ["/data", "/config"]
+
 # Expose HTTP and HTTPS ports
 EXPOSE 80 443
 
