@@ -1,10 +1,14 @@
+{
+    auto_https disable
+}
+
 www.buildydn.com {
     redir https://buildydn.com{uri}
-
 }
 
 buildydn.com {
     tls /etc/caddy/certs/fullchain.pem /etc/caddy/certs/privkey.pem
+
     root * /srv
     file_server
 
