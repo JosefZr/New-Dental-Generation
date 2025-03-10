@@ -1,5 +1,5 @@
 {
-    auto_https disable
+    auto_https off
 }
 
 www.buildydn.com {
