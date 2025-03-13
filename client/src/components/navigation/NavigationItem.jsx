@@ -38,7 +38,7 @@ export default function NavigationItem({ id, imageUrl }) {
                   isActive ? "bg-my-white/10" : "bg-transparent rounded-[16px]"
                 )}
               >
-                <div className={`${isActive ? " opacity-100":"" }opacity-60 object-cover w-full h-full text-my-beige `}>
+                <div className={`${isActive ? "opacity-100":"opacity-60" }  object-cover w-full h-full text-my-gold `}>
                   {imageUrl}
                 </div>
               </div>

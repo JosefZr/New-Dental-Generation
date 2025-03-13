@@ -72,37 +72,37 @@ const handleCurrencyChange = async (e) => {
   return (
     <div className={`p-4 sm:p-6 bg-black  ${isSidebarOpen ?"ml-[-72px] ":""} `}>
       <div className={`flex flex-row justify-start items-center mb-4 `}>
-      <div className="flex items-center justify-between gap-1 w-full">
-        <div className="flex items-center">
-          <button className="p-2 hover:bg-gray-800 rounded-full" onClick={toggleSidebar} >
-              <GiHamburgerMenu className=" text-2xl text-white" />
-            </button>
-          <h1 className="text-xl sm:text-2xl font-semibold text-white ml-2">MONEY IN</h1>
-        </div>
-        <div className="flex flex-row items-center gap-2">
-        <select
-          className="bg-[#101214] border-[#282F35] cursor-pointer border-1 text-white p-2 rounded-md active:border-[#282F35]"
-          value={viewType}
-          onChange={(e) => setViewType(e.target.value)}
-        >
-          <option value="daily" className="hover:bg-[#13F287]">Daily</option>
-          <option value="monthly" className="hover:bg-[#13F287]">Monthly</option>
-        </select>
-        {isLoadingSettings?(
-          <GreenLoader/>
-        ):(
+        <div className="flex items-center justify-between gap-1 w-full">
+          <div className="flex items-center">
+            <button className="p-2 hover:bg-gray-800 rounded-full" onClick={toggleSidebar} >
+                <GiHamburgerMenu className=" text-2xl text-white" />
+              </button>
+            <h1 className="text-xl sm:text-2xl font-semibold text-white ml-2">MONEY IN</h1>
+          </div>
+          <div className="flex flex-row items-center gap-2">
           <select
-            className="bg-[#101214] border-[#282F35] cursor-pointer border-1 text-white p-2 rounded-md"
-            value={currency}
-            onChange={handleCurrencyChange}
+            className="bg-[#101214] border-[#282F35] cursor-pointer border-1 text-white p-2 rounded-md active:border-[#282F35]"
+            value={viewType}
+            onChange={(e) => setViewType(e.target.value)}
           >
-            <option value="DZD">DZD</option>
-            <option value="EUR">EUR</option>
-            <option value="USD">USD</option>
+            <option value="daily" className="hover:bg-[#13F287]">Daily</option>
+            <option value="monthly" className="hover:bg-[#13F287]">Monthly</option>
           </select>
-        )}
+          {isLoadingSettings?(
+            <GreenLoader/>
+          ):(
+            <select
+              className="bg-[#101214] border-[#282F35] cursor-pointer border-1 text-white p-2 rounded-md"
+              value={currency}
+              onChange={handleCurrencyChange}
+            >
+              <option value="DZD">DZD</option>
+              <option value="EUR">EUR</option>
+              <option value="USD">USD</option>
+            </select>
+          )}
+          </div>
         </div>
-      </div>
       </div>
     <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-4 sm:mb-6">
     <MetricCards earnings={earnings} payments={payments} viewType={viewType}  money={getCurrencyPrefix(money)} isLoadingEarnings={isLoadingEarnings} isLoading={isLoading}/>

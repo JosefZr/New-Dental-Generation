@@ -12,6 +12,7 @@ const Back = styled.div`
 `;
 
 const fetchUserData = async (data) => {
+  console.log(data)
   try {
     const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/auth/login`, {
       method: "POST",
