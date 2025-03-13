@@ -1,5 +1,3 @@
-"use client"
-
 import { useGetAllAnalyses } from "@/hooks/analyses/useGetAllAnalyses"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select"
 import { useState, useMemo, useContext } from "react"

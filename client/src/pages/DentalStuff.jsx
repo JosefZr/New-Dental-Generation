@@ -55,9 +55,9 @@ export default function DentalStuff() {
   }
 
   return (
-    <div className="fixed w-full px-5">
+    <div className="w-full ">
       <button
-        className="absolute top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
+        className="top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
         onClick={toggleSidebar}
       >
         <GiHamburgerMenu className="lg:hidden text-2xl text-white" />

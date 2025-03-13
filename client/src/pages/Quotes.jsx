@@ -56,15 +56,15 @@ export default function Quotes() {
     }
   }
     return (
-        <div  className="fixed w-full lg:w-[80%] mx-auto px-5 overflow-x-hidden">
+        <div  className="w-full">
           <button
-            className="absolute top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
+            className="top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
             onClick={toggleSidebar}
           >
             <GiHamburgerMenu className="lg:hidden text-2xl text-white" />
           </button>
           <div
-            className="max-w-xl mx-auto mt-14 p-6 rounded-lg min-w-1 shadow-lg"
+            className="max-w-md mx-auto mt-14 p-6 rounded-lg shadow-lg"
             style={{ background: 'rgb(13, 26, 37, 1)' }}
           >
             <h1 className="text-2xl font-bold mb-4 text-center">Quotes</h1>
@@ -94,12 +94,12 @@ export default function Quotes() {
                 {inventory?.map((item) => (
                   <li
                     key={item._id}
-                    className="flex items-center justify-between bg-my-dark-blue p-2 rounded-xl "
-                  >
-                    <p
-        className="ml-2 overflow-hidden whitespace-nowrap text-ellipsis"
-        style={{ maxWidth: '70%' }}
-      >{item.text}</p>
+                    className="flex items-center justify-between bg-my-dark-blue p-2 rounded-xl"
+                    >
+                    <span
+                      className="ml-2 overflow-hidden whitespace-wrap text-ellipsis"
+                      // style={{ maxWidth: '70%' }}
+                    >{item.text}</span>
                     
                     <div>
                       <Button
