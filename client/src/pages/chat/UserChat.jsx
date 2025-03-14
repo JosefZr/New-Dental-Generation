@@ -18,6 +18,7 @@ export default function UserChat() {
   const [recipient, setRec] = useState("");
   const [msgToSend, setMessageToSend] = useState("");
   const [preventFetch, setPrevent] = useState(false);
+  const [uploadingImages, setUploadingImages] = useState({});
 
   const [page] = useState(1); // Track the current page
   const [isFetching, setIsFetching] = useState(false); // Prevent duplicate fetches
@@ -25,7 +26,6 @@ export default function UserChat() {
   const socket = useSocket();
   const {isSidebarOpen, setIsSidebarOpen,userMessages,chatId,isDashboardSidebarOpen,setIsDashboardSidebarOpen} = useContext(UserContext);
   const [messages, setMessages] = useState(userMessages || []);
-
   const [images, setImages] = useState([])
   const [imagesTosnd, setImagesToSnd] = useState([])
 
@@ -50,6 +50,12 @@ export default function UserChat() {
         preview: URL.createObjectURL(file),
       }));
       setImages((prevImages) => [...prevImages, ...newImages]);
+        // Initialize loading state for new images
+        const newUploadingState = {};
+        newImages.forEach(img => {
+          newUploadingState[img.id] = false;
+        });
+        setUploadingImages(prev => ({...prev, ...newUploadingState}));
     }
   };
 
@@ -61,26 +67,140 @@ export default function UserChat() {
       }
       return prevImages.filter(image => image.id !== id)
     })
+    
+    // Clean up loading state
+    setUploadingImages(prev => {
+      const newState = {...prev};
+      delete newState[id];
+      return newState;
+    });
+  }
+  async function storeImages() {
+    setDisable(true);
+    const formData = new FormData();
+    const uploadPromises = [];
+    const uploadResults = [];
+
+    try {
+      // Set all images to uploading state
+      const newUploadingState = {};
+      images.forEach(img => {
+        newUploadingState[img.id] = true;
+      });
+      setUploadingImages(newUploadingState);
+
+      // Create individual upload promises for each image
+      for (const imageObj of images) {
+        const singleFormData = new FormData();
+        singleFormData.append("images", imageObj.file);
+
+        const uploadPromise = fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/channels/storeMessageImages`, {
+          method: "POST",
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+          body: singleFormData,
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Failed to upload image: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Mark this image as completed
+          setUploadingImages(prev => ({
+            ...prev,
+            [imageObj.id]: false
+          }));
+          
+          // Update the image status
+          setImages(prev => 
+            prev.map(img => 
+              img.id === imageObj.id 
+                ? {...img, status: 'uploaded'} 
+                : img
+            )
+          );
+          
+          return data.files[0]; // Assuming each upload returns an array with one file
+        })
+        .catch(error => {
+          console.error(`Error uploading image ${imageObj.id}:`, error);
+          // Mark as failed
+          setUploadingImages(prev => ({
+            ...prev,
+            [imageObj.id]: false
+          }));
+          
+          setImages(prev => 
+            prev.map(img => 
+              img.id === imageObj.id 
+                ? {...img, status: 'failed'} 
+                : img
+            )
+          );
+          
+          return null;
+        });
+        
+        uploadPromises.push(uploadPromise);
+      }
+
+      // Wait for all uploads to complete
+      const results = await Promise.all(uploadPromises);
+      // Filter out any failed uploads
+      const successfulUploads = results.filter(result => result !== null);
+      
+      return successfulUploads;
+    } catch (error) {
+      console.error("An error occurred while storing images:", error);
+      return null;
+    } finally {
+      setDisable(false);
+    }
+  }
+
+  function sendMessage() {
+    if (!msgToSend.trim() && !imagesTosnd) return;
+
+    console.log(imagesTosnd , msgToSend)
+
+    socket.emit("privateMessage", {
+      content: msgToSend,
+      recipient: chatId,
+      images: imagesTosnd
+    });
+
+    setMessageToSend("")
+    setImages([])
+    setImagesToSnd([])
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    console.log('Submitting files:', images.map(img => img.file))
-    setImages([])
-    if (fileInputRef.current) {
-      fileInputRef.current.value = ''
+    if (e) e.preventDefault();
+    // Check if any images are still uploading
+    const stillUploading = Object.values(uploadingImages).some(status => status === true);
+    if (stillUploading) {
+      // Don't proceed if images are still uploading
+      return;
     }
-    e.preventDefault();
+
     if (images.length > 0) {
-      console.log(images)
       const resp = await storeImages() ;
-      setImagesToSnd(resp)
+      if (resp && resp.length > 0) {
+        setImagesToSnd(resp);
+      } else {
+        // Handle case where all uploads failed
+        alert("Failed to upload one or more images. Please try again.");
+      }
     }else {
       sendMessage();
     }
-    e.target.value="";
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   }
-
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -144,7 +264,12 @@ export default function UserChat() {
     if (e.key === "Enter") {
       e.preventDefault();
       if (disable) return;
-      
+      // Check if any images are still uploading
+      const stillUploading = Object.values(uploadingImages).some(status => status === true);
+      if (stillUploading) {
+        // Don't proceed if images are still uploading
+        return;
+      }
       if (images.length > 0) {
         try {
           const resp = await storeImages();
@@ -174,53 +299,6 @@ export default function UserChat() {
 
 
   ////////////////
-  async function storeImages() {
-    setDisable(true); 
-    const formData = new FormData();
-
-    // Append files to FormData
-    images.forEach((imageObj) => {
-      formData.append("images", imageObj.file);
-    });  
-    try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/chats/storeMessageImages`, {
-        method: "POST",
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-        body: formData, 
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Failed to store images: ${response.status} ${response.statusText}`);
-      }
-  
-      const data = await response.json(); 
-  
-      return data.files || [];  // Ensure we always return an array
-    } catch (error) {
-      console.error("An error occurred while storing images:", error);
-      return null; 
-    } finally {
-      setDisable(false); 
-    }
-  }
-
-  function sendMessage() {
-    if (!msgToSend.trim() && !imagesTosnd) return;
-
-    console.log(imagesTosnd , msgToSend)
-
-    socket.emit("privateMessage", {
-      content: msgToSend,
-      recipient: chatId,
-      images: imagesTosnd
-    });
-
-    setMessageToSend("")
-    setImages([])
-    setImagesToSnd([])
-  }
 
   const fetchMoreMessages = async () => {
     if (isFetching || !chatId || preventFetch) return;
@@ -274,6 +352,14 @@ export default function UserChat() {
       }
     };
   }, [messages]);
+
+  useEffect(() => {
+    if (!socket) return;
+    socket.on("privateMessageDeleted", ({ messageId }) => {
+      setMessages(prev => prev.filter(msg => msg._id !== messageId));
+    });
+  }, [socket, chatId, userMessages]);
+  const isAnyImageUploading = Object.values(uploadingImages).some(status => status === true);
 
   return (
     <div className="flex h-full flex-col" style={{
@@ -380,7 +466,7 @@ export default function UserChat() {
           {/* for the input of the message */}
           <div
             className={`absolute right-0 bottom-0 left-0 z-20 flex flex-col ${
-              disable ? "opacity-50 pointer-events-none" : ""
+              disable ? " pointer-events-none" : ""
             }`}
           >
              <footer
@@ -410,11 +496,24 @@ export default function UserChat() {
                               alt={`Preview of ${image.file.name}`}
                               className="w-full h-auto rounded-lg object-cover"
                             />
+                            {uploadingImages[image.id] && (
+                              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
+                                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+                              </div>
+                            )}
+                            {/* Status indicator */}
+                            {image.status === 'failed' && (
+                              <div className="absolute top-0 left-0 bg-red-500 text-white text-xs px-2 py-1 rounded-bl-lg rounded-tr-lg">
+                                Failed
+                              </div>
+                            )}
                             <button
                               type="button"
                               onClick={() => removeImage(image.id)}
                               className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
                               aria-label={`Remove ${image.file.name}`}
+                              disabled={uploadingImages[image.id]}
+
                             >
                               <X size={16} />
                             </button>
@@ -425,8 +524,8 @@ export default function UserChat() {
                 </div>
               </div>
               <div className="w-full flex flex-row items-center px-2 py-1 gap-3">
-              <label htmlFor="dropzone-file" className="cursor-pointer bg-slate-700 rounded-full">
-                        <Plus className="w-6 h-6 text-white hover:text-gray-500 transition-colors m-1" />
+              <label htmlFor="dropzone-file" className={`cursor-pointer bg-slate-700 rounded-full ${isAnyImageUploading ? 'opacity-50' : ''}`}>
+              <Plus className="w-6 h-6 text-white hover:text-gray-500 transition-colors m-1" />
                         <Input 
                           id="dropzone-file" 
                           type="file" 
@@ -435,6 +534,7 @@ export default function UserChat() {
                           accept="image/*"
                           onChange={handleFileChange}
                           ref={fileInputRef}
+                          disabled={isAnyImageUploading}
                         />
                       </label>
                       <form onSubmit={handleSubmit} className="relative block min-h-[32px] rounded-2xl flex-1"style={{
@@ -443,21 +543,32 @@ export default function UserChat() {
                     <textarea
                       id="chat-input"
                       className="top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none w-full"
-                      placeholder={`Message @ ${recipient}`}
+                      placeholder={isAnyImageUploading ? "Uploading images..." : `Message @ ${recipient}`}
                       style={{ height: "32px" }}
+                      value={msgToSend}
                       onChange={(e) => setMessageToSend(e.target.value)}
                       onKeyDown={handleKeyDown}
+                      disabled={isAnyImageUploading}
+
                     ></textarea>
                   </form>
-                  <button  className="bg-slate-700 rounded-full p-[5px] cursor-pointer" 
+                  <button  
+                    className={`bg-slate-700 rounded-full p-[5px] cursor-pointer ${(disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)) ? 'opacity-50 cursor-not-allowed' : ''}`}
                     onClick={handleSubmit}
-                    disabled={disable || (!msgToSend.trim() && images.length === 0)}
+                    disabled={disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)}
                   >
-                    <IoIosSend className=" text-xl mr-[1px] text-my-gold"    
-                    />
-                      {/* Upload {images.length} {images.length === 1 ? 'Image' : 'Images'} */}
+                    {isAnyImageUploading ? (
+                      <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-my-gold"></div>
+                    ) : (
+                      <IoIosSend className="text-xl mr-[1px] text-my-gold" />
+                    )}
                   </button>
               </div>
+              {/* {isAnyImageUploading && (
+                <div className="text-xs text-center text-gray-400 pb-1">
+                  Uploading images... Please wait
+                </div>
+              )} */}
             </footer>
           </div>
         </div>

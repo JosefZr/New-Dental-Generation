@@ -19,6 +19,7 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const [msgToSend, setMessageToSend] = useState("");
   const [imagesTosnd, setImagesToSnd] = useState([])
   const [images, setImages] = useState([])
+  const [uploadingImages, setUploadingImages] = useState({});
 
   const [page] = useState(1);
   const {owner} = useContext(UserContext);
@@ -28,9 +29,12 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const containerRef = useRef(null);
   const lastMessageRef = useRef(null);
   const fileInputRef = useRef(null)
+  const addJourney = useAddJourney();
+  const status = useGetSubscriptionStatus()
+  const {onOpen} = useModal()
 
  // Function to check if the current user can send messages
- const canSendMessages = () => {
+const canSendMessages = () => {
   console.log(owner)
   const userRole = userInfo.role;
   const userRegion = userInfo.region?.toLowerCase(); // Case-insensitive
@@ -97,59 +101,124 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
         preview: URL.createObjectURL(file),
       }));
       setImages((prevImages) => [...prevImages, ...newImages]);
+      // Initialize loading state for new images
+      const newUploadingState = {};
+      newImages.forEach(img => {
+        newUploadingState[img.id] = false;
+      });
+      setUploadingImages(prev => ({...prev, ...newUploadingState}));
     }
     }
   };
 
   const removeImage = (id) => {
     setImages(prevImages => {
-      const removedImage = prevImages.find(image => image.id === id)
+      const removedImage = prevImages.find(image => image.id === id);
       if (removedImage) {
-        URL.revokeObjectURL(removedImage.preview)
+        URL.revokeObjectURL(removedImage.preview);
       }
-      return prevImages.filter(image => image.id !== id)
-    })
-  }
+      return prevImages.filter(image => image.id !== id);
+    });
+    
+    // Clean up loading state
+    setUploadingImages(prev => {
+      const newState = {...prev};
+      delete newState[id];
+      return newState;
+    });
+  };
   const scrollToBottom = () => {
     setTimeout(() => {
       lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   };
-  async function storeImages() {
-    setDisable(true); 
-    const formData = new FormData();
+  // Modified storeImages function to track individual image upload states
 
-    // Append files to FormData
-    images.forEach((imageObj) => {
-      formData.append("images", imageObj.file);
-    });  
+  async function storeImages() {
+    setDisable(true);
+    const formData = new FormData();
+    const uploadPromises = [];
+    const uploadResults = [];
+
     try {
-      const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/channels/storeMessageImages`, {
-        method: "POST",
-        headers: {
-          Authorization: localStorage.getItem("token"),
-        },
-        body: formData, 
+      // Set all images to uploading state
+      const newUploadingState = {};
+      images.forEach(img => {
+        newUploadingState[img.id] = true;
       });
-  
-      if (!response.ok) {
-        throw new Error(`Failed to store images: ${response.status} ${response.statusText}`);
+      setUploadingImages(newUploadingState);
+
+      // Create individual upload promises for each image
+      for (const imageObj of images) {
+        const singleFormData = new FormData();
+        singleFormData.append("images", imageObj.file);
+
+        const uploadPromise = fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/channels/storeMessageImages`, {
+          method: "POST",
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+          body: singleFormData,
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Failed to upload image: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          // Mark this image as completed
+          setUploadingImages(prev => ({
+            ...prev,
+            [imageObj.id]: false
+          }));
+          
+          // Update the image status
+          setImages(prev => 
+            prev.map(img => 
+              img.id === imageObj.id 
+                ? {...img, status: 'uploaded'} 
+                : img
+            )
+          );
+          
+          return data.files[0]; // Assuming each upload returns an array with one file
+        })
+        .catch(error => {
+          console.error(`Error uploading image ${imageObj.id}:`, error);
+          // Mark as failed
+          setUploadingImages(prev => ({
+            ...prev,
+            [imageObj.id]: false
+          }));
+          
+          setImages(prev => 
+            prev.map(img => 
+              img.id === imageObj.id 
+                ? {...img, status: 'failed'} 
+                : img
+            )
+          );
+          
+          return null;
+        });
+        
+        uploadPromises.push(uploadPromise);
       }
-  
-      const data = await response.json(); 
-  
-      return data.files;
+
+      // Wait for all uploads to complete
+      const results = await Promise.all(uploadPromises);
+      // Filter out any failed uploads
+      const successfulUploads = results.filter(result => result !== null);
+      
+      return successfulUploads;
     } catch (error) {
       console.error("An error occurred while storing images:", error);
-      return null; 
+      return null;
     } finally {
-      setDisable(false); 
+      setDisable(false);
     }
   }
-  const addJourney = useAddJourney();
-  const status = useGetSubscriptionStatus()
-  const {onOpen} = useModal()
-  console.log("funcing",status)
   function sendMessage() {
     if(status==='off'){
       onOpen(MODAL_TYPE.LIMITATION_MODAL)
@@ -175,7 +244,6 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
           chanId:chanId,
         });
       }
-      
     }
     setMessageToSend("")
     setImages([])
@@ -183,28 +251,36 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   }
 
   const handleSubmit = async (e) => {
-    if(status==="off"){
-      onOpen(MODAL_TYPE.LIMITATION_MODAL)
-    }else{
-      e.preventDefault()
-      console.log('Submitting files:', images.map(img => img.file))
-      setImages([])
-      if (fileInputRef.current) {
-        fileInputRef.current.value = ''
-      }
-      e.preventDefault();
-      if (images.length > 0) {
-        console.log(images)
-        const resp = await storeImages() ;
-        setImagesToSnd(resp)
-      }else {
-        sendMessage();
-      }
+    if (e) e.preventDefault();
+    
+    if(status === "off") {
+      onOpen(MODAL_TYPE.LIMITATION_MODAL);
+      return;
     }
-    e.target.value="";
-
-  }
-
+    
+    // Check if any images are still uploading
+    const stillUploading = Object.values(uploadingImages).some(status => status === true);
+    if (stillUploading) {
+      // Don't proceed if images are still uploading
+      return;
+    }
+    
+    if (images.length > 0) {
+      const resp = await storeImages();
+      if (resp && resp.length > 0) {
+        setImagesToSnd(resp);
+      } else {
+        // Handle case where all uploads failed
+        alert("Failed to upload one or more images. Please try again.");
+      }
+    } else {
+      sendMessage();
+    }
+    
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
   const socket = useSocket();
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -243,29 +319,57 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
       socket.off("channelMessage");
     };
   }, [socket, chanId, initialMessages]);
+
+// In Chat1 component's messageDeleted handler
+useEffect(() => {
+  if (!socket) return;
+
+  const handleMessageDeleted = ({ content, createdAt }) => {
+    setMessages(prev => prev.filter(msg => 
+      msg.content !== content || 
+      new Date(msg.createdAt).getTime() !== new Date(createdAt).getTime()
+    ));
+  };
+
+  socket.on("messageDeleted", handleMessageDeleted);
   
+  return () => {
+    socket.off("messageDeleted", handleMessageDeleted);
+  };
+}, [socket, chanId]);
+
+
   const [disable , setDisable] = useState(false)
-  async function handleKeyDown(e) {
+
+ async function handleKeyDown(e) {
     if (e.key === "Enter") {
-      if (disable) return ; 
+      if (disable) return;
       e.preventDefault();
+      
+      // Check if any images are still uploading
+      const stillUploading = Object.values(uploadingImages).some(status => status === true);
+      if (stillUploading) {
+        // Don't proceed if images are still uploading
+        return;
+      }
+      
       if (images.length > 0) {
-        const resp = await storeImages() ;
-        setImagesToSnd(resp)
-      }else {
+        const resp = await storeImages();
+        if (resp && resp.length > 0) {
+          setImagesToSnd(resp);
+        }
+      } else {
         sendMessage();
       }
-      e.target.value="";
     }
   }
+  
   useEffect(() => {
     if (imagesTosnd.length > 0) {
       sendMessage();
       setMessageToSend("");
-      
     }
   }, [imagesTosnd]);
-
 
   const fetchMoreMessages = async () => {
     if (isFetching || !chanId || preventFetch) return;
@@ -304,6 +408,7 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
       setIsFetching(false);
     }
   };
+  
   useEffect(() => {
     const container = containerRef.current;
 
@@ -318,9 +423,9 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
       }
     };
   }, [messages]);
+  
   const getAccessDeniedMessage = () => {
-
-      // Allow admins and moderators to send messages in all channels
+    // Allow admins and moderators to send messages in all channels
     if (["admin", "moderator"].includes(userInfo.role)) {
       return null; // No access denied message for admins and moderators
     }
@@ -348,6 +453,10 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
     
     return "You don't have permission to send messages in this channel";
   };
+  
+  // Check if any images are currently uploading
+  const isAnyImageUploading = Object.values(uploadingImages).some(status => status === true);
+  
   return (
     <div className="flex h-full flex-col "
     style={{
@@ -432,8 +541,8 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
                     messages.map((message, index) => {
                       const isLastMessage = index === messages.length - 1;
                       return (
-                        <div key={message._id}>
-                          <Message message={message} />
+                        <div key={index}>
+                          <Message message={message} chanId={chanId}/>
                           <Devider />
                           <div
                             ref={isLastMessage ? lastMessageRef : null}
@@ -448,7 +557,7 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
           {/* for the input of the message */}
           <div
             className={`absolute right-0 bottom-0 left-0 z-20 flex flex-col ${
-              disable ? "opacity-50 pointer-events-none" : ""
+              disable ? " pointer-events-none" : ""
             }`}
           >
             <footer
@@ -465,73 +574,97 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
               
               {/* for the input  */}
               {canSendMessages() ? (
-        <>
-          <div className="flex flex-shrink-0 w-full items-center gap-3 border-gray-700 border-t px-3">
-            <div className="w-full max-w-md mx-auto flex flex-col-reverse">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="flex items-center justify-start pt-3 w-full">
-                </div>
-              </form>
-              {images.length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                  {images.map((image) => (
-                    <div key={image.id} className="relative group">
-                      <img
-                        src={image.preview}
-                        alt={`Preview of ${image.file.name}`}
-                        className="w-full h-auto rounded-lg object-cover"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => removeImage(image.id)}
-                        className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                        aria-label={`Remove ${image.file.name}`}
-                      >
-                        <X size={16} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
+      <>
+      <div className="flex flex-shrink-0 w-full items-center gap-3 border-gray-700 border-t px-3">
+        <div className="w-full max-w-md mx-auto flex flex-col-reverse">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="flex items-center justify-start pt-3 w-full">
             </div>
-          </div>
-          <div className="w-full flex flex-row items-center px-2 py-1  mb-1 gap-3">
-            <label htmlFor="dropzone-file" className="cursor-pointer bg-slate-700 rounded-full">
-              <Plus className="w-6 h-6 text-white hover:text-gray-500 transition-colors m-1" />
-              <Input
-                id="dropzone-file"
-                type="file"
-                className="hidden"
-                multiple
-                accept="image/*"
-                onChange={handleFileChange}
-                ref={fileInputRef}
-              />
-            </label>
-            <form onSubmit={handleSubmit} className="relative block min-h-[32px] rounded-2xl flex-1"style={{
-              backgroundColor:"hsl(213.53 34% 19.608%)"
-            }}>
-              <textarea
-                id="chat-input"
-                className="top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none w-full"
-                placeholder={`Message ${cahnTitle}`}
-                style={{ height: "32px" }}
-                value={msgToSend}
-                onChange={(e) => setMessageToSend(e.target.value)}
-                onKeyDown={handleKeyDown}
-              />
-            </form>
-            <button  className="bg-slate-700 rounded-full p-[5px] cursor-pointer" 
-            onClick={handleSubmit}
-            disabled={disable || (!msgToSend.trim() && images.length === 0)}
-
-            >
-                <IoIosSend className=" text-xl mr-[1px] text-my-gold"    
-                />
-              {/* Upload {images.length} {images.length === 1 ? 'Image' : 'Images'} */}
-            </button>
-          </div>
-        </>
+          </form>
+          {images.length > 0 && (
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+              {images.map((image) => (
+                <div key={image.id} className="relative group">
+                  <img
+                    src={image.preview}
+                    alt={`Preview of ${image.file.name}`}
+                    className="w-full h-auto rounded-lg object-cover"
+                  />
+                  {/* Overlay for uploading state */}
+                  {uploadingImages[image.id] && (
+                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
+                      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+                    </div>
+                  )}
+                  {/* Status indicator */}
+                  {image.status === 'failed' && (
+                    <div className="absolute top-0 left-0 bg-red-500 text-white text-xs px-2 py-1 rounded-bl-lg rounded-tr-lg">
+                      Failed
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => removeImage(image.id)}
+                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                    aria-label={`Remove ${image.file.name}`}
+                    disabled={uploadingImages[image.id]}
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="w-full flex flex-row items-center px-2 py-1 mb-1 gap-3">
+        <label htmlFor="dropzone-file" className={`cursor-pointer bg-slate-700 rounded-full ${isAnyImageUploading ? 'opacity-50' : ''}`}>
+          <Plus className="w-6 h-6 text-white hover:text-gray-500 transition-colors m-1" />
+          <Input
+            id="dropzone-file"
+            type="file"
+            className="hidden"
+            multiple
+            accept="image/*"
+            onChange={handleFileChange}
+            ref={fileInputRef}
+            disabled={isAnyImageUploading}
+          />
+        </label>
+        <form onSubmit={handleSubmit} className="relative block min-h-[32px] rounded-2xl flex-1" style={{
+          backgroundColor: "hsl(213.53 34% 19.608%)"
+        }}>
+          <textarea
+            id="chat-input"
+            className="top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none w-full"
+            placeholder={isAnyImageUploading ? "Uploading images..." : `Message ${cahnTitle}`}
+            style={{ height: "32px" }}
+            value={msgToSend}
+            onChange={(e) => setMessageToSend(e.target.value)}
+            onKeyDown={handleKeyDown}
+            disabled={isAnyImageUploading}
+          />
+        </form>
+        <button 
+          className={`bg-slate-700 rounded-full p-[5px] cursor-pointer ${(disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)) ? 'opacity-50 cursor-not-allowed' : ''}`}
+          onClick={handleSubmit}
+          disabled={disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)}
+        >
+          {isAnyImageUploading ? (
+            <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-my-gold"></div>
+          ) : (
+            <IoIosSend className="text-xl mr-[1px] text-my-gold" />
+          )}
+        </button>
+      </div>
+      
+      {/* Upload progress indicator */}
+      {/* {isAnyImageUploading && (
+        <div className="text-xs text-center text-gray-400 pb-1">
+          Uploading images... Please wait
+        </div>
+      )} */}
+    </>
       ) : (
         <div className="w-full text-center py-4 text-gray-500">
           {getAccessDeniedMessage()}

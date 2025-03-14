@@ -27,7 +27,8 @@ export const MODAL_TYPE = {
     LEVEL_MODAL:"level_modal",
     JOB_DETAILS:"jobDetails",
     ADD_ROLE:"addRole",
-    EXTEND_SUBSCRIPTION:"extendSubscription"
+    EXTEND_SUBSCRIPTION:"extendSubscription",
+    DELETE_MESSAGE:"deleteMessage"
   };
 
 export const useModal = create((set)=>({

@@ -1,5 +1,6 @@
+import mongoose from "mongoose";
 import Message from "../models/Message.js";
-import User from "../models/User.js";
+import { deleteMessageImages } from "../utils/fileUtils.js";
 
 export const saveMessage = async (
   sender,
@@ -22,6 +23,23 @@ export const saveMessage = async (
     .populate("recipient");
 
   return populatedMessage;
+};
+export const deletePrivateMessage = async (content, createdAt, senderId) => {
+  try {
+    const message = await Message.findOne({ content, createdAt, sender: senderId });
+    if (!message) {
+      throw new Error("Message not found");
+    }
+    console.log(message);
+    // Delete associated images first
+    await deleteMessageImages(message.images);
+    // Delete the message itself
+    await message.deleteOne();
+
+    return message; // This object will have the _id, sender, and recipient fields
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const getMessages = async (userId1, userId2, page = 1) => {

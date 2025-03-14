@@ -11,14 +11,15 @@ import { useNavigate } from "react-router-dom";
 import { useUserToChatContext } from "@/context/ToChatUser";
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { useAuthUser } from "@/hooks/jwt/useAuthUser";
-import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
+import Name from "./Name";
+import MessageDate from "./MessageDate";
+import MessageText from "./MessageText";
+import MessageImage from "./MessageImage";
+import MessageTools from "./MessageTools";
 
-export default function Message({ message }) {
+
+export default function Message({ message,chanId }) {
   const userInfo = useAuthUser()
-  const{onOpen} = useModal()
-
-  const{ setImagesToShow,
-    setInitialIndex} = useUserToChatContext()
   const { setPreview, userPreview, setFriendsRequest, friendsRequest ,setPendingRequests} = useContext(UserContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -98,27 +99,15 @@ export default function Message({ message }) {
       console.error("Error fetching user data:", error);
     }
   };
-
-  const formattedDate = new Date(message.createdAt).toLocaleString("en-GB", {
-    weekday: "short",
-    day: "numeric",
-    month: "short",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
-
   const handleClose = () => {
     setIsModalOpen(false);
     setPreview(null);
   };
-
-
   const showRemoveButton = friendsRequest && userPreview?._id && 
     (friendsRequest.sender === userPreview._id || friendsRequest.receiver === userPreview._id);
 
   return (
-    <div className="chat-item-wrapper will-change-transform translate-y-0 w-full">
+    <div className="chat-item-wrapper will-change-transform translate-y-0 w-full" style={{position:"relative"}}>
   <div
     className="chat-message group relative flex w-full focus:border-primary lg:pr-4 focus:ring"
     style={{
@@ -211,188 +200,24 @@ export default function Message({ message }) {
     </div>
 
     <div
-      className="mb-[2px] inline-block w-full rounded-md border bg-bubble-gradient px-2 py-[4px] border-transparent"
+      className="mb-[2px] inline-block w-full rounded-md border bg-bubble-gradient px-2 py-[4px] border-transparent group"
       style={{
         backgroundImage: "linear-gradient(to right, #1D2B3A, #1D3346)",
+        position:"relative"
       }}
     >
       <div className="flex items-center">
-        <span
-          className="inline-flex items-center cursor-pointer font-medium text-xs md:text-sm hover:underline"
-          style={{
-            color: `${
-              message.sender?.role === "dentist"
-                ? "#ECC879"
-                : message.sender?.role === "store"
-                ? "rgb(52, 152, 219)"
-                : message.sender?.role === "lab"
-                ? "rgb(255, 255, 255)"
-                : message.sender?.role === "admin"
-                ? "rgb(179, 51, 51)"
-                : message.sender?.role === "moderator"
-                ? "#C0C0C0"
-                : "rgb(201, 142, 215)"
-            }`,
-          }}
-        >
-          {message.sender?._id === userInfo?.userId
-            ? "You"
-            : `${message?.sender?.firstName} ${message?.sender?.lastName}`}
-        </span>
-        <span
-          className="ml-3 cursor-default pt-[1px] opacity-50"
-          style={{
-            fontFamily: "inter, system-ui, sans-serif",
-            fontSize: "0.75rem",
-          }}
-        >
-          {formattedDate}
-        </span>
+        <Name message={message}/>
+        <MessageDate message={message}/>
       </div>
       <span className="custom-break-words break-words text-sm">
         <div className="sc-jEACwC gqSGRP markdown break-wordsfalse">
-          <p
-            className="whitespace-pre-wrap"
-            style={{
-              fontSize: "0.875rem",
-              lineHeight: "1.25rem",
-              fontFamily: "inter, system-ui, sans-serif",
-            }}
-          >
-            {message.content}
-          </p>
-
-          {message?.images.length > 0 && (
-  <div className="mt-2">
-    {/* Single Image */}
-    {message.images.length === 1 && (
-      <div className="max-w-[400px]">
-        <img
-          src={message.images[0]}
-          alt="Attachment 1"
-          onClick={()=>{
-            setInitialIndex(0)
-            setImagesToShow(message.images)
-            onOpen(MODAL_TYPE.IMAGES_MODAL)
-
-          }}
-          className="w-full h-auto rounded-lg"
-          loading="lazy"
-        />
-      </div>
-    )}
-
-    {/* Two Images */}
-    {message.images.length === 2 && (
-      <div className="grid grid-cols-2 gap-2 max-w-[400px]">
-        {message.images.map((file, index) => (
-          <img
-            key={index}
-            onClick={()=>{
-              setInitialIndex(index)
-              setImagesToShow(message.images)
-              onOpen(MODAL_TYPE.IMAGES_MODAL)
-            }}
-            src={file}
-            alt={`Attachment ${index + 1}`}
-            className="w-full h-auto rounded-lg"
-            loading="lazy"
-          />
-        ))}
-      </div>
-    )}
-
-    {/* Three Images */}
-    {message.images.length === 3 && (
-      <div className="grid grid-cols-2 gap-2 max-w-[400px]">
-        <img
-          src={message.images[0]}
-          alt="Attachment 1"
-          className="w-full h-auto rounded-lg"
-          loading="lazy"
-          onClick={()=>{
-            setInitialIndex(0)
-            setImagesToShow(message.images)
-              onOpen(MODAL_TYPE.IMAGES_MODAL)
-          }}
-        />
-        <div className="grid grid-rows-2 gap-2">
-          {message.images.slice(1).map((file, index) => (
-            <img
-              key={index + 1}
-              src={file}
-              alt={`Attachment ${index + 2}`}
-              onClick={()=>{
-                setInitialIndex(index+1)
-              }}
-              className="w-full h-auto rounded-lg"
-              loading="lazy"
-            />
-          ))}
-        </div>
-      </div>
-    )}
-
-    {/* Four Images */}
-    {message.images.length === 4 && (
-      <div className="grid grid-cols-2 gap-2 w-full">
-        {message.images.map((file, index) => (
-          <img
-            key={index}
-            src={file}
-            onClick={()=>{
-              setInitialIndex(index)
-              setImagesToShow(message.images)
-              onOpen(MODAL_TYPE.IMAGES_MODAL)
-            }}
-            alt={`Attachment ${index + 1}`}
-            className="w-full h-auto rounded-lg"
-            loading="lazy"
-          />
-        ))}
-      </div>
-    )}
-
-    {/* Five Images */}
-    {message.images.length === 5 && (
-      <div className="grid grid-cols-2 gap-2 max-w-[400px]">
-        <div className="grid gap-2">
-          {message.images.slice(0, 3).map((file, index) => (
-            <img
-              key={index}
-              src={file}
-              onClick={()=>{
-                setInitialIndex(index)
-                setImagesToShow(message.images)
-                onOpen(MODAL_TYPE.IMAGES_MODAL)
-              }}
-              alt={`Attachment ${index + 1}`}
-              className="w-full h-auto rounded-lg"
-              loading="lazy"
-            />
-          ))}
-        </div>
-        <div className="grid gap-2">
-          {message.images.slice(3).map((file, index) => (
-            <img
-              key={index + 3}
-              onClick={()=>{
-                setInitialIndex(index + 3)
-              }}
-              src={file}
-              alt={`Attachment ${index + 4}`}
-              className="w-full h-auto rounded-lg"
-              loading="lazy"
-            />
-          ))}
-        </div>
-      </div>
-    )}
-  </div>
-)}
+          <MessageText message={message}/>
+          <MessageImage message={message}/>
         </div>
       </span>
     </div>
+    <MessageTools message={message} chanId={chanId}/>
   </div>
 </div>
   );

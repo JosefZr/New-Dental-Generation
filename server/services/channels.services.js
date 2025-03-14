@@ -2,6 +2,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 import Channel from "../models/Channel.model.js";
+import Message from "../models/Message.js";
 import User from "../models/User.js";
 import { ApiError } from "../utils/ApiError.js";
 
@@ -205,5 +206,38 @@ export async function saveChannelMessage(senderId, channelId, content, type, ima
 
   return message;
 }
+// channels.services.js
+import { deleteMessageImages } from '../utils/fileUtils.js';
 
+export async function deleteMessage(content, createdAt, channelId) {
+  const channel = await Channel.findById(channelId);
+  if (!channel) throw new Error("Channel not found");
+
+  const targetDate = new Date(createdAt);
+  
+  const messageIndex = channel.messages.findIndex(msg => 
+    msg.content === content && 
+    new Date(msg.createdAt).getTime() === targetDate.getTime()
+  );
+
+  if (messageIndex === -1) throw new Error("Message not found");
+  
+  const deletedMessage = channel.messages[messageIndex];
+  
+  try {
+    // Delete associated images first
+    await deleteMessageImages(deletedMessage.images);
+    
+    // Remove message from channel
+    channel.messages.splice(messageIndex, 1);
+    await channel.save();
+    
+    return deletedMessage;
+  } catch (error) {
+    // Rollback message deletion if image deletion fails
+    channel.messages.splice(messageIndex, 0, deletedMessage);
+    await channel.save();
+    throw error;
+  }
+}
 export default new ChannelService();

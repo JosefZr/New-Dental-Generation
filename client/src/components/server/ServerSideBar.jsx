@@ -289,7 +289,7 @@ const handlePinChannel = async (channel) => {
             )}
             {groupedChannels.guide.length >= 0 && (
               <div className="mx-2">
-                <ServerSection label="DENTAL-$$$-CHEATCODES" allowedRole="ADMD" channelType="guide">
+                <ServerSection label="DENTAL-$$$-CHEAT CODES" allowedRole="ADMD" channelType="guide">
                 {groupedChannels.guide
                 .sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
                 .map((channel) => (
