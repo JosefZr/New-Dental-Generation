@@ -31,6 +31,7 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const fileInputRef = useRef(null)
   const addJourney = useAddJourney();
   const status = useGetSubscriptionStatus()
+  const [disable , setDisable] = useState(false)
   const {onOpen} = useModal()
 
  // Function to check if the current user can send messages
@@ -248,6 +249,8 @@ const canSendMessages = () => {
     setMessageToSend("")
     setImages([])
     setImagesToSnd([])
+    adjustTextareaHeight(); // Force height reset
+
   }
 
   const handleSubmit = async (e) => {
@@ -339,12 +342,50 @@ useEffect(() => {
 }, [socket, chanId]);
 
 
-  const [disable , setDisable] = useState(false)
+// Add this near your component's top-level
+const MAX_TEXTAREA_HEIGHT = 200; // Set your maximum height here
+
+// Add this ref declaration with your other refs
+const textareaRef = useRef(null);
+
+// Add this useEffect hook
+useEffect(() => {
+  adjustTextareaHeight();
+}, [msgToSend]);
+
+// Update the adjustTextareaHeight function
+const adjustTextareaHeight = () => {
+  const textarea = textareaRef.current;
+  if (!textarea) return;
+
+  // Reset height first
+  textarea.style.height = '20px';
+  
+  // Calculate new height with limits
+  const newHeight = Math.min(
+    textarea.scrollHeight,
+    MAX_TEXTAREA_HEIGHT
+  );
+
+  // Apply calculated height (minimum 18px)
+  textarea.style.height = `${Math.max(newHeight, 18)}px`;
+  
+  // Force reflow to ensure proper scroll detection
+  void textarea.offsetHeight;
+  
+  // Toggle scroll visibility
+  textarea.classList.toggle('overflow-y-auto', newHeight >= MAX_TEXTAREA_HEIGHT);
+  textarea.classList.toggle('overflow-y-hidden', newHeight < MAX_TEXTAREA_HEIGHT);
+};
 
  async function handleKeyDown(e) {
-    if (e.key === "Enter") {
-      if (disable) return;
-      e.preventDefault();
+  if (e.key === 'Enter' && e.shiftKey) {
+    return; // Let browser handle natural line break
+  }
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+
+    if (disable) return;
       
       // Check if any images are still uploading
       const stillUploading = Object.values(uploadingImages).some(status => status === true);
@@ -635,12 +676,16 @@ useEffect(() => {
           backgroundColor: "hsl(213.53 34% 19.608%)"
         }}>
           <textarea
+            ref={textareaRef}
             id="chat-input"
-            className="top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none w-full"
-            placeholder={isAnyImageUploading ? "Uploading images..." : `Message ${cahnTitle}`}
-            style={{ height: "32px" }}
+            style={{ 
+              minHeight: '18px', 
+              maxHeight: `${MAX_TEXTAREA_HEIGHT}px`,
+            }}
+            className="top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none w-full overflow-y-auto min-h-[18px]"
+            placeholder={isAnyImageUploading ? "Uploading images..." : `Message ${cahnTitle}`}            
             value={msgToSend}
-            onChange={(e) => setMessageToSend(e.target.value)}
+            onChange={(e) => {setMessageToSend(e.target.value)}}
             onKeyDown={handleKeyDown}
             disabled={isAnyImageUploading}
           />
