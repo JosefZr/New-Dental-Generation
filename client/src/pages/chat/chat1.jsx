@@ -7,12 +7,15 @@ import { IoIosSend } from "react-icons/io";
 
 import { useState, useEffect, useRef, useContext } from "react";
 import { UserContext } from "@/context/UserContext";
-import { GiHamburgerMenu } from "react-icons/gi";
 import { useAddJourney } from "@/hooks/user/useAddJourney";
 import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 import useGetSubscriptionStatus from "@/hooks/limitation/useGetSubscriptionStatus";
 import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
-
+import MessageHeader from "./components/Header";
+import UploadImages from "./components/UploadImages";
+  import { marked } from 'marked';
+  import DOMPurify from 'dompurify';
+  
 export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const userInfo = useAuthUser();
   const [messages, setMessages] = useState(initialMessages || []);
@@ -23,7 +26,6 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
 
   const [page] = useState(1);
   const {owner} = useContext(UserContext);
-  const {isSidebarOpen, setIsSidebarOpen} = useContext(UserContext);
   const [preventFetch, setPrevent] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const containerRef = useRef(null);
@@ -133,7 +135,7 @@ const canSendMessages = () => {
       lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   };
-  // Modified storeImages function to track individual image upload states
+
 
   async function storeImages() {
     setDisable(true);
@@ -285,9 +287,7 @@ const canSendMessages = () => {
     }
   };
   const socket = useSocket();
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+
   // tracking the last message to scroll to it
   useEffect(() => {
     if (!socket && !chanId) return;
@@ -340,7 +340,6 @@ useEffect(() => {
     socket.off("messageDeleted", handleMessageDeleted);
   };
 }, [socket, chanId]);
-
 
 // Add this near your component's top-level
 const MAX_TEXTAREA_HEIGHT = 200; // Set your maximum height here
@@ -403,6 +402,17 @@ const adjustTextareaHeight = () => {
         sendMessage();
       }
     }
+    // Add Ctrl+B for bold (Windows) or Cmd+B (Mac)
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
+    e.preventDefault();
+    insertFormatting('**');
+  }
+  
+  // Add Ctrl+I for italic (Windows) or Cmd+I (Mac)
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'i') {
+    e.preventDefault();
+    insertFormatting('*');
+  }
   }
   
   useEffect(() => {
@@ -498,6 +508,42 @@ const adjustTextareaHeight = () => {
   // Check if any images are currently uploading
   const isAnyImageUploading = Object.values(uploadingImages).some(status => status === true);
   
+// 2. Add state for preview visibility
+const [showPreview, setShowPreview] = useState(false);
+
+// 3. Formatting insertion logic
+const insertFormatting = (symbol) => {
+  const textarea = textareaRef.current;
+  if (!textarea) return;
+
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const text = msgToSend;
+  
+  // Get selected text or empty string if no selection
+  const selectedText = text.substring(start, end);
+  
+  const newText = `${text.substring(0, start)}${symbol}${selectedText}${symbol}${text.substring(end)}`;
+  setMessageToSend(newText);
+
+  // Adjust cursor position after insertion
+  // Update cursor position
+  setTimeout(() => {
+    textarea.selectionStart = start + symbol.length;
+    textarea.selectionEnd = end + symbol.length;
+    textarea.focus();
+  }, 0);
+};
+
+// 4. Preview rendering logic
+// Preview rendering logic
+const renderPreview = () => {
+  const dirty = marked.parse(msgToSend || '');
+  const clean = DOMPurify.sanitize(dirty, {
+    ALLOWED_TAGS: ['b', 'strong', 'i', 'em', 'p', 'br']
+  });
+  return { __html: clean };
+};
   return (
     <div className="flex h-full flex-col "
     style={{
@@ -507,63 +553,8 @@ const adjustTextareaHeight = () => {
         <div className="relative h-full flex-1 bg-neutral ">
           <div className="absolute top-0 right-0 left-0 z-20 flex flex-col ">
             {/* for the title of the channel */}
-            <header
-              className="flex flex-shrink-0 items-end justify-between !pt-0 relative z-10 border-grey-secondary bg-base-300"
-            >
-              <section className="flex h-full w-full items-center justify-between pl-3 py-2 text-lg bg-[#213043] ">
-                <div className="flex w-full items-center font-medium">
-                  <div className="flex items-center justify-center gap-3">
-                    <div className="flex items-center gap-3 font-medium cursor-pointer">
-                      <GiHamburgerMenu className=" text-2xl"onClick={toggleSidebar}/>
-                      <span className="flex items-center gap-[2px]">
-                        {cahnTitle}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </header>
-
-            {/* for the pinned messages */}
-            {/* <header
-              className=" flex flex-shrink-0 items-end justify-between !pt-0 relative z-10 border-grey-secondary border-b bg-base-300"
-              style={{
-                height: "60px",
-                minHeight: "60px",
-                maxHeight: "60px",
-                paddingTop: 0,
-              }}
-            >
-              <section className="flex h-full w-full items-center justify-between">
-                <div className="flex w-full items-center font-medium bg-slate-600 ">
-                  <div className="flex items-center justify-center gap-3 ">
-                    <button
-                      className=" transition-all px-5 py-2 rounded-lg my-2 ml-2 btn-sm border-my-gold  hover:bg-my-gold  text-my-gold hover:text-my-black"
-                      style={{ border: "1px solid var(--gold)" }}
-                    >
-                      <TbPinnedFilled className="text-2xl " />
-                    </button>
-                    <div className="line-clamp-2 cursor-pointer text-xs">
-                      <div className="text-my-gold font-bold text-base">
-                        Pinned Message
-                      </div>
-                      <span className="line-clamp-1 text-caption">
-                        Good morning students...
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </header> */}
-
+            <MessageHeader cahnTitle ={cahnTitle}/>
             {/* for the new messages not watched */}
-            {/* <div className="absolute top-[108px] right-0 left-0 z-[11] user-select-none flex h-[28px] items-center justify-between overflow-hidden text-ellipsis whitespace-nowrap bg-indigo-800 bg-opacity-80 px-3 font-semibold text-accent-content text-md backdrop-blur-[20px] backdrop-filter transform cursor-pointer transition-all duration-200 translate-y-0 opacity-100">
-              <div>New since 5 days ago</div>
-              <div className="flex items-center">
-                {" "}
-                Jump to unread <FaArrowUp className="ml-2" />
-              </div>
-            </div> */}
           </div>
 
           {/* for the chat  */}
@@ -606,142 +597,92 @@ const adjustTextareaHeight = () => {
               style={{ paddingBottom: "0px",backgroundColor:"hsl(211.03 33.333% 17.059%)" }}
             >
               {/* this for the user when he scroll up he can return and scroll to the present msg */}
-              {/* <div className="w-full user-select-none flex h-[28px] items-center justify-between overflow-hidden text-ellipsis whitespace-nowrap bg-opacity-80 px-3 font-medium text-sm backdrop-blur-[20px] backdrop-filter  z-100 mb-inset-bottom transform cursor-pointer transition-all duration-75 bg-base-300 text-base-content translate-y-0 opacity-100 bottom-full">
-                <div>Viewing older messages</div>
-                <div className="flex items-center">
-                  See present <FaArrowDown className="ml-2" />
-                </div>
-              </div> */}
-              
-              {/* for the input  */}
               {canSendMessages() ? (
-      <>
-      <div className="flex flex-shrink-0 w-full items-center gap-3 border-gray-700 border-t px-3">
-        <div className="w-full max-w-md mx-auto flex flex-col-reverse">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="flex items-center justify-start pt-3 w-full">
-            </div>
-          </form>
-          {images.length > 0 && (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-              {images.map((image) => (
-                <div key={image.id} className="relative group">
-                  <img
-                    src={image.preview}
-                    alt={`Preview of ${image.file.name}`}
-                    className="w-full h-auto rounded-lg object-cover"
+              <>
+              <UploadImages 
+                handleSubmit={handleSubmit} 
+                images={images}
+                uploadingImages={uploadingImages}
+                removeImage={removeImage}
+              />
+              <div className="w-full flex flex-row items-center px-2 py-1 mb-1 gap-3">
+                <label htmlFor="dropzone-file" className={`cursor-pointer bg-slate-700 rounded-full ${isAnyImageUploading ? 'opacity-50' : ''}`}>
+                  <Plus className="w-6 h-6 text-white hover:text-gray-500 transition-colors m-1" />
+                  <Input
+                    id="dropzone-file"
+                    type="file"
+                    className="hidden"
+                    multiple
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    ref={fileInputRef}
+                    disabled={isAnyImageUploading}
                   />
-                  {/* Overlay for uploading state */}
-                  {uploadingImages[image.id] && (
-                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
-                      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+                </label>
+                 {/* Formatting buttons */}
+                  <div className="flex gap-1">
+                    <button
+                      type="button"
+                      onClick={() => insertFormatting('**')}
+                      className="p-1 rounded hover:bg-gray-600 text-sm font-bold"
+                    >
+                      B
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => insertFormatting('*')}
+                      className="p-1 rounded hover:bg-gray-600 text-sm italic"
+                    >
+                      I
+                    </button>
+                  </div>
+
+                <form onSubmit={handleSubmit} className="relative block min-h-[32px] rounded-2xl flex-1" style={{
+                  backgroundColor: "hsl(213.53 34% 19.608%)"
+                }}>
+                  <textarea
+                    ref={textareaRef}
+                    id="chat-input"
+                    style={{ 
+                      minHeight: '18px', 
+                      maxHeight: `${MAX_TEXTAREA_HEIGHT}px`,
+                    }}
+                    className="top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none w-full overflow-y-auto min-h-[18px]"
+                    placeholder={isAnyImageUploading ? "Uploading images..." : `Message ${cahnTitle}`}            
+                    value={msgToSend}
+                    onChange={(e) => {setMessageToSend(e.target.value)}}
+                    onKeyDown={handleKeyDown}
+                    disabled={isAnyImageUploading}
+                  />
+                  
+                </form>
+                {/* Preview panel */}
+                  {showPreview && (
+                    <div className="absolute bottom-full mb-2 w-full p-2 rounded bg-gray-800 text-sm border border-gray-700">
+                      <div
+                        className="prose prose-invert max-w-none break-words"
+                        dangerouslySetInnerHTML={renderPreview()}
+                      />
                     </div>
                   )}
-                  {/* Status indicator */}
-                  {image.status === 'failed' && (
-                    <div className="absolute top-0 left-0 bg-red-500 text-white text-xs px-2 py-1 rounded-bl-lg rounded-tr-lg">
-                      Failed
-                    </div>
+                <button 
+                  className={`bg-slate-700 rounded-full p-[5px] cursor-pointer ${(disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  onClick={handleSubmit}
+                  disabled={disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)}
+                >
+                  {isAnyImageUploading ? (
+                    <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-my-gold"></div>
+                  ) : (
+                    <IoIosSend className="text-xl mr-[1px] text-my-gold" />
                   )}
-                  <button
-                    type="button"
-                    onClick={() => removeImage(image.id)}
-                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                    aria-label={`Remove ${image.file.name}`}
-                    disabled={uploadingImages[image.id]}
-                  >
-                    <X size={16} />
-                  </button>
+                </button>
+              </div>
+            </>
+              ) : (
+                <div className="w-full text-center py-4 text-gray-500">
+                  {getAccessDeniedMessage()}
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-      <div className="w-full flex flex-row items-center px-2 py-1 mb-1 gap-3">
-        <label htmlFor="dropzone-file" className={`cursor-pointer bg-slate-700 rounded-full ${isAnyImageUploading ? 'opacity-50' : ''}`}>
-          <Plus className="w-6 h-6 text-white hover:text-gray-500 transition-colors m-1" />
-          <Input
-            id="dropzone-file"
-            type="file"
-            className="hidden"
-            multiple
-            accept="image/*"
-            onChange={handleFileChange}
-            ref={fileInputRef}
-            disabled={isAnyImageUploading}
-          />
-        </label>
-        <form onSubmit={handleSubmit} className="relative block min-h-[32px] rounded-2xl flex-1" style={{
-          backgroundColor: "hsl(213.53 34% 19.608%)"
-        }}>
-          <textarea
-            ref={textareaRef}
-            id="chat-input"
-            style={{ 
-              minHeight: '18px', 
-              maxHeight: `${MAX_TEXTAREA_HEIGHT}px`,
-            }}
-            className="top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none w-full overflow-y-auto min-h-[18px]"
-            placeholder={isAnyImageUploading ? "Uploading images..." : `Message ${cahnTitle}`}            
-            value={msgToSend}
-            onChange={(e) => {setMessageToSend(e.target.value)}}
-            onKeyDown={handleKeyDown}
-            disabled={isAnyImageUploading}
-          />
-        </form>
-        <button 
-          className={`bg-slate-700 rounded-full p-[5px] cursor-pointer ${(disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)) ? 'opacity-50 cursor-not-allowed' : ''}`}
-          onClick={handleSubmit}
-          disabled={disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)}
-        >
-          {isAnyImageUploading ? (
-            <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-my-gold"></div>
-          ) : (
-            <IoIosSend className="text-xl mr-[1px] text-my-gold" />
-          )}
-        </button>
-      </div>
-      
-      {/* Upload progress indicator */}
-      {/* {isAnyImageUploading && (
-        <div className="text-xs text-center text-gray-400 pb-1">
-          Uploading images... Please wait
-        </div>
-      )} */}
-    </>
-      ) : (
-        <div className="w-full text-center py-4 text-gray-500">
-          {getAccessDeniedMessage()}
-        </div>
-      )}
-              {/* <div className="w-full flex flex-row items-center px-5 gap-3">
-              <label htmlFor="dropzone-file" className="cursor-pointer">
-                        <Plus className="w-6 h-6 text-gray-500 hover:text-gray-700 transition-colors" />
-                        <Input 
-                          id="dropzone-file" 
-                          type="file" 
-                          className="hidden" 
-                          multiple 
-                          accept="image/*"
-                          onChange={handleFileChange}
-                          ref={fileInputRef}
-                        />
-                      </label>
-              <form className="relative block min-h-[32px] rounded-2xl bg-neutral-950 flex-1">
-                    <textarea
-                      id="chat-input"
-                      className=" top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none  w-full"
-                      placeholder="Message #⭐ | lifestyle-flexing"
-                      style={{ height: "32px" }}
-                      onChange={(e) => setMessageToSend(e.target.value)}
-                      onKeyDown={handleKeyDown}
-                    ></textarea>
-                  </form>
-                  <Button type="submit"  disabled={images.length === 0}>
-                      Upload {images.length} {images.length === 1 ? 'Image' : 'Images'}
-                    </Button>
-              </div> */}
+              )}
             </footer>
           </div>
         </div>
