@@ -509,7 +509,6 @@ const adjustTextareaHeight = () => {
   const isAnyImageUploading = Object.values(uploadingImages).some(status => status === true);
   
 // 2. Add state for preview visibility
-const [showPreview, setShowPreview] = useState(false);
 
 // 3. Formatting insertion logic
 const insertFormatting = (symbol) => {
@@ -657,14 +656,14 @@ const renderPreview = () => {
                   
                 </form>
                 {/* Preview panel */}
-                  {showPreview && (
-                    <div className="absolute bottom-full mb-2 w-full p-2 rounded bg-gray-800 text-sm border border-gray-700">
+                  {/* {showPreview && (
+                    <div className=" bottom-full mb-2 w-full p-2 rounded bg-gray-800 text-sm border border-gray-700">
                       <div
                         className="prose prose-invert max-w-none break-words"
                         dangerouslySetInnerHTML={renderPreview()}
                       />
                     </div>
-                  )}
+                  )} */}
                 <button 
                   className={`bg-slate-700 rounded-full p-[5px] cursor-pointer ${(disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)) ? 'opacity-50 cursor-not-allowed' : ''}`}
                   onClick={handleSubmit}

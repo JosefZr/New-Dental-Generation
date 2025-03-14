@@ -10,7 +10,8 @@ import { UserContext } from "@/context/UserContext";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useUserToChatContext } from "@/context/ToChatUser";
 import { IoIosSend } from "react-icons/io";
-
+  import { marked } from 'marked';
+  import DOMPurify from 'dompurify';
 export default function UserChat() {
 
   const {clickedUser} = useUserToChatContext();
@@ -259,39 +260,43 @@ export default function UserChat() {
 
 
   const [disable , setDisable] = useState(false)
+
 // Add this near your component's top-level
 const MAX_TEXTAREA_HEIGHT = 200; // Set your maximum height here
 
 // Add this ref declaration with your other refs
 const textareaRef = useRef(null);
-  useEffect(() => {
-    adjustTextareaHeight();
-  }, [msgToSend]);
+
+// Add this useEffect hook
+useEffect(() => {
+  adjustTextareaHeight();
+}, [msgToSend]);
+
+// Update the adjustTextareaHeight function
+const adjustTextareaHeight = () => {
+  const textarea = textareaRef.current;
+  if (!textarea) return;
+
+  // Reset height first
+  textarea.style.height = '20px';
   
-  // Update the adjustTextareaHeight function
-  const adjustTextareaHeight = () => {
-    const textarea = textareaRef.current;
-    if (!textarea) return;
+  // Calculate new height with limits
+  const newHeight = Math.min(
+    textarea.scrollHeight,
+    MAX_TEXTAREA_HEIGHT
+  );
+
+  // Apply calculated height (minimum 18px)
+  textarea.style.height = `${Math.max(newHeight, 18)}px`;
   
-    // Reset height first
-    textarea.style.height = '20px';
-    
-    // Calculate new height with limits
-    const newHeight = Math.min(
-      textarea.scrollHeight,
-      MAX_TEXTAREA_HEIGHT
-    );
+  // Force reflow to ensure proper scroll detection
+  void textarea.offsetHeight;
   
-    // Apply calculated height (minimum 18px)
-    textarea.style.height = `${Math.max(newHeight, 18)}px`;
-    
-    // Force reflow to ensure proper scroll detection
-    void textarea.offsetHeight;
-    
-    // Toggle scroll visibility
-    textarea.classList.toggle('overflow-y-auto', newHeight >= MAX_TEXTAREA_HEIGHT);
-    textarea.classList.toggle('overflow-y-hidden', newHeight < MAX_TEXTAREA_HEIGHT);
-  };
+  // Toggle scroll visibility
+  textarea.classList.toggle('overflow-y-auto', newHeight >= MAX_TEXTAREA_HEIGHT);
+  textarea.classList.toggle('overflow-y-hidden', newHeight < MAX_TEXTAREA_HEIGHT);
+};
+
   async function handleKeyDown(e) {
     if (e.key === 'Enter' && e.shiftKey) {
       return; // Let browser handle natural line break
@@ -322,6 +327,17 @@ const textareaRef = useRef(null);
         sendMessage();
       }
       e.target.value = "";
+    }
+
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
+      e.preventDefault();
+      insertFormatting('**');
+    }
+    
+    // Add Ctrl+I for italic (Windows) or Cmd+I (Mac)
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'i') {
+      e.preventDefault();
+      insertFormatting('*');
     }
   }
 
@@ -395,7 +411,39 @@ const textareaRef = useRef(null);
     });
   }, [socket, chatId, userMessages]);
   const isAnyImageUploading = Object.values(uploadingImages).some(status => status === true);
+// 3. Formatting insertion logic
+const insertFormatting = (symbol) => {
+  const textarea = textareaRef.current;
+  if (!textarea) return;
 
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const text = msgToSend;
+  
+  // Get selected text or empty string if no selection
+  const selectedText = text.substring(start, end);
+  
+  const newText = `${text.substring(0, start)}${symbol}${selectedText}${symbol}${text.substring(end)}`;
+  setMessageToSend(newText);
+
+  // Adjust cursor position after insertion
+  // Update cursor position
+  setTimeout(() => {
+    textarea.selectionStart = start + symbol.length;
+    textarea.selectionEnd = end + symbol.length;
+    textarea.focus();
+  }, 0);
+};
+
+// 4. Preview rendering logic
+// Preview rendering logic
+const renderPreview = () => {
+  const dirty = marked.parse(msgToSend || '');
+  const clean = DOMPurify.sanitize(dirty, {
+    ALLOWED_TAGS: ['b', 'strong', 'i', 'em', 'p', 'br']
+  });
+  return { __html: clean };
+};
   return (
     <div className="flex h-full flex-col" style={{
       backgroundColor:"hsl(211.3 46.939% 9.6078%)"
@@ -572,6 +620,22 @@ const textareaRef = useRef(null);
                           disabled={isAnyImageUploading}
                         />
                       </label>
+                      <div className="flex gap-1">
+                    <button
+                      type="button"
+                      onClick={() => insertFormatting('**')}
+                      className="p-1 rounded hover:bg-gray-600 text-sm font-bold"
+                    >
+                      B
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => insertFormatting('*')}
+                      className="p-1 rounded hover:bg-gray-600 text-sm italic"
+                    >
+                      I
+                    </button>
+                    </div>
                       <form onSubmit={handleSubmit} className="relative block min-h-[32px] rounded-2xl flex-1"style={{
                         backgroundColor:"hsl(213.53 34% 19.608%)"
                       }}>                    
@@ -591,6 +655,7 @@ const textareaRef = useRef(null);
 
                     ></textarea>
                   </form>
+                  
                   <button  
                     className={`bg-slate-700 rounded-full p-[5px] cursor-pointer ${(disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)) ? 'opacity-50 cursor-not-allowed' : ''}`}
                     onClick={handleSubmit}

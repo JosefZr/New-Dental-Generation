@@ -84,7 +84,7 @@ export default function SignupAdmins() {
             <div className="lg:flex-row lg:h-[114px] lg:text-left flex flex-col mt-[25px] text-primary-content text-center lg:w-full">
                 <img
                 className="trw-logo mx-auto lg:mx-0 lg:mr-3 max-w-[114px] max-h-[114px]"
-                src="	https://www.jointherealworld.com/checkout/_next/static/media/trw-knight-globe.c69d0d31.svg"
+                src="/signLogo.jpg"
                 alt="logo"
                 />
                 <div>
@@ -101,8 +101,8 @@ export default function SignupAdmins() {
             <div className="lg:hidden flex flex-col items-center gap-4 ">
             <div className="lg:flex-row lg:h-[114px] lg:text-left flex flex-col mt-[25px] text-primary-content text-center lg:w-full">
                 <img
-                className="trw-logo mx-auto lg:mx-0 lg:mr-3 max-w-[114px] max-h-[114px]"
-                src="	https://www.jointherealworld.com/checkout/_next/static/media/trw-knight-globe.c69d0d31.svg"
+                className="trw-logo mx-auto rounded-full lg:mx-0 lg:mr-3 max-w-[114px] max-h-[114px]"
+                src="/signLogo.jpg"
                 alt="logo"
                 />
                 <div>
