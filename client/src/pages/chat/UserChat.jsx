@@ -10,37 +10,36 @@ import { UserContext } from "@/context/UserContext";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useUserToChatContext } from "@/context/ToChatUser";
 import { IoIosSend } from "react-icons/io";
-  import { marked } from 'marked';
-  import DOMPurify from 'dompurify';
+
+  const MAX_TEXTAREA_HEIGHT = 200; // Set your maximum height here
+  const INITIAL_TEXTAREA_HEIGHT = 32; // Start height
 export default function UserChat() {
+  const {isSidebarOpen, setIsSidebarOpen,userMessages,chatId,isDashboardSidebarOpen,setIsDashboardSidebarOpen} = useContext(UserContext);
 
   const {clickedUser} = useUserToChatContext();
-
-  const [recipient, setRec] = useState("");
   const [msgToSend, setMessageToSend] = useState("");
-  const [preventFetch, setPrevent] = useState(false);
+  const [imagesTosnd, setImagesToSnd] = useState([])
+  const [images, setImages] = useState([])
   const [uploadingImages, setUploadingImages] = useState({});
+  const [page] = useState(1);
+  const [preventFetch, setPrevent] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
+  const containerRef = useRef(null);
+  const lastMessageRef = useRef(null);
+  const fileInputRef = useRef(null)
 
-  const [page] = useState(1); // Track the current page
-  const [isFetching, setIsFetching] = useState(false); // Prevent duplicate fetches
+    const [disable , setDisable] = useState(false)
+  const [recipient, setRec] = useState("");
 
   const socket = useSocket();
-  const {isSidebarOpen, setIsSidebarOpen,userMessages,chatId,isDashboardSidebarOpen,setIsDashboardSidebarOpen} = useContext(UserContext);
   const [messages, setMessages] = useState(userMessages || []);
-  const [images, setImages] = useState([])
-  const [imagesTosnd, setImagesToSnd] = useState([])
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
     setIsDashboardSidebarOpen(!isDashboardSidebarOpen);
 
   };
-  const lastMessageRef = useRef(null);
   const topMessageRef = useRef(null);
-  const containerRef = useRef(null);
-
-
-  const fileInputRef = useRef(null)
 
   const handleFileChange = (event) => {
     const files = event.target.files;
@@ -76,6 +75,12 @@ export default function UserChat() {
       return newState;
     });
   }
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
   async function storeImages() {
     setDisable(true);
     const formData = new FormData();
@@ -176,6 +181,8 @@ export default function UserChat() {
     setMessageToSend("")
     setImages([])
     setImagesToSnd([])
+    adjustTextareaHeight(); // Force height reset
+
   }
 
   const handleSubmit = async (e) => {
@@ -202,12 +209,6 @@ export default function UserChat() {
       fileInputRef.current.value = '';
     }
   }
-
-  const scrollToBottom = () => {
-    setTimeout(() => {
-      lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
-  };
 
   useEffect(() => {
     if (!socket || !chatId) return;
@@ -253,50 +254,16 @@ export default function UserChat() {
       socket.off("message");
       socket.off("privateMessage");
     };
-
-    
-
   }, [socket, chatId, userMessages]);
 
-
-  const [disable , setDisable] = useState(false)
-
-// Add this near your component's top-level
-const MAX_TEXTAREA_HEIGHT = 200; // Set your maximum height here
-
-// Add this ref declaration with your other refs
-const textareaRef = useRef(null);
-
-// Add this useEffect hook
-useEffect(() => {
-  adjustTextareaHeight();
-}, [msgToSend]);
-
-// Update the adjustTextareaHeight function
-const adjustTextareaHeight = () => {
-  const textarea = textareaRef.current;
-  if (!textarea) return;
-
-  // Reset height first
-  textarea.style.height = '20px';
-  
-  // Calculate new height with limits
-  const newHeight = Math.min(
-    textarea.scrollHeight,
-    MAX_TEXTAREA_HEIGHT
-  );
-
-  // Apply calculated height (minimum 18px)
-  textarea.style.height = `${Math.max(newHeight, 18)}px`;
-  
-  // Force reflow to ensure proper scroll detection
-  void textarea.offsetHeight;
-  
-  // Toggle scroll visibility
-  textarea.classList.toggle('overflow-y-auto', newHeight >= MAX_TEXTAREA_HEIGHT);
-  textarea.classList.toggle('overflow-y-hidden', newHeight < MAX_TEXTAREA_HEIGHT);
-};
-
+  useEffect(() => {
+    if (
+      // imagesTosnd && Array.isArray(imagesTosnd) &&
+      imagesTosnd.length > 0) {
+      sendMessage();
+      setMessageToSend("");
+    }
+  }, [imagesTosnd]);
   async function handleKeyDown(e) {
     if (e.key === 'Enter' && e.shiftKey) {
       return; // Let browser handle natural line break
@@ -340,16 +307,6 @@ const adjustTextareaHeight = () => {
       insertFormatting('*');
     }
   }
-
-  useEffect(() => {
-    if (imagesTosnd && Array.isArray(imagesTosnd) && imagesTosnd.length > 0) {
-      sendMessage();
-      setMessageToSend("");
-    }
-  }, [imagesTosnd]);
-
-
-  ////////////////
 
   const fetchMoreMessages = async () => {
     if (isFetching || !chatId || preventFetch) return;
@@ -410,40 +367,67 @@ const adjustTextareaHeight = () => {
       setMessages(prev => prev.filter(msg => msg._id !== messageId));
     });
   }, [socket, chatId, userMessages]);
+
   const isAnyImageUploading = Object.values(uploadingImages).some(status => status === true);
-// 3. Formatting insertion logic
-const insertFormatting = (symbol) => {
-  const textarea = textareaRef.current;
-  if (!textarea) return;
+    
+    // Add this useEffect hook
+    useEffect(() => {
+      adjustTextareaHeight();
+    }, [msgToSend]);
 
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-  const text = msgToSend;
+  const textareaRef = useRef(null);
+    // Add this near your component's top-level
+  // Add this ref declaration with your other refs
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    if (textarea) {
+      textarea.style.height = `${INITIAL_TEXTAREA_HEIGHT}px`; // Explicitly set initial height
+    }
+  }, []); // Run only on mount
+  useEffect(() => {
+    console.log("Effect triggered: Adjusting textarea height...");
+    adjustTextareaHeight();
+  }, [msgToSend]);
+  const adjustTextareaHeight = () => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
   
-  // Get selected text or empty string if no selection
-  const selectedText = text.substring(start, end);
+    // If textarea is empty, force it to stay at INITIAL_TEXTAREA_HEIGHT
+    if (!textarea.value.trim()) {
+      textarea.style.height = `${INITIAL_TEXTAREA_HEIGHT}px`;
+      return;
+    }
   
-  const newText = `${text.substring(0, start)}${symbol}${selectedText}${symbol}${text.substring(end)}`;
-  setMessageToSend(newText);
+    // Otherwise, calculate height normally
+    textarea.style.height = `${INITIAL_TEXTAREA_HEIGHT}px`;
+    textarea.scrollTop = 0;
+  
+    const newHeight = Math.min(textarea.scrollHeight, MAX_TEXTAREA_HEIGHT);
+    textarea.style.height = `${newHeight}px`;
+  
+    textarea.style.overflowY = newHeight >= MAX_TEXTAREA_HEIGHT ? "auto" : "hidden";
+  };
+  // 3. Formatting insertion logic
+  const insertFormatting = (symbol) => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+  
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = msgToSend;
+  
+    const selectedText = text.substring(start, end);
+    const newText = `${text.substring(0, start)}${symbol}${selectedText}${symbol}${text.substring(end)}`;
+    setMessageToSend(newText);
+  
+    // Update cursor position
+    setTimeout(() => {
+      textarea.selectionStart = start + symbol.length;
+      textarea.selectionEnd = end + symbol.length;
+      textarea.focus();
+    }, 0);
+  };
 
-  // Adjust cursor position after insertion
-  // Update cursor position
-  setTimeout(() => {
-    textarea.selectionStart = start + symbol.length;
-    textarea.selectionEnd = end + symbol.length;
-    textarea.focus();
-  }, 0);
-};
-
-// 4. Preview rendering logic
-// Preview rendering logic
-const renderPreview = () => {
-  const dirty = marked.parse(msgToSend || '');
-  const clean = DOMPurify.sanitize(dirty, {
-    ALLOWED_TAGS: ['b', 'strong', 'i', 'em', 'p', 'br']
-  });
-  return { __html: clean };
-};
   return (
     <div className="flex h-full flex-col" style={{
       backgroundColor:"hsl(211.3 46.939% 9.6078%)"
@@ -470,49 +454,7 @@ const renderPreview = () => {
                 </div>
               </section>
             </header>
-
-            {/* for the pinned messages */}
-            {/* <header
-              className=" flex flex-shrink-0 items-end justify-between !pt-0 relative z-10 border-grey-secondary border-b bg-base-300"
-              style={{
-                height: "60px",
-                minHeight: "60px",
-                maxHeight: "60px",
-                paddingTop: 0,
-              }}
-            >
-              <section className="flex h-full w-full items-center justify-between">
-                <div className="flex w-full items-center font-medium bg-slate-600 ">
-                  <div className="flex items-center justify-center gap-3 ">
-                    <button
-                      className=" transition-all px-5 py-2 rounded-lg my-2 ml-2 btn-sm border-my-gold  hover:bg-my-gold  text-my-gold hover:text-my-black"
-                      style={{ border: "1px solid var(--gold)" }}
-                    >
-                      <TbPinnedFilled className="text-2xl " />
-                    </button>
-                    <div className="line-clamp-2 cursor-pointer text-xs">
-                      <div className="text-my-gold font-bold text-base">
-                        Pinned Message
-                      </div>
-                      <span className="line-clamp-1 text-caption">
-                        Good morning students...
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </header> */}
-
-            {/* for the new messages not watched */}
-            {/*<div className="absolute top-[108px] right-0 left-0 z-[11] user-select-none flex h-[28px] items-center justify-between overflow-hidden text-ellipsis whitespace-nowrap bg-indigo-800 bg-opacity-80 px-3 font-semibold text-accent-content text-md backdrop-blur-[20px] backdrop-filter transform cursor-pointer transition-all duration-200 translate-y-0 opacity-100">
-              <div>New since 5 days ago</div>
-              <div className="flex items-center">
-                {" "}
-                Jump to unread <FaArrowUp className="ml-2" />
               </div>
-            </div>*/}
-          </div>
-
           {/* for the chat  */}
           <div
             className="absolute translate-y-0 opacity-100"
@@ -552,17 +494,10 @@ const renderPreview = () => {
               disable ? " pointer-events-none" : ""
             }`}
           >
-             <footer
+            <footer
               className="relative mb-inset-bottom   z-20 w-full transition-transform duration-keyboard translate-y-0"
               style={{ paddingBottom: "0px",backgroundColor:"hsl(211.03 33.333% 17.059%)" }}
             >
-              {/* this for the user when he scroll up he can return and scroll to the present msg */}
-              {/* <div className="w-full user-select-none flex h-[28px] items-center justify-between overflow-hidden text-ellipsis whitespace-nowrap bg-opacity-80 px-3 font-medium text-sm backdrop-blur-[20px] backdrop-filter  z-100 mb-inset-bottom transform cursor-pointer transition-all duration-75 bg-base-300 text-base-content translate-y-0 opacity-100 bottom-full">
-                <div>Viewing older messages</div>
-                <div className="flex items-center">
-                  See present <FaArrowDown className="ml-2" />
-                </div>
-              </div> */}
               {/* for the input  */}
               <div className="flex flex-shrink-0 w-full items-center gap-3 border-gray-700 border-t px-3">
             <div className="w-full max-w-md mx-auto flex flex-col-reverse">
@@ -636,20 +571,20 @@ const renderPreview = () => {
                       I
                     </button>
                     </div>
-                      <form onSubmit={handleSubmit} className="relative block min-h-[32px] rounded-2xl flex-1"style={{
+                    <form onSubmit={handleSubmit} className="relative block min-h-[32px] rounded-2xl flex-1" style={{
                         backgroundColor:"hsl(213.53 34% 19.608%)"
                       }}>                    
                     <textarea
                       ref={textareaRef}
                       id="chat-input"
                       style={{ 
-                        minHeight: '18px', 
+                        minHeight: `${INITIAL_TEXTAREA_HEIGHT}px`,
                         maxHeight: `${MAX_TEXTAREA_HEIGHT}px`,
                       }}
                       className="top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none w-full overflow-y-auto min-h-[18px]"
                       placeholder={isAnyImageUploading ? "Uploading images..." : `Message @ ${recipient}`}
                       value={msgToSend}
-                      onChange={(e) => setMessageToSend(e.target.value)}
+                      onChange={(e) => {setMessageToSend(e.target.value)}}
                       onKeyDown={handleKeyDown}
                       disabled={isAnyImageUploading}
 

@@ -63,7 +63,7 @@ return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
         <DialogContent className="bg-white text-black p-0 overflow-hidden">
             <DialogHeader className="pt-8 px-6">
-                <DialogTitle className="text-2xl text-center">Create {user.role}</DialogTitle>
+                <DialogTitle className="text-2xl text-center">Create {user?.role}</DialogTitle>
             </DialogHeader>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

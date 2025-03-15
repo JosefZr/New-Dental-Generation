@@ -93,7 +93,7 @@ return (
             <PaymentCardV1
                 isModal ={true}
                 cardData={data}
-                role={user.role}
+                role={user?.role}
                 userData={user}
             />
     </DialogContent>

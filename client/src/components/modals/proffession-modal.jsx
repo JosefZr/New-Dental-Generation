@@ -19,7 +19,7 @@ export default function ProffessionModal() {
                     <div className="mt-3 dialog-body m-3 overflow-y-auto overflow-x-hidden bg-neutral lg:m-4 swipe-dialog-scroll-descendant flex flex-col">
                         <div>
                             <img 
-                            src={`${import.meta.env.VITE_SERVER_API}/uploads/proffession/${user.proofOfProfession}`} 
+                            src={`${import.meta.env.VITE_SERVER_API}/uploads/proffession/${user?.proofOfProfession}`} 
                             alt="proffession" 
                             height="100%" 
                             width="100%" 

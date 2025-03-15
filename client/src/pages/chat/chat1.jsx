@@ -13,8 +13,6 @@ import useGetSubscriptionStatus from "@/hooks/limitation/useGetSubscriptionStatu
 import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 import MessageHeader from "./components/Header";
 import UploadImages from "./components/UploadImages";
-  import { marked } from 'marked';
-  import DOMPurify from 'dompurify';
   
 export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const userInfo = useAuthUser();
@@ -38,7 +36,6 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
 
  // Function to check if the current user can send messages
 const canSendMessages = () => {
-  console.log(owner)
   const userRole = userInfo.role;
   const userRegion = userInfo.region?.toLowerCase(); // Case-insensitive
   // Allow everyone if allowedUsers is "all"
@@ -230,13 +227,16 @@ const canSendMessages = () => {
       if (!msgToSend.trim() && !imagesTosnd) return;
 
       console.log(imagesTosnd , msgToSend)
-      console.log()
+      if(!msgToSend || !chanId  || !userInfo.userId){
+        console.log('no msgToSend or chanId or userId')
+        return
+      }
       socket.emit("channelMessage", {
         content: msgToSend,
         channelId: chanId,
         images: imagesTosnd,
         type: "text",
-        sender: userInfo.userId, // Ensure sender is included
+        sender: userInfo?.userId, // Ensure sender is included
       });
       if(owner?.type ==="journey"){
         addJourney.mutate({
@@ -340,42 +340,6 @@ useEffect(() => {
     socket.off("messageDeleted", handleMessageDeleted);
   };
 }, [socket, chanId]);
-
-// Add this near your component's top-level
-const MAX_TEXTAREA_HEIGHT = 200; // Set your maximum height here
-
-// Add this ref declaration with your other refs
-const textareaRef = useRef(null);
-
-// Add this useEffect hook
-useEffect(() => {
-  adjustTextareaHeight();
-}, [msgToSend]);
-
-// Update the adjustTextareaHeight function
-const adjustTextareaHeight = () => {
-  const textarea = textareaRef.current;
-  if (!textarea) return;
-
-  // Reset height first
-  textarea.style.height = '20px';
-  
-  // Calculate new height with limits
-  const newHeight = Math.min(
-    textarea.scrollHeight,
-    MAX_TEXTAREA_HEIGHT
-  );
-
-  // Apply calculated height (minimum 18px)
-  textarea.style.height = `${Math.max(newHeight, 18)}px`;
-  
-  // Force reflow to ensure proper scroll detection
-  void textarea.offsetHeight;
-  
-  // Toggle scroll visibility
-  textarea.classList.toggle('overflow-y-auto', newHeight >= MAX_TEXTAREA_HEIGHT);
-  textarea.classList.toggle('overflow-y-hidden', newHeight < MAX_TEXTAREA_HEIGHT);
-};
 
  async function handleKeyDown(e) {
   if (e.key === 'Enter' && e.shiftKey) {
@@ -508,8 +472,39 @@ const adjustTextareaHeight = () => {
   // Check if any images are currently uploading
   const isAnyImageUploading = Object.values(uploadingImages).some(status => status === true);
   
-// 2. Add state for preview visibility
+  // Add this useEffect hook
+useEffect(() => {
+  adjustTextareaHeight();
+}, [msgToSend]);
 
+
+  // Add this near your component's top-level
+const MAX_TEXTAREA_HEIGHT = 200; // Set your maximum height here
+const INITIAL_TEXTAREA_HEIGHT = 32; // Start height
+
+// Add this ref declaration with your other refs
+const textareaRef = useRef(null);
+
+// Update the adjustTextareaHeight function
+const adjustTextareaHeight = () => {
+  const textarea = textareaRef.current;
+  if (!textarea) return;
+
+  // If textarea is empty, force it to stay at INITIAL_TEXTAREA_HEIGHT
+  if (!textarea.value.trim()) {
+    textarea.style.height = `${INITIAL_TEXTAREA_HEIGHT}px`;
+    return;
+  }
+
+  // Otherwise, calculate height normally
+  textarea.style.height = `${INITIAL_TEXTAREA_HEIGHT}px`;
+  textarea.scrollTop = 0;
+
+  const newHeight = Math.min(textarea.scrollHeight, MAX_TEXTAREA_HEIGHT);
+  textarea.style.height = `${newHeight}px`;
+
+  textarea.style.overflowY = newHeight >= MAX_TEXTAREA_HEIGHT ? "auto" : "hidden";
+};
 // 3. Formatting insertion logic
 const insertFormatting = (symbol) => {
   const textarea = textareaRef.current;
@@ -518,14 +513,11 @@ const insertFormatting = (symbol) => {
   const start = textarea.selectionStart;
   const end = textarea.selectionEnd;
   const text = msgToSend;
-  
-  // Get selected text or empty string if no selection
+
   const selectedText = text.substring(start, end);
-  
   const newText = `${text.substring(0, start)}${symbol}${selectedText}${symbol}${text.substring(end)}`;
   setMessageToSend(newText);
 
-  // Adjust cursor position after insertion
   // Update cursor position
   setTimeout(() => {
     textarea.selectionStart = start + symbol.length;
@@ -534,15 +526,6 @@ const insertFormatting = (symbol) => {
   }, 0);
 };
 
-// 4. Preview rendering logic
-// Preview rendering logic
-const renderPreview = () => {
-  const dirty = marked.parse(msgToSend || '');
-  const clean = DOMPurify.sanitize(dirty, {
-    ALLOWED_TAGS: ['b', 'strong', 'i', 'em', 'p', 'br']
-  });
-  return { __html: clean };
-};
   return (
     <div className="flex h-full flex-col "
     style={{

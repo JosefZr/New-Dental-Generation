@@ -200,18 +200,31 @@ export const refresh = async (req, res) => {
 };
 export const logout = async (req, res) => {
   try {
-    const { refreshToken } = req.body;
-    const user = await User.findOneAndUpdate(
-      { refreshToken },
-      { refreshToken: null }
-    );
+    // Get user from authentication middleware
+    const user = req.user;
+    
+    // Clear refresh token from database
+    await User.findByIdAndUpdate(user._id, { refreshToken: null });
 
-    if (!user) return res.status(404).json({ error: "User not found" });
     res.json({ message: "Logout successful" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+// export const logout = async (req, res) => {
+//   try {
+//     const { refreshToken } = req.body;
+//     const user = await User.findOneAndUpdate(
+//       { refreshToken },
+//       { refreshToken: null }
+//     );
+
+//     if (!user) return res.status(404).json({ error: "User not found" });
+//     res.json({ message: "Logout successful" });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 export const updateUserName = async (req, res) => {
   const { userId, firstName, lastName } = req.body;
 

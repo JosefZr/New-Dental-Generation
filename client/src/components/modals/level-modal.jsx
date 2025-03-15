@@ -51,7 +51,7 @@ const{user} = useContext(UserContext)
     return diffDays;
 };
 
-const diffDays = getDaysDifference(user.createdAt);
+const diffDays = getDaysDifference(user?.createdAt);
 const rank = getRank(studentLevel);
 
   // Find current progress stage

@@ -25,7 +25,7 @@ export default function ExtendSubscription() {
   const getSubscriptionStatus = () => {
     const currentDate = new Date();
     const endDate = new Date(
-      user.subscriptionPlan === "freeTrial" ? user.trialEndDate : user.subscriptionEndDate
+      user?.subscriptionPlan === "freeTrial" ? user?.trialEndDate : user?.subscriptionEndDate
     );
     return currentDate > endDate ? "renew now" : "on going";
   };
@@ -39,13 +39,13 @@ export default function ExtendSubscription() {
         const minutes = String(date.getMinutes()).padStart(2, "0");
         return `${year}-${month}-${day} ${hours}:${minutes}`;
       };
-      const endDate = user.subscriptionPlan === "freeTrial" ? user.trialEndDate : user.subscriptionEndDate;
+      const endDate = user?.subscriptionPlan === "freeTrial" ? user?.trialEndDate : user?.subscriptionEndDate;
 
     return (
         <Dialog open={isModalOpen} onOpenChange={onClose} className="border-none border-black">
         <DialogContent className="border-none rounded-none text-white p-0 overflow-hidden bg-my-dark-blue">
             <DialogHeader className="bg-slate-800 flex flex-row px-10 h-[50px] flex-shrink-0 items-center justify-between border-b border-slate-700 capitalize">
-                <DialogTitle className="flex flex-1 items-center font-bold text-my-white">Extend Subscription for {user.firstName} {user.lastName}</DialogTitle>
+                <DialogTitle className="flex flex-1 items-center font-bold text-my-white">Extend Subscription for {user?.firstName} {user?.lastName}</DialogTitle>
             </DialogHeader >
                   <button className="flex items-center gap-3 p-3 text-left text-sm last:border-0 tracking-[0.015em] w-full cursor-auto px-0 pb-0">
                     <div className="flex-1">
