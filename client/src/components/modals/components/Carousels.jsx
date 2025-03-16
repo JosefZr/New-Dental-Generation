@@ -105,14 +105,14 @@ export default function Carousels({handleClose}) {
             >
                 <div className="relative h-[100px] xl:h-[130px]">
                     <img
-                        src={`${import.meta.env.VITE_SERVER_API}/course/${course.image}`}
+                        src={`${import.meta.env.VITE_SERVER_API}/uploads/course/${course.image}`}
                         alt="bg"
                         className="h-full w-full object-cover blur-sm"
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-[#2c3137] to-[#1c2026] opacity-50"></div>
                     <div className="absolute inset-0 flex size-full w-auto flex-shrink-0 items-center justify-center rounded-full">
                         <img
-                            src={`${import.meta.env.VITE_SERVER_API}/course/${course.image}`}
+                            src={`${import.meta.env.VITE_SERVER_API}/uploads/course/${course.image}`}
                             alt="bg"
                             className="h-full w-full object-contain"
                         />
