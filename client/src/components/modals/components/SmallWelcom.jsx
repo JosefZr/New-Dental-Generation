@@ -4,7 +4,7 @@ import { UserContext } from '@/context/UserContext';
 import { progress } from '@/lib/ProgressData';
 
 export default function SmallWelcom() {
-     const {user} = useContext(UserContext)
+    const {user} = useContext(UserContext)
         
         const getDaysDifference = (createdAt) => {
             const created = new Date(createdAt);
@@ -25,14 +25,14 @@ export default function SmallWelcom() {
         ) || progress[progress.length - 1];
     
         // Calculate percentage within current stage
-        const calculatePercentage = () => {
-            const stageStartDays = currentProgress.progress;
-            const stageDuration = 30; // Each stage is 30 days
-            const daysInCurrentStage = diffDays - stageStartDays;
+        // const calculatePercentage = () => {
+        //     const stageStartDays = currentProgress.progress;
+        //     const stageDuration = 30; // Each stage is 30 days
+        //     const daysInCurrentStage = diffDays - stageStartDays;
             
-            const percentage = Math.min((daysInCurrentStage / stageDuration) * 100, 100);
-            return Math.max(0, percentage); // Ensure percentage is not negative
-        };
+        //     const percentage = Math.min((daysInCurrentStage / stageDuration) * 100, 100);
+        //     return Math.max(0, percentage); // Ensure percentage is not negative
+        // };
   return (
     <div style={{position:"relative"}} className=" flex flex-col rounded-[1rem] bg-gradient-to-br from-[#353F47] to-[rgba(6,14,21,0)]">
     <div className="Card Card-side card-compact m-[2px] h-full gap-4 border-transparent  p-4" style={{backgroundColor:"rgba(13 26 37)"}}>

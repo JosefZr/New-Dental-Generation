@@ -9,9 +9,9 @@ import MyProfile from "./MyProfile";
 import {useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/UserContext";
 import { fetchUserData } from "@/hooks/useFetchUserData";
-import { useNavigate, useParams } from "react-router-dom";
 import { IoLogOutOutline } from "react-icons/io5";
 import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
+import { useParams } from "react-router-dom";
 const Settings = styled.section`
     background-image: url("https://app.jointherealworld.com/assets/lines_background-DOaYsgXf.webp");
     height: 100vh;
@@ -51,7 +51,6 @@ const Main = styled.main`
 
     export default function Profile() {
         const {onOpen} = useModal()
-        const navigate = useNavigate()
     const [activeTab, setActiveTab] = useState("Settings"); 
     const { id } = useParams();
     const {setUser } = useContext(UserContext);
@@ -69,29 +68,7 @@ const Main = styled.main`
         };
         fetchData();
     }, [id]);
-    const handleLogout = async () => {
-        try {
-            const token = localStorage.getItem('token'); // Get JWT from storage
-            
-            const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/auth/logout`, {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: token,
-                  },
-            });
-        
-            if (!response.ok) throw new Error('Logout failed');
-        
-            // Clear client-side storage
-            localStorage.removeItem('token');
-            setUser(null);
-            navigate('/login');
-            } catch (error) {
-            console.error('Logout error:', error);
-            // Optional: Show error message to user
-            }
-        };
+
     return (
         <div className="absolute inset-0 flex gap-6">
         {/* Sidebar */}

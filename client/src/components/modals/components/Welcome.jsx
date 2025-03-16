@@ -3,46 +3,16 @@ import  { useContext } from "react";
 import BigProfileLogo from "@/components/BigProfileLogo";
 import { LiaChessKingSolid } from "react-icons/lia";
 import { progress } from "@/components/Profile/Preview";
+import { calculatePercentage, getCurrentProgress, getDaysDifference, getNextProgress } from "@/utils/progressUtils";
+import UnderWelcome from "./UnderWelcome";
 
 export default function Welcome() {
     const {user} = useContext(UserContext)
-    
-    const getDaysDifference = (createdAt) => {
-        const created = new Date(createdAt);
-        const now = new Date();
-        
-        // Reset time portion to ensure accurate day calculation
-        created.setHours(0, 0, 0, 0);
-        now.setHours(0, 0, 0, 0);
-        
-        const diffTime = Math.abs(now - created);
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-        return diffDays;
-    };
-    
-    const diffDays = getDaysDifference(user.createdAt);
-    
+        const diffDays = getDaysDifference(user.createdAt);
+        const currentProgress = getCurrentProgress(diffDays, progress);
+        const percentage = calculatePercentage(diffDays, currentProgress);
+        const nextProgress = getNextProgress(progress, currentProgress);
     // Find current progress stage
-    const currentProgress = progress.find(stage => 
-        diffDays <= stage.maxDays
-    ) || progress[progress.length - 1];
-
-// Calculate percentage within current stage
-const calculatePercentage = () => {
-    const stageStartDays = currentProgress.progress;
-    const stageDuration = 30; // Each stage is 30 days
-    const daysInCurrentStage = diffDays - stageStartDays;
-    
-    const percentage = Math.min((daysInCurrentStage / stageDuration) * 100, 100);
-    return Math.max(0, percentage); // Ensure percentage is not negative
-};
-
-    const percentage = calculatePercentage();
-
-    // Find next progress stage
-    const nextProgress = progress.find(stage => 
-        stage.progress > currentProgress.progress
-    ) || currentProgress;
 
     // Calculate days remaining until next stage
     const daysRemaining = Math.max(0, currentProgress.maxDays - diffDays);
@@ -84,42 +54,7 @@ const calculatePercentage = () => {
                 </section>
                 </div>
                 <hr className="mt-2 opacity-25"/>
-                <div className=" items-between mt-4 mb-1 flex flex-col gap-2">
-                    <div className="flex w-full items-center flex-col justify-center whitespace-nowrap text-center font-semibold text-lg transition-opacity duration-500 ease-linear md:text-md opacity-1 gap-2">
-                        <div className="flex flex-row items-center">
-                        <div className=" text-[34px] w-[34px] h-[34px] " >
-                        {user.role==="admin" ?(
-                        <LiaChessKingSolid style={{color:"rgb(185, 242, 255)"}}/>
-                            ):(
-                                nextProgress.logo
-                            )}
-                        </div>
-                        {user.role==="admin" ? (
-                            <span  style={{color:"rgb(185, 242, 255)"}}>Diamond King</span>
-                        ):(
-                        <span className="hidden md:inline">
-                            {getRank(diffDays)}{' '}
-                                {diffDays <= 540 ? 
-                                    `${nextProgress.name} in ${daysRemaining} days` : 
-                                    'Diamond King'
-                            }
-                        </span>
-                        )}
-                        </div>
-                        <div style={{position:"relative",height:"5px"}} className="flex-shrink-0 rounded-md bg-gray-600 w-full" >
-                        <div className="absolute top-0 left-0 h-full origin-left rounded-md transition-transform duration-500 ease-linear" 
-                            style={{width:`${user.role ==="admin" ?99  : percentage}%`, backgroundColor:getColor(diffDays)}}
-                        ></div>
-                        <div className={`absolute top-0 left-0 rounded-full transition-transform duration-500 ease-linear will-change-transform`} 
-                            style={{
-                                backgroundColor:getColor(diffDays),
-                                width: "10px",
-                                height: "10px" ,
-                                top: "-2px", 
-                                left:`${user.role ==="admin" ?99  : percentage -1}%`}}></div>
-                        </div>
-                    </div>
-                    </div>
+                <UnderWelcome/>
             </div>
 
   )

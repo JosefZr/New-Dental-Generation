@@ -7,6 +7,7 @@ import { LiaChessKnightSolid } from "react-icons/lia";
 import Informations from "./Informations";
 import Journey from "./Journey";
 import { useState } from "react";
+import { calculatePercentage, getColor, getCurrentProgress, getDaysDifference, getNextProgress, getRank } from "@/utils/progressUtils";
 
 export const progress=[
     {
@@ -133,67 +134,18 @@ const menuItems = [
   },
 ]
 
-// eslint-disable-next-line react/prop-types
 export default function Preview({user}) {
     // Fix date difference calculation
     const [activeTab, setActiveTab] = useState("infromation")
-    const getDaysDifference = (createdAt) => {
-    const created = new Date(createdAt);
-    const now = new Date();
-    
-    // Reset time portion to ensure accurate day calculation
-    created.setHours(0, 0, 0, 0);
-    now.setHours(0, 0, 0, 0);
-    
-    const diffTime = Math.abs(now - created);
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
-};
 
-const diffDays = getDaysDifference(user.createdAt);
 
-// Find current progress stage
-const currentProgress = progress.find(stage => 
-    diffDays <= stage.maxDays
-) || progress[progress.length - 1];
 
-// Calculate percentage within current stage
-const calculatePercentage = () => {
-    const stageStartDays = currentProgress.progress;
-    const stageDuration = 30; // Each stage is 30 days
-    const daysInCurrentStage = diffDays - stageStartDays;
-    
-    const percentage = Math.min((daysInCurrentStage / stageDuration) * 100, 100);
-    return Math.max(0, percentage); // Ensure percentage is not negative
-};
-
-const percentage = calculatePercentage();
-
-// Find next progress stage
-const nextProgress = progress.find(stage => 
-    stage.progress > currentProgress.progress
-) || currentProgress;
-
-// Calculate days remaining until next stage
-const daysRemaining = Math.max(0, currentProgress.maxDays - diffDays);
-
-// Helper function to determine rank
-const getRank = (days) => {
-    if (user.role === 'admin') return "Diamond King"; // Admins always have highest rank
-    if (days <= 180) return "Silver";
-    if (days <= 330) return "Gold";
-    if (days <= 450) return "Platinum";
-    if (days <= 540) return "Diamond";
-    return "Diamond King";
-};
-const getColor = (days) => {
-    if(user?.role === "admin" || user?.role === "moderator") return "rgb(185, 242, 255)"
-    if (days <= 180) return "#EBEBEB";
-    if (days <= 330) return "#F4EBD0";
-    if (days <= 450) return "rgb(80, 200, 120)";
-    if (days <= 540) return "rgb(185, 242, 255)";
-    return "rgb(185, 242, 255)";
-};
+ const diffDays = getDaysDifference(user.createdAt);
+    const currentProgress = getCurrentProgress(diffDays, progress);
+    const percentage = calculatePercentage(diffDays, currentProgress);
+    const nextProgress = getNextProgress(progress, currentProgress);
+    // Calculate days remaining until next stage
+    const daysRemaining = Math.max(0, currentProgress.maxDays - diffDays);
 const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.component;
 
     return (
@@ -325,7 +277,7 @@ const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.comp
         <div className="inline-flex items-center mb-7 ml-5 max-w-[230px] font-bold text-lg text-white sm:max-w-none  flex-row justify-center">
         <div className="flex items-center gap-1">
             <span className="text-lg font-bold" style={{
-                color:getColor(diffDays)
+                color:getColor(diffDays,user)
             }}>{user.firstName} {user.lastName}</span>
             <span >
                 {
@@ -355,7 +307,7 @@ const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.comp
                 {user.role==="admin" ? (
                     <span  style={{color:"rgb(185, 242, 255)"}}>Diamond King</span>
                 ):(<span >
-                    {getRank(diffDays)}{' '}
+                    {getRank(diffDays,user)}{' '}
                         {diffDays <= 540 ? 
                             `${nextProgress.name} in ${daysRemaining} days` : 
                             'Diamond King'}
@@ -364,11 +316,11 @@ const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.comp
             </div>
             <div className=" flex-shrink-0 rounded-md bg-gray-600 w-full" style={{height:"5px",position:"relative"}}>
             <div className="absolute top-0 left-0 h-full origin-left rounded-md  transition-transform duration-500 ease-linear" 
-            style={{width:`${user.role ==="admin" ?100  : percentage}%`, backgroundColor:getColor(diffDays)}}
+            style={{width:`${user.role ==="admin" ?100  : percentage}%`, backgroundColor:getColor(diffDays,user)}}
             ></div>
             <div className="absolute top-0 left-0 rounded-full  transition-transform duration-500 ease-linear will-change-transform" 
                 style={{
-                    backgroundColor:getColor(diffDays),
+                    backgroundColor:getColor(diffDays,user),
                     width: "10px",
                     height: "10px" ,
                     top: "-2px", 
