@@ -110,7 +110,7 @@ const DynamicScheduler = ({ events }) => {
 
       {/* Calendar Grid */}
       <div className="flex-1 overflow-y-scroll scrollbar-custom"  ref={scrollContainerRef}>
-        <div className="grid grid-cols-[3rem_1fr] divide-x divide-[#ffffff12]">
+        <div className="grid grid-cols-[3rem_1fr] divide-x divide-[#ffffff12] border-r-[1px] border-solid border-[#ffffff12]">
           {/* Time Labels */}
           <div className="divide-y divide-transparent">
             {hours.map(hour => (

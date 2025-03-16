@@ -13,7 +13,7 @@ export const progress=[
         name:"Pawn",
         progress:0,
         logo:<LiaChessPawnSolid className="text-my-white-gray"/>,
-        maxDays: 30
+        maxDays: 30,
         },
         {
         name:"Rock",
@@ -136,8 +136,7 @@ const menuItems = [
 // eslint-disable-next-line react/prop-types
 export default function Preview({user}) {
     // Fix date difference calculation
-     const [activeTab, setActiveTab] = useState("infromation")
-   
+    const [activeTab, setActiveTab] = useState("infromation")
     const getDaysDifference = (createdAt) => {
     const created = new Date(createdAt);
     const now = new Date();
@@ -186,6 +185,14 @@ const getRank = (days) => {
     if (days <= 450) return "Platinum";
     if (days <= 540) return "Diamond";
     return "Diamond King";
+};
+const getColor = (days) => {
+    if(user?.role === "admin" || user?.role === "moderator") return "rgb(185, 242, 255)"
+    if (days <= 180) return "#EBEBEB";
+    if (days <= 330) return "#F4EBD0";
+    if (days <= 450) return "rgb(80, 200, 120)";
+    if (days <= 540) return "rgb(185, 242, 255)";
+    return "rgb(185, 242, 255)";
 };
 const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.component;
 
@@ -317,8 +324,18 @@ const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.comp
         {/* Name and Icon */}
         <div className="inline-flex items-center mb-7 ml-5 max-w-[230px] font-bold text-lg text-white sm:max-w-none  flex-row justify-center">
         <div className="flex items-center gap-1">
-            <span className="text-lg font-bold">{user.firstName} {user.lastName}</span>
-            <span >{user.role ==="admin" && user.role==="moderator"? <FaRegChessKnight className="h-8 w-auto "/>: user.subscriptionPlan==="freeTrial" ?<GiLaurelCrown className=" h-8 w-auto text-my-gray"/> : <GiLaurelCrown className=" h-8 w-auto text-my-gold"/>}</span>
+            <span className="text-lg font-bold" style={{
+                color:getColor(diffDays)
+            }}>{user.firstName} {user.lastName}</span>
+            <span >
+                {
+                user.role ==="admin" && user.role==="moderator"? 
+                <FaRegChessKnight className="h-8 w-auto "/>:
+                    user.subscriptionPlan==="freeTrial" ?
+                        <GiLaurelCrown className=" h-8 w-auto text-my-gray"/> :
+                        <GiLaurelCrown className=" h-8 w-auto text-my-gold"/>
+                }
+            </span>
             <span className="text-yellow-500">⚡</span>
         </div>
         </div>
@@ -345,16 +362,17 @@ const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.comp
                     </span>)}
             </div>
             </div>
-            <div className="relative flex-shrink-0 rounded-md bg-gray-600 w-full" style={{height:"5px"}}>
-            <div className="absolute top-0 left-0 h-full origin-left rounded-md bg-my-gold transition-transform duration-500 ease-linear" 
-                style={{width:`${user.role ==="admin" ?100  : percentage}%`}}
+            <div className=" flex-shrink-0 rounded-md bg-gray-600 w-full" style={{height:"5px",position:"relative"}}>
+            <div className="absolute top-0 left-0 h-full origin-left rounded-md  transition-transform duration-500 ease-linear" 
+            style={{width:`${user.role ==="admin" ?100  : percentage}%`, backgroundColor:getColor(diffDays)}}
             ></div>
-            <div className="absolute top-0 left-0 rounded-full bg-my-gold transition-transform duration-500 ease-linear will-change-transform" 
+            <div className="absolute top-0 left-0 rounded-full  transition-transform duration-500 ease-linear will-change-transform" 
                 style={{
-                    width: "8px",
-                    height: "8px" ,
-                    top: "-1.5px", 
-                    left:`${user.role ==="admin" ?100  : percentage}%`}}></div>
+                    backgroundColor:getColor(diffDays),
+                    width: "10px",
+                    height: "10px" ,
+                    top: "-2px", 
+                    left:`${user.role ==="admin" ?99  : percentage -1}%`}}></div>
             </div>
         </div>
         {/* <div className="flex items-center gap-1 rounded-md bg-top px-[6px] py-1 font-bold text-primary text-sm cursor-pointer mt-[15px] bg-my-dark-blue">

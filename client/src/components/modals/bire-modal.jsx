@@ -1,5 +1,3 @@
-"use client"
-
 import { MODAL_TYPE, useModal } from "@/hooks/useModalStore"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { IoMdClose } from "react-icons/io"

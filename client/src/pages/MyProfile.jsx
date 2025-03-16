@@ -14,7 +14,7 @@ export default function MyProfile() {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate()
 
-  const { onSettingsToggle, setOnSettingsToggle } = useContext(UserContext)
+  const { setOnSettingsToggle } = useContext(UserContext)
 
   const toggleSidebar = () => {
     setOnSettingsToggle((prev) => !prev)

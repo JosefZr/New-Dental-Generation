@@ -11,6 +11,7 @@ import { UserContext } from "@/context/UserContext";
 import { fetchUserData } from "@/hooks/useFetchUserData";
 import { useNavigate, useParams } from "react-router-dom";
 import { IoLogOutOutline } from "react-icons/io5";
+import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 const Settings = styled.section`
     background-image: url("https://app.jointherealworld.com/assets/lines_background-DOaYsgXf.webp");
     height: 100vh;
@@ -49,6 +50,7 @@ const Main = styled.main`
     ];
 
     export default function Profile() {
+        const {onOpen} = useModal()
         const navigate = useNavigate()
     const [activeTab, setActiveTab] = useState("Settings"); 
     const { id } = useParams();
@@ -131,7 +133,7 @@ const Main = styled.main`
                     borderColor: "hsl(0, 70.563%, 45.294%)",
                 }}
                 onClick={()=>{
-                    handleLogout()
+                    onOpen(MODAL_TYPE.LOGOUT_MODAL)
                 }}
                 >
                 <IoLogOutOutline

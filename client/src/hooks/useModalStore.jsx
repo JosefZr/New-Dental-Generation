@@ -28,7 +28,8 @@ export const MODAL_TYPE = {
     JOB_DETAILS:"jobDetails",
     ADD_ROLE:"addRole",
     EXTEND_SUBSCRIPTION:"extendSubscription",
-    DELETE_MESSAGE:"deleteMessage"
+    DELETE_MESSAGE:"deleteMessage",
+    LOGOUT_MODAL:"logoutModal"
   };
 
 export const useModal = create((set)=>({

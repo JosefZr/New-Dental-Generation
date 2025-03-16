@@ -1,8 +1,8 @@
 import { UserContext } from "@/context/UserContext";
-import React, { useContext } from "react";
-import { progress } from "@/lib/ProgressData";
+import  { useContext } from "react";
 import BigProfileLogo from "@/components/BigProfileLogo";
-
+import { LiaChessKingSolid } from "react-icons/lia";
+import { progress } from "@/components/Profile/Preview";
 
 export default function Welcome() {
     const {user} = useContext(UserContext)
@@ -55,6 +55,15 @@ const calculatePercentage = () => {
         if (days <= 540) return "Diamond";
         return "Diamond King";
     };
+    const getColor = (days) => {
+        if(user?.role === "admin" || user?.role === "moderator") return "rgb(185, 242, 255)"
+        if (days <= 180) return "#EBEBEB";
+        if (days <= 330) return "#F4EBD0";
+        if (days <= 450) return "rgb(80, 200, 120)";
+        if (days <= 540) return "rgb(185, 242, 255)";
+        return "rgb(185, 242, 255)";
+    };
+
   return (
     
             <div className="flex flex-col justify-between rounded-xl sm:mt-4 bg-my-Modal-back sm:p-4 h-[200px]">
@@ -62,7 +71,11 @@ const calculatePercentage = () => {
                 <section style={{position:"relative"}} className=" flex-shrink-0 rounded-full bg-base-300 mr-2 cursor-pointer">
                     <BigProfileLogo image={user.avatar}/>
                     <div className="absolute text-[22px] w-[22px] h-[18px] left-[30px] " style={{bottom:"2px"}}>
-                        {React.createElement(currentProgress.logo)}
+                        {user.role==="admin" ?(
+                            <LiaChessKingSolid style={{color:"rgb(185, 242, 255)"}}/>
+                        ):(
+                            currentProgress.logo
+                        )}
                     </div>
                 </section>
                 <section className="flex min-h-[40px] flex-1 flex-col items-baseline justify-between sm:min-h-[56px]">
@@ -75,26 +88,35 @@ const calculatePercentage = () => {
                     <div className="flex w-full items-center flex-col justify-center whitespace-nowrap text-center font-semibold text-lg transition-opacity duration-500 ease-linear md:text-md opacity-1 gap-2">
                         <div className="flex flex-row items-center">
                         <div className=" text-[34px] w-[34px] h-[34px] " >
-                            {React.createElement(nextProgress.logo)}
+                        {user.role==="admin" ?(
+                        <LiaChessKingSolid style={{color:"rgb(185, 242, 255)"}}/>
+                            ):(
+                                nextProgress.logo
+                            )}
                         </div>
+                        {user.role==="admin" ? (
+                            <span  style={{color:"rgb(185, 242, 255)"}}>Diamond King</span>
+                        ):(
                         <span className="hidden md:inline">
-                        {getRank(diffDays)}{' '}
-                            {diffDays <= 540 ? 
-                                `${nextProgress.name} in ${daysRemaining} days` : 
-                                'Diamond King'
-                        }
+                            {getRank(diffDays)}{' '}
+                                {diffDays <= 540 ? 
+                                    `${nextProgress.name} in ${daysRemaining} days` : 
+                                    'Diamond King'
+                            }
                         </span>
+                        )}
                         </div>
-                        <div className="relative flex-shrink-0 rounded-md bg-gray-600 w-full" style={{height:"5px"}}>
-                        <div className="absolute top-0 left-0 h-full origin-left rounded-md bg-my-gold transition-transform duration-500 ease-linear" 
-                            style={{width:`${percentage}%`}}
+                        <div style={{position:"relative",height:"5px"}} className="flex-shrink-0 rounded-md bg-gray-600 w-full" >
+                        <div className="absolute top-0 left-0 h-full origin-left rounded-md transition-transform duration-500 ease-linear" 
+                            style={{width:`${user.role ==="admin" ?99  : percentage}%`, backgroundColor:getColor(diffDays)}}
                         ></div>
-                        <div className="absolute top-0 left-0 rounded-full bg-my-gold transition-transform duration-500 ease-linear will-change-transform" 
+                        <div className={`absolute top-0 left-0 rounded-full transition-transform duration-500 ease-linear will-change-transform`} 
                             style={{
-                                width: "8px",
-                                height: "8px" ,
-                                top: "-1.5px", 
-                                left:`${percentage}%`}}></div>
+                                backgroundColor:getColor(diffDays),
+                                width: "10px",
+                                height: "10px" ,
+                                top: "-2px", 
+                                left:`${user.role ==="admin" ?99  : percentage -1}%`}}></div>
                         </div>
                     </div>
                     </div>

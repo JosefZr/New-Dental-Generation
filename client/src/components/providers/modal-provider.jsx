@@ -24,6 +24,7 @@ import JobDetailedModal from "../modals/job-detailed-modal";
 import AddRoleModal from "../modals/add-role-modal";
 import ExtendSubscription from "../modals/extend-subscription-modal";
 import DeleteMessage from "../modals/delete-message";
+import LogoutModal from "../modals/logout-modal";
 // import PreviewModal from "../modals/preview-modal";
 
 export const ModalProvider = ({ children })=>{
@@ -64,6 +65,7 @@ export const ModalProvider = ({ children })=>{
             <AddRoleModal/>
             <ExtendSubscription/>
             <DeleteMessage/>
+            <LogoutModal/>
             {/* <PreviewModal/> */}
         </div>
     )
