@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import bcrypt from "bcrypt"
 import { createUser } from "../services/auth.services.js";
+import ChannelModel from "../models/Channel.model.js";
 
 const tokenExpirations = {
   freeTrial: { access: "1d", refresh: "7d" },
@@ -400,6 +401,14 @@ export const addJurney = async(req, res)=>{
     })
   }
   try {
+     // Verify channel type first
+      const channel = await ChannelModel.findById(chanId);
+      if (!channel || channel.type !== "journey") {
+        return res.status(403).json({
+          success: false,
+          message: "Not a journey channel",
+        });
+      }
     const user = await User.findOne({ _id: userId });
     if (!user) {
       return res.status(404).json({

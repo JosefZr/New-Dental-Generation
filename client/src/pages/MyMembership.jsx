@@ -58,7 +58,7 @@ export default function MyMembership() {
   return (
     <>
     <button
-            className="absolute top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
+            className="absolute max-sm:hidden top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
             onClick={toggleSidebar}
           >
             <GiHamburgerMenu className=" text-2xl text-white" />
@@ -108,7 +108,7 @@ export default function MyMembership() {
               </div>
             </div>
           </div>
-          <div className="absolute top-0 right-0 m-[16px]  flex-col items-center flex">
+          <div className="absolute top-0 right-0 m-[16px]  flex-col items-center flex max-sm:hidden">
             <button className="btn !bg-transparent btn-circle" onClick={() => navigate(-1)}>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="18" y1="6" x2="6" y2="18"></line>

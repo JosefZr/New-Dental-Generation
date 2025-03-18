@@ -16,6 +16,7 @@ import { progress } from "@/lib/ProgressData";
 import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 import SmallProfileLogo from "../SmallProfileLogo";
 import useGetSubscriptionStatus from "@/hooks/limitation/useGetSubscriptionStatus";
+import { useUserToChatContext } from "@/context/ToChatUser";
 
 export const Logo = styled.div`
     background-position: center center;
@@ -29,10 +30,10 @@ export const Logo = styled.div`
 export default function ServerSideBar({
   fetchMessages,
   clickedChannelID,
-  clickChannelName
+  clickChannelName,
 }) {
   const {channels, setChannels,user} = useContext(UserContext)
-
+  const {setIsMessagesLoading} = useUserToChatContext()
   const getDaysDifference = (createdAt) => {
     const created = new Date(createdAt);
     const now = new Date();
@@ -83,8 +84,15 @@ const currentProgress = progress.find(stage =>
   const status = useGetSubscriptionStatus()
 
   const handleChannelClick = async (id, title) => {
+    setIsMessagesLoading(true)
+
+    fetchMessages([]);
     setClickedChannel(id)
-    setIsSidebarOpen(!isSidebarOpen)
+      // Only toggle sidebar on mobile devices (width <= 620px)
+      if (window.innerWidth <= 620) {
+        setIsSidebarOpen(!isSidebarOpen);
+      }
+
     try {
       const response = await fetch(
         `${import.meta.env.VITE_SERVER_API}/api/v1/channels/${id}`,
@@ -96,9 +104,9 @@ const currentProgress = progress.find(stage =>
           },
         }
       );
-  
       clickedChannelID(id);
       clickChannelName(title);
+      
       if (status === "off"){
         onOpen(MODAL_TYPE.LIMITATION_MODAL)
       }
@@ -108,6 +116,7 @@ const currentProgress = progress.find(stage =>
           fetchMessages(data.data.messages);
         }
       }
+      setIsMessagesLoading(false)
     } catch (error) {
       console.error("Error fetching messages:", error);
     }
@@ -194,9 +203,18 @@ const handlePinChannel = async (channel) => {
                       memberRole=""
                       onEditClick={()=>handleEditChannel(chan)}
                       onDeleteClick={() => handleDeleteChannel(chan._id)}
-                      onClickChan={() => handleChannelClick(chan._id, chan.title)}
+                      onClickChan={() => {handleChannelClick(chan._id, chan.title) 
+                        setOwner({
+                          ownerId: chan.owner,
+                          allowedUsers: chan.allowedUsers,
+                          chanId: chan._id,
+                          type: "control" // Add explicit type
+                        });
+                      }
+                      }
                       onPinClick={() => handlePinChannel(chan)}
                       isPinned={chan.locked}
+                      
                       />
                   ))}
                 </ServerSection>

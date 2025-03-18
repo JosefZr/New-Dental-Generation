@@ -12,6 +12,7 @@ export default function UploadImages({handleSubmit,images,uploadingImages,remove
       {images.length > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
           {images.map((image) => (
+            
             <div key={image.id} className="relative group">
               <img
                 src={image.preview}

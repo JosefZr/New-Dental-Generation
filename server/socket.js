@@ -8,6 +8,7 @@ import logger from "./utils/logger.js";
 import { authenticateSocket } from "./middlewares/socket.auth.js";
 import Channel from "./models/Channel.model.js";
 import { deleteMessage, saveChannelMessage } from "./services/channels.services.js";
+import Message from "./models/Message.js";
 
 let io;
 
@@ -70,33 +71,69 @@ export const initializeSocket = (server) => {
       // Emit the message to both sender and recipient
       io.to(roomId).emit("message", message);
     });
-// Add to your existing socket initialization
-socket.on("deletePrivateMessage", async ({ content, createdAt, senderId }, callback) => {
-  console.log(content, createdAt, senderId);
-  try {
-    const deletionResult = await deletePrivateMessage(content, createdAt, senderId);
+    socket.on("updatePrivateMessage", async ({ originalContent, originalDate, newContent, senderId }) => {
+      try {
+        // 1. Find the private message directly
+        const message = await Message.findOne({ 
+          content: originalContent,
+          createdAt: originalDate,
+          sender: senderId 
+        });
+        
+        if (!message) {
+          throw new Error("Private message not found");
+        }
     
-    // Convert sender and recipient to strings and construct roomId
-    const roomId = [deletionResult.sender.toString(), deletionResult.recipient.toString()]
-      .sort()
-      .join("_");
-
-    // Convert _id to string to match client side ids
-    const messageId = deletionResult._id.toString();
-    console.log("sjsqjq", messageId);
+        // 2. Update message content
+        message.content = newContent;
+        message.updatedAt = new Date();
+        await message.save();
     
-    io.to(roomId).emit("privateMessageDeleted", { 
-      messageId 
+        // 3. Get room ID for participants
+        const roomId = [message.sender.toString(), message.recipient.toString()]
+          .sort()
+          .join("_");
+    
+        // 4. Emit update to both participants
+        io.to(roomId).emit("PrivateMessageUpdated", {
+          messageId: message._id,
+          newContent: message.content,
+          updatedAt: message.updatedAt
+        });
+    
+      } catch (error) {
+        console.error("Error updating private message:", error);
+        socket.emit("error", { 
+          message: "Failed to update private message",
+          details: error.message 
+        });
+      }
     });
+    // Add to your existing socket initialization
+    socket.on("deletePrivateMessage", async ({ content, createdAt, senderId }, callback) => {
+      console.log(content, createdAt, senderId);
+      try {
+        const deletionResult = await deletePrivateMessage(content, createdAt, senderId);
+        
+        // Convert sender and recipient to strings and construct roomId
+        const roomId = [deletionResult.sender.toString(), deletionResult.recipient.toString()]
+          .sort()
+          .join("_");
 
-    callback({ success: true });
-  } catch (error) {
-    logger.error(`Error deleting private message: ${error.message}`);
-    callback({ success: false, error: error.message });
-  }
-});
+        // Convert _id to string to match client side ids
+        const messageId = deletionResult._id.toString();
+        console.log("sjsqjq", messageId);
+        
+        io.to(roomId).emit("privateMessageDeleted", { 
+          messageId 
+        });
 
-
+        callback({ success: true });
+      } catch (error) {
+        logger.error(`Error deleting private message: ${error.message}`);
+        callback({ success: false, error: error.message });
+      }
+    });
     // Join a specific group channel
     socket.on("joinGroup", async (channelId) => {
       const channel = await Channel.findById(channelId);
@@ -105,7 +142,6 @@ socket.on("deletePrivateMessage", async ({ content, createdAt, senderId }, callb
       socket.join(channelId);
       socket.emit("joinedGroup", `Joined group ${channel.title}`);
     });
-
     // Send a message to a specific channel
     socket.on("channelMessage", async ({ channelId, content, type, images }) => {
       try {
@@ -171,6 +207,48 @@ socket.on("deletePrivateMessage", async ({ content, createdAt, senderId }, callb
       } catch (error) {
         logger.error(`Error deleting message: ${error.message}`);
         socket.emit("error", { message: "Failed to delete message." });
+      }
+    });
+    
+    socket.on("updateMessage", async (data) => {
+      try {
+        // 1. Find the channel first
+        const channel = await Channel.findById(data.channelId);
+        if (!channel) {
+          throw new Error("Channel not found");
+        }
+
+        // 2. Find the message in the channel's messages array
+        const messageIndex = channel.messages.findIndex(msg => 
+          msg.content === data.originalContent &&
+          msg.createdAt.getTime() === new Date(data.originalDate).getTime()
+        );
+
+        if (messageIndex === -1) {
+          throw new Error("Message not found in channel");
+        }
+
+        // 3. Update the message content
+        channel.messages[messageIndex].content = data.newContent;
+        channel.messages[messageIndex].updatedAt = new Date();
+
+        // 4. Save the updated channel document
+        await channel.save();
+
+        // 5. Broadcast the update to all channel members
+        io.to(data.channelId).emit("messageUpdated", {
+          originalContent: data.originalContent,
+          originalDate: data.originalDate,
+          newContent: data.newContent,
+          updatedAt: channel.messages[messageIndex].updatedAt
+        });
+
+      } catch (error) {
+        console.error("Error updating message:", error);
+        socket.emit("error", { 
+          message: "Failed to update message",
+          details: error.message 
+        });
       }
     });
     socket.on("disconnect", () => {

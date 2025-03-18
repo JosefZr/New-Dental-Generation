@@ -10,6 +10,13 @@ import { UserContext } from "@/context/UserContext";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useUserToChatContext } from "@/context/ToChatUser";
 import { IoIosSend } from "react-icons/io";
+import { MdUpdate } from "react-icons/md";
+import PreviewOriginalText from "./components/PreviewOriginalText";
+import { LoadingSpinner } from "@/components/server/ServerSideBar";
+import imageCompression from "browser-image-compression";
+import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
+import useGetSubscriptionStatus from "@/hooks/limitation/useGetSubscriptionStatus";
+import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 
   const MAX_TEXTAREA_HEIGHT = 200; // Set your maximum height here
   const INITIAL_TEXTAREA_HEIGHT = 32; // Start height
@@ -27,37 +34,76 @@ export default function UserChat() {
   const containerRef = useRef(null);
   const lastMessageRef = useRef(null);
   const fileInputRef = useRef(null)
-
+  const [editingMessage, setEditingMessage] = useState(null);
+  const topMessageRef = useRef(null);
+    const {onOpen} = useModal()
+    const status = useGetSubscriptionStatus()
+  const {isPrivateMessagesLoading,setIsPrivateMessagesLoading} = useUserToChatContext()
     const [disable , setDisable] = useState(false)
   const [recipient, setRec] = useState("");
-
+  const userInfo = useAuthUser()
+  console.log(userInfo)
   const socket = useSocket();
   const [messages, setMessages] = useState(userMessages || []);
-
+// In your edit handling
+const handleEditMessage = (message) => {
+  setEditingMessage(message);
+  setMessageToSend(message.content || "");
+};
+// Updated cancel edit handler
+const cancelEdit = () => {
+  setEditingMessage(null);
+  setMessageToSend("");
+};
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
     setIsDashboardSidebarOpen(!isDashboardSidebarOpen);
 
   };
-  const topMessageRef = useRef(null);
 
-  const handleFileChange = (event) => {
-    const files = event.target.files;
-    if (files) {
-      const newImages = Array.from(files).map((file) => ({
+const handleFileChange = async (event) => {
+  if (status === "off") {
+    onOpen(MODAL_TYPE.LIMITATION_MODAL);
+    return;
+  }
+  const MAX_IMAGES = 5;
+
+  const files = event.target.files;
+  if (!files) return;
+  if (images.length + event.target.files.length > MAX_IMAGES) {
+    alert(`Maximum ${MAX_IMAGES} images allowed`);
+    return;
+  }
+  const newImages = [];
+  const newUploadingState = {};
+
+  for (const file of files) {
+    try {
+      const options = {
+        maxSizeMB: 1, // Max size in MB
+        maxWidthOrHeight: 800, // Resize to max width/height
+        useWebWorker: true,
+      };
+
+      const compressedFile = await imageCompression(file, options);
+      const preview = URL.createObjectURL(compressedFile);
+
+      const imageObj = {
         id: Math.random().toString(36).substr(2, 9),
-        file,
-        preview: URL.createObjectURL(file),
-      }));
-      setImages((prevImages) => [...prevImages, ...newImages]);
-        // Initialize loading state for new images
-        const newUploadingState = {};
-        newImages.forEach(img => {
-          newUploadingState[img.id] = false;
-        });
-        setUploadingImages(prev => ({...prev, ...newUploadingState}));
+        file: compressedFile,
+        preview,
+      };
+
+      newImages.push(imageObj);
+      newUploadingState[imageObj.id] = false;
+    } catch (error) {
+      console.error("Error compressing image:", error);
     }
-  };
+  }
+
+  setImages((prevImages) => [...prevImages, ...newImages]);
+  setUploadingImages((prev) => ({ ...prev, ...newUploadingState }));
+};
 
   const removeImage = (id) => {
     setImages(prevImages => {
@@ -168,16 +214,33 @@ export default function UserChat() {
   }
 
   function sendMessage() {
+    if(status==='off'){
+      onOpen(MODAL_TYPE.LIMITATION_MODAL)
+      return
+    }
+    else{
+      if (!msgToSend.trim() && !imagesTosnd) return;
     if (!msgToSend.trim() && !imagesTosnd) return;
 
     console.log(imagesTosnd , msgToSend)
-
+    if (editingMessage) {
+      // Emit update message event with content and timestamp
+      socket.emit("updatePrivateMessage", {
+        originalContent: editingMessage.content,
+        originalDate: editingMessage.createdAt, // Use actual date property from your message object
+        newContent: msgToSend,
+        senderId: userInfo.userId,
+      });
+  
+      // Reset editing state
+      setEditingMessage(null);
+    }else {
     socket.emit("privateMessage", {
       content: msgToSend,
       recipient: chatId,
       images: imagesTosnd
     });
-
+  }}
     setMessageToSend("")
     setImages([])
     setImagesToSnd([])
@@ -187,6 +250,10 @@ export default function UserChat() {
 
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
+    if(status === "off") {
+      onOpen(MODAL_TYPE.LIMITATION_MODAL);
+      return;
+    }
     // Check if any images are still uploading
     const stillUploading = Object.values(uploadingImages).some(status => status === true);
     if (stillUploading) {
@@ -347,11 +414,14 @@ export default function UserChat() {
   };
 
   useEffect(() => {
+    setIsPrivateMessagesLoading(true)
+
     const container = containerRef.current;
 
     if (container) {
       container.addEventListener("scroll", fetchMoreMessages);
     }
+    setIsPrivateMessagesLoading(false)
 
     // Cleanup event listener on component unmount
     return () => {
@@ -359,7 +429,7 @@ export default function UserChat() {
         container.removeEventListener("scroll", fetchMoreMessages);
       }
     };
-  }, [messages]);
+  }, [userMessages]);
 
   useEffect(() => {
     if (!socket) return;
@@ -427,6 +497,26 @@ export default function UserChat() {
       textarea.focus();
     }, 0);
   };
+  // Add this useEffect hook in your component
+useEffect(() => {
+  if (!socket) return;
+
+  const handlePrivateMessageUpdate = (updatedMessage) => {
+    setMessages(prev => prev.map(msg => 
+      msg._id === updatedMessage.messageId
+        ? { ...msg, content: updatedMessage.newContent, updatedAt: updatedMessage.updatedAt }
+        : msg
+    ));
+  };
+
+  socket.on("PrivateMessageUpdated", handlePrivateMessageUpdate);
+
+  // Cleanup function
+  return () => {
+    socket.off("PrivateMessageUpdated", handlePrivateMessageUpdate);
+  };
+}, [socket]); // Dependency array ensures proper cleanup/re-initialization
+
 
   return (
     <div className="flex h-full flex-col" style={{
@@ -436,10 +526,7 @@ export default function UserChat() {
         <div className="relative h-full flex-1 bg-neutral">
           <div className="absolute top-0 right-0 left-0 z-20 flex flex-col">
             {/* for the title of the channel */}
-            <header
-              className="flex flex-shrink-0 items-end justify-between !pt-0 relative z-10   bg-base-300"
-              
-            >
+            <header className="flex flex-shrink-0 items-end justify-between !pt-0 relative z-10   bg-base-300">
               <section className="flex h-full w-full items-center justify-between pl-3 py-2 text-lg bg-[#213043] ">
                 <div className="flex w-full items-center font-medium">
                   <div className="flex items-center justify-center gap-3">
@@ -456,10 +543,16 @@ export default function UserChat() {
             </header>
               </div>
           {/* for the chat  */}
-          <div
-            className="absolute translate-y-0 opacity-100"
-            style={{ top: "48px", left: "0", width: "100%", bottom: "66px" }}
-          >
+          {isPrivateMessagesLoading ? (
+            <div className="flex justify-center items-center h-full">
+              <LoadingSpinner />
+            </div>
+          ) : (
+            <div
+              className="absolute translate-y-0 opacity-100"
+              style={{ top: "48px", left: "0", width: "100%", bottom: "66px" }}
+            >
+
             <div
               ref={containerRef}
               className="z-10 overflow-y-auto overflow-x-hidden transition-transform duration-keyboard will-change-transform custom-scroll"
@@ -476,7 +569,7 @@ export default function UserChat() {
                           key={message._id}
                           ref={isTopMessage ? topMessageRef : null}
                         >
-                          <Message message={message} />
+                          <Message message={message} handleEditMessage={handleEditMessage}/>
                           <Devider />
                           <div
                             ref={isLastMessage ? lastMessageRef : null}
@@ -487,7 +580,7 @@ export default function UserChat() {
                 </div>
               </div>
             </div>
-          </div>
+          </div>)}
           {/* for the input of the message */}
           <div
             className={`absolute right-0 bottom-0 left-0 z-20 flex flex-col ${
@@ -498,6 +591,8 @@ export default function UserChat() {
               className="relative mb-inset-bottom   z-20 w-full transition-transform duration-keyboard translate-y-0"
               style={{ paddingBottom: "0px",backgroundColor:"hsl(211.03 33.333% 17.059%)" }}
             >
+              <PreviewOriginalText editingMessage={editingMessage} cancelEdit={cancelEdit}/>
+              
               {/* for the input  */}
               <div className="flex flex-shrink-0 w-full items-center gap-3 border-gray-700 border-t px-3">
             <div className="w-full max-w-md mx-auto flex flex-col-reverse">
@@ -591,7 +686,7 @@ export default function UserChat() {
                     ></textarea>
                   </form>
                   
-                  <button  
+                  <button 
                     className={`bg-slate-700 rounded-full p-[5px] cursor-pointer ${(disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)) ? 'opacity-50 cursor-not-allowed' : ''}`}
                     onClick={handleSubmit}
                     disabled={disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)}
@@ -599,15 +694,15 @@ export default function UserChat() {
                     {isAnyImageUploading ? (
                       <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-my-gold"></div>
                     ) : (
-                      <IoIosSend className="text-xl mr-[1px] text-my-gold" />
+                      editingMessage? (
+                        < MdUpdate  className="text-xl mr-[1px] text-my-gold" />
+                      ):(
+                        <IoIosSend  className="text-xl mr-[1px] text-my-gold" />
+                      )
                     )}
                   </button>
               </div>
-              {/* {isAnyImageUploading && (
-                <div className="text-xs text-center text-gray-400 pb-1">
-                  Uploading images... Please wait
-                </div>
-              )} */}
+              
             </footer>
           </div>
         </div>

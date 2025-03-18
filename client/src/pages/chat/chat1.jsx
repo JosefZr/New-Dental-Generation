@@ -13,7 +13,12 @@ import useGetSubscriptionStatus from "@/hooks/limitation/useGetSubscriptionStatu
 import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 import MessageHeader from "./components/Header";
 import UploadImages from "./components/UploadImages";
-  
+import { MdUpdate } from "react-icons/md";
+import PreviewOriginalText from "./components/PreviewOriginalText";
+import { useUserToChatContext } from "@/context/ToChatUser";
+import { LoadingSpinner } from "@/components/server/ServerSideBar";
+import imageCompression from "browser-image-compression";
+
 export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const userInfo = useAuthUser();
   const [messages, setMessages] = useState(initialMessages || []);
@@ -21,7 +26,8 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const [imagesTosnd, setImagesToSnd] = useState([])
   const [images, setImages] = useState([])
   const [uploadingImages, setUploadingImages] = useState({});
-
+// Add these states at the top of UserChat
+const [editingMessage, setEditingMessage] = useState(null);
   const [page] = useState(1);
   const {owner} = useContext(UserContext);
   const [preventFetch, setPrevent] = useState(false);
@@ -33,6 +39,40 @@ export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const status = useGetSubscriptionStatus()
   const [disable , setDisable] = useState(false)
   const {onOpen} = useModal()
+  const socket = useSocket();
+  const {isMessagesLoading, setIsMessagesLoading} = useUserToChatContext()
+
+// In your edit handling
+const handleEditMessage = (message) => {
+  setEditingMessage(message);
+  setMessageToSend(message.content || "");
+};
+// Updated cancel edit handler
+const cancelEdit = () => {
+  setEditingMessage(null);
+  setMessageToSend("");
+};
+useEffect(() => {
+  if (!socket) return;
+
+  socket.on("messageUpdated", (updatedMessage) => {
+    setMessages(prev => prev.map(msg => {
+      if (msg.content === updatedMessage.originalContent && 
+          new Date(msg.createdAt).getTime() === new Date(updatedMessage.originalDate).getTime()) {
+        return {
+          ...msg,
+          content: updatedMessage.newContent,
+          updatedAt: new Date().toISOString()
+        };
+      }
+      return msg;
+    }));
+  });
+
+  return () => {
+    socket.off("messageUpdated");
+  };
+}, [socket]);
 
  // Function to check if the current user can send messages
 const canSendMessages = () => {
@@ -88,28 +128,51 @@ const canSendMessages = () => {
   // If no restrictions are set, allow message sending
   return true;
 };
-  const handleFileChange = (event) => {
-    if(status==="off"){
-      onOpen(MODAL_TYPE.LIMITATION_MODAL)
-    }
-    else{
-      const files = event.target.files;
-    if (files) {
-      const newImages = Array.from(files).map((file) => ({
+
+const handleFileChange = async (event) => {
+  if (status === "off") {
+    onOpen(MODAL_TYPE.LIMITATION_MODAL);
+    return;
+  }
+  const MAX_IMAGES = 5;
+
+  const files = event.target.files;
+  if (!files) return;
+  if (images.length + event.target.files.length > MAX_IMAGES) {
+    alert(`Maximum ${MAX_IMAGES} images allowed`);
+    return;
+  }
+  const newImages = [];
+  const newUploadingState = {};
+
+  for (const file of files) {
+    try {
+      const options = {
+        maxSizeMB: 1, // Max size in MB
+        maxWidthOrHeight: 800, // Resize to max width/height
+        useWebWorker: true,
+      };
+
+      const compressedFile = await imageCompression(file, options);
+      const preview = URL.createObjectURL(compressedFile);
+
+      const imageObj = {
         id: Math.random().toString(36).substr(2, 9),
-        file,
-        preview: URL.createObjectURL(file),
-      }));
-      setImages((prevImages) => [...prevImages, ...newImages]);
-      // Initialize loading state for new images
-      const newUploadingState = {};
-      newImages.forEach(img => {
-        newUploadingState[img.id] = false;
-      });
-      setUploadingImages(prev => ({...prev, ...newUploadingState}));
+        file: compressedFile,
+        preview,
+      };
+
+      newImages.push(imageObj);
+      newUploadingState[imageObj.id] = false;
+    } catch (error) {
+      console.error("Error compressing image:", error);
     }
-    }
-  };
+  }
+
+  setImages((prevImages) => [...prevImages, ...newImages]);
+  setUploadingImages((prev) => ({ ...prev, ...newUploadingState }));
+};
+
 
   const removeImage = (id) => {
     setImages(prevImages => {
@@ -231,6 +294,18 @@ const canSendMessages = () => {
         console.log('no msgToSend or chanId or userId')
         return
       }
+      if (editingMessage) {
+        // Emit update message event with content and timestamp
+        socket.emit("updateMessage", {
+          originalContent: editingMessage.content,
+          originalDate: editingMessage.createdAt, // Use actual date property from your message object
+          newContent: msgToSend,
+          channelId: chanId,
+        });
+    
+        // Reset editing state
+        setEditingMessage(null);
+      }else {
       socket.emit("channelMessage", {
         content: msgToSend,
         channelId: chanId,
@@ -238,7 +313,9 @@ const canSendMessages = () => {
         type: "text",
         sender: userInfo?.userId, // Ensure sender is included
       });
-      if(owner?.type ==="journey"){
+    }
+    console.log(owner)
+      if(owner.type ==="journey"){
         addJourney.mutate({
           userId: userInfo.userId,
           content:msgToSend,
@@ -286,7 +363,6 @@ const canSendMessages = () => {
       fileInputRef.current.value = '';
     }
   };
-  const socket = useSocket();
 
   // tracking the last message to scroll to it
   useEffect(() => {
@@ -430,13 +506,13 @@ useEffect(() => {
     if (container) {
       container.addEventListener("scroll", fetchMoreMessages);
     }
-
     // Cleanup event listener on component unmount
     return () => {
       if (container) {
         container.removeEventListener("scroll", fetchMoreMessages);
       }
     };
+    
   }, [messages]);
   
   const getAccessDeniedMessage = () => {
@@ -476,7 +552,6 @@ useEffect(() => {
 useEffect(() => {
   adjustTextareaHeight();
 }, [msgToSend]);
-
 
   // Add this near your component's top-level
 const MAX_TEXTAREA_HEIGHT = 200; // Set your maximum height here
@@ -530,17 +605,18 @@ const insertFormatting = (symbol) => {
     <div className="flex h-full flex-col "
     style={{
       backgroundColor:"hsl(211.3 46.939% 9.6078%)"
+      
     }}>
       <div className="z-20 flex flex-col flex-1 ">
-        <div className="relative h-full flex-1 bg-neutral ">
-          <div className="absolute top-0 right-0 left-0 z-20 flex flex-col ">
+        <div className=" h-full flex-1 bg-neutral "style={{position:"relative"}}>
+          <div className=" top-0 right-0 left-0 z-20 flex flex-col" style={{position:"absolute"}}>
             {/* for the title of the channel */}
             <MessageHeader cahnTitle ={cahnTitle}/>
             {/* for the new messages not watched */}
           </div>
 
           {/* for the chat  */}
-          <div
+          {isMessagesLoading ?(<LoadingSpinner/>):(<div
             className="absolute translate-y-0 opacity-100 "
             style={{ top: "48px", left: "0", width: "100%", bottom: "66px" }}
           >
@@ -556,7 +632,7 @@ const insertFormatting = (symbol) => {
                       const isLastMessage = index === messages.length - 1;
                       return (
                         <div key={index}>
-                          <Message message={message} chanId={chanId}/>
+                          <Message message={message} chanId={chanId} handleEditMessage={handleEditMessage}/>
                           <Devider />
                           <div
                             ref={isLastMessage ? lastMessageRef : null}
@@ -567,7 +643,7 @@ const insertFormatting = (symbol) => {
                 </div>
               </div>
             </div>
-          </div>
+          </div>)}
           {/* for the input of the message */}
           <div
             className={`absolute right-0 bottom-0 left-0 z-20 flex flex-col ${
@@ -578,6 +654,7 @@ const insertFormatting = (symbol) => {
               className="relative mb-inset-bottom   z-20 w-full transition-transform duration-keyboard translate-y-0"
               style={{ paddingBottom: "0px",backgroundColor:"hsl(211.03 33.333% 17.059%)" }}
             >
+              <PreviewOriginalText editingMessage={editingMessage} cancelEdit={cancelEdit}/>
               {/* this for the user when he scroll up he can return and scroll to the present msg */}
               {canSendMessages() ? (
               <>
@@ -605,6 +682,7 @@ const insertFormatting = (symbol) => {
                   <div className="flex gap-1">
                     <button
                       type="button"
+                      aria-label="Bold formatting"
                       onClick={() => insertFormatting('**')}
                       className="p-1 rounded hover:bg-gray-600 text-sm font-bold"
                     >
@@ -647,17 +725,22 @@ const insertFormatting = (symbol) => {
                       />
                     </div>
                   )} */}
-                <button 
-                  className={`bg-slate-700 rounded-full p-[5px] cursor-pointer ${(disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)) ? 'opacity-50 cursor-not-allowed' : ''}`}
-                  onClick={handleSubmit}
-                  disabled={disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)}
-                >
-                  {isAnyImageUploading ? (
-                    <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-my-gold"></div>
-                  ) : (
-                    <IoIosSend className="text-xl mr-[1px] text-my-gold" />
-                  )}
-                </button>
+                  <button 
+                    className={`bg-slate-700 rounded-full p-[5px] cursor-pointer ${(disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    onClick={handleSubmit}
+                    disabled={disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)}
+                  >
+                    {isAnyImageUploading ? (
+                      <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-my-gold"></div>
+                    ) : (
+                      editingMessage? (
+                        < MdUpdate  className="text-xl mr-[1px] text-my-gold" />
+                      ):(
+                        <IoIosSend  className="text-xl mr-[1px] text-my-gold" />
+                      )
+                    )}
+                  </button>
+                
               </div>
             </>
               ) : (

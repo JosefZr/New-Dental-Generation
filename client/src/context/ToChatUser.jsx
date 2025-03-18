@@ -12,12 +12,17 @@ export const UserChatProvider = ({ children }) => {
   const [initialIndex,setInitialIndex] = useState(0)
   const [imagesToShow, setImagesToShow] = useState([])
   const [jobInfos, setJobInfos] = useState([])
+  const [isMessagesLoading, setIsMessagesLoading] = useState(false)
+  const [isPrivateMessagesLoading, setIsPrivateMessagesLoading] = useState(false)
+
   return (
     <UserChatContext.Provider value={{ 
       clickedUser, setClickedUserId,
       imagesToShow, setImagesToShow,
       initialIndex,setInitialIndex,
-      jobInfos, setJobInfos
+      jobInfos, setJobInfos,
+      isMessagesLoading, setIsMessagesLoading,
+      isPrivateMessagesLoading, setIsPrivateMessagesLoading
     }}>
       {children}
     </UserChatContext.Provider>

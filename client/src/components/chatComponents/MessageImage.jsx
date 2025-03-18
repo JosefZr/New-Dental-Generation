@@ -1,140 +1,90 @@
 import { useUserToChatContext } from "@/context/ToChatUser";
 import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css"; // Blur effect
 
-export default function MessageImage({message}) {
-  const{onOpen} = useModal()
-  const{ setImagesToShow,
-    setInitialIndex} = useUserToChatContext()
-   return(
+export default function MessageImage({ message,onImageLoad }) {
+  const { onOpen } = useModal();
+  const { setImagesToShow, setInitialIndex } = useUserToChatContext();
+
+  return (
     <>
-     {message?.images.length > 0 && (
+      {message?.images.length > 0 && (
         <div className="mt-2">
           {/* Single Image */}
           {message.images.length === 1 && (
             <div className="max-w-[400px]">
-              <img
+              <LazyLoadImage
                 src={message.images[0]}
+                onLoad={onImageLoad} // Add this
+
                 alt="Attachment 1"
-                onClick={()=>{
-                  setInitialIndex(0)
-                  setImagesToShow(message.images)
-                  onOpen(MODAL_TYPE.IMAGES_MODAL)
-      
+                effect="blur"
+                onClick={() => {
+                  setInitialIndex(0);
+                  setImagesToShow(message.images);
+                  onOpen(MODAL_TYPE.IMAGES_MODAL);
                 }}
                 className="w-full h-auto rounded-lg"
-                loading="lazy"
               />
             </div>
           )}
-      
+
           {/* Two Images */}
           {message.images.length === 2 && (
             <div className="grid grid-cols-2 gap-2 max-w-[400px]">
               {message.images.map((file, index) => (
-                <img
+                <LazyLoadImage
                   key={index}
-                  onClick={()=>{
-                    setInitialIndex(index)
-                    setImagesToShow(message.images)
-                    onOpen(MODAL_TYPE.IMAGES_MODAL)
-                  }}
                   src={file}
+                  onLoad={onImageLoad} // Add this
                   alt={`Attachment ${index + 1}`}
+                  effect="blur"
+                  onClick={() => {
+                    setInitialIndex(index);
+                    setImagesToShow(message.images);
+                    onOpen(MODAL_TYPE.IMAGES_MODAL);
+                  }}
                   className="w-full h-auto rounded-lg"
-                  loading="lazy"
                 />
               ))}
             </div>
           )}
-      
-          {/* Three Images */}
-          {message.images.length === 3 && (
+
+          {/* More than 2 images (general case) */}
+          {message.images.length > 2 && (
             <div className="grid grid-cols-2 gap-2 max-w-[400px]">
-              <img
-                src={message.images[0]}
-                alt="Attachment 1"
-                className="w-full h-auto rounded-lg"
-                loading="lazy"
-                onClick={()=>{
-                  setInitialIndex(0)
-                  setImagesToShow(message.images)
-                    onOpen(MODAL_TYPE.IMAGES_MODAL)
-                }}
-              />
-              <div className="grid grid-rows-2 gap-2">
-                {message.images.slice(1).map((file, index) => (
-                  <img
-                    key={index + 1}
-                    src={file}
-                    alt={`Attachment ${index + 2}`}
-                    onClick={()=>{
-                      setInitialIndex(index+1)
-                    }}
-                    className="w-full h-auto rounded-lg"
-                    loading="lazy"
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-      
-          {/* Four Images */}
-          {message.images.length === 4 && (
-            <div className="grid grid-cols-2 gap-2 w-full">
-              {message.images.map((file, index) => (
-                <img
+              {message.images.slice(0, 4).map((file, index) => (
+                <LazyLoadImage
                   key={index}
                   src={file}
-                  onClick={()=>{
-                    setInitialIndex(index)
-                    setImagesToShow(message.images)
-                    onOpen(MODAL_TYPE.IMAGES_MODAL)
-                  }}
+                  onLoad={onImageLoad} // Add this
                   alt={`Attachment ${index + 1}`}
+                  effect="blur"
+                  onClick={() => {
+                    setInitialIndex(index);
+                    setImagesToShow(message.images);
+                    onOpen(MODAL_TYPE.IMAGES_MODAL);
+                  }}
                   className="w-full h-auto rounded-lg"
-                  loading="lazy"
                 />
               ))}
-            </div>
-          )}
-      
-          {/* Five Images */}
-          {message.images.length === 5 && (
-            <div className="grid grid-cols-2 gap-2 max-w-[400px]">
-              <div className="grid gap-2">
-                {message.images.slice(0, 3).map((file, index) => (
-                  <img
-                    key={index}
-                    src={file}
-                    onClick={()=>{
-                      setInitialIndex(index)
-                      setImagesToShow(message.images)
-                      onOpen(MODAL_TYPE.IMAGES_MODAL)
-                    }}
-                    alt={`Attachment ${index + 1}`}
-                    className="w-full h-auto rounded-lg"
-                    loading="lazy"
-                  />
-                ))}
-              </div>
-              <div className="grid gap-2">
-                {message.images.slice(3).map((file, index) => (
-                  <img
-                    key={index + 3}
-                    onClick={()=>{
-                      setInitialIndex(index + 3)
-                    }}
-                    src={file}
-                    alt={`Attachment ${index + 4}`}
-                    className="w-full h-auto rounded-lg"
-                    loading="lazy"
-                  />
-                ))}
-              </div>
+              {message.images.length > 4 && (
+                <div
+                  className="relative w-full h-full flex items-center justify-center bg-black bg-opacity-50 text-white rounded-lg cursor-pointer"
+                  onClick={() => {
+                    setInitialIndex(4);
+                    setImagesToShow(message.images);
+                    onOpen(MODAL_TYPE.IMAGES_MODAL);
+                  }}
+                >
+                  +{message.images.length - 4} more
+                </div>
+              )}
             </div>
           )}
         </div>
-    )} 
+      )}
     </>
-   )
+  );
 }

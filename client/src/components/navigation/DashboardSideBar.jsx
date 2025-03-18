@@ -21,12 +21,12 @@ export default function DashboardSidebar() {
   const [privateChats, setPrivateChats] = useState({});
   const navigate = useNavigate();
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [activeButton, setActiveButton] = useState('');
   const userInfo = jwtDecode(localStorage.getItem('token'));
   const { clickedUser, setClickedUserId } = useUserToChatContext();
   const location = useLocation();
   const isAdmin = userInfo?.role === 'admin' // Check if user is admin
+  const {isPrivateMessagesLoading,setIsPrivateMessagesLoading} = useUserToChatContext()
 
   useEffect(() => {
     // Set active button based on current path
@@ -128,30 +128,26 @@ const renderSidebarButtons = () => {
   useEffect(() => {
     const fetchPrivateChats = async () => {
       try {
+        setIsPrivateMessagesLoading(true);
+        setPrivateChats([]);
+    
         const token = localStorage.getItem("token");
-        if (!token) throw new Error("Authorization token is missing");
-
         const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/chats/all`, {
           method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: token,
-          },
+          headers: { Authorization: token }
         });
-
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch private chats: ${response.statusText}`
-          );
-        }
-
+    
+        if (!response.ok) throw new Error("Failed to fetch private chats");
+        
         const data = await response.json();
         setPrivateChats(data);
+        // Add slight delay for better visual feedback
+        await new Promise(resolve => setTimeout(resolve, 500));
+        setIsPrivateMessagesLoading(false);
+        
       } catch (err) {
-        console.error("Error fetching private chats:", err.message);
+        console.error("Error:", err);
         setError(err.message);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -172,8 +168,12 @@ const {isDashboardSidebarOpen,setIsDashboardSidebarOpen,isSidebarOpen, setIsSide
       if (firstChannel) {
         handleChatSelect(firstChannel.recipient._id, `${firstChannel.recipient.firstName} ${firstChannel.recipient.lastName}`);
         navigate("/dashboard/user-chat");
-        setIsDashboardSidebarOpen(!isDashboardSidebarOpen);
-        setIsSidebarOpen(!isSidebarOpen);
+        if (window.innerWidth <= 620) {
+          setIsDashboardSidebarOpen(!isDashboardSidebarOpen);
+          }
+        if (window.innerWidth <= 620) {
+          setIsSidebarOpen(!isSidebarOpen);
+        }
         setIsFirstCallMade(true); // Mark as executed
       }
     }
@@ -200,10 +200,15 @@ const {isDashboardSidebarOpen,setIsDashboardSidebarOpen,isSidebarOpen, setIsSide
                 className="flex flex-col rounded-md w-full border-none"
                 style={chat.recipient._id === clickedUser.userId ? { backgroundColor: "#1f7498", width:"calc(-64px + 87vw)", maxWidth:"296px"} : {width:"calc(-64px + 87vw)", maxWidth:"296px"}}
                 onClick={() => {
+                  setIsPrivateMessagesLoading(true)
                   handleChatSelect(chat.recipient._id, `${chat.recipient.firstName} ${chat.recipient.lastName}`);
                   navigate("/dashboard/user-chat");
-                  setIsSidebarOpen(!isSidebarOpen);
+                  if (window.innerWidth <= 620) {
+                    setIsSidebarOpen(!isSidebarOpen);
+                  }
+                  if (window.innerWidth <= 620) {
                   setIsDashboardSidebarOpen(!isDashboardSidebarOpen);
+                  }
                 }}
               >
                 <button

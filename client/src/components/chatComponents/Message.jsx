@@ -18,7 +18,7 @@ import MessageImage from "./MessageImage";
 import MessageTools from "./MessageTools";
 
 
-export default function Message({ message,chanId }) {
+export default function Message({ message,chanId ,handleEditMessage}) {
   const userInfo = useAuthUser()
   const { setPreview, userPreview, setFriendsRequest, friendsRequest ,setPendingRequests} = useContext(UserContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -217,7 +217,7 @@ export default function Message({ message,chanId }) {
         </div>
       </span>
     </div>
-    <MessageTools message={message} chanId={chanId}/>
+    <MessageTools message={message} chanId={chanId} onEdit={handleEditMessage}/>
   </div>
 </div>
   );

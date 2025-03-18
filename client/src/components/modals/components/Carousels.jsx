@@ -103,7 +103,7 @@ export default function Carousels({handleClose}) {
                 key={index}
                 className="card card-compact h-full min-w-[25dvw] bg-gradient-to-br from-[#353F47] to-[rgba(6,14,21,0)]"
             >
-                <div className="relative h-[100px] xl:h-[130px]">
+                <div className="relative h-[100px] xl:h-[130px]" style={{width:"100%"}}>
                     <img
                         src={`${import.meta.env.VITE_SERVER_API}/uploads/course/${course.image}`}
                         alt="bg"
@@ -113,7 +113,7 @@ export default function Carousels({handleClose}) {
                     <div className="absolute inset-0 flex size-full w-auto flex-shrink-0 items-center justify-center rounded-full">
                         <img
                             src={`${import.meta.env.VITE_SERVER_API}/uploads/course/${course.image}`}
-                            alt="bg"
+                            alt="bging"
                             className="h-full w-full object-contain"
                         />
                     </div>

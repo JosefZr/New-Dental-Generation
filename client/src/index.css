@@ -1275,3 +1275,38 @@ body {
   caret-color: white;
   resize: none;
 }
+.custom-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.message-item {
+  content-visibility: auto;
+  contain-intrinsic-size: 100px;
+}
+
+.viewport {
+  will-change: transform;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .message-item {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+/* Add this CSS to prevent layout shifts */
+.message-item {
+  will-change: transform, opacity;
+  contain: content;
+}
+
+.uploading-image {
+  transition: opacity 0.3s ease;
+}
