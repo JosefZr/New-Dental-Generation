@@ -298,6 +298,7 @@ const handlePinChannel = async (channel) => {
                         ownerId: channel.owner,
                         allowedUsers: channel.allowedUsers,
                         chanId: channel._id,
+                        type: "dentist",
                       });
                     }}
                   />
@@ -326,7 +327,7 @@ const handlePinChannel = async (channel) => {
                         ownerId: channel.owner,
                         allowedUsers: channel.allowedUsers,
                         chanId: channel._id,
-                        type:"all"
+                        type:"all",
                       });
                     }}
                   />
@@ -354,6 +355,7 @@ const handlePinChannel = async (channel) => {
                           ownerId: channel.owner,
                           allowedUsers: channel.allowedUsers,
                           chanId: channel._id,
+                          type: "lab"
                         });
                       }}
                     />
@@ -381,6 +383,7 @@ const handlePinChannel = async (channel) => {
                           ownerId: channel.owner,
                           allowedUsers: channel.allowedUsers,
                           chanId: channel._id,
+                          type: "store"
                         });
                       }}
                     />

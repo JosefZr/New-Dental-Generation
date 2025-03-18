@@ -72,7 +72,6 @@ export default function Carousels({handleClose}) {
     const navigate = useNavigate()
     return (
             <div className="h-full flex-row">
-                <section></section>
                 <div style={{position:"relative"}} className="h-full">
                     <Carousel ref={carouselRef} className="flex flex-row justify-start h-full min-h-[217px] gap-4 overflow-x-auto overflow-y-hidden whitespace-nowrap rounded-lg pt-4">
                         <Card className="h-full min-w-[25dvw] gap-4 border-transparent bg-my-Modal-back">

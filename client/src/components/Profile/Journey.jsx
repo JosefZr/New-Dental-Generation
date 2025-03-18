@@ -1,6 +1,11 @@
-export default function Journey({ user }) {
-  console.log(user);
+import { useAuthUser } from "@/hooks/jwt/useAuthUser";
+import { IoClose } from "react-icons/io5"
 
+export default function Journey({ user }) {
+  const userInfo = useAuthUser()
+  console.log(user)
+  const showDeleteButton = user?._id === userInfo.userId || 
+    ["admin", "moderator"].includes(userInfo.role);
   return (
     <div
       style={{ position: "relative" }}
@@ -8,16 +13,22 @@ export default function Journey({ user }) {
     >
       {user.journey && user.journey.length > 0 ? (
         user.journey.map((info, index) => (
-          <div key={index} className="mb-2">
+          <div key={index} className="mb-2  group" style={{ position: "relative" }}>
             {/* Header */}
             <div className="z-10 mt-2 flex h-[44px] items-center justify-between truncate rounded-t-md border border-slate-700 border-b-0 bg-base-200 px-2 text-sm first:mt-0 md:text-md">
-              <span className="cursor-pointer font-medium hover:underline">
-                10/28/2024
-              </span>
-              <div className="flex items-center">
+              <span className="cursor-pointer font-medium hover:underline">{info.date}</span>
+
+              {/* Delete Button - Inside header, aligned right */}
+              <div className="flex items-center gap-2">
                 <div className="text-teal-500 hover:underline active">
                   <span>{info.chanTitle}</span>
                 </div>
+              {showDeleteButton && <button
+                  // onClick={handleDeleteMessage}
+                  className="ml-2 p-1 rounded-full hover:bg-slate-700 transition-all opacity-0 group-hover:opacity-100"
+                >
+                  <IoClose className="h-5 w-5" />
+                </button>}
               </div>
             </div>
 
@@ -61,5 +72,6 @@ export default function Journey({ user }) {
         </div>
       )}
     </div>
-  );
+  )
 }
+

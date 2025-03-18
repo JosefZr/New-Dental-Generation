@@ -50,23 +50,23 @@ return (
                                     key={index}
                                     className="Card Card-compact h-full min-w-[25dvw] bg-gradient-to-br from-[#353F47] to-[rgba(6,14,21,0)]"
                                 >
-                                    <div className="relative h-[100px] xl:h-[130px]">
+                                    <div className="relative h-[100px] xl:h-[130px] rounded-t-xl" style={{width:"100%"}}>
                                         <img
-                                            src={`${import.meta.env.VITE_SERVER_API}/course/${course.image}`}
+                                            src={`${import.meta.env.VITE_SERVER_API}/uploads/course/${course.image}`}
                                             alt="bg"
-                                            className="h-full w-full object-cover blur-sm"
+                                            className="h-full w-full object-cover  blur-sm"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-b from-[#2c3137] to-[#1c2026] opacity-50"></div>
                                         <div className="absolute inset-0 flex size-full w-auto flex-shrink-0 items-center justify-center rounded-full">
                                             <img
-                                                src={`${import.meta.env.VITE_SERVER_API}/course/${course.image}`}
+                                                src={`${import.meta.env.VITE_SERVER_API}/uploads/course/${course.image}`}
                                                 alt="bg"
-                                                className="h-full w-full object-contain"
+                                                className="h-full w-full object-contain "
                                             />
                                         </div>
                                     </div>
                                     <div
-                                        className="p-2 leading-5 rounded-lg border border-[#3a3f47]/20 border-t-none"
+                                        className="p-2 leading-5 rounded-b-xl border border-[#3a3f47]/20 border-t-none"
                                         style={{ fontSize: "0.875rem" }}
                                         onClick={() => {
                                             navigate(`/course/details/${course._id}`);
