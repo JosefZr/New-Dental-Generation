@@ -24,7 +24,7 @@ export const useAddJourney = ()=>{
         onSuccess: (data) => {
             console.log('journey added successfully successfully:', data);
             // Invalidate queries related to user tasks to refresh the data
-            queryClient.invalidateQueries(['user'],); // Try invalidating
+            queryClient.invalidateQueries(['user'],data.userId); // Try invalidating
             toast.success('journey added successfully successfully!');
         },
         onError: (error) => {

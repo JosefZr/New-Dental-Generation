@@ -67,38 +67,7 @@ router.put(
   "/:id",
   // authorizedRoles("admin", "moderator"),
   ChannelController.updateChannel
-); // Update channel
-// router.put("/:id",async(req, res)=>{
-//   const {id,title} = req.body
-//   if(!id){
-//     return res.status(400).json({
-//       status:false,
-//       message:"channel Id is required"
-//     })
-//   }
-//   if(!title){
-//     return res.status(400).json({
-//       status:false,
-//       message:"channel title is required"
-//     })
-//   }
-//   try {
-//     const { title } = data;
-//         const response =  await Channel.findByIdAndUpdate(
-//           id,
-//           { title },
-//           { new: true }
-//         );
-
-//         return res.status(200).json("channel updated succefult")
-//   } catch (error) {
-//     console.log(error)
-//     return res.status(500).json({
-//       status:false,
-//       message:"server error"
-//     })
-//   }
-// })
+)
 router.patch(
   "/:id/lock",
   authorizedRoles("admin", "moderator"),

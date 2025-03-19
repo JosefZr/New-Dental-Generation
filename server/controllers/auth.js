@@ -389,7 +389,48 @@ export const updateUserDescription = async (req, res)=>{
     })
   }
 }
+export const deleteJourney = async(req,res)=>{
+  const {userId,id} = req.body 
+  console.log("user:", userId, "   journey:",id)
+  if (!userId || !id ) {
+    return res.status(400).json({
+      success: false,
+      message: "Missing required fields.",
+    })
+  }
+  try {
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      })
+    }
+    const result = await User.updateOne(
+      { _id: userId },
+      { $pull: { journey: { _id: id } } }
+    );
 
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Journey entry not found or already deleted.",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: "Journey entry deleted successfully.",
+      userId: userId
+    });
+
+    } catch (error) {
+    console.log("Error finding user:", error);
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while finding the user.", 
+    })
+  }
+}
 export const addJurney = async(req, res)=>{
   const { userId, content, images,chanTitle,chanId } = req.body;
   if (!userId || !content || !images || !chanTitle || !chanId) {
@@ -397,7 +438,6 @@ export const addJurney = async(req, res)=>{
     return res.status(400).json({
       success: false,
       message: "Missing required fields.",
-
     })
   }
   try {

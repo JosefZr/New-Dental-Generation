@@ -145,13 +145,13 @@ export const initializeSocket = (server) => {
     // Send a message to a specific channel
     socket.on("channelMessage", async ({ channelId, content, type, images }) => {
       try {
-
         console.log(channelId, content , type , images)
-
+        console.log("test 1")
         const channel = await Channel.findById(channelId);
         if (!channel) {
           return socket.emit("error", { message: "Channel not found." });
         }
+        console.log("test 2")
 
         // Save the message to the database
         const channelMessage = await saveChannelMessage(
@@ -161,6 +161,7 @@ export const initializeSocket = (server) => {
           type , 
           images
         );
+        console.log("test 3")
 
         // Emit the message to all members in the channel
         io.to(channelId).emit("channelMessage", {
@@ -173,36 +174,28 @@ export const initializeSocket = (server) => {
       }
     });
     socket.on("deleteMessage", async ({ content, createdAt, channelId }) => {
+      console.log("socket",content, createdAt, channelId)
       try {
+        console.log("try ")
         const channel = await Channel.findById(channelId);
+        console.log("try 1" )
         if (!channel) {
           return socket.emit("error", { message: "Channel not found." });
         }
-    
-        const messageIndex = channel.messages.findIndex(msg => 
-          msg.content === content && 
-          new Date(msg.createdAt).getTime() === new Date(createdAt).getTime()
-        );
-    
-        if (messageIndex === -1) {
-          return socket.emit("error", { message: "Message not found." });
-        }
-    
-        const deletedMessage = channel.messages[messageIndex];
-        
         try {
           // This will throw if image deletion fails
-          await deleteMessage(content, createdAt, channelId);
+          const deletedMessage = await deleteMessage(content, createdAt, channelId);
+          io.to(channelId).emit("messageDeleted", { 
+            content: deletedMessage.content,
+            createdAt: deletedMessage.createdAt,
+            channelId 
+          });
         } catch (error) {
           logger.error(`Error deleting message: ${error.message}`);
           return socket.emit("error", { message: error.message });
         }
     
-        io.to(channelId).emit("messageDeleted", { 
-          content: deletedMessage.content,
-          createdAt: deletedMessage.createdAt,
-          channelId 
-        });
+        
     
       } catch (error) {
         logger.error(`Error deleting message: ${error.message}`);

@@ -1,9 +1,32 @@
 import { useAuthUser } from "@/hooks/jwt/useAuthUser";
+import { useDeleteJourney } from "@/hooks/user/useDeleteJourney";
+import { useSocket } from "@/socketContext";
+import toast from "react-hot-toast";
 import { IoClose } from "react-icons/io5"
 
 export default function Journey({ user }) {
   const userInfo = useAuthUser()
-  console.log(user)
+  const socket = useSocket();
+  const deleteJourney = useDeleteJourney()
+  function handleDeleteMessage (info){
+    console.log(info)
+    console.log({userId: userInfo.userId, id:info._id})
+    
+    try {
+        socket.emit("deleteMessage", {
+          content: info.content,
+          createdAt: info.date,
+          channelId: info.chanId
+        })
+
+        deleteJourney.mutate({
+          userId: userInfo.userId,
+          id:info._id,
+        });
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
   const showDeleteButton = user?._id === userInfo.userId || 
     ["admin", "moderator"].includes(userInfo.role);
   return (
@@ -24,8 +47,8 @@ export default function Journey({ user }) {
                   <span>{info.chanTitle}</span>
                 </div>
               {showDeleteButton && <button
-                  // onClick={handleDeleteMessage}
-                  className="ml-2 p-1 rounded-full hover:bg-slate-700 transition-all opacity-0 group-hover:opacity-100"
+                  onClick={()=>handleDeleteMessage(info)}
+                  className="ml-2 p-1 rounded-full bg-slate-800 hover:bg-slate-700 transition-all "
                 >
                   <IoClose className="h-5 w-5" />
                 </button>}

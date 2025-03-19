@@ -181,10 +181,13 @@ class ChannelService {
 }
 
 export async function saveChannelMessage(senderId, channelId, content, type, images) {
+  console.log(senderId,channelId, content , type , images)
+  console.log("1")
   const channel = await Channel.findById(channelId);
   if (!channel) {
     throw new Error("Channel not found");
   }
+  console.log("2")
 
   // Create the message object
   const message = {
@@ -194,35 +197,47 @@ export async function saveChannelMessage(senderId, channelId, content, type, ima
     images,
     createdAt: new Date(),
   };
+  console.log("3")
 
   const sender = await User.findById(senderId);
+  console.log("4")
 
   // Add the message to the channel's messages array
   channel.messages.push(message);
   await channel.save();
+  console.log("5")
 
   const { password, ...senderNoPass } = sender._doc;
   message.sender = senderNoPass;
-
+  
   return message;
 }
 // channels.services.js
 import { deleteMessageImages } from '../utils/fileUtils.js';
 
 export async function deleteMessage(content, createdAt, channelId) {
+  console.log("IIIIIIIII",content, createdAt, channelId)
   const channel = await Channel.findById(channelId);
   if (!channel) throw new Error("Channel not found");
+  console.log("channel",content, createdAt, channelId)
 
-  const targetDate = new Date(createdAt);
-  
-  const messageIndex = channel.messages.findIndex(msg => 
-    msg.content === content && 
-    new Date(msg.createdAt).getTime() === targetDate.getTime()
-  );
+    // Compare dates without milliseconds
+    const targetDate = new Date(createdAt);
+    const targetTime = targetDate.setMilliseconds(0);
 
-  if (messageIndex === -1) throw new Error("Message not found");
-  
-  const deletedMessage = channel.messages[messageIndex];
+    const messageIndex = channel.messages.findIndex(msg => {
+      const msgTime = new Date(msg.createdAt).setMilliseconds(0);
+      return msg.content === content && msgTime === targetTime;
+    });
+
+    if (messageIndex === -1) {
+      console.log("Actual messages:", channel.messages.map(m => ({
+        content: m.content,
+        createdAt: m.createdAt.toISOString()
+      })));
+      return socket.emit("error", { message: "Message not found." });
+    }  
+    const deletedMessage = channel.messages[messageIndex];
   
   try {
     // Delete associated images first

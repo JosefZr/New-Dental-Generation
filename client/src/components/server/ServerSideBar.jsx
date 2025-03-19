@@ -17,6 +17,7 @@ import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 import SmallProfileLogo from "../SmallProfileLogo";
 import useGetSubscriptionStatus from "@/hooks/limitation/useGetSubscriptionStatus";
 import { useUserToChatContext } from "@/context/ToChatUser";
+import { useSocket } from "@/socketContext";
 
 export const Logo = styled.div`
     background-position: center center;
@@ -85,8 +86,7 @@ const currentProgress = progress.find(stage =>
 
   const handleChannelClick = async (id, title) => {
     setIsMessagesLoading(true)
-
-    fetchMessages([]);
+    // fetchMessages([]);
     setClickedChannel(id)
       // Only toggle sidebar on mobile devices (width <= 620px)
       if (window.innerWidth <= 620) {
@@ -158,6 +158,7 @@ const handlePinChannel = async (channel) => {
   }
 
   const [isFirstCallMade, setIsFirstCallMade] = useState(false);
+  const socket = useSocket();
 
   useEffect(() => {
     if (!isFirstCallMade && channels.length > 0 && userInfo) {
@@ -176,11 +177,24 @@ const handlePinChannel = async (channel) => {
       // Fetch the first channel for the user's role
       if (roleChannels.length > 0) {
         const firstChannel = roleChannels[0];
-        handleChannelClick(firstChannel._id, firstChannel.title);
-        setIsFirstCallMade(true); // Mark as executed
+        
+        if (!socket.connected) {
+          socket.connect(); // Manually connect if not connected
+        }
+  
+        const handleConnect = () => {
+          handleChannelClick(firstChannel._id, firstChannel.title);
+          setIsFirstCallMade(true);
+        };
+  
+        if (socket.connected) {
+          handleConnect();
+        } else {
+          socket.once("connect", handleConnect);
+        }
       }
     }
-  }, [channels, userInfo, groupedChannels, handleChannelClick]);
+  }, [channels, userInfo, socket]);
   return (
     <div className="flex flex-col h-full text-my-white w-full ">
       <ServerHeader />

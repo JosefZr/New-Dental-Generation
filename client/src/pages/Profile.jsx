@@ -1,5 +1,3 @@
-"use client"
-
 import styled from "styled-components"
 import { GoPerson } from "react-icons/go"
 import { FaChevronRight } from "react-icons/fa"
@@ -76,7 +74,7 @@ export default function Profile() {
       }
     }
     fetchData()
-  }, [id])
+  }, [id, setUser])
 
   const handleMenuItemClick = (menuValue) => {
     setActiveTab(menuValue)

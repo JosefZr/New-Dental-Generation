@@ -40,8 +40,38 @@ const [editingMessage, setEditingMessage] = useState(null);
   const [disable , setDisable] = useState(false)
   const {onOpen} = useModal()
   const socket = useSocket();
-  const {isMessagesLoading, setIsMessagesLoading} = useUserToChatContext()
+  const {isMessagesLoading} = useUserToChatContext()
+// Add this state
+const [isSocketConnected, setIsSocketConnected] = useState(false);
 
+// Update socket connection handler
+useEffect(() => {
+  if (!socket) return;
+
+  // Explicitly connect the socket
+  if (!socket.connected) {
+    socket.auth = { token: localStorage.getItem("token") };
+    socket.connect();
+  }
+
+  const handleConnect = () => {
+    setIsSocketConnected(true);
+    // Re-join channel when connected
+    if (chanId) {
+      socket.emit("joinGroup", chanId);
+    }
+  };
+
+  const handleDisconnect = () => setIsSocketConnected(false);
+
+  socket.on("connect", handleConnect);
+  socket.on("disconnect", handleDisconnect);
+
+  return () => {
+    socket.off("connect", handleConnect);
+    socket.off("disconnect", handleDisconnect);
+  };
+}, [socket, chanId]);
 // In your edit handling
 const handleEditMessage = (message) => {
   setEditingMessage(message);
@@ -283,6 +313,21 @@ const handleFileChange = async (event) => {
     }
   }
   function sendMessage() {
+    if (!socket) return;
+
+    if (!socket || !socket.connected) {
+      console.log("Socket not connected");
+      socket.connect(); // Attempt to reconnect
+      return;
+    }
+    if (!isSocketConnected) {
+      console.log("Socket not connected");
+      return;
+    }
+    if (!chanId || !userInfo?.userId) {
+      console.log("Missing channel ID or user ID");
+      return;
+    }
     if(status==='off'){
       onOpen(MODAL_TYPE.LIMITATION_MODAL)
     }
@@ -294,6 +339,7 @@ const handleFileChange = async (event) => {
         console.log('no msgToSend or chanId or userId')
         return
       }
+      
       if (editingMessage) {
         // Emit update message event with content and timestamp
         socket.emit("updateMessage", {
@@ -329,7 +375,6 @@ const handleFileChange = async (event) => {
     setImages([])
     setImagesToSnd([])
     adjustTextareaHeight(); // Force height reset
-
   }
 
   const handleSubmit = async (e) => {
@@ -725,12 +770,19 @@ const insertFormatting = (symbol) => {
                       />
                     </div>
                   )} */}
-                  <button 
-                    className={`bg-slate-700 rounded-full p-[5px] cursor-pointer ${(disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                 <button 
+                    className={`bg-slate-700 rounded-full p-[5px] cursor-pointer ${
+                      (disable || isAnyImageUploading || !isSocketConnected || 
+                      (!msgToSend.trim() && images.length === 0)) ? 
+                      'opacity-50 cursor-not-allowed' : ''
+                    }`}
                     onClick={handleSubmit}
-                    disabled={disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)}
+                    disabled={disable || isAnyImageUploading || !isSocketConnected || 
+                            (!msgToSend.trim() && images.length === 0)}
                   >
-                    {isAnyImageUploading ? (
+                    {!isSocketConnected ? (
+                      <div className="text-red-500 text-xs">Connecting...</div>
+                    ) : isAnyImageUploading ? (
                       <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-my-gold"></div>
                     ) : (
                       editingMessage? (
