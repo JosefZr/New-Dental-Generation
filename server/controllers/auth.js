@@ -6,9 +6,9 @@ import ChannelModel from "../models/Channel.model.js";
 
 const tokenExpirations = {
   freeTrial: { access: "1d", refresh: "7d" },
-  monthly: { access: "1d", refresh: "30d" },
-  quarterly: { access: "1d", refresh: "120d" }, // Added 'd' for days
-  yearly: { access: "1d", refresh: "365d" },
+  monthly: { access: "30d", refresh: "30d" },
+  quarterly: { access: "30d", refresh: "120d" }, // Added 'd' for days
+  yearly: { access: "30d", refresh: "365d" },
 };
 // Generate Access Token (short-lived)
 export const generateAccessToken = (user) => {

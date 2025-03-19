@@ -21,6 +21,10 @@ import imageCompression from "browser-image-compression";
 
 export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const userInfo = useAuthUser();
+  console.log(userInfo)
+  const expiryDate = new Date(userInfo.exp*1000);
+  console.log(expiryDate)
+
   const [messages, setMessages] = useState(initialMessages || []);
   const [msgToSend, setMessageToSend] = useState("");
   const [imagesTosnd, setImagesToSnd] = useState([])

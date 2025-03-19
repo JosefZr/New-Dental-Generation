@@ -7,11 +7,19 @@ import { IoClose } from "react-icons/io5"
 export default function Journey({ user }) {
   const userInfo = useAuthUser()
   const socket = useSocket();
+  // Date formatting utility
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  if (isNaN(date)) return 'Invalid date';
+  
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  
+  return `${day}/${month}/${year}`;
+};
   const deleteJourney = useDeleteJourney()
   function handleDeleteMessage (info){
-    console.log(info)
-    console.log({userId: userInfo.userId, id:info._id})
-    
     try {
         socket.emit("deleteMessage", {
           content: info.content,
@@ -39,8 +47,9 @@ export default function Journey({ user }) {
           <div key={index} className="mb-2  group" style={{ position: "relative" }}>
             {/* Header */}
             <div className="z-10 mt-2 flex h-[44px] items-center justify-between truncate rounded-t-md border border-slate-700 border-b-0 bg-base-200 px-2 text-sm first:mt-0 md:text-md">
-              <span className="cursor-pointer font-medium hover:underline">{info.date}</span>
-
+            <span className="cursor-pointer font-medium hover:underline">
+                {formatDate(info.date)}
+              </span>
               {/* Delete Button - Inside header, aligned right */}
               <div className="flex items-center gap-2">
                 <div className="text-teal-500 hover:underline active">
