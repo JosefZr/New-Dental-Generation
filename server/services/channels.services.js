@@ -1,6 +1,7 @@
 //================================ THIS SERVICES USED ONLY BY THE ADMIN OR ITS MODERATORS =================================//
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+import mongoose from "mongoose";
 import Channel from "../models/Channel.model.js";
 import Message from "../models/Message.js";
 import User from "../models/User.js";
@@ -209,17 +210,49 @@ export async function saveChannelMessage(senderId, channelId, content, type, ima
 
   const { password, ...senderNoPass } = sender._doc;
   message.sender = senderNoPass;
-  
+
   return message;
 }
 // channels.services.js
 import { deleteMessageImages } from '../utils/fileUtils.js';
 
-export async function deleteMessage(content, createdAt, channelId) {
-  console.log("IIIIIIIII",content, createdAt, channelId)
+export async function deleteMessage(sender,content, createdAt, channelId) {
   const channel = await Channel.findById(channelId);
   if (!channel) throw new Error("Channel not found");
-  console.log("channel",content, createdAt, channelId)
+
+  
+console.log("aaa")
+  if (sender && channel.type === "journey") {
+    console.log("aaa 1")
+    const user = await User.findById(sender)
+    if (!user) throw new Error("User not found");
+    console.log("aaa 2")
+    // Verify message exists in journey before deletion
+   // 1. Compare string representations of IDs
+   const channelIdStr = channelId.toString();
+   const userIdStr = sender.toString(); // Assuming sender is the user ID string
+
+   const journeyEntry = user.journey.find(entry => 
+    entry.chanId.toString() === channelIdStr && 
+    entry.content.trim() === content.trim()
+  );
+    console.log("aaa 3")
+    if (!journeyEntry) {
+      console.log("Journey entries:", user.journey);
+      throw new Error("Journey entry not found for message");
+    }
+    console.log("aaa 4")
+   
+    await User.updateOne(
+      { _id: userIdStr },
+      { $pull: { 
+        journey: { 
+          chanId: new mongoose.Types.ObjectId(channelIdStr),
+          content: content.trim()
+        } 
+      }},
+    );
+  }
 
     // Compare dates without milliseconds
     const targetDate = new Date(createdAt);

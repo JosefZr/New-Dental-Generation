@@ -173,18 +173,16 @@ export const initializeSocket = (server) => {
         socket.emit("error", { message: "Failed to send message." });
       }
     });
-    socket.on("deleteMessage", async ({ content, createdAt, channelId }) => {
-      console.log("socket",content, createdAt, channelId)
+    socket.on("deleteMessage", async ({sender, content, createdAt, channelId }) => {
+      console.log("socket",sender,content, createdAt, channelId)
       try {
-        console.log("try ")
         const channel = await Channel.findById(channelId);
-        console.log("try 1" )
         if (!channel) {
           return socket.emit("error", { message: "Channel not found." });
         }
         try {
           // This will throw if image deletion fails
-          const deletedMessage = await deleteMessage(content, createdAt, channelId);
+          const deletedMessage = await deleteMessage(sender,content, createdAt, channelId);
           io.to(channelId).emit("messageDeleted", { 
             content: deletedMessage.content,
             createdAt: deletedMessage.createdAt,
@@ -194,9 +192,6 @@ export const initializeSocket = (server) => {
           logger.error(`Error deleting message: ${error.message}`);
           return socket.emit("error", { message: error.message });
         }
-    
-        
-    
       } catch (error) {
         logger.error(`Error deleting message: ${error.message}`);
         socket.emit("error", { message: "Failed to delete message." });

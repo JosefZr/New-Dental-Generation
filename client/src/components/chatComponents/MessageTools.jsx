@@ -12,7 +12,8 @@ export default function MessageTools({ message, chanId, onEdit }) {
         socket.emit("deleteMessage", {
           content: message.content,
           createdAt: message.createdAt,
-          channelId: chanId
+          channelId: chanId,
+          sender:message?.sender?._id
         });
       } else {
         socket.emit("deletePrivateMessage", { 
