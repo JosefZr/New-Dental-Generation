@@ -97,7 +97,7 @@
     "workbox-streams": "^6.4.2",
     "workbox-window": "^7.3.0",
     "zod": "^3.23.8",
-    "zustand": "^5.0.0"
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
