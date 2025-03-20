@@ -1,12 +1,30 @@
 import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 import { useDeleteJourney } from "@/hooks/user/useDeleteJourney";
-import { useSocket } from "@/socketContext";
+import useSocketStore from "@/socketStore";
 import toast from "react-hot-toast";
 import { IoClose } from "react-icons/io5"
 
 export default function Journey({ user }) {
   const userInfo = useAuthUser()
-  const socket = useSocket();
+
+  const socket = useSocketStore((state) => state.socket);
+  const checkAndReconnect = useSocketStore((state) => state.checkAndReconnect);
+  const [isConnected, setIsConnected] = useState(false);
+
+  useEffect(() => {
+    checkAndReconnect();
+  }, []);
+
+  useEffect(() => {
+    if (socket) {
+      setIsConnected(true);
+    } else {
+      setIsConnected(false);
+      checkAndReconnect();
+    }
+  }, [socket]);
+
+
   // Date formatting utility
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -20,6 +38,11 @@ const formatDate = (dateString) => {
 };
   const deleteJourney = useDeleteJourney()
   function handleDeleteMessage (info){
+    if (!socket) {
+      toast.error("Not connected to the server, retrying...");
+      checkAndReconnect();
+      return;
+    }
     try {
         socket.emit("deleteMessage", {
           content: info.content,
@@ -106,4 +129,3 @@ const formatDate = (dateString) => {
     </div>
   )
 }
-
