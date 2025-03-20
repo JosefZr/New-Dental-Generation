@@ -1,6 +1,6 @@
 import Devider from "@/components/chatComponents/Devider";
 import Message from "@/components/chatComponents/Message";
-import { useSocket } from "../../socketContext";
+import useSocketStore from "@/socketStore";
 import { Plus, X } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 import { IoIosSend } from "react-icons/io";
@@ -43,24 +43,30 @@ const [editingMessage, setEditingMessage] = useState(null);
   const status = useGetSubscriptionStatus()
   const [disable , setDisable] = useState(false)
   const {onOpen} = useModal()
-  const socket = useSocket();
+  const socket = useSocketStore((state) => state.socket);
+  const checkAndReconnect = useSocketStore((state) => state.checkAndReconnect);
+  const [isConnected, setIsConnected] = useState(false);
+
   const {isMessagesLoading} = useUserToChatContext()
 // Add this state
 const [isSocketConnected, setIsSocketConnected] = useState(false);
 
+
+// check if there is any socket
+useEffect(() => {
+  checkAndReconnect();
+}, []);
+
+
 // Update socket connection handler
 useEffect(() => {
-  if (!socket) return;
-
-  // Explicitly connect the socket
-  if (!socket.connected) {
-    socket.auth = { token: localStorage.getItem("token") };
-    socket.connect();
-  }
+  if (!socket) {
+    checkAndReconnect(); 
+    return;
+  };
 
   const handleConnect = () => {
     setIsSocketConnected(true);
-    // Re-join channel when connected
     if (chanId) {
       socket.emit("joinGroup", chanId);
     }
@@ -76,6 +82,8 @@ useEffect(() => {
     socket.off("disconnect", handleDisconnect);
   };
 }, [socket, chanId]);
+
+
 // In your edit handling
 const handleEditMessage = (message) => {
   setEditingMessage(message);
@@ -86,8 +94,13 @@ const cancelEdit = () => {
   setEditingMessage(null);
   setMessageToSend("");
 };
+
+
 useEffect(() => {
-  if (!socket) return;
+  if (!socket){
+    checkAndReconnect();  
+    return;
+  }
 
   socket.on("messageUpdated", (updatedMessage) => {
     setMessages(prev => prev.map(msg => {
@@ -107,6 +120,8 @@ useEffect(() => {
     socket.off("messageUpdated");
   };
 }, [socket]);
+
+
 
  // Function to check if the current user can send messages
 const canSendMessages = () => {
@@ -317,17 +332,16 @@ const handleFileChange = async (event) => {
     }
   }
   function sendMessage() {
-    if (!socket) return;
+    if (!socket) {
+      checkAndReconnect();
+      return ; 
+    };
 
-    if (!socket || !socket.connected) {
-      console.log("Socket not connected");
-      socket.connect(); // Attempt to reconnect
-      return;
-    }
     if (!isSocketConnected) {
       console.log("Socket not connected");
       return;
     }
+    
     if (!chanId || !userInfo?.userId) {
       console.log("Missing channel ID or user ID");
       return;
@@ -450,7 +464,10 @@ const handleFileChange = async (event) => {
 
 // In Chat1 component's messageDeleted handler
 useEffect(() => {
-  if (!socket) return;
+  if (!socket) {
+    checkAndReconnect();
+    return;
+  };
 
   const handleMessageDeleted = ({ content, createdAt }) => {
     setMessages(prev => prev.filter(msg => 
