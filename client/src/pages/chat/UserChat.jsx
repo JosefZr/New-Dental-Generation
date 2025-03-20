@@ -1,6 +1,6 @@
 import Devider from "@/components/chatComponents/Devider";
 import Message from "@/components/chatComponents/Message";
-import { useSocket } from "../../socketContext";
+import useSocketStore from "@/socketStore";
 import { Plus, X } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 
@@ -43,7 +43,8 @@ export default function UserChat() {
   const [recipient, setRec] = useState("");
   const userInfo = useAuthUser()
   console.log(userInfo)
-  const socket = useSocket();
+  const socket = useSocketStore((state) => state.socket);
+  const checkAndReconnect = useSocketStore((state) => state.checkAndReconnect);
   const [messages, setMessages] = useState(userMessages || []);
 // In your edit handling
 const handleEditMessage = (message) => {
@@ -60,6 +61,10 @@ const cancelEdit = () => {
     setIsDashboardSidebarOpen(!isDashboardSidebarOpen);
 
   };
+
+  useEffect(() => {
+    checkAndReconnect();
+  }, []);
 
 const handleFileChange = async (event) => {
   if (status === "off") {
@@ -277,6 +282,15 @@ const handleFileChange = async (event) => {
     }
   }
 
+  useEffect(() => {
+    if (socket) {
+      setIsConnected(true);
+    } else {
+      setIsConnected(false);
+      checkAndReconnect();
+    }
+  }, [socket]);
+  
   useEffect(() => {
     if (!socket || !chatId) return;
 
