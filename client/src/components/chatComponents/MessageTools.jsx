@@ -1,12 +1,36 @@
 import { useAuthUser } from "@/hooks/jwt/useAuthUser";
-import { useSocket } from "@/socketContext";
+import { useEffect, useState } from "react";
+import useSocketStore from "@/socketStore";
 import toast from "react-hot-toast";
 
 export default function MessageTools({ message, chanId, onEdit }) {
-  const socket = useSocket();
+  const socket = useSocketStore((state) => state.socket);
+  const checkAndReconnect = useSocketStore((state) => state.checkAndReconnect);
+  const [isConnected, setIsConnected] = useState(false);
   const userInfo = useAuthUser();
 
+
+  useEffect(() => {
+    checkAndReconnect();
+  }, []);
+
+  useEffect(() => {
+    if (socket) {
+      setIsConnected(true);
+    } else {
+      setIsConnected(false);
+      checkAndReconnect();
+    }
+  }, [socket]);
+
+
   const handleDeleteMessage = async () => {
+    if (!isConnected) {
+      toast.error("Not connected to the server, retrying...");
+      checkAndReconnect();
+      return;
+    }
+    
     try {
       if (chanId) {
         socket.emit("deleteMessage", {
