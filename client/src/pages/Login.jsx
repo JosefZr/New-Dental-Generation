@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import useSocketStore from "../socketStore";
 const Back = styled.div`
   background-image: url("/photo_2025-02-03_20-17-15.jpg");
   background-size: cover;
@@ -12,7 +13,7 @@ const Back = styled.div`
 `;
 
 const fetchUserData = async (data) => {
-  console.log(data)
+  console.log(data);
   try {
     const response = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/auth/login`, {
       method: "POST",
@@ -25,15 +26,28 @@ const fetchUserData = async (data) => {
       throw new Error("Invalid email or password");
     }
 
-    const jwt = await response.json();
+    let jwt;
+    try {
+      jwt = await response.json();
+    } catch {
+      throw new Error("Failed to parse server response");
+    }
+
+    if (!jwt.accessToken) {
+      throw new Error("No access token received");
+    }
+
     localStorage.setItem("token", jwt.accessToken);
+    useSocketStore.getState().connectSocket();
+
     return true;
   } catch (error) {
     console.error(error.message);
-    alert(error.message); // Show error message to user
+    alert(error.message); 
     return false;
   }
 };
+
 
 export default function Login() {
   const {onOpen} =useModal()
