@@ -45,6 +45,7 @@ export default function UserChat() {
   console.log(userInfo)
   const socket = useSocketStore((state) => state.socket);
   const checkAndReconnect = useSocketStore((state) => state.checkAndReconnect);
+  const [isConnected, setIsConnected] = useState(false);
   const [messages, setMessages] = useState(userMessages || []);
 // In your edit handling
 const handleEditMessage = (message) => {
