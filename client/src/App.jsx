@@ -1,6 +1,5 @@
 // App.jsx
 import { Routes, Route } from "react-router-dom";
-import { SocketProvider } from "./socketContext";
 import {
   Chat,
   DentalLab,
@@ -32,7 +31,6 @@ import FreeAnalyses from "./pages/FreeAnalyses";
 
 export default function App() {
   return (
-    <SocketProvider>
       <Routes>
         <Route element={<ProtectedRoutes/>}>
           <Route path="/instructor" element={<Instructor/>}/>
@@ -72,6 +70,5 @@ export default function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>
-    </SocketProvider>
   );
 }
