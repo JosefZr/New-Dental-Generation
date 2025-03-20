@@ -17,7 +17,7 @@ import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 import SmallProfileLogo from "../SmallProfileLogo";
 import useGetSubscriptionStatus from "@/hooks/limitation/useGetSubscriptionStatus";
 import { useUserToChatContext } from "@/context/ToChatUser";
-import { useSocket } from "@/socketContext";
+import useSocketStore from "@/socketStore";
 
 export const Logo = styled.div`
     background-position: center center;
@@ -158,7 +158,24 @@ const handlePinChannel = async (channel) => {
   }
 
   const [isFirstCallMade, setIsFirstCallMade] = useState(false);
-  const socket = useSocket();
+
+
+  const socket = useSocketStore((state) => state.socket);
+  const checkAndReconnect = useSocketStore((state) => state.checkAndReconnect);
+  const [isConnected, setIsConnected] = useState(false);
+
+  useEffect(() => {
+    checkAndReconnect();
+  }, []);
+
+  useEffect(() => {
+    if (socket) {
+      setIsConnected(true);
+    } else {
+      setIsConnected(false);
+      checkAndReconnect();
+    }
+  }, [socket]);
 
   useEffect(() => {
     if (!isFirstCallMade && channels.length > 0 && userInfo) {
@@ -177,21 +194,18 @@ const handlePinChannel = async (channel) => {
       // Fetch the first channel for the user's role
       if (roleChannels.length > 0) {
         const firstChannel = roleChannels[0];
-        
-        if (!socket.connected) {
-          socket.connect(); // Manually connect if not connected
-        }
   
-        const handleConnect = () => {
-          handleChannelClick(firstChannel._id, firstChannel.title);
-          setIsFirstCallMade(true);
-        };
-  
-        if (socket.connected) {
-          handleConnect();
-        } else {
-          socket.once("connect", handleConnect);
-        }
+      const handleConnect = () => { 
+        handleChannelClick(firstChannel._id, firstChannel.title);
+        setIsFirstCallMade(true);
+      };
+
+      if (isConnected) {
+        handleConnect();
+      } else {
+        checkAndReconnect(); 
+        handleConnect(); 
+      }
       }
     }
   }, [channels, userInfo, socket]);
