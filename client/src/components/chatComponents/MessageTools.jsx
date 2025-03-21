@@ -1,13 +1,14 @@
 import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 import { useEffect, useState } from "react";
 import useSocketStore from "@/socketStore";
-import toast from "react-hot-toast";
+import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 
 export default function MessageTools({ message, chanId, onEdit }) {
   const socket = useSocketStore((state) => state.socket);
   const checkAndReconnect = useSocketStore((state) => state.checkAndReconnect);
   const [isConnected, setIsConnected] = useState(false);
   const userInfo = useAuthUser();
+  const {onOpen}= useModal()
 
 
   useEffect(() => {
@@ -24,37 +25,13 @@ export default function MessageTools({ message, chanId, onEdit }) {
   }, [socket]);
 
 
-  const handleDeleteMessage = async () => {
-    if (!isConnected) {
-      toast.error("Not connected to the server, retrying...");
-      checkAndReconnect();
-      return;
-    }
-    
-    try {
-      if (chanId) {
-        socket.emit("deleteMessage", {
-          content: message.content,
-          createdAt: message.createdAt,
-          channelId: chanId,
-          sender:message?.sender?._id
-        });
-      } else {
-        socket.emit("deletePrivateMessage", { 
-          messageId: message._id,
-          content: message.content,
-          createdAt: message.createdAt,
-          senderId: userInfo.userId
-        }, (response) => {
-          if (!response.success) {
-            toast.error(response.error);
-          }
-        });
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
+    const handleDeleteMessage = () => {
+      onOpen(MODAL_TYPE.DELETE_MESSAGE, { 
+        message,
+        chanId,
+        isPrivate: !chanId // Add any additional flags you need
+      });
+    };
 
   const handleUpdateMessage = () => {
     if (typeof onEdit === 'function') {

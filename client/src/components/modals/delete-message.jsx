@@ -1,31 +1,39 @@
 import { Dialog, DialogTitle, DialogContent, DialogHeader, DialogFooter } from "../../components/ui/dialog";
 import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
-import { UserContext } from "@/context/UserContext";
-import { useContext } from "react";
 import { Button } from "../ui/button";
-import { deleteUser } from "@/services";
 import toast from "react-hot-toast";
+import useSocketStore from "@/socketStore";
+import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 
 export default function DeleteMessage() {
-    const { user } = useContext(UserContext);
-    const { setUsers} = useContext(UserContext)
-    const { isOpen, onClose, type } = useModal();
+    const userInfo = useAuthUser()
+    const socket = useSocketStore((state) => state.socket);
+    const { isOpen, onClose, type,data  } = useModal();
     const isModalOpen = isOpen && type === MODAL_TYPE.DELETE_MESSAGE;
-    const handleDeleteMessage = async()=>{
-        try{
-            const response = await deleteUser(user._id)
-            if(response?.success){
-                setUsers(response.data)
-                toast.success(response?.message)
-                onClose();
-            }
-            else{
-                toast.error(response?.message)
-            }
-        }catch(error){
-            console.log(error)
+    const handleDeleteMessage = async () => {
+        try {
+          if (data?.chanId) {
+            // Channel message deletion
+            socket.emit("deleteMessage", {
+              content: data.message.content,
+              createdAt: data.message.createdAt,
+              channelId: data.chanId,
+              sender: data.message?.sender?._id
+            });
+          } else {
+            // Private message deletion
+            socket.emit("deletePrivateMessage", { 
+              messageId: data.message._id,
+              senderId: userInfo.userId
+            }, (response) => {
+              if (!response.success) toast.error(response.error);
+            });
+          }
+          onClose();
+        } catch (error) {
+          toast.error(error.message);
         }
-    }
+      };
     return (
         <Dialog open={isModalOpen} onOpenChange={onClose} className="border-none border-black">
             <DialogContent className="border-none rounded-none text-white p-0 overflow-hidden bg-my-dark-blue">

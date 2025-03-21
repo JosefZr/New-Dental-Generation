@@ -33,8 +33,9 @@ export const MODAL_TYPE = {
   };
 
 export const useModal = create((set)=>({
-    type:null,
-    isOpen:false,
-    onOpen:(type)=> set({isOpen:true, type}),
-    onClose:()=>set({isOpen:false, type:null})
+    type: null,
+    data: null,  // Add data field
+    isOpen: false,
+    onOpen: (type, data) => set({isOpen: true, type, data}), // Accept data
+    onClose: () => set({isOpen: false, type: null, data: null}) // Reset data
 }));
