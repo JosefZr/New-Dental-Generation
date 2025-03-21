@@ -1,6 +1,7 @@
 import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 import { useDeleteJourney } from "@/hooks/user/useDeleteJourney";
 import useSocketStore from "@/socketStore";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { IoClose } from "react-icons/io5"
 

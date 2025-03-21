@@ -1,15 +1,55 @@
 import { LoadingSpinner } from "@/components/server/ServerSideBar"
+import { CoursesContext } from "@/context/CoursesContext"
 import { useGetAllCourses } from "@/hooks/courses/useGetAllCourses"
+import { useAuthUser } from "@/hooks/jwt/useAuthUser"
 import { useGetRandomQuoate } from "@/hooks/quoates/useGetRandomQuoate"
+import { fetchStudentCourseProgression } from "@/services"
+import { useContext, useEffect } from "react"
+import toast from "react-hot-toast"
 import { FaArrowRight } from "react-icons/fa6"
 import { useLocation, useNavigate } from "react-router-dom"
 
 export default function SmallCoat({handleClose}) {
+    const userInfo = useAuthUser()
+        useEffect(() => {
+            if (userInfo) {
+                setUserToProgress();
+            }
+        }, [userInfo]);
+    
+    const { setAllProgress,allProgress } = useContext(CoursesContext);
+    async function setUserToProgress() {
+        try {
+            const course = await fetchStudentCourseProgression(userInfo.userId);
+            setAllProgress(course);
+        } catch (error) {
+            console.error("Error in setUserToACourse:", error);
+            toast.error("An error occurred while setting progress.");
+        }
+    }
+    
+    console.log(allProgress)
         const location = useLocation();
         const isOnChannelsPage = location.pathname.includes(`/channels`);
         const { data: quoate , isLoading, isError, error } = useGetRandomQuoate({}, { enabled: isOnChannelsPage })
     const { data: courses , isLoading:isGettingCourses, isError:isCoursesError, error:courseError } = useGetAllCourses({}, { enabled: isOnChannelsPage })
     const navigate = useNavigate();
+    // Filter courses with progress
+    // Replace the existing coursesWithProgress filter with:
+const coursesWithProgress = courses?.filter(course => {
+    const progressData = allProgress?.data?.find(prog => prog.courseId === course._id);
+    if (!progressData?.moduleProgress) return false;
+    
+    const totalViewed = progressData.moduleProgress.reduce(
+        (acc, module) => acc + module.subModules?.reduce(
+            (subAcc, subModule) => subAcc + (subModule.lectures?.filter(l => l.viewed)?.length || 0),
+            0
+        ),
+        0
+    );
+
+    return totalViewed > 0;
+}) || [];
 return (
     <div className='h-full !mt-[-20px] !pb-[100vh]'>
         <div className=" h-full" style={{position:"relative"}}>
@@ -44,8 +84,8 @@ return (
 
                     {isGettingCourses && <LoadingSpinner/>}
                     {
-                        courses?.length > 0 ? (
-                            courses.map((course, index) => (
+                        coursesWithProgress.length > 0 ? (
+                            coursesWithProgress.map((course, index) => (
                                 <div
                                     key={index}
                                     className="Card Card-compact h-full min-w-[25dvw] bg-gradient-to-br from-[#353F47] to-[rgba(6,14,21,0)]"
@@ -86,7 +126,7 @@ return (
                                 </div>
                             ))
                         ) : (
-                            <p className="text-center text-gray-500">No courses available</p>
+                            <p className="text-center text-gray-500">No courses in Progress available</p>
                         )
                     }
             </div>
