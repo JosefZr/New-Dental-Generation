@@ -35,26 +35,25 @@ export default function StudentViewCommonLayout() {
     // Manage active tab state
     const [activeTab, setActiveTab] = useState("Categories"); // Default active tab
 
-    // Function to get courses in progress
     const getCoursesInProgress = () => {
         if (!studentCourseList || !allProgress?.data) return [];
         
         return studentCourseList.filter(course => {
             const progressData = allProgress.data.find(prog => prog.courseId === course._id);
-            if (!progressData || !progressData.lectureProgress) return false;
+            if (!progressData?.moduleProgress) return false;
             
-            const viewedLectures = progressData.lectureProgress.filter(lecture => lecture.viewed);
-            const totalLectures = progressData.lectureProgress.length;
-            
-            if (!totalLectures) return false;
-            
-            const progressPercentage = Math.round(
-                (viewedLectures.length / totalLectures) * 100
+            const totalViewed = progressData.moduleProgress.reduce(
+                (acc, module) => acc + module.subModules?.reduce(
+                    (subAcc, subModule) => subAcc + (subModule.lectures?.filter(l => l.viewed)?.length || 0),
+                    0
+                ),
+                0
             );
-            
-            return progressPercentage > 0;
+    
+            return totalViewed > 0;
         });
     };
+    
     
     // Function to get favorite courses
     const getFavoriteCourses = () => {

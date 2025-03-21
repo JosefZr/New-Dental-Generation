@@ -1,19 +1,66 @@
 import { CoursesContext } from "@/context/CoursesContext";
+import { useFavorite } from "@/hooks/courses/useFavorite";
+import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 import { useContext, useState } from "react";
+import toast from "react-hot-toast";
+import { FaHeart, FaRegHeart } from "react-icons/fa6";
 
 import { IoIosSearch, IoMdArrowRoundBack, IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 
 export default function Header() {
-    const { studentViewCourseDetails } = useContext(CoursesContext);
-        const {searchDeatiledCourse, setSearchDeatiledCourse} = useContext(CoursesContext); // State for search input
-        const [isOpen, setIsOpen]= useState(false)
+    const { studentViewCourseDetails, allProgress,setAllProgress } = useContext(CoursesContext);
+    const { searchDeatiledCourse, setSearchDeatiledCourse } = useContext(CoursesContext);
+    const [isOpen, setIsOpen] = useState(false);
+    const favMutation = useFavorite();
+    const userInfo = useAuthUser();
 
 
     const handleInputChange = (e) => {
         setSearchDeatiledCourse(e.target.value);
     };
+    const isFavorite = allProgress?.data?.find(
+        prog => prog.courseId === studentViewCourseDetails?._id
+    )?.isFavorite || false;
+
+    const handleFavorite = (e) => {
+        e.preventDefault();
+        if (!studentViewCourseDetails?._id) return;
+
+        const previousProgress = allProgress.data;
+        // Find the course progress
+        const courseIndex = allProgress.data.findIndex(
+            prog => prog.courseId === studentViewCourseDetails._id
+        );
+        // Create updated progress array
+        const updatedProgress = [...allProgress.data];
+        updatedProgress[courseIndex] = {
+            ...updatedProgress[courseIndex],
+            isFavorite: !isFavorite
+        };
+
+        if (courseIndex === -1) return;
+        // Update context immediately
+        setAllProgress(prev => ({
+            ...prev,
+            data: updatedProgress
+        }));
+        // Send mutation
+    favMutation.mutate({
+        userId: userInfo.userId,
+        courseId: studentViewCourseDetails._id
+    }, {
+        onError: () => {
+            // Rollback on error
+            setAllProgress(prev => ({
+                ...prev,
+                data: previousProgress
+            }));
+            toast.error("Failed to update favorite");
+        }
+    });
+};
     return (
         <>
         <div
@@ -30,7 +77,6 @@ export default function Header() {
                 <div className="flex items-center gap-3 flex-1 justify-start">
                 <Link to="/course">
                     <button className="btn ml-2 btn-sm btn-circle btn-ghost"
-                        
                     >
                     <IoMdArrowRoundBack
                         height="24px"
@@ -52,6 +98,16 @@ export default function Header() {
                 </div>
             </div>
             <div className="flex items-center">
+            <button 
+                        className="btn btn-sm btn-circle btn-ghost"
+                        onClick={handleFavorite}
+                    >
+                        {isFavorite ? (
+                            <FaHeart className="text-red-500 text-xl" />
+                        ) : (
+                            <FaRegHeart className="text-white text-xl" />
+                        )}
+                    </button>
                 <button className="btn  btn-sm btn-circle btn-ghost" onClick={()=>{
                             setIsOpen(!isOpen)
                         }}>
@@ -62,6 +118,8 @@ export default function Header() {
                     />
                 </button>
                 <Link to="/channels">
+
+                
                 <button className="btn btn-sm btn-circle btn-ghost">
                     <IoMdClose
                     height="24px"
@@ -77,7 +135,6 @@ export default function Header() {
         <div className="flex flex-1 flex-col overflow-y-hidden sm:block">
             <div className="-top-[-2px] sticky z-10 bg-alt-background pb-0">
             <div>
-               
             </div>
             {
                 isOpen &&   <div className="group   mx-2" style={{position:"relative"}}>

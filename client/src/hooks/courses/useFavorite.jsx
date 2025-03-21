@@ -23,7 +23,7 @@ export const useFavorite = ()=>{
         onSuccess: (data) => {
             console.log('course added to favorite successfully:', data);
             // Invalidate queries related to user tasks to refresh the data
-            queryClient.invalidateQueries(["userProgress"]);
+            queryClient.invalidateQueries(["userProgress",data._id]);
             queryClient.invalidateQueries(["courses"]);
 
             toast.success('course added to favorite successfully!'); // Optional success notification

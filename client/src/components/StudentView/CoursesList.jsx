@@ -1,13 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { FaAngleRight, FaHeart, FaRegHeart } from "react-icons/fa6";
+import { FaAngleRight,} from "react-icons/fa6";
 import { LoadingSpinner } from "../server/ServerSideBar";
 import { CoursesContext } from "@/context/CoursesContext";
 import { useContext } from "react";
-import { useFavorite } from "@/hooks/courses/useFavorite";
-import { jwtDecode } from "jwt-decode";
 import { useGetAllUserProgress } from "@/hooks/courses/useGetAllUserProgress";
+import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 
 
 const Image = styled.div`
@@ -27,8 +26,7 @@ position: relative;
     border-radius: var(--rounded-box, 1rem);
 `
 export default function CoursesList({studentCourseList,isLoading, isError, error}) {
-    const favMustation = useFavorite()
-    const userInfo = jwtDecode(localStorage.getItem("token"));
+    const userInfo = useAuthUser()
     const navigate = useNavigate();
 
     const { data: allProgress, isLoading:isAllProgress, isError:isAllProgressError, error:allProgressError } = useGetAllUserProgress(userInfo.userId);
@@ -53,12 +51,6 @@ export default function CoursesList({studentCourseList,isLoading, isError, error
     if (!studentCourseList || studentCourseList.length === 0) {
         return <div>No courses available.</div>;
     }
-    const handleFavClick = (event, id) => {
-        event.stopPropagation(); // Prevent the event from propagating to the parent
-        console.log(userInfo.userId, id);
-        favMustation.mutate({ userId: userInfo.userId, courseId: id }); // Correct mutation call
-    };
-    
     return (
         <div style={{position:"relative"}} className=" mx-auto w-full flex-1 transition-all duration-200 ease-in-out">
             {filteredCourses.length === 0 ? (
@@ -89,9 +81,6 @@ export default function CoursesList({studentCourseList,isLoading, isError, error
                     const progressPercentage = totalLectures > 0 
                         ? Math.round((totalViewed / totalLectures) * 100)
                         : 0;
-                    
-
-                    const isFav = progressData?.isFavorite;
                         return (
                             <div
                                 onClick={() => {
@@ -102,22 +91,9 @@ export default function CoursesList({studentCourseList,isLoading, isError, error
                             >
                                 <div className="rounded-l-md bg-slate-600/90 p-[3px] duration-300 group-hover:bg-my-gold"></div>
                                 <div
-                                    className="h-fit w-full rounded-md rounded-l-none p-5 sm:px-7 sm:py-6 cursor-pointer"
+                                    className="h-full w-full rounded-md rounded-l-none p-5 sm:px-7 sm:py-6 cursor-pointer"
                                     style={{ backgroundColor: "rgb(13 26 37)" }}
                                 >
-                                    <button
-                                        className="right-10 cursor-pointer p-2"
-                                        style={{ position: "absolute" }}
-                                        onClick={(event) => {
-                                            handleFavClick(event, item._id);
-                                        }}
-                                    >
-                                        {isFav ? (
-                                            <FaHeart height="22px" />
-                                        ) : (
-                                            <FaRegHeart height="22px" />
-                                        )}
-                                    </button>
                                     <div className="flex gap-7">
                                         <div className="relative max-w-24 flex-1">
                                             <Image
