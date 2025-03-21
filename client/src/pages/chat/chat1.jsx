@@ -61,18 +61,25 @@ useEffect(() => {
 // Update socket connection handler
 useEffect(() => {
   if (!socket) {
-    checkAndReconnect(); 
-    return;
-  };
+    setIsSocketConnected(false)
+    checkAndReconnect();
+    return ;
+  }; 
+
+  setIsSocketConnected(socket.connected);
 
   const handleConnect = () => {
     setIsSocketConnected(true);
+
     if (chanId) {
       socket.emit("joinGroup", chanId);
     }
   };
 
-  const handleDisconnect = () => setIsSocketConnected(false);
+  const handleDisconnect = () => {
+    setIsSocketConnected(false);
+    checkAndReconnect();
+  }
 
   socket.on("connect", handleConnect);
   socket.on("disconnect", handleDisconnect);
@@ -97,10 +104,7 @@ const cancelEdit = () => {
 
 
 useEffect(() => {
-  if (!socket){
-    checkAndReconnect();  
-    return;
-  }
+  if (!socket) return ;
 
   socket.on("messageUpdated", (updatedMessage) => {
     setMessages(prev => prev.map(msg => {
@@ -333,7 +337,6 @@ const handleFileChange = async (event) => {
   }
   function sendMessage() {
     if (!socket) {
-      checkAndReconnect();
       return ; 
     };
 
