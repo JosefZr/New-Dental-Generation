@@ -30,7 +30,7 @@ const useSocketStore = create((set, get) => ({
   },
 
   checkAndReconnect: () => {
-    if (!get().socket) {
+    if (!get().socket || !get().socket.connected) {
       get().connectSocket(); 
     }
   },
