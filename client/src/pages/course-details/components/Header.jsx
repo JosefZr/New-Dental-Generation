@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 
 import { IoIosSearch, IoMdArrowRoundBack, IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { FavButton } from "./favButton";
+import { FavButton } from "./FavButton";
 
 
 export default function Header() {
