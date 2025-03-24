@@ -41,7 +41,6 @@ export default function LectureList() {
 
 const status = useGetSubscriptionStatus()
   const diffDays = useGetDaysDifference(user.createdAt)
-console.log(studentViewCourseDetails)
   // Update filtered modules to include lectures
   const filteredModules = studentViewCourseDetails?.modules?.filter(module => {
     const searchTerm = searchDeatiledCourse?.toLowerCase() || '';
@@ -86,14 +85,19 @@ console.log(studentViewCourseDetails)
   // Add these new state variables at the top of your component
 const [showDescription, setShowDescription] = useState(false);
 const [nextLecture, setNextLecture] = useState(null);
-// Updated handleNextLecture to mark current lecture as viewed before moving to next
+
 const handleNextLecture = async () => {
   // Handle description view first
   if (showDescription && nextLecture) {
     setCurrentLecture(nextLecture);
     setShowDescription(false);
-    handleVideoSelect(nextLecture.videoUrl, nextLecture.title, 
-      diffDays < studentViewCourseDetails.level && !nextLecture?.freePreview);
+    handleVideoSelect(
+      nextLecture.videoUrl,
+      nextLecture.title,
+      diffDays < studentViewCourseDetails.level && !nextLecture?.freePreview,
+      nextLecture._id,
+      nextLecture._id
+    );
     return;
   }
 
@@ -166,17 +170,28 @@ const handleNextLecture = async () => {
       setProgress(response);
 
       // Find next lecture
+     // Trouver la prochaine lecture
       let foundNextLecture = null;
-      const getFirstLecture = (module) => 
-        module.lectures?.[0] || module.subModules?.[0]?.lectures?.[0];
+      let nextModuleId = null;
+      let nextSubModuleId = null;
+      const getFirstLecture = (module) => {
+        nextModuleId = module._id;
+        return module.lectures?.[0] || module.subModules?.[0]?.lectures?.[0];
+      };
 
       if (isInSubModule) {
         if (currentLectureIndex < currentSubModule.lectures.length - 1) {
           foundNextLecture = currentSubModule.lectures[currentLectureIndex + 1];
+          nextModuleId = currentModule._id;
+          nextSubModuleId = currentSubModule._id;
         } else if (currentSubModuleIndex < currentModule.subModules.length - 1) {
-          foundNextLecture = currentModule.subModules[currentSubModuleIndex + 1]?.lectures?.[0];
+          const nextSubModule = currentModule.subModules[currentSubModuleIndex + 1];
+          foundNextLecture = nextSubModule?.lectures?.[0];
+          nextModuleId = currentModule._id;
+          nextSubModuleId = nextSubModule._id;
         } else {
-          foundNextLecture = getFirstLecture(studentViewCourseDetails.modules[currentModuleIndex + 1]);
+          const nextModule = studentViewCourseDetails.modules[currentModuleIndex + 1];
+          foundNextLecture = getFirstLecture(nextModule);
         }
       } else {
         if (currentLectureIndex < currentModule.lectures.length - 1) {
@@ -191,15 +206,25 @@ const handleNextLecture = async () => {
         navigate(-1);
         return;
       }
-
+      // Mettre à jour l'URL
+      if (foundNextLecture) {
+        console.log(foundNextLecture)
+//         const newPath = `/course/details/${params.id}/${nextModuleId}/${foundNextLecture._id}`;
+//         navigate(newPath, { replace: true });
+// }
       // Show description if current lecture has one
       if (currentLecture.description) {
-        setNextLecture(foundNextLecture);
         setShowDescription(true);
+        setNextLecture(foundNextLecture);
       } else {
-        handleVideoSelect(foundNextLecture.videoUrl, foundNextLecture.title,
-          diffDays < studentViewCourseDetails.level && !foundNextLecture?.freePreview);
-      }
+        handleVideoSelect(
+          foundNextLecture.videoUrl,
+          foundNextLecture.title,
+          diffDays < studentViewCourseDetails.level && !foundNextLecture?.freePreview,
+          nextModuleId, // Lecture ID
+          foundNextLecture._id// Module ID
+        );
+      }}
     }
   } catch (error) {
     console.error("Progress update failed:", error);
@@ -207,42 +232,37 @@ const handleNextLecture = async () => {
   }
 };
 
-// Update the findModuleInProgress function
 const findModuleInProgress = (moduleFromDetails) => {
   if (!progress?.data?.moduleProgress) return null;
-  console.log(moduleFromDetails._id)
-  // Convert ObjectId to string
-  const targetId = moduleFromDetails._id
 
-  // 1. Match by ID
-  const idMatch = progress.data.moduleProgress.find(
-    mp => mp.moduleId === targetId
+  return progress.data.moduleProgress.find(
+    mp => mp.moduleId === moduleFromDetails._id.toString()
   );
-  if (idMatch) return idMatch;
-  
-
-  // 2. Fallback to title match
-  if (moduleFromDetails.title) {
-    const titleMatch = progress.data.moduleProgress.find(
-      mp => mp.title === moduleFromDetails.title
-    );
-    if (titleMatch) return titleMatch;
-  }
-
-  // 3. Fallback to position-based match
-  const moduleIndex = studentViewCourseDetails.modules.findIndex(
-    m => m._id.toString() === targetId
-  );
-  
-  if (moduleIndex >= 0 && moduleIndex < progress.data.moduleProgress.length) {
-    return progress.data.moduleProgress[moduleIndex];
-  }
-
-  return null;
 };
 
+// Ajouter un effet pour la sélection initiale
+useEffect(() => {
+  if (params.moduleId && params.lectureId && studentViewCourseDetails) {
+    const targetModule = studentViewCourseDetails.modules.find(
+      m => m._id === params.moduleId
+    );
+    
+    const targetLecture = targetModule?.subModules
+      ?.flatMap(sm => sm.lectures)
+      ?.find(l => l._id === params.lectureId);
+
+    if (targetLecture) {
+      handleVideoSelect(
+        targetLecture.videoUrl,
+        targetLecture.title,
+        diffDays < studentViewCourseDetails.level && !targetLecture.freePreview
+      );
+    }
+  }
+}, [studentViewCourseDetails, params.moduleId, params.lectureId]);
+
 // Fix handleLectureSelection to properly handle lecture selection without automatically marking as viewed
-const handleLectureSelection = (modIndex, lectIndex, lecture) => {
+const handleLectureSelection = (lecture, moduleId, subModuleId) => {
   const isLocked = diffDays < studentViewCourseDetails.level && !lecture?.freePreview;
   
   if (isLocked) {
@@ -250,11 +270,24 @@ const handleLectureSelection = (modIndex, lectIndex, lecture) => {
     return;
   }
 
+  // Mettre à jour l'URL
+  navigate(`/course/details/${params.id}/${moduleId}/${lecture._id}`);
+  
   handleVideoSelect(lecture.videoUrl, lecture.title, isLocked);
 };
 
 // Updated handleVideoSelect to work with modules
-const handleVideoSelect = (videoUrl, title, isLocked) => {
+const handleVideoSelect = (videoUrl, title, isLocked, lectureId, moduleId) => {
+  // Mettre à jour l'URL
+  if (lectureId && moduleId) {
+// Mettre à jour l'URL
+if (lectureId && moduleId) {
+  navigate(`/course/details/${params.id}/${moduleId}/${lectureId}`, { 
+    replace: true,
+    state: { forceReload: true } 
+  });
+}  }
+
   let foundLecture = null;
   
   studentViewCourseDetails?.modules?.forEach(module => {
@@ -271,7 +304,11 @@ const handleVideoSelect = (videoUrl, title, isLocked) => {
     });
   });
 
-  setCurrentLecture(foundLecture);
+  setCurrentLecture({
+    ...foundLecture,
+    moduleId: moduleId, // Ajouter moduleId à l'état
+    lectureId: lectureId // Ajouter lectureId à l'état
+  });
 
   // Rest of your existing code
   if (isLocked) {
@@ -372,14 +409,14 @@ return (
     <div className="flex-1 flex flex-col min-h-[50dvh] md:h-full overflow-hidden">
     <div className="relative flex-1 w-full">
     {showDescription ? (
-  <div className="absolute inset-0 flex flex-col bg-black p-6 text-white overflow-y-auto">
-    <h2 className="text-2xl font-bold mb-4">
-      {currentLecture?.title || 'Lecture'} Description
-    </h2>
-    <pre className="whitespace-pre-wrap font-sans text-gray-300">
-      {currentLecture?.description || "No description available"}
-    </pre>
-    <button
+      <div className="absolute inset-0 flex flex-col bg-black p-6 text-white overflow-y-auto">
+        <h2 className="text-2xl font-bold mb-4">
+          {currentLecture?.title || 'Lecture'} Description
+        </h2>
+        <pre className="whitespace-pre-wrap font-sans text-gray-300">
+          {currentLecture?.description || "No description available"}
+        </pre>
+        <button
               onClick={handleNextLecture}
               disabled={!showNextButton}
               className={`w-full md:w-auto px-4 md:px-6 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -503,7 +540,11 @@ return (
                           if (isLocked) {
                             onOpen(MODAL_TYPE.LEVEL_MODAL);
                           } else {
-                            handleVideoSelect(lecture.videoUrl, lecture.title);
+                            handleLectureSelection(
+                              lecture, 
+                              module._id, // Module ID manquant
+                              subModule._id // Submodule ID manquant
+                            )
                           }
                         }}
                         className={`w-full flex items-center p-3 rounded-sm text-left transition-colors hover:bg-yellow-400/5 ${

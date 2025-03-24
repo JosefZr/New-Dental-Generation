@@ -19,8 +19,9 @@ const getAllUserProgress = async (userId) => {
 
 export const useGetAllUserProgress = (userId) => {
     return useQuery(["userProgress", userId], () => getAllUserProgress(userId), {
-        staleTime: 5 * 60 * 1000, // Cache data for 5 minutes
-        enabled: !!userId, // Only run query if userId exists
+        enabled: !!userId,
+        // Remove staleTime or set to 0 for immediate updates
+        staleTime: 0,
 
     });
 };

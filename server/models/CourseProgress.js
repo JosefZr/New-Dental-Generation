@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const LectureProgressSchema = new mongoose.Schema({
   lectureId: String,
   viewed: Boolean,
-  dateViewed: Date
+  dateViewed: Date,
+  isFavorite: { type: Boolean, default: false },
 });
 
 const SubModuleProgressSchema = new mongoose.Schema({
@@ -23,7 +24,6 @@ const CourseProgressSchema = new mongoose.Schema({
   courseId: String,
   completed: Boolean,
   completionDate: Date,
-  isFavorite: { type: Boolean, default: false },
   moduleProgress: [ModuleProgressSchema]
 });
 

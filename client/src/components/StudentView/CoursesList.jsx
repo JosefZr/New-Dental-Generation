@@ -30,8 +30,32 @@ export default function CoursesList({studentCourseList,isLoading, isError, error
     const navigate = useNavigate();
 
     const { data: allProgress, isLoading:isAllProgress, isError:isAllProgressError, error:allProgressError } = useGetAllUserProgress(userInfo.userId);
-    console.log(allProgress)
-    
+    function findFirstUnwatchedLecture(courseProgress) {
+        if (!courseProgress) return null;
+        
+        for (const module of courseProgress.moduleProgress) {
+            for (const subModule of module.subModules) {
+                for (const lecture of subModule.lectures) {
+                    if (!lecture.viewed) {
+                        return {
+                            moduleId: module,
+                            subModuleId: subModule,
+                            lectureId: lecture,
+                        };
+                    }
+                }
+            }
+        }
+        return null;
+    }
+     // In your click handler:
+    const handleCourseClick = (courseId) => {
+        console.log(courseId)
+        const courseProgress = allProgress?.find(prog => prog.courseId === courseId);
+        const firstUnwatched = findFirstUnwatchedLecture(courseProgress);
+            navigate(`/course/details/${courseId}/${firstUnwatched.moduleId.moduleId}/${firstUnwatched.lectureId.lectureId}`);
+            // If all lectures are watched, go to course details
+    };
     const { searchTerm  } = useContext(CoursesContext);
     // Filter courses based on search term from context
     const filteredCourses = studentCourseList?.filter((course) =>
@@ -83,9 +107,7 @@ export default function CoursesList({studentCourseList,isLoading, isError, error
                         : 0;
                         return (
                             <div
-                                onClick={() => {
-                                    navigate(`/course/details/${item._id}`);
-                                }}
+                                onClick={() => handleCourseClick(item._id)}
                                 key={index}
                                 className="group flex"
                             >

@@ -9,18 +9,26 @@ import toast from "react-hot-toast";
 import { fetchStudentCourseProgression } from "@/services";
 import { FaRegBookmark } from "react-icons/fa6";
 import { useAuthUser } from "@/hooks/jwt/useAuthUser";
+import FavList from "@/components/StudentView/FavList";
+import { useGetAllUserProgress } from "@/hooks/courses/useGetAllUserProgress";
 
 export default function StudentViewCommonLayout() {
     const userInfo = useAuthUser()
-
     const { setAllProgress, allProgress } = useContext(CoursesContext);
     const { data: studentCourseList, isLoading, isError, error } = useGetAllCourses();
-    console.log(studentCourseList)
+    const { data: userProgress } = useGetAllUserProgress(userInfo.userId);
+
+     // Sync progress data to context
+     useEffect(() => {
+        if (userProgress) {
+            setAllProgress(userProgress);
+        }
+    }, [setAllProgress, userProgress]);
     useEffect(() => {
         if (studentCourseList) {
             setUserToProgress();
         }
-    }, [studentCourseList]);
+    }, [setUserToProgress, studentCourseList]);
 
     async function setUserToProgress() {
         try {
@@ -53,18 +61,21 @@ export default function StudentViewCommonLayout() {
             return totalViewed > 0;
         });
     };
+const getFavoriteCourses = () => {
+    if (!studentCourseList || !allProgress?.data) return [];
     
+    return studentCourseList.filter(course => {
+        const progressData = allProgress.data.find(prog => prog.courseId === course._id);
+        if (!progressData) return false;
     
-    // Function to get favorite courses
-    const getFavoriteCourses = () => {
-        if (!studentCourseList || !allProgress?.data) return [];
-        
-        return studentCourseList.filter(course => {
-            const progressData = allProgress.data.find(prog => prog.courseId === course._id);
-            return progressData?.isFavorite === true;
+        // Check if any lecture is favorited in this course
+        return progressData.moduleProgress.some(module =>
+            module.subModules.some(subModule =>
+            subModule.lectures.some(lecture => lecture.isFavorite)
+            )
+        );
         });
     };
-    
     // Tab configuration
     const menuItems = [
         {
@@ -92,7 +103,7 @@ export default function StudentViewCommonLayout() {
         {
             label: "Favoris",
             value: "Favoris",
-            component: () => <CoursesList 
+            component: () => <FavList 
                 studentCourseList={getFavoriteCourses()}
                 isLoading={isLoading}
                 isError={isError}

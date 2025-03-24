@@ -37,7 +37,7 @@ export default function App() {
           <Route path="/instructor/create-new-course" element={<AddNewCourse/>}/>
           <Route path="/instructor/edit-course/:courseId" element={<AddNewCourse/>}/>
           <Route path="/course" element={<StudentViewCommonLayout/>}/>
-          <Route path="/course/details/:id" element={<StudentViewCourseDetailsPage/>}/>
+          <Route path="/course/details/:id/:moduleId/:lectureId" element={<StudentViewCourseDetailsPage/>}/>
 
           <Route path="/dashboard" element={<Dashboard />}>
             <Route path="friends" element={<Friends />}/>

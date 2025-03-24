@@ -49,7 +49,7 @@ export default function Header() {
             <div className="flex h-full w-full items-center justify-between pr-3">
                 <div className="flex w-full items-center font-medium">
                     <div className="flex items-center justify-center gap-3">
-                        <div className="pointer-events-none absolute inset-0 flex flex-col items-start justify-center gap-1 text-center">
+                        <div  className="pointer-events-none  inset-0 flex flex-col items-start justify-center gap-1 text-center">
                             <div className="ml-3 flex max-w-[350px] items-center justify-center sm:max-w-none">
                                 <GraduationCap className="h-10 w-10 pr-3 bg-my-dark-blue text-my-gold" height="24px" width="25px"/>
                                 <p className="font-semibold text-lg text-white">Learning Center</p>
@@ -64,13 +64,6 @@ export default function Header() {
                         </button>
                     </div>
                 </div>
-                <Link
-                    to="/channels"
-                    className="btn flex items-center btn-sm btn-circle btn-ghost"
-                    
-                >
-                    <IoMdClose height="16px"width="16px"  className="text-xl"/>
-                </Link>
             </div>
         </div>
         <header style={{position:"relative"}} className="max-sm:hidden flex items-center justify-between flex-row gap-3 px-2 py-3">

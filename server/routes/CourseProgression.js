@@ -100,27 +100,47 @@ router.patch("/setLectureViewed", async (req, res) => {
 });
 // Update favorite route
 router.patch("/fav", async (req, res) => {
-    const { userId, courseId } = req.body;
-    
-    try {
-        const progress = await CourseProgress.findOne({ userId, courseId });
-        if (!progress) {
-            return res.status(404).json({ message: "Progress not found" });
-        }
-        
-        progress.isFavorite = !progress.isFavorite;
-        await progress.save();
-        
-        res.status(200).json({ 
-            success: true, 
-            message: "Course favorite status updated", 
-            data: progress 
-        });
-        
-        } catch (error) {
-        console.error("Error updating favorite:", error);
-        res.status(500).json({ success: false, message: "Internal Server Error" });
-        }
-});
+  const { userId, courseId, lectureId } = req.body;
 
+  try {
+    const progress = await CourseProgress.findOne({ userId, courseId });
+    if (!progress) {
+      return res.status(404).json({ message: "Progress not found" });
+    }
+
+    let lectureFound = false;
+    
+    // Traverse through all modules and submodules
+    for (const module of progress.moduleProgress) {
+      for (const subModule of module.subModules) {
+        const lectureIndex = subModule.lectures.findIndex(
+          (l) => l.lectureId === lectureId
+        );
+        
+        if (lectureIndex !== -1) {
+          subModule.lectures[lectureIndex].isFavorite = 
+            !subModule.lectures[lectureIndex].isFavorite;
+          lectureFound = true;
+          break;
+        }
+      }
+      if (lectureFound) break;
+    }
+
+    if (!lectureFound) {
+      return res.status(404).json({ message: "Lecture not found" });
+    }
+
+    await progress.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Lecture favorite updated",
+      data: progress,
+    });
+  } catch (error) {
+    console.error("Error updating lecture favorite:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
 export default router
