@@ -5,12 +5,13 @@ import { useTranslation } from "react-i18next";
 import { TiWarningOutline } from "react-icons/ti";
 
 const Final = styled.section`
-    background-image: url("/backs/final.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position:top;
     position: relative;
     background-color: var(--blackblue);
+    background-color: #02040e;
+
 `
 const Increasing = styled.div`
   grid-column-gap: 1.75rem;
@@ -60,7 +61,7 @@ export default function FinalSection({actor}) {
   const {t} = useTranslation()
 
   return (
-        <Final className="padding-global">
+        <Final className="padding-global ">
           <div className="container-large">
             <div className="padding-section-medium">
               <Increasing>

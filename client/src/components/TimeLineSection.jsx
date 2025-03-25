@@ -10,6 +10,7 @@ const SectionTimeLine = styled.section`
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
+    background-color: #02040e;
 `;
 
 const TitleGrey = styled.div`
@@ -24,7 +25,7 @@ const TitleGrey = styled.div`
   line-height: 1;
   display: inline-block;
   
-  color: var(--gold);
+  color: #bc1823;
   @media screen and (max-width: ${size.laptop}) {
     font-size: .9rem;
     text-align: center;
@@ -112,12 +113,12 @@ export default function TimeLineSection({actor}) {
 
   return (
     <SectionTimeLine>
-        <div className="padding-section-large">
-          <div className="padding-global">
-            <div className="container-large">
-              <div className="w-layout-vflex vflex-center-8 items-center text-center">
+        <div className="padding-section-large" >
+          <div className="padding-global" >
+            <div className="container-large" >
+              <div className="max-sm:w-layout-vflex max-sm:vflex-center-8 items-center text-center">
                   <SubText >{t(`${actor}.services.subText`)}</SubText>
-                  <TitleGrey className="reveal-horizontal-left reveal-vertical">{t(`${actor}.services.p`)}</TitleGrey>
+                  <TitleGrey className="reveal-horizontal-left reveal-vertical ">{t(`${actor}.services.p`)}</TitleGrey>
                   <H2 className="reveal-vertical">YOUR DENTAL NETWORK</H2>
               </div>
             </div>

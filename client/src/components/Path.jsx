@@ -11,6 +11,7 @@ const SectionPath = styled.section`
   background-repeat: repeat;
   background-size: cover;
   background-position: center;
+  color:#02040e;
 `
 const Container = styled.div`
   z-index: 2;
@@ -109,7 +110,7 @@ export default function Path({GetChecks,actor}) {
   return (
     <SectionPath>
         <div className="padding-global">
-          <Container className="container-large">
+          <Container className="container-large" >
             <div className="padding-section-medium">
               <PathContent>
                 <CtaHeaders actor={actor}/>

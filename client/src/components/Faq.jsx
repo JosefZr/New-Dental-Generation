@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { useTranslation } from "react-i18next"; // Assuming you're using `react-i18next`
+import { Link } from "react-router-dom";
 
 const FaqSection = styled.section`
   position: relative;
-  background-image: url("/backs/HeadlinePath.svg");
   background-repeat: repeat;
   background-size: cover;
   background-position: center;
+  background-color: #02040e;
 `;
 
 export default function Faq() {
@@ -68,7 +69,9 @@ export default function Faq() {
               </details>
             ))}
           </div>
+          
         </div>
+        
       </div>
     </FaqSection>
   );

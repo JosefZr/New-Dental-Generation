@@ -16,8 +16,8 @@ const ButtonWrap = styled.div`
 
 const StyledButton = styled.button`
   /* Base Variables */
-  --main-color: rgb(118, 103, 8);
-  --main-bg-color: rgba(255, 223, 0, 0.36);
+  --main-color: #a9464d;
+  --main-bg-color: #bc1823;
   --pattern-color: rgba(255, 255, 255, 0.03);
   
   /* Base Styles */

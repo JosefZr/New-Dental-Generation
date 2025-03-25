@@ -15,13 +15,14 @@ const dropUp = keyframes`
 `;
 
 const HeroSection = styled.section`
-  background-image: url("/backs/dentist-landing-1.svg");
+  /* background-image: url("/backs/dentist-landing-1.svg"); */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   position: relative;
   display: flex;
   justify-content: center;
+  background-color: #02040e;
 `;
 
 const HeroHeading = styled.h1`
@@ -75,12 +76,13 @@ const VideoWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 600px;
-  max-width:340px;
+  max-width:832px;
   width: 100%;
   margin-top: 2rem;
   margin-bottom: 2.3rem;
   position: relative;
-  box-shadow: 0 0 0 3px var(--gold), 0 0 0 8px #ffffff3d;
+  z-index: 1; /* Ensure it's above background but below glow */
+
 
   @media screen and (max-width: ${size.laptop}) {
     width: 100%;
@@ -173,17 +175,44 @@ export default function DentistHero({ actor }) {
                 </div>
               ))}
             </SubParagraph>
-            <VideoWrapper>
+            <VideoWrapper >
+            <div
+              className="block  right-[430px] z-0 top-[100px]"
+              style={{
+                position: "absolute",
+                width: "600px",
+                height: "600px",
+                background: "radial-gradient(42.52% 42.52% at 50% 26.25%, #59799e59 -50%, transparent 90%)",
+              }}
+            ></div>
+            <div
+              className="block right-[20%] z-0 top-[300px]"
+              style={{
+                position: "absolute",
+                width: "600px",
+                height: "600px",
+                background: "radial-gradient(42.52% 42.52% at 50% 26.25%, #59799e59 -50%, transparent 90%)",
+              }}
+            ></div>
+            <div
+              className="block left-[430px] z-0 top-[100px]"
+              style={{
+                position: "absolute",
+                width: "600px",
+                height: "600px",
+                background: "radial-gradient(42.52% 42.52% at 50% 26.25%, #59799e59 -50%, transparent 90%)",
+              }}
+            ></div>
               <div className=" ">
-                <iframe
-                  className="border-none absolute top-0 left-0 w-full h-full"
-                  src="https://player.vimeo.com/video/1046354505?h=dc0d9f5e14&autoplay=1&muted=1&loop=1"
-                  width="100%"
-                  height="100%"
-                  frameBorder="0"
-                  allow="autoplay; fullscreen"
-                  allowFullScreen
-                ></iframe>
+              <iframe
+                className="border-none absolute top-0 left-0 w-full h-full"
+                src="https://player.vimeo.com/video/1068721558?h=c7ce8b625e&autoplay=1&muted=1&loop=1"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                allow="autoplay; fullscreen"
+                allowFullScreen
+              ></iframe>
               </div>
             </VideoWrapper>
             <CtaButton withSubscribers="true" />

@@ -13,6 +13,7 @@ import User from "../models/User.js";
 import nodemailer from "nodemailer"
 import path from "path"
 import fs from "fs"
+import Email from "../models/Emails.js";
 
 const router = express.Router();
 
@@ -326,5 +327,47 @@ router.post("/upload/proffession", uploadPro.single("image"), (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 });
+router.post("/leads", async (req, res) => {
+  try {
+    const { email } = req.body;
+    
+    // Validate email exists
+    if (!email) {
+      return res.status(400).json({ // Changed from 401 to 400
+        success: false, 
+        message: "Email is required"
+      });
+    }
 
+    // Validate email format
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid email format"
+      });
+    }
+
+    // Create new email document
+    const newEmail = await Email.create({ email });
+    
+    return res.status(201).json({
+      success: true,
+      message: 'Email saved successfully',
+      data: newEmail
+    });
+  } catch (error) {
+    if (error.code === 11000) { // MongoDB duplicate key error
+      return res.status(409).json({
+        success: false,
+        message: 'Email already exists'
+      });
+    }
+    console.error("Lead submission error:", error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: error.message
+    });
+  }
+});
 export default router;

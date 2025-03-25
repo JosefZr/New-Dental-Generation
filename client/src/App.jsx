@@ -28,6 +28,8 @@ import ResetPassword from "./pages/ResetPassword";
 import SignupAdmins from "./pages/SignupAmins";
 import Quotes from "./pages/Quotes";
 import FreeAnalyses from "./pages/FreeAnalyses";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 
 export default function App() {
   return (
@@ -64,6 +66,9 @@ export default function App() {
         <Route path="/dentist" element={<Dentist />} />
         <Route path="/dental-lab" element={<DentalLab />} />
         <Route path="/dental-store" element={<DentalStore />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
+
         <Route path="/sign-up" element={<Signup />} />
         <Route path="/chama" element={<SignupAdmins />} />
         <Route path="/login" element={<Login />} />

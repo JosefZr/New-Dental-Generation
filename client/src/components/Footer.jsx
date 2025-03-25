@@ -1,57 +1,60 @@
 import { FaTelegramPlane } from "react-icons/fa"
+import { FaXTwitter } from "react-icons/fa6"
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 
 const FooterSection = styled.footer`
-  background-image: url("/backs/footer.svg"); 
   background: transparent;
   background-color: var(--darkBlue);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-
+  background-color: #02040e;
 `
 
 export default function Footer() {
   return (
 
-<FooterSection className="bg-gray-900">
-  <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8 ">
-    <div className="mx-auto max-w-xl text-center">
-      <strong className="block text-center text-xl font-bold  sm:text-3xl text-white">
-        Be The First To Know About Our Updates.      
-      </strong>
+<FooterSection className="w-full  z-10 mt-8 lg:mt-16 px-4 undefined border-t-[1px] border-[#FFFFFF1A]" style={{position:"relative"}}>
+<div className="max-w-3xl mx-auto mt-10 text-center flex flex-col gap-5">
+            <h1 className="text-xl">Want to know how YDN will solve all your problems and transform your practice?</h1>
+            <Link className="underline text-xl" to="https://docs.google.com/document/d/1I0HeuZD3ewDnBlwKxt64U3qh_t4Nl2uTBXTCItKOC8I/edit?usp=sharing">
+              Here’s how!
+            </Link>
+          </div>
+  <div className="max-w-[1236px] mx-auto flex flex-col lg:flex-row justify-between py-[24px] ">
+    <div className="my-4 lg:my-16 gap-8 flex flex-col">
+      <div className="mt-4 lg:mt-0 flex flex-col lg:flex-row items-center gap-4 lg:gap-[32px]">
+        <Link to="/terms">
+          <p className="hover:underline text-white">Terms & Conditions</p>
+        </Link>
+        <div className="hidden lg:block w-[1px] h-[20px] bg-white/5"></div>
+        <div className="lg:hidden w-[200px] h-[1px] bg-white/5"></div>
 
-      <form className="mt-6 text-center flex w-full  max-w-xl justify-center">
-        <div className="relative w-full max-w-xl">
-          <label className="sr-only" htmlFor="email"> Email </label>
-
-          <input
-            className="w-full rounded-full p-4 pe-32 text-sm font-medium border-gray-700 bg-gray-800 text-white"
-            id="email"
-            type="email"
-            placeholder="john@doe.com"
-          />
-
-          <button
-            className="absolute end-1 top-1/2 -translate-y-1/2 rounded-full bg-my-gold  px-5 py-3 text-sm font-medium text-white transition "
-          >
-            Subscribe
-          </button>
-        </div>
-      </form>
-    </div>
-
-    <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-32">
-      <div className="mx-auto max-w-sm lg:max-w-none">
-        <p className="mt-4 text-center  lg:text-left lg:text-lg text-gray-400">
-        YDN simplifies the work of dentists, dental labs, and stores by offering tools to manage tasks, connect with professionals, and grow their business. 
-        It’s your one-stop solution for efficient operations and professional growth.
-        </p>
-
-        <div className="mt-6 flex justify-center gap-4 lg:justify-start">
+        <Link to="/privacy">
+          <p className="hover:underline text-white">Privacy Policy</p>
+        </Link>
+        <div className="hidden lg:block w-[1px] h-[20px] bg-white/5"></div>
+        <div className="lg:hidden w-[200px] h-[1px] bg-white/5"></div>
+      </div>
+      {/* <div className="lg:hidden w-[200px] h-[1px]  mx-auto"></div> */}
+      <div className="lg:hidden gap-8 flex flex-col">
+        <div>
+          <div className="text-white/50 text-[12px] text-center sfpro">SUPPORT</div>
+            <a href="mailto:support@buildydn.com">
+              <p className="hover:underline text-center text-white">support@buildydn.com.</p>
+            </a>
+          </div>
+          <Link to="/login" className="bg-[#181e27] py-4 text-white font-semibold sfpro text-center w-52 mx-auto">login</Link>
+      </div>
+      
+      <p className="w-full text-white/50 max-w-xl mx-auto px-4 lg:px-0 !text-[14px] lg:!text-[16px] text-center  lg:text-left">
+      YDN is the all-in-one platform designed to simplify, connect, and grow the dental industry. Whether you’re a dentist, dental lab, or supplier, YDN gives you the tools to manage your practice, streamline operations, and expand your professional network—all in one place
+      </p>
+      <div className="mt-6 flex justify-center gap-4 lg:justify-start">
           <a
             className=" transition  text-white hover:text-white/75"
-            href="https://www.instagram.com/build_your_dental_network?igsh=ZHo3c2hpN25tejBi&utm_source=qr"
+            href="https://www.instagram.com/your_dental_network?igsh=MTNtNmtmaG9qaWtxbw%3D%3D&utm_source=qr"
             target="_blank"
             rel="noreferrer"
           >
@@ -74,137 +77,31 @@ export default function Footer() {
             <span className="sr-only"> Telegram </span>
             <FaTelegramPlane className=" h-6 w-6"/>
           </a>
-
+          <a
+            className=" transition  text-white hover:text-white/75"
+            href="https://x.com/lbenyahia1?s=21"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span className="sr-only"> X </span>
+            <FaXTwitter  className=" h-6 w-6"/>
+          </a>
         </div>
-      </div>
-
-      <div className="grid grid-cols-1 justify-center gap-8 text-center lg:grid-cols-1 lg:text-center">
-        {/* <div>
-          <strong className="font-medium  text-white"> Services </strong>
-
-          <ul className="mt-6 space-y-1">
-            <li>
-              <a
-                className=" transition  text-white hover:text-white/75"
-                href="#"
-              >
-                Marketing
-              </a>
-            </li>
-
-            <li>
-              <a
-                className=" transition  text-white hover:text-white/75"
-                href="#"
-              >
-                Graphic Design
-              </a>
-            </li>
-
-            <li>
-              <a
-                className=" transition  text-white hover:text-white/75"
-                href="#"
-              >
-                App Development
-              </a>
-            </li>
-
-            <li>
-              <a
-                className=" transition  text-white hover:text-white/75"
-                href="#"
-              >
-                Web Development
-              </a>
-            </li>
-          </ul>
+    </div>
+      <div className="hidden lg:flex my-16 flex-col">
+        <div style={{position:"relative"}}>
+          <p className="text-white/50 small">SUPPORT</p>
+          <a href="mailto:support@buildydn.com">
+            <p className="hover:underline">support@buildydn.com</p>
+          </a>
         </div>
-
-        <div>
-          <strong className="font-medium  text-white"> About </strong>
-
-          <ul className="mt-6 space-y-1">
-            <li>
-              <a
-                className="transition hover:text-gray-700/75 text-white dark:hover:text-white/75"
-                href="#"
-              >
-                About
-              </a>
-            </li>
-
-            <li>
-              <a
-                className=" transition  text-white hover:text-white/75"
-                href="#"
-              >
-                Careers
-              </a>
-            </li>
-
-            <li>
-              <a
-                className=" transition  text-white hover:text-white/75"
-                href="#"
-              >
-                History
-              </a>
-            </li>
-
-            <li>
-              <a
-                className=" transition  text-white hover:text-white/75"
-                href="#"
-              >
-                Our Team
-              </a>
-            </li>
-          </ul>
-        </div> */}
-
-        <div>
-          <strong className="font-medium  text-white"> Support </strong>
-
-          <ul className="mt-6 space-y-1">
-            <li>
-              <a
-                className=" transition  text-white hover:text-white/75"
-                href="#"
-              >
-                FAQs
-              </a>
-            </li>
-
-            <li>
-              <a
-                className=" transition  text-white hover:text-white/75"
-                href="#"
-              >
-                Contact
-              </a>
-            </li>
-
-            <li>
-              <a
-                className=" transition  text-white hover:text-white/75"
-                href="#"
-              >
-                Live Chat
-              </a>
-            </li>
-          </ul>
+        <div className=" mt-8" style={{position:"relative"}}>
+          <Link to="/login">
+            <div className="bg-[#181e27] py-4 px-20 text-white font-semibold sfpro text-center">Log In</div>
+          </Link>
         </div>
       </div>
     </div>
-
-    <div className="mt-16 border-t pt-8 border-gray-800">
-      <p className="text-center text-xs/relaxed  text-gray-400">
-        © Dr.Truth 2025. All rights reserved.
-        <br />
-      </p>
-    </div>
-  </div>
-</FooterSection>
+  </FooterSection>
   )
 }

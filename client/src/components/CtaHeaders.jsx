@@ -13,7 +13,7 @@ const TitleGrey = styled.div`
   line-height: 1;
   font-size: 1.88rem;
   display: inline-block;
-  color: var(--gold);
+  color: #bc1823;
   @media screen and (max-width: ${size.laptop}) {
     font-size: .9rem;
     text-align: center;

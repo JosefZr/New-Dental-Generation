@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { IoLogoBitcoin } from 'react-icons/io';
+import { GiEarthAmerica } from 'react-icons/gi';
 
 const dropDown = keyframes`
   0% {
@@ -248,7 +249,7 @@ export default function GlobalNavbar() {
 
               <NavRight>
                 <LoginButton className="uppercase">
-                  <IoLogoBitcoin className="text-3xl cursor-pointer " onClick={handleLogin} />
+                  <GiEarthAmerica className="text-3xl cursor-pointer " onClick={handleLogin} />
                 </LoginButton>
               </NavRight>
             </Content>
