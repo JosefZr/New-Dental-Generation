@@ -3,26 +3,25 @@ import { size } from "@/lib/mediaQuerys";
 import CtaButton from "./CtaButton";
 import { useTranslation } from "react-i18next";
 import { TiWarningOutline } from "react-icons/ti";
+import useReveal from "@/hooks/useReveal";
 
-const Final = styled.section`
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position:top;
-    position: relative;
-    background-color: var(--blackblue);
-    background-color: #02040e;
-
-`
-const Increasing = styled.div`
-  grid-column-gap: 1.75rem;
-  grid-row-gap: 1.75rem;
-  color: var(--whiteGray);
-  text-align: center;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 8rem;
-  display: flex;
-`
+// const Final = styled.section`
+//     background-repeat: no-repeat;
+//     background-size: cover;
+//     background-position:top;
+//     position: relative;
+//     background-color: #02040e;
+// `
+// const Increasing = styled.div`
+//   grid-column-gap: 1.75rem;
+//   grid-row-gap: 1.75rem;
+//   color: var(--whiteGray);
+//   text-align: center;
+//   flex-direction: column;
+//   align-items: center;
+//   margin-bottom: 8rem;
+//   display: flex;
+// `
 const IconEmbed = styled.div`
     flex-direction: column;
     justify-content: center;
@@ -56,35 +55,52 @@ const H2 = styled.h2`
   background-size: auto;
 }
 `
+const H3 = styled.h3`
+  font-size: 12px;
+  font-weight: 200;
+  line-height: 12px;
+  letter-spacing: .32em;
+  color: #a7a297;
+  margin: 0 auto;
+  font-family: 'Doawnloawd', sans-serif;
+  @media screen and (min-width: 1024px) {
+    font-size: 16px;
+    line-height: 16px;
+  }
+`
+const P = styled.p`
+      font-size: 17px;
+    font-weight: 400;
+    line-height: 25px;
+    color: #ffffffb2;
+    font-family: 'Doawnloawd', sans-serif;
+`
 // eslint-disable-next-line react/prop-types
 export default function FinalSection({actor}) {
-  const {t} = useTranslation()
-
+  useReveal('vertical');
+  useReveal('horizontal');
   return (
-        <Final className="padding-global ">
-          <div className="container-large">
-            <div className="padding-section-medium">
-              <Increasing>
-                <div  className="text-center flex flex-col justify-center w-auto">
-                    <TiWarningOutline className="h-14 w-full"/>
-                  <div className="hflex-center-16">
-                    <H2>{t(`${actor}.increasing.title`)}</H2>
-                  </div>
-                </div>
-                <div className=" max-w-[35rem] mt-[-.7] mb-0 leading-7 text-my-small-white-title">
-                  <h1 className=" flex flex-row items-center justify-center gap-4 font-medium text-xl">{t(`${actor}.increasing.from`)} €19.9/{t(`${actor}.increasing.month`)} {t(`${actor}.increasing.to`)} €59/{t(`${actor}.increasing.month`)}</h1>
-                  <br />
-                  <br />
-                  <p className=" font-normal text-my-white-gray text-2xl">{t(`${actor}.increasing.dentist`)}</p>
-                  <br />
-                  <br />
-                  <p className=" flex flex-row items-center justify-center gap-4 font-medium text-xl">{t(`${actor}.increasing.lock`)}</p>
-                </div>
-              <CtaButton/>
-
-              </Increasing>
+        <section className="w-full reveal-vertical mt-0 lg:mt-[120px] mb-[80px] lg:mb-[120px] z-20" style={{position:"relative"}}>
+          <div className="z-10 px-4" style={{position:"relative"}}>
+            <H3 className="hidden lg:block uppercase text-center">LOCK IN YOUR PRICE</H3>
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-2 lg:gap-4">
+              <img alt="Exclusive Features" loading="lazy" width="52" height="47" decoding="async" data-nimg="1" src="https://www.jointherealworld.com/warning.svg" style={{color:"transparent"}}/>
+              <H3 className="lg:hidden uppercase text-center mt-1 lg:mt-0">LOCK IN YOUR PRICE</H3>
+              <H2 className="uppercase text-center gradient-text texture-text">PRICE INCREASING SOON</H2>
             </div>
+              <P className="text-center max-w-[761px] mx-auto mt-4 lg:mt-8 text-pretty">
+                <span className="font-bold text-white">The price will be increased to $147 a month shortly.</span>
+                <br />
+                <br />
+                Enjoy a 2-day free trial and explore all the powerful features inside YDN
+                <br />
+                <br />
+                <span className="font-bold text-white">Lock in your price today before it’s too late!</span>
+              </P>
+              <div className="flex mx-auto justify-center mt-8"><CtaButton/></div>
+              
+
           </div>
-        </Final>
+        </section>
   )
 }

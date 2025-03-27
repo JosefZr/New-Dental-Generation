@@ -13,9 +13,9 @@ i18n
   .init({
     resources: {
       en: { translation: translationEN },
-      fr: { translation: translationFR },
-      ar: { translation: translationAR },
-      ru: { translation: translationRU },
+      // fr: { translation: translationFR },
+      // ar: { translation: translationAR },
+      // ru: { translation: translationRU },
     },
     lng: 'en', // Default language
     fallbackLng: 'en',

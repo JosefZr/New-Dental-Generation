@@ -14,18 +14,16 @@ const SectionTimeLine = styled.section`
 `;
 
 const TitleGrey = styled.div`
-  letter-spacing: 3px;
+  letter-spacing: .32em;
   text-transform: uppercase;
-  /* -webkit-text-fill-color: transparent; */
-  /* background-image: linear-gradient(106deg, #777, #9c9c9c); */
-  /* -webkit-background-clip: text; */
   background-clip: text;
-  font-size: .88rem;
+  font-size: 16px;
+  line-height: 16px;
   font-weight: 500;
   line-height: 1;
   display: inline-block;
   
-  color: #bc1823;
+  color: var(--redClaire);
   @media screen and (max-width: ${size.laptop}) {
     font-size: .9rem;
     text-align: center;
@@ -33,6 +31,9 @@ const TitleGrey = styled.div`
 `;
 
 const H2 = styled.h2`
+  font-size: 55.5px;
+  font-weight: 600;
+  line-height: 56px;
   background-color: var(--smallTittle);
   text-align: center;
   text-transform: uppercase;
@@ -44,12 +45,9 @@ const H2 = styled.h2`
   background-clip: text;
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 3rem;
-  font-weight: 600;
   color: var(--whiteGray);
-  line-height: 1.1;
   @media screen and (max-width: ${size.tablet}) {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
   } 
 `;
 
@@ -113,10 +111,9 @@ export default function TimeLineSection({actor}) {
 
   return (
     <SectionTimeLine>
-        <div className="padding-section-large" >
-          <div className="padding-global" >
+          <div className="padding-global " >
             <div className="container-large" >
-              <div className="max-sm:w-layout-vflex max-sm:vflex-center-8 items-center text-center">
+              <div className="max-sm:w-layout-vflex max-sm:vflex-center-8 items-center text-center ">
                   <SubText >{t(`${actor}.services.subText`)}</SubText>
                   <TitleGrey className="reveal-horizontal-left reveal-vertical ">{t(`${actor}.services.p`)}</TitleGrey>
                   <H2 className="reveal-vertical">YOUR DENTAL NETWORK</H2>
@@ -124,7 +121,7 @@ export default function TimeLineSection({actor}) {
             </div>
           </div>
           <TimeLine actor={actor}/>
-          <CtaButton />
+          <CtaButton className="mt-10" content="JOIN_YDN & SCALE_NOW"/>
           <Headers/>
 
 
@@ -135,7 +132,6 @@ export default function TimeLineSection({actor}) {
               </IconCercel>
             </MiddleSicle>
           </MidleInside> */}
-        </div>
       </SectionTimeLine>
   )
 }

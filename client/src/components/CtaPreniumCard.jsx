@@ -6,7 +6,7 @@ import { FaRegWindowClose } from "react-icons/fa";
 import { size } from "@/lib/mediaQuerys";
 import { useTranslation } from "react-i18next";
 import { GiLaurelCrown } from "react-icons/gi";
-
+import "../pages/landing/exclusive/index.css"
 export const GetChecks = (actor) => {
   const { t } = useTranslation();
 
@@ -21,57 +21,36 @@ export const GetChecks = (actor) => {
 };
 
 const Cta = styled.div`
-    background-image: url("https://www.jointherealworld.com/revamp/images/CTA-bg.svg") !important;
-    background-position: center;
-    /* background-color: #ffffff1a; */
-    opacity: .7;
-    background-repeat: no-repeat;
-    background-size: cover;
-    grid-column-gap: 2rem;
-    grid-row-gap: 2rem;
-    border-radius: 4px;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-width: 26rem;;
-    margin: 0 auto;
-    height: fit-content;
-    margin-bottom: 2rem;
-    padding: 2.5rem 2rem;
+    width: 100%;
+    max-width: 512px;
+    background: url(https://www.jointherealworld.com/card1.png);
+    background-position: 50%;
+    padding: 31px;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
     overflow: hidden;
-    position: relative;
-    @media screen and (max-width:${size.laptop}){
-        margin-bottom:0;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    @media screen and (min-width: 1024px) {
+        min-height: 856px;
     }
-@media screen and (max-width:${size.tablet}){
-    grid-column-gap: 2rem;
-    grid-row-gap: 2rem;
-    border-radius: 4px;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0 auto;
-    align-items: center;
-    max-width: 26rem;
-    height: fit-content;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    padding: 2.5rem 2rem;
-    display: flex;
-    position: relative;
-  }
-  @media screen and (max-width:${size.mobileL}){
-        background-position: 50%;
-        background-repeat: no-repeat;
-        background-size: cover;
-        border: 1px solid #ffffff1a;
-        border-radius: 8px;
-        width: 100%;
-        height: auto;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-        padding: 2rem 1.25rem;
-  }
+    
+    &:last-child {
+      background-image: url(https://www.jointherealworld.com/card2.png);
+    }
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(255, 187, 56, 0.15);
+    }
+    
+    &:hover .glow-effect {
+      opacity: 0.3;
+    }
 `
 const IconImbedCustom = styled.div`
   flex-direction: column;
@@ -80,103 +59,118 @@ const IconImbedCustom = styled.div`
   height: 3.125rem;
   display: flex;
 `
-const IconLine = styled.div`
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 12.5rem;
-  height: .125rem;
-  display: flex;
-  color:var(--whiteGray);
-`
-const H3 = styled.h3`
-  color: var(--gold);
-  margin-top: 0;
-  margin-bottom: 0;
-  font-family: Clashdisplay Variable, sans-serif;
-  line-height: 1.2;
-  text-transform: uppercase;
-  font-size: 2rem;
-  font-weight: 700;
-  line-height: 1;
-  @media screen and (max-width:${size.tablet}){
-    font-size: 1.8rem;
-  }
-`
-const CtaPrice = styled.div`
-  grid-column-gap: 1rem;
-  grid-row-gap: 1rem;
-  justify-content: center;
-  align-items: center;
-  margin-right: 8px;
-  @media screen and (max-width:${size.tablet}){
-    grid-column-gap: .9rem;
-    grid-row-gap: .9rem;
-    margin-right: 17px;
-  }
-`
-const CtaChecks = styled.div`
-  grid-column-gap: .8rem;
-  grid-row-gap: .8rem;
-  flex-direction: column;
-  align-items: flex-start;
-  display: flex;
-` 
 const SVGPrice = styled.div`
   flex-direction: row;
+  -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+  background-image: linear-gradient(126deg, #ffcf23, #ff8d3a);
   justify-content: flex-start;
   align-items: center;
   width: 100%;
   gap: .3rem;
   height: 1.25rem;
   display: flex;
+  
+  font-family: 'Doawnloawd', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 18px;
+    color: #fff;
+    padding: 0 32px;
+@media screen and (min-width: 1024px) {
+        font-size: 18px;
+        line-height: 22px;
+    }
 `
+const H2 = styled.h2`
+    font-weight: 700;
+    line-height: 1;
+    font-size: 35px;
+    line-height: 32px;
+    margin-top: 19px;
+    background: -webkit-linear-gradient(0deg, #fff, hsla(0, 0%, 100%, .61) 70%, hsla(0, 0%, 61%, .6));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+`
+const PriceBad = styled.div`
+    font-family: 'Doawnloawd', sans-serif;
+    line-height: 64px;
+    letter-spacing: -.05em;
+    font-size: 32px;
+    font-weight: 400;
+    color: #ffffff47;
+`
+const Price =styled.div `
+    font-family: 'cg', sans-serif;
+    line-height: 64px;
+    letter-spacing: -.05em;
+    background-image: linear-gradient(126deg, #ff7e7e, var(--redClaire));
+    font-size: 41px;
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    font-weight: 500;
+    color: #8d8f92;
+`
+const Description= styled.div`
+    font-family: 'Doawnloawd', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 18px;
+    color: #fff;
+    padding: 0 32px;
+@media screen and (min-width: 1024px) {
+        font-size: 18px;
+        line-height: 22px;
+    }
+`
+const Small = styled.div`
+    font-family: 'Doawnloawd', sans-serif;
+    font-size: 16px;
+    font-weight: 200;
+    line-height: 14px;
+    color: hsla(0, 0%, 100%, .5);
 
+`
 // eslint-disable-next-line react/prop-types
 export default function CtaPreniumCard({actor}) {
   const {t} = useTranslation();
   const checks = GetChecks(actor)
   return (
     <Cta>
-        <div className="vflex-center-8 w-layout-vflex items-center text-center">
+      <div className="flex group flex-col items-center w-full">
         <IconImbedCustom>
           <GiLaurelCrown className=" h-14 w-auto text-my-gold"/>
         </IconImbedCustom>
-        <H3>{t(`${actor}.plans.paid.title`)}</H3>
+        <H2 className="text-center ">ZIRCONIUM PLAN</H2>
+        <div className="w-[240px] mx-auto h-[1px] bg-[#383531] mt-8"></div>
+        <div className="flex items-center justify-center gap-4 mt-4">
+          <PriceBad className="price-bad line-through">€59</PriceBad>
+          <Price className="price gradient-text-2">€19.9</Price>
         </div>
-        <IconLine>
-        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 200 2" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
-            <line opacity="0.3" x1="-0.000549316" y1="1.29199" x2="199.999" y2="1.29199" stroke="currentColor"></line>
-        </svg>
-        </IconLine>
-        <CtaPrice className="w-layout-hflex font-medium text-5xl ">
-        <h1 className=" text-my-white line-through  ">€59</h1>
-        <h1 className=" text-my-gold">€19.9</h1>
-        </CtaPrice>
-        <CtaChecks>
+        <div>
         {checks.map((check, index) => (
-          <div key={index} className="w-layout-hflex hflex-center-8 text-xl text-my-white-gray">
-            <FaCheck />
-            <h3>{check}</h3>
-          </div>
+          <div key={index} className="flex items-center mt-6">
+            <FaCheck className=" h-5 w-7 text-white"/>
+            <Description>{check}</Description>
+        </div>
         ))}
-        </CtaChecks>
-        <IconLine>
-        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 200 2" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true" role="img">
-            <line opacity="0.3" x1="-0.000549316" y1="1.29199" x2="199.999" y2="1.29199" stroke="currentColor"></line>
-        </svg>
-        </IconLine>
-        <CtaChecks className="text-xl font-medium text-my-small-white-title">
-        <div className="w-layout-hflex hflex-center-8 items-end ">
+        <div className="w-full h-[1px] bg-[#383531] my-8"></div>
+        </div>
+        <div style={{filter:"blur(100px)"}} className="opacity-0 group-hover:opacity-30 bg-[#ffbb38] h-48 w-full pointer-events-none rounded-xl absolute bottom-0 left-0 duration-500 transition-all"></div>
+        <Description className="flex items-center description gap-4 mt-4">
             <FaRegWindowClose className=" self-center"/>
             <h3>{t(`${actor}.plans.paid.cta`)}</h3>
-        </div>
-        <SVGPrice className=" text-my-gold w-full ">
-            <GiTakeMyMoney className=" self-center h-10 w-7"/>
+        </Description>
+        <SVGPrice className=" flex items-center justify-center gap-4 mt-4 ">
+          <img alt="Checkmark" loading="lazy" width="16" height="20" decoding="async" data-nimg="1" className="w-[22px] h-[18px] lg:w-[16px] lg:h-[20px]" src="https://www.jointherealworld.com/lock.svg" style={{color:"transparent"}}/>
             <h3 className="text-nowrap ">{t(`${actor}.plans.paid.cta2`)}</h3>
         </SVGPrice>
-        <data className=" opacity-70 ">{t(`${actor}.plans.paid.cta3`)}</data>
-        </CtaChecks>
+        <Description className="flex items-center  gap-4 mt-4">
+          <Small>Lock in your price before it increases </Small>
+        </Description>
+      </div>
         <div className=" w-fit lg:max-w-[36rem] mt-10">
         <CtaButton isSmall={true}/>
         </div>

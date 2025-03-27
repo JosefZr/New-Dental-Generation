@@ -1,7 +1,8 @@
-import {  CtaButton, CtaHeaders } from "@/components";
+import {  CtaButton } from "@/components";
 
 import { Cadre } from "@/components";
 import { size } from "@/lib/mediaQuerys";
+import CtaHeaders from "@/pages/landing/path/components/CtaHeaders";
 import { useTranslation } from "react-i18next";
 import { FaCheck } from "react-icons/fa6";
 import styled from "styled-components";

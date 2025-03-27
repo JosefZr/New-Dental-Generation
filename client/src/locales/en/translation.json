@@ -5,11 +5,11 @@
   "faq":{
     "one":{
       "question":"What is Your Dental Network (YDN) ?",
-      "responde":"YDN is an all-in-one platform designed for dental professionals, connecting dentists, dental labs, and dental stores. It offers tools to streamline practice management, access dental news, sell online courses, and grow your business through marketing and networking."
+      "responde":"YDN is an all-in-one platform for dentists, dental labs, and suppliers. It helps streamline clinic management, networking, education, and business growth."
     },
     "two":{
       "question":"Who can use YDN ?",
-      "responde":"YDN is open to dentists, dental lab technicians, dental suppliers, and students seeking advanced dental education."
+      "responde":"Dentists || Dental Lab Technicians || Dental Suppliers || Students looking for advanced education."
     },
     "three":{
       "question":"What is Your Dental Network (YDN) ?",
@@ -25,10 +25,10 @@
     },
     "six":{
       "question":"How does YDN help with business growth ?",
-      "responde":"DN provides specialized tools and services like website creation, social media management, and digital ads to help dental practices attract more patients and grow their revenue. ALSO YOU'LL LEARN THE BUSINESS SKILLS.. "    
+      "responde":"YDN provides specialized tools like: Website creation & branding, Social media & digital ads And Marketing strategies to attract high-paying patients"    
     },
     "seven":{
-      "question":" Are there any courses available on YDN ?",
+      "question":"Are there any courses inside YDN?",
       "responde":"Yes, YDN offers courses on various dental topics, including Implant Dentistry, with subtitles in French.The platform also provides ULTIMATE BUSINESS TRICKS."    
     },
     "eight":{
@@ -58,6 +58,38 @@
     "fourtin":{
       "question":" I don’t have a lot of time available, can I still apply ?",
       "responde":"Yes! YDN is designed to save you time by streamlining tasks, connecting you with others, and offering efficient tools for managing your practice."    
+    },
+    "nm":{
+      "question":"Are there any courses inside YDN?",
+      "responde":"Yes! We offers exclusive courses to help you grow. Advanced Dental Courses – Learn specialized topics like Implant Dentistry, with subtitles for easy learning. Business Mastery for Dentists – Dentistry Mastery Code, a step-by-step blueprint to double your profits and scale your clinic. Vital Life & Productivity Lessons – Master time management, efficiency, and peak performance to maximize success. Learn, implement, and transform your career inside YDN!"
+    },
+    "phiftin":{
+      "question":"What is the “DENTISTRY MASTERY CODE” course?",
+      "responde":"A proven blueprint for building a high-profit dental business, step by step."
+    },
+    "sixtin":{
+      "question":"What is the “Top Dentist” feature?",
+      "responde":"Monetize your knowledge by hosting webinars & courses for a wider audience."
+    },
+    "seventin":{
+      "question":"I don’t have a lot of time. Can I still join?",
+      "responde":"Yes! YDN is designed to save you time. You only need 30 minutes a day to learn & apply what we teach."
+    },
+    "eightin":{
+      "question":"I live in X country. Is that a problem?",
+      "responde":"Not at all! Your location only changes the currency of your earnings."
+    },
+    "ninetin":{
+      "question":"How does YDN help dental students?",
+      "responde":"Exclusive courses & hands-on training .Job opportunities & career guidance"
+    },
+    "twanti":{
+      "question":"How do I sign up?",
+      "responde":"Click the red button below and choose your plan. Registration takes minutes!"
+    },
+    "twantione":{
+      "question":"Still have questions?",
+      "responde":"Contact support@buildydn.com"
     }
   },
   "plans":{
@@ -81,15 +113,27 @@
   "dentist":{
     "hero":{
       "title":"MORE PROFIT. LESS STRESS.",
-      "description":"As a dentist, your time is valuable, and managing your clinic can be tough."
+      "description":"Your time is valuable. Your clinic should work for you. Not the other way around."
     },
     "services":{
-      "p":"Connecting dentists, Labs and Stores for smarter collaboration.",
+      "p":"A STEP-BY-STEP PATH",
       "subText":"",
       "content":{
+        "manage":{
+          "title": "MANAGE YOUR CLINIC ",
+          "description": "Staff management system.Patient management system.Track clinic performance."
+        },
+        "cheat": {
+            "title": "DENTAL $ CHEAT CODES",
+            "description": "Master internal & external marketing. Learn the **EXACT skills** to **scale your wealth**. Attract **high-value patients**."
+          },
+          "network": {
+            "title": "PRIVATE NETWORK",
+            "description": "**Discuss clinical cases** & get real-time advice. Learn from peers who are already winning. Network with like-minded dentists."
+          },
         "private":{
           "title": "Private Dental Community",
-          "description": "Secure, private space for dental professionals. Connect for advice, collaboration, or support. Compare prices and order materials in the marketplace."
+          "description": "Secure, private space for dental professionals. Connect for advice, collaboration, or support. Network with Top Dentists."
         },
         "plan":{
           "title": "Plan Like a Pro",
@@ -101,15 +145,15 @@
         },
         "opportunity":{
           "title": "Top Dentist Opportunity",
-          "description":" Share expertise through online lectures. Build your reputation with high-level courses.  Monetize your knowledge with paid workshops and mentoring."
+          "description":" Share expertise through online lectures. Build your reputation with high-level courses.Sell your knowledge inside YDN."
         },
         "courses":{
           "title":"Advanced Dental Courses",
-          "description":"English courses on specialized topics like Implant Dentistry, with French and Arabic subtitles. Stay updated with the latest dental trends and news."
+          "description":"High-Quality courses in English with subtitles . Stay updated with the latest dental trends and news."
         },
         "growth":{
           "title": "Business Growth Support",
-          "description":"Unlimited Secrets to get rich. Master Your Dental business.You Can Get 1on1 Assistance.Get your Marketing, Advertising, Websites,Exclusively on YDN"
+          "description":"Unlimited Secrets to get rich. Master Your Dental business.You Can Get 1on1 Assistance. Unlimited secrets to get rich."
         }
       }
     },
@@ -118,13 +162,13 @@
       "title2":"",
       "title3":"Mystery Feature ",
       "title4":"Job Opportunities",
-      "desc": "Connect with dentists and explore career opportunities with our Zirconium plan.",
+      "desc": "Connect with dentists and explore career opportunities with our zirconium plan.",
       "desc2":"Share cases and collaborate with dentists worldwide.",
       "table":"This platform saves you time, letting you manage your dental practice from your phone  or laptop  anytime, anywhere.",
       "free":{
         "title":"Free Plan",
         "head":"Stay an amateur",
-        "checks":"International Dental Community.Advanced Dental Courses. Daily checklist.Dental News.",
+        "checks":"Basic daily checklist. Track earnings. Free motivational videos.Stay stagnant.Stay unfulfilled.",
         "cta":"Join for free"
       },
       "paid":{

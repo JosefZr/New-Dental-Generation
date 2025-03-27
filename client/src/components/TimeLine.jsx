@@ -1,12 +1,13 @@
 import styled, { keyframes } from "styled-components"
 import { size } from "@/lib/mediaQuerys";
-import { GiTakeMyMoney } from "react-icons/gi";
 import { useTranslation } from "react-i18next";
 import useReveal from "@/hooks/useReveal";
-import { FaMoneyBillTrendUp, FaRegChessKnight, FaRegChessQueen,FaRegHandshake } from "react-icons/fa6";
-import { SiLeaderprice,SiSimplelogin } from "react-icons/si"
 import { FaCheck, FaUsers} from "react-icons/fa";
-import { LiaUniversitySolid } from "react-icons/lia";
+import { TbSettingsDollar } from "react-icons/tb";
+import { GoGoal } from "react-icons/go";
+import ReactMarkdown from 'react-markdown';
+import '../styles/fonts.css';
+
 // Timeline Data
 
 export const GetTimelineData = ( actor) => {
@@ -19,76 +20,27 @@ export const GetTimelineData = ( actor) => {
       .map(item => item.trim())
       .filter(item => item.length > 0);
   };
-  if(actor ==="store" || actor ==="lab"){
     return [
       {
-        logo: <LiaUniversitySolid className="h-10 w-12" />,
-        left: "/store/4.svg",
-        title: t(`${actor}.services.content.access.title`),
-        descriptions: transformDescriptionToTable(t(`${actor}.services.content.access.description`)),
+        logo: <TbSettingsDollar className="h-10 w-12" />,
+        left: "/images/7.svg",
+        title: t(`${actor}.services.content.manage.title`),
+        descriptions: transformDescriptionToTable(t(`${actor}.services.content.manage.description`)),
       },
       {
-        logo: <SiSimplelogin className="h-10 w-12" />,
-        left: "/store/3.svg",
-        title: t(`${actor}.services.content.simplified.title`),
-        descriptions: transformDescriptionToTable(t(`${actor}.services.content.simplified.description`)),
-      },
-      {
-        logo: <SiLeaderprice className="h-10 w-12" />,
-        left: "/store/1.svg",
-        title: t(`${actor}.services.content.competitive.title`),
-        descriptions: transformDescriptionToTable(t(`${actor}.services.content.competitive.description`)),
-      },
-      {
-        logo: <FaRegHandshake className="h-10 w-12" />,
-        left: "/store/5.svg",
-        title: t(`${actor}.services.content.trust.title`),
-        descriptions: transformDescriptionToTable(t(`${actor}.services.content.trust.description`)),
-      },
-    ];
-  }
-  else{
-    return [
-      {
-        logo: <FaRegChessQueen className="h-10 w-12" />,
-        left: "/images/5.svg",
-        title: t(`${actor}.services.content.opportunity.title`),
-        descriptions: transformDescriptionToTable(t(`${actor}.services.content.opportunity.description`)),
-      },
-      {
-        logo: <FaMoneyBillTrendUp className="h-10 w-12" />,
-        left: "/images/6.svg",
-        title: t(`${actor}.services.content.growth.title`),
-        descriptions: transformDescriptionToTable(t(`${actor}.services.content.growth.description`)),
-      },
-      {
-        logo: <GiTakeMyMoney className="h-10 w-12" />,
-        left: "/images/3.svg",
-        title: t(`${actor}.services.content.finance.title`),
-        descriptions: transformDescriptionToTable(t(`${actor}.services.content.finance.description`)),
-      },
-      {
-        logo: <FaRegChessKnight className="h-10 w-12" />,
-        left: "/images/2.svg",
-        title: t(`${actor}.services.content.plan.title`),
-        descriptions: transformDescriptionToTable(t(`${actor}.services.content.plan.description`)),
+        logo: <GoGoal className="h-10 w-12" />,
+        left: "/images/9.svg",
+        title: t(`${actor}.services.content.cheat.title`),
+        descriptions: transformDescriptionToTable(t(`${actor}.services.content.cheat.description`)),
       },
       {
         logo: <FaUsers className="h-10 w-12" />,
-        left: "/images/1.svg",
-        title: t(`${actor}.services.content.private.title`),
-        descriptions: transformDescriptionToTable(t(`${actor}.services.content.private.description`)),
-      },
-      
-      {
-        logo: <LiaUniversitySolid className="h-10 w-12" />,
-        left: "/images/4.svg",
-        title: t(`${actor}.services.content.courses.title`),
-        descriptions: transformDescriptionToTable(t(`${actor}.services.content.courses.description`)),
+        left: "/images/8.svg",
+        title: t(`${actor}.services.content.network.title`),
+        descriptions: transformDescriptionToTable(t(`${actor}.services.content.network.description`)),
       },
     ];
   }
-};
 
 
 const TimelineGrid = styled.div`
@@ -102,9 +54,9 @@ const TimelineGrid = styled.div`
   width: 100%;
   margin: 0 auto;
   max-width: 80rem;
-  margin-bottom: 3rem;
   display: grid;
   position: relative;
+  padding-bottom:0px ;
   @media screen and (max-width: ${size.laptop}){
     grid-template-columns: 1fr;
     padding-left: 1.25rem;
@@ -137,12 +89,6 @@ const floatAnimation = keyframes`
 const TimelineLeftWrap = styled.div`
   grid-column-gap: 16px;
   grid-row-gap: 16px;
-  background-position: center;
-  background-image: ${({ bg }) => `url(${bg})`};
-  background-size: contain; 
-  background-repeat: no-repeat;
-  background-color:transparent;
-  background-attachment: local;
   flex-direction: row;
   grid-template-rows: auto auto;
   grid-template-columns: 1fr 1fr;
@@ -151,7 +97,8 @@ const TimelineLeftWrap = styled.div`
   align-items: center;
   width: 100%;
   max-width: 36.25rem;
-  height: 25rem;
+  margin-top:4rem;
+  height: 22rem;
   display: flex;
   position: relative;
   animation: ${floatAnimation} 6s ease-in-out infinite; 
@@ -161,26 +108,45 @@ const TimelineLeftWrap = styled.div`
 `
 
 const TimelineLeft = styled.div`
-  border-radius: 7px;
-  justify-content: flex-end;
-  height: 100%;
-  position: relative;
+display: flex;
+    border-radius: 7px;
+    justify-content: center;
+    height: 45rem;
+    width: 100%;
+    z-index: 19;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    background-attachment: local;
+    flex-direction: row;
+  background-image: ${({ bg }) => `url(${bg})`};
+
   @media screen and (max-width: ${size.laptop}){
     transform: translate(0);
+    height: 35rem;
+
   }
   @media screen and (max-width: ${size.tablet}){
+
     display: none;
     width: 100%;
     min-width: 100%;
-    height: auto;
     min-height: 18rem;
   }
+`
+const Shadow = styled.div`
+    opacity: .5;
+    width: 1000px;
+    height: 1000px;
+    position: absolute;
+    pointer-events: none;
+    background: radial-gradient(42.52% 42.52% at 50% 26.25%, rgba(255, 207, 35, .15) 0, transparent 60%);
 `
 const TimelineRightWrap = styled.div`
   grid-column-gap: 1rem;
   grid-row-gap: 1rem;
   flex-direction: column;
-  align-items: start;
   width: 100%;
   padding-left: 3.5rem;
   padding-right: 2.5rem;
@@ -234,7 +200,7 @@ const H3 = styled.div`
     background-clip: text;
     margin-top: 0;
     margin-bottom: 0;
-    font-family: Clashdisplay Variable, sans-serif;
+    font-family: 'cg', sans-serif;
     font-size: 2rem;
     font-weight: 600;
     line-height: 1.2;
@@ -285,50 +251,29 @@ const Check = styled.div`
   }
 `;
 
-const P = styled.p`
-  color: var(--whiteGray);
+const P = styled.div`
+  color: #ffffffb2;
   margin-bottom: 0;
   line-height: 1.6;
+  font-family: 'Doawnloawd', sans-serif;
+  /* Style for HTML strong tags */
+  strong {
+    color: white;
+    font-weight: 600;
+  }
 `;
 // eslint-disable-next-line react/prop-types
 export default function TimeLine({actor}) {
   useReveal('horizontal');
   const timeline = GetTimelineData(actor);
   return (
-    <div className=" mx-auto">
+    <div className=" mx-auto my-12">
       {timeline.map((data, index) => (
         <TimelineGrid key={index}>
           {data.left && (
-            <TimelineLeftWrap bg={data.left}>
-              <CloudSVG
-                viewBox="0 0 220 130" // Adjust viewBox for a larger cloud
-                style={{
-                  top: '40%', // Position the first cloud
-                  left:'70%', // Position the first cloud
-                  transform: 'translate(-50%, -50%)', // Center it
-                  backgroundColor: 'transparent', // Make sure the background is transparent
-                }}
-              >
-                <path
-                  d="M55 100C35 100 25 90 20 80C15 75 10 70 10 60C10 50 20 45 25 50C20 45 20 40 30 35C30 30 40 30 45 35C50 30 60 30 65 40C70 35 80 30 85 30C90 30 100 40 100 45C100 50 90 55 85 55C90 60 100 70 85 80C70 90 55 100 55 100Z"
-                  fill="var(--gold)" // Use the specified gold color
-                />
-              </CloudSVG>
-              {/* Second Cloud */}
-              <CloudSVG
-                viewBox="0 0 220 130" // Adjust viewBox for a larger cloud
-                style={{
-                  top: '60%', // Position the second cloud slightly lower
-                  left: '100%', // Position the second cloud slightly to the right
-                  transform: 'translate(-50%, -50%)', // Center it
-                }}
-              >
-                <path
-                  d="M55 100C35 100 25 90 20 80C15 75 10 70 10 60C10 50 20 45 25 50C20 45 20 40 30 35C30 30 40 30 45 35C50 30 60 30 65 40C70 35 80 30 85 30C90 30 100 40 100 45C100 50 90 55 85 55C90 60 100 70 85 80C70 90 55 100 55 100Z"
-                  fill="var(--gold)" // Use the specified gold color
-                />
-              </CloudSVG> {/* Add the cloud SVG here */}
-              <TimelineLeft />
+            <TimelineLeftWrap >
+              <Shadow className="hidden lg:block newglow left-[-200px] z-0 top-0"> </Shadow>
+              <TimelineLeft bg={data.left}/>
               
             </TimelineLeftWrap>
           )}
@@ -345,7 +290,7 @@ export default function TimeLine({actor}) {
                   <Check>
                     <FaCheck />
                   </Check>
-                  <P>{des+"."}</P>
+                  <P><ReactMarkdown>{des+"."}</ReactMarkdown></P>
                 </TimelineItemCheck>
               ))}
             </TimelineItem>

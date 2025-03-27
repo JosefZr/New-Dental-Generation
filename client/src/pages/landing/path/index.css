@@ -1,0 +1,18 @@
+/* Add this to your CSS files or include it in your styled-components */
+@keyframes pulse-glow {
+    0% {
+      opacity: 0.1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+    100% {
+      opacity: 0.1;
+    }
+  }
+  
+  .cta-premium-card:hover .glow-effect {
+    animation: pulse-glow 2s infinite;
+  }
+  
+  

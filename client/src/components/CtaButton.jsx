@@ -6,7 +6,6 @@ import { size } from "@/lib/mediaQuerys";
 
 const ButtonWrap = styled.div`
   z-index: 5;
-  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,14 +82,14 @@ const StyledButton = styled.button`
     }
 `;
 
-export default function CtaButton({ withSubscribers = "false" }) {
+export default function CtaButton({content, withSubscribers = "false" }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
     <ButtonWrap>
       <StyledButton onClick={() => navigate("/sign-up")}>
-        { t('cta') }
+        {content? content: t('cta') }
       </StyledButton>
       {withSubscribers === "true" && <Subscribers />}
     </ButtonWrap>

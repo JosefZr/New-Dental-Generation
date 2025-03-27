@@ -31,7 +31,7 @@ export default {
 				'my-beige': 'var(--beige)',
 				'my-Modal-back':'var(--back-modal)',
 				'my-sideBar':'var(--sidebar)',
-				'my-red':'var(--red)',
+				'my-red':'var(--redClaire)',
 				'my-vertRolex':'var(--vertRolex)',
 				'my-goldRolex':'var(--goldRolex)',
 

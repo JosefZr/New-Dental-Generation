@@ -160,8 +160,8 @@ export default function LeadsModal() {
             }
           };
     return (
-    <Dialog open={isModalOpen} onOpenChange={onClose}>
-        <DialogContent className="bg-black border-my-black max-w-md text-center" 
+    <Dialog open={isModalOpen} onOpenChange={onClose} >
+        <DialogContent className="bg-black border-my-black max-w-md text-center z-50" 
         style={{
         margin:"auto",
         display:'grid',
@@ -172,7 +172,8 @@ export default function LeadsModal() {
         borderRadius:"0",
         maxHeight:"100%",
         overflow:"scroll",
-        scrollbarWidth:"none"
+        scrollbarWidth:"none",
+        zIndex: "1000"
         }}>
         <div 
         style={{

@@ -2,9 +2,6 @@
 import { Routes, Route } from "react-router-dom";
 import {
   Chat,
-  DentalLab,
-  DentalStore,
-  Dentist,
   Intro,
   Login,
   Signup,
@@ -28,8 +25,9 @@ import ResetPassword from "./pages/ResetPassword";
 import SignupAdmins from "./pages/SignupAmins";
 import Quotes from "./pages/Quotes";
 import FreeAnalyses from "./pages/FreeAnalyses";
-import Terms from "./pages/Terms";
+// import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
+import Landing from "./pages/landing";
 
 export default function App() {
   return (
@@ -63,10 +61,7 @@ export default function App() {
         </Route>
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/" element={<Intro />} />
-        <Route path="/dentist" element={<Dentist />} />
-        <Route path="/dental-lab" element={<DentalLab />} />
-        <Route path="/dental-store" element={<DentalStore />} />
-        <Route path="/terms" element={<Terms />} />
+        <Route path="/:name" element={<Landing />} />
         <Route path="/privacy" element={<Privacy />} />
 
         <Route path="/sign-up" element={<Signup />} />

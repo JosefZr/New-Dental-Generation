@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'Doawnloawd';
+    src: url('../font/SFPRODISPLAYREGULAR.OTF') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap; /* Optional: improves performance */
+  }
+  @font-face {
+    font-family: 'cg';
+    src: url('../font/SFPRODISPLAYBOLD.OTF') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap; /* Optional: improves performance */
+  }

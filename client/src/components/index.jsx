@@ -12,10 +12,8 @@ import TimeLineSection from "./TimeLineSection";
 import Cadre from "./Cadre";
 import CtaPreniumCard from "./CtaPreniumCard";
 import Vs from "./Vs";
-import CtaHeaders from "./CtaHeaders";
 import CtaBasicCard from "./CtaBasic";
 import EmployeeBtn from "./EmployeeBtn";
-import Path from "./Path";
 import FinalSection from "./FinalSection";
 import Footer from "./Footer";
 import Faq from "./Faq";
@@ -38,10 +36,8 @@ export  {
     Cadre,
     CtaPreniumCard,
     Vs,
-    CtaHeaders,
     CtaBasicCard,
     EmployeeBtn,
-    Path,
     FinalSection,
     Footer,
     Faq,

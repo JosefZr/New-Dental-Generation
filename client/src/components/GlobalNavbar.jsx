@@ -5,7 +5,6 @@ import LanguageSwitcher from './LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import { IoLogoBitcoin } from 'react-icons/io';
 import { GiEarthAmerica } from 'react-icons/gi';
 
 const dropDown = keyframes`
@@ -87,7 +86,7 @@ const MenuItem = styled.div`
 const Boss = styled.div`
   z-index: 999;
   cursor: pointer;
-  color: var(--gold);
+  color: var(--redClaire);
   border: 1px solid #00000018;
   padding: .4rem;
   font-size: .88rem;
@@ -225,20 +224,20 @@ export default function GlobalNavbar() {
             <Content>
               <div onClick={toggleMenu} className="group cursor-pointer">
                 <Boss>
-                  <div className="w-10 h-5 flex flex-col items-center justify-center">
+                  <div className="w-10 h-5 flex flex-col items-center justify-center text-my-red">
                     {/* Menu Icon */}
                     <div
-                      className={`w-[50%] h-[2px] bg-my-gold rounded-sm transition-all duration-300 origin-left translate-y-[0.45rem] ${
+                      className={`w-[50%] h-[2px] bg-my-red rounded-sm transition-all duration-300 origin-left translate-y-[0.45rem] ${
                         isLeftMenuOpen ? "rotate-[-45deg]" : ""
                       }`}
                     />
                     <div
-                      className={`w-[50%] h-[2px] bg-my-gold rounded-md transition-all duration-300 origin-center ${
+                      className={`w-[50%] h-[2px] bg-my-red rounded-md transition-all duration-300 origin-center ${
                         isLeftMenuOpen ? "hidden" : ""
                       }`}
                     />
                     <div
-                      className={`w-[50%] h-[2px] bg-my-gold rounded-md transition-all duration-300 origin-left -translate-y-[0.45rem] ${
+                      className={`w-[50%] h-[2px] bg-my-red rounded-md transition-all duration-300 origin-left -translate-y-[0.45rem] ${
                         isLeftMenuOpen ? "rotate-[45deg]" : ""
                       }`}
                     />
