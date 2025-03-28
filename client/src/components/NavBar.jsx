@@ -124,7 +124,7 @@ const LoginButton = styled.a`
   &:hover {
     opacity: 1;
     color: var(--white);
-    background-color: var(--gold);
+    background-color: var(--redClaire);
   }
 `;
 
@@ -212,7 +212,7 @@ export default function NavBar() {
             <PaddingGlobal>
                 <div className="container-large">
                 <Content>
-                    <button >
+                    {/* <button >
                       <NavLeft>
                         <Boss  rel="noopener noreferrer" onClick={handleDropdownClick}>
                             <img 
@@ -223,15 +223,15 @@ export default function NavBar() {
                             />
                         </Boss>
                       </NavLeft>
-                    </button>
+                    </button> */}
                     <NavRight>
                     <LoginButton className='uppercase' onClick={handleLogin}>
                       <div>{t('login')}</div>
                     </LoginButton>
                     </NavRight>
-                    <NavCenter>
+                    {/* <NavCenter>
                     <LanguageSwitcher intro ="intro"/>
-                    </NavCenter>
+                    </NavCenter> */}
                 </Content>
                 </div>
             </PaddingGlobal>

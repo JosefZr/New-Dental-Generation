@@ -3,9 +3,9 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { MdPhonelink } from "react-icons/md";
 const Wrap = styled.div`
-  width: 100%;
   margin-top: 1rem;
   overflow: visible;
+  margin: 0 auto;
 
   &.reveal-up {
     opacity: 0; /* Initially hidden */
@@ -20,10 +20,10 @@ const Wrap = styled.div`
 export default function Cadre({actor}) {
   const {t}= useTranslation()
   // Hook to trigger the animation
-  useReveal('up');
+  useReveal('vertical');
 
   return (
-    <Wrap className="reveal-up">
+    <Wrap className="reveal-vertical">
       <div className="outer">
         <div className="dot"></div>
         <div className="card">

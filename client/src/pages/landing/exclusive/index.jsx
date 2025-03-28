@@ -9,6 +9,7 @@ import ReactMarkdown from 'react-markdown';
 import { size } from "@/lib/mediaQuerys"
 import { CtaButton } from "@/components"
 import useReveal from "@/hooks/useReveal"
+import { useParams } from "react-router-dom"
 
 const H3 = styled.h3`
   font-size: 12px;
@@ -65,8 +66,15 @@ const Description = styled.div`
         padding: 12px 30px;
 }
 `
+
+
 const Title= styled.div`
 font-size: 22px;
+grid-column-gap: 0.5rem;
+  grid-row-gap: 0.5rem;
+  flex-direction: row;
+  align-items: center;
+  display: flex;
     font-weight: 600;
     line-height: 23px;
     margin: 20px 0 16px;
@@ -105,6 +113,25 @@ display: flex;
     min-height: 18rem;
   }
 `
+const P = styled.div`
+  color: #ffffffb2;
+  margin-bottom: 0;
+  line-height: 1.6;
+  font-family: 'Doawnloawd', sans-serif;
+  /* Style for HTML strong tags */
+  strong {
+    color: white;
+    font-weight: 600;
+  }
+`;
+const Logo = styled.div`
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 4px;
+  display: flex;
+`;
+
 export const GetTimelineData = (actor) => {
     const { t } = useTranslation();
   
@@ -145,40 +172,28 @@ export const GetTimelineData = (actor) => {
     } else {
       return [
         {
-          logo: <FaRegChessQueen className="h-10 w-12" />,
-          left: "/images/5.svg",
-          title: t(`${actor}.services.content.opportunity.title`),
-          descriptions: transformDescriptionToTable(t(`${actor}.services.content.opportunity.description`)),
-        },
-        {
-          logo: <FaMoneyBillTrendUp className="h-10 w-12" />,
-          left: "/images/6.svg",
-          title: t(`${actor}.services.content.growth.title`),
-          descriptions: transformDescriptionToTable(t(`${actor}.services.content.growth.description`)),
+          logo: <LiaUniversitySolid className="h-10 w-12" />,
+          left: "/images/4.webp",
+          title: t(`${actor}.services.content.courses.title`),
+          descriptions: transformDescriptionToTable(t(`${actor}.services.content.courses.description`)),
         },
         {
           logo: <GiTakeMyMoney className="h-10 w-12" />,
-          left: "/images/3.svg",
+          left: "/images/3.webp",
           title: t(`${actor}.services.content.finance.title`),
           descriptions: transformDescriptionToTable(t(`${actor}.services.content.finance.description`)),
         },
         {
           logo: <FaRegChessKnight className="h-10 w-12" />,
-          left: "/images/2.svg",
+          left: "/images/2.webp",
           title: t(`${actor}.services.content.plan.title`),
           descriptions: transformDescriptionToTable(t(`${actor}.services.content.plan.description`)),
         },
         {
-          logo: <FaUsers className="h-10 w-12" />,
-          left: "/images/1.svg",
-          title: t(`${actor}.services.content.private.title`),
-          descriptions: transformDescriptionToTable(t(`${actor}.services.content.private.description`)),
-        },
-        {
-          logo: <LiaUniversitySolid className="h-10 w-12" />,
-          left: "/images/4.svg",
-          title: t(`${actor}.services.content.courses.title`),
-          descriptions: transformDescriptionToTable(t(`${actor}.services.content.courses.description`)),
+          logo: <FaMoneyBillTrendUp className="h-10 w-12" />,
+          left: "/images/6.webp",
+          title: t(`${actor}.services.content.growth.title`),
+          descriptions: transformDescriptionToTable(t(`${actor}.services.content.growth.description`)),
         },
       ];
     }
@@ -188,9 +203,10 @@ export const GetTimelineData = (actor) => {
 export default function Exclusive({actor}) {
   useReveal('vertical');
   useReveal('horizontal');
+  const params = useParams()
     const timeline =GetTimelineData(actor)
   return (
-    <section className="w-full relative  lg:mt-0 mb-[80px] lg:mb-[126px] z-20 ">
+    <section className="w-full relative py-10 lg:mt-0 mb-[80px] lg:mb-[126px] z-20 ">
         <div className="z-10  px-4" style={{position:"relative"}}>
             <H3 className="uppercase text-center text-[16px] mb-2 hidden lg:block reveal-vertical">EXCLUSIVE FEATURES</H3>
             <div className="flex flex-col lg:flex-row items-center justify-center gap-2 lg:gap-4">
@@ -209,11 +225,14 @@ export default function Exclusive({actor}) {
                         </div>
                     </figure>
                     <div className="flex flex-col gap-2 py-4 lg:py-8 lg:pl-8 lg:pr-10">
-                        <Title className="title pl-4 lg:pl-0">{data.title}</Title>
+                        <Title className="title pl-4 lg:pl-0">
+                        <Logo>{data.logo}</Logo>
+                        {data.title}
+                        </Title>
                         {data.descriptions.map((des, i)=>(
                             <Description key={i} className="description group-hover:bg-[#ffffff29] transition-all duration-500">
                                 <img alt="Checkmark" loading="lazy" width="32" height="32" decoding="async" data-nimg="1" className="pr-2" src="https://www.jointherealworld.com/check.svg" style={{color:"transparent"}}/>
-                                <span ><ReactMarkdown>{des+"."}</ReactMarkdown></span>
+                                <P ><ReactMarkdown>{des+"."}</ReactMarkdown></P>
                             </Description>
                         ))
                         }
@@ -224,9 +243,17 @@ export default function Exclusive({actor}) {
             }
             </>
         </div>
-            <div className="pt-10">
-            <CtaButton className="mt-10" content="Our_Dentists_Are_Winning!"/>
-            </div>
+            {params.name==="dentist" ?<div className="pt-10">
+              <CtaButton className="mt-10" content="Our_Dentists_Are_Winning!"/>
+            </div>:(
+              <div className="relative my-10">
+                <p className="text-white/50 small text-[48px]"style={{lineClamp:"18px"}}>Contact Me Now!</p>
+
+                <a href="mailto:support@buildydn.com">
+                  <p className="hover:underline text-[38px] hover:text-my-red transition-all"style={{lineClamp:"18px"}}>dr.truth@buildydn.com</p>
+                </a>
+              </div>
+            )}
     </section>
   )
 }

@@ -23,19 +23,19 @@ export const GetTimelineData = ( actor) => {
     return [
       {
         logo: <TbSettingsDollar className="h-10 w-12" />,
-        left: "/images/7.svg",
+        left: "/images/7.webp",
         title: t(`${actor}.services.content.manage.title`),
         descriptions: transformDescriptionToTable(t(`${actor}.services.content.manage.description`)),
       },
       {
         logo: <GoGoal className="h-10 w-12" />,
-        left: "/images/9.svg",
+        left: "/images/9.webp",
         title: t(`${actor}.services.content.cheat.title`),
         descriptions: transformDescriptionToTable(t(`${actor}.services.content.cheat.description`)),
       },
       {
         logo: <FaUsers className="h-10 w-12" />,
-        left: "/images/8.svg",
+        left: "/images/8.webp",
         title: t(`${actor}.services.content.network.title`),
         descriptions: transformDescriptionToTable(t(`${actor}.services.content.network.description`)),
       },
@@ -97,7 +97,7 @@ const TimelineLeftWrap = styled.div`
   align-items: center;
   width: 100%;
   max-width: 36.25rem;
-  margin-top:4rem;
+  margin-top:2rem;
   height: 22rem;
   display: flex;
   position: relative;
@@ -274,15 +274,13 @@ export default function TimeLine({actor}) {
             <TimelineLeftWrap >
               <Shadow className="hidden lg:block newglow left-[-200px] z-0 top-0"> </Shadow>
               <TimelineLeft bg={data.left}/>
-              
             </TimelineLeftWrap>
           )}
-
           <TimelineRightWrap>
             <TimelineContent>
-            <Title>
+            <Title className="reveal-horizontal-left">
               <Logo>{data.logo}</Logo>
-              <H3 className="reveal-horizontal-left">{data.title}</H3>
+              <H3 >{data.title}</H3>
             </Title>
             <TimelineItem>
               {data.descriptions.map((des, i) => (

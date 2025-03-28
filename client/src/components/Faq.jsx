@@ -108,7 +108,7 @@ export default function Faq() {
   const faqs = t("faq", { returnObjects: true })
 
   return (
-    <FaqSection className="w-full py-16">
+    <FaqSection className="w-full py-4">
       <div className="z-10 flex flex-col items-center px-4 " style={{ position: "relative" }}>
         <H3 className="uppercase text-center pb-4 reveal-vertical">STILL THINKING?</H3>
         <h2 className="text-center mb-8 uppercase reveal-horizontal-right">
@@ -165,10 +165,52 @@ export default function Faq() {
                 </div>
               </FaqItem>
             ))}
+              <FaqItem
+                className="group"
+              >
+                <summary>
+                  <QuestionText>Still have questions?</QuestionText>
+                  <span className="relative size-5 shrink-0">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="absolute inset-0 size-5 opacity-100 group-open:opacity-0 transition-opacity duration-200"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="absolute inset-0 size-5 opacity-0 group-open:opacity-100 transition-opacity duration-200"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                  </span>
+                </summary>
+                <div className="faq-content">
+                  <p className="leading-relaxed text-gray-200">Contact
+                  <a href="mailto:support@buildydn.com" className="text-my-red cursor-pointer"> support@buildydn.com</a>
+                  </p>
+                </div>
+              </FaqItem>
           </div>
         </FaqContainer>
       </div>
-     <div className="flex mx-auto justify-center mt-8"><CtaButton/></div>
+    <div className="flex mx-auto justify-center mt-8"><CtaButton/></div>
     </FaqSection>
   )
 }

@@ -30,7 +30,8 @@ export const MODAL_TYPE = {
     EXTEND_SUBSCRIPTION:"extendSubscription",
     DELETE_MESSAGE:"deleteMessage",
     LOGOUT_MODAL:"logoutModal",
-    LEADS_MODAL:"leadsModal"
+    LEADS_MODAL:"leadsModal",
+    WAITLIST_MODAL:"waitListModal"
   };
 
 export const useModal = create((set)=>({

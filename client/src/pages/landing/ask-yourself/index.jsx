@@ -8,9 +8,9 @@ const H2 = styled.h2`
   font-size: 28px;
   line-height: 28px;
   @media screen and (min-width: 1024px) {
-    font-size: 55.5px;
+    font-size: 33.5px;
     font-weight: 600;
-    line-height: 56px;
+    line-height: 30px;
   }
 `
 
@@ -128,12 +128,12 @@ export default function AskYourself() {
   return (
     <section className="w-full my-[20px] text-white" style={{ position: "relative" }}>
       <div>
-        <Wrapper className="">
+        <Wrapper >
           {/* Mobile Image and Video */}
           <div className="lg:hidden">
             {/* Mobile Image */}
             <figure className="lg:hidden w-full  top-0 left-0 z-0 opacity-50" style={{position:"absolute"}}>
-              <img alt="Ask Yourself" loading="lazy" width="934" height="745" decoding="async" data-nimg="1" className="w-full opacity-35 lg:opacity-100 relative z-0"  src="/YDN Hall of Fame.svg" style={{color:"transparent"}}></img>
+              <img alt="Ask Yourself" loading="lazy" width="934" height="745" decoding="async" data-nimg="1" className="w-full opacity-35 lg:opacity-100 relative z-0"  src="/YDN Hall of Fame.webp" style={{color:"transparent"}}></img>
               <div className="left-fade-b pointer-events-none"></div>
               <div className="right-fade-b pointer-events-none"></div>
               <div className="bottom-fade-b pointer-events-none"></div>
@@ -158,15 +158,15 @@ export default function AskYourself() {
             </H2>
             <div className="reveal-horizontal-right flex">
               <Paragraph className="max-w-[554px] text-left">
-                Running a successful clinic is a <strong className="text-white font-medium">skill</strong>. Just like dentistry itself.<strong className="text-white font-medium">It can be learned.</strong>  And how fast you
+                Running a successful clinic is a <strong className="text-white font-medium">skill</strong>. Just like dentistry itself.<strong className="text-white font-medium"><br />It can be learned.</strong>  And how fast you
                 learn depends on:
                 <br />
                 <br />
-                • The <strong className="text-white font-medium">effort</strong> you put in<br />
-                • The <strong className="text-white font-medium">mentors</strong> you learn from<br />
-                • The <strong className="text-white font-medium">environment</strong> you&apos;re surrounded by
+                • The <strong className="text-white font-medium">effort</strong> you put in.<br />
+                • The <strong className="text-white font-medium">mentors</strong> you learn from.<br />
+                • The <strong className="text-white font-medium">environment</strong> you&apos;re surrounded by.
                 <br /><br />
-                At Your Dental Network, you&apos;re not just learning theory. <strong className="text-white font-medium">You’re learning real, proven strategies from top-performing dentists</strong>
+                At Your Dental Network, you&apos;re not just learning theory. <strong className="text-white font-medium"><br />You’re learning real, proven strategies from top dentists.</strong>
                 <br /><br />
                 They know what works. They know what doesn’t. And they’re the first to implement new
                 disruptive strategies that take clinics to the next level.
@@ -182,7 +182,7 @@ export default function AskYourself() {
 
           {/* Desktop Video */}
           <div style={{ position: "relative" }} className="reveal-horizontal-right hidden lg:block">
-          <img alt="Ask Yourself" loading="lazy" width="934" height="745" decoding="async" data-nimg="1" src="/YDN Hall of Fame.svg" className="w-full opacity-35 lg:opacity-100 relative z-0" style={{color:"transparent"}}/>
+          <img alt="Ask Yourself" loading="lazy" width="934" height="745" decoding="async" data-nimg="1" src="/YDN Hall of Fame.webp" className="w-full opacity-35 lg:opacity-100 relative z-0" style={{color:"transparent"}}/>
               <div className="left-fade-b pointer-events-none"></div>
               <div className="right-fade-b pointer-events-none"></div>
               <div className="bottom-fade-b pointer-events-none"></div>

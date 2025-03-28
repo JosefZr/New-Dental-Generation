@@ -193,66 +193,13 @@ export default function Headers() {
             <DialogTrigger className=" w-full"><Plus/></DialogTrigger>
             <DialogContent className="bg-black border-my-gray max-w-[60%] max-h-[90vh] overflow-y-auto max-lg:max-w-[75%] max-md:max-w-[85%] max-sm:max-w-[95%] max-xs:max-w-[98%] p-4 max-sm:p-3 max-xs:p-2">
           <Content>
-            <Title className="flex flex-row justify-center items-center gap-1 flex-wrap">
-              <TiWarningOutline className="max-sm:text-sm" />
-              <span>BRAND-NEW FEATURE</span>
-              <TiWarningOutline className="max-sm:text-sm" />
-            </Title>
-            <Subtitle className="underline">
-              CLINIC-MANAGEMENT SYSTEM
-              <br />
-            </Subtitle>
-            <Title className="flex flex-row justify-center items-center gap-1 flex-wrap">
-              <FaRegHandPointRight className="text-my-goldRolex mr-2 max-sm:mr-1 max-sm:text-sm" />
-              <span>YOUR DENTAL ASSISTANT</span>
-              <div className="text-my-white text-xs italic font-normal">( BETA VERSION )</div>
-            </Title>
-            <Description className="font-bold">
-              Finally, a system that keeps your clinic running like a well-oiled machine.
-            </Description>
-            <FeatureList>
-              <FeatureItem>
-                <MdDone className="text-2xl text-my-vertRolex min-w-[1.5rem] max-sm:text-xl" />
-                <div>
-                  <span className="text-my-vertRolex">Schedule patients</span> &{" "}
-                  <span className="underline">track</span>{" "}
-                  <span className="font-bold">appointments, cancellations, and no-shows.</span>
-                </div>
-              </FeatureItem>
-              <FeatureItem>
-                <MdDone className="text-2xl text-my-vertRolex min-w-[1.5rem] max-sm:text-xl" />
-                <div>
-                  <span className="text-my-vertRolex"> Store patient records </span>– Dental history, treatment plans,
-                  X-rays, and notes —<span className="font-bold">all in one place.</span>
-                </div>
-              </FeatureItem>
-              <FeatureItem>
-                <MdDone className="text-2xl text-my-vertRolex min-w-[1.5rem] max-sm:text-xl" />
-                <div>
-                  <span className="text-my-vertRolex">Track dental supply expenses, lab fees, and payroll</span> so you
-                  know exactly where your money is going.
-                </div>
-              </FeatureItem>
-              <FeatureItem>
-                <MdDone className="text-2xl text-my-vertRolex min-w-[1.5rem] max-sm:text-xl" />
-                <div>
-                  <span className="text-my-vertRolex"> Staff Management</span> – Register and organize your{" "}
-                  <span className="font-bold">team&apos;s schedules, tasks, and responsibilities.</span>
-                </div>
-              </FeatureItem>
-            </FeatureList>
-            <Description>
-              <span className="text-my-vertRolex text-xl font-semibold max-sm:text-lg">⍟ Know Your Numbers</span> <br />
-              <span className="text-my-goldRolex text-xl font-semibold max-sm:text-lg">
-                Monitor patient flow, financial health, and clinic performance.
-              </span>
-            </Description>
+          <img src="/NEw.webp" alt="new loading" loading="lazy"/>
           </Content>
           <div className="mt-4 max-sm:mt-2">
             <CtaButton cta={true} />
           </div>
         </DialogContent>
-                        </Dialog>
+        </Dialog>
         </HeaderSection>
     )
 }

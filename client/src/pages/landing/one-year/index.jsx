@@ -178,21 +178,17 @@ export default function OneYear() {
             </H2>
             <div className="reveal-horizontal-right flex">
               <Paragraph className="text-center lg:text-left text-pretty">
-                You can get rich with just one year of focus...
+                  Success isn’t a matter of luck, it’s about using the right strategies.
                 <br />
                 <br />
-                <strong className="text-white font-medium">But only</strong> if you use the right strategies.
+                <strong className="text-white font-medium">Inside</strong> Your Dental Network, you’ll get access to exclusive rooms that lay out a step-by-step blueprint to grow your practice, increase profitability, and stay ahead of the competition.
                 <br />
                 <br />
-                Inside Your Dental Network, you get access to exclusive rooms that give you a step-by-step path to
-                achieve your goals faster than ever.
-                <br />
-                <br />
-                The sooner you start, the faster you grow
+                The sooner you start, the faster you scale.
               </Paragraph>
             </div>
             <div className="flex mt-8 w-full justify-center lg:justify-start">
-              <CtaButton content="TAKE_ACTION_NOW" />
+              <CtaButton content="Your future self will thank you." />
             </div>
           </div>
 

@@ -70,7 +70,7 @@ const SubParagraph = styled(Link)` // Use Link instead of button
 
     cursor: pointer; // Add cursor style here
     &:hover {
-      color: gold; // Change text color on hover
+      color: var(--redClaire); // Change text color on hover
       background-color: #c2c2c22b;
     }
     @media screen and(max-width: ${size.laptopL}) {

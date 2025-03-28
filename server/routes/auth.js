@@ -109,16 +109,16 @@ router.post("/forgot", async(req,res)=>{
     var transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'zeraibiredha@gmail.com',
-        pass: 'dwkk pxti qfdq jlxn'
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD
       }
     });
     
     var mailOptions = {
-      from: 'zeraibiredha@gmail.com',
+      from: process.env.EMAIL_USER,
       to:email,
       subject: 'reset your email',
-      text: `https://www.buildydn.com/#/reset-password/${token}`
+      text: `${process.env.CLIENT_URL}/#/reset-password/${token}`
     };
     
     transporter.sendMail(mailOptions, function(error, info){
@@ -329,10 +329,10 @@ router.post("/upload/proffession", uploadPro.single("image"), (req, res) => {
 });
 router.post("/leads", async (req, res) => {
   try {
-    const { email } = req.body;
+    const { email,type } = req.body;
     
     // Validate email exists
-    if (!email) {
+    if (!email || !type) {
       return res.status(400).json({ // Changed from 401 to 400
         success: false, 
         message: "Email is required"
@@ -348,8 +348,158 @@ router.post("/leads", async (req, res) => {
     }
 
     // Create new email document
-    const newEmail = await Email.create({ email });
-    
+    const newEmail = await Email.create({ email:email, type:type });
+     // Set up email transporter (reuse your existing config)
+     const transporter = nodemailer.createTransport({
+      host: 'smtp.zoho.eu',
+      port: 465,
+      secure: true, // true for 465, false for 587
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD
+      },
+      tls: {
+        ciphers: 'SSLv3', // Force older cipher if needed
+        rejectUnauthorized: false // Temporarily for testing
+      }
+    });
+    // Prepare email content
+    const firstName = data.fullName?.split(' ')[0] || 'there';
+    const mailOptions = {
+      from: 'dr.truth@buildydn.com',
+      to: data.email,
+      subject: "Here's Your Secret Weapon 🦷",
+      html: `
+        <p>Hi ${firstName},</p>
+        
+        <p>Your Dentist's Secret Weapon is ready!</p>
+        
+        <p>
+          <a href="https://drive.google.com/uc?export=download&id=1q9FCxsqiJ3LQtYdTBl1Sm4eP-59enVlY">
+            Click here to access the guide.
+          </a>
+        </p>
+        
+        <p>Take your first step toward a smarter, more profitable practice.</p>
+        
+        <p>To your success,<br>
+        Dr. Truth<br>
+        Your Dental Network</p>
+        
+        <p><small>P.S. Want to see how we can help you implement these strategies? Join YDN and see yourself.</small></p>
+      `
+    };
+    // Schedule email to be sent after 5 minutes (300,000 milliseconds)
+    setTimeout(() => {
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error('Error sending delayed email:', error);
+        } else {
+          console.log('Delayed email sent:', info.response);
+        }
+      });
+    }, 5 * 60 * 1000); // 5 minutes delay
+
+    return res.status(201).json({
+      success: true,
+      message: 'Email saved successfully',
+      data: newEmail
+    });
+  } catch (error) {
+    if (error.code === 11000) { // MongoDB duplicate key error
+      return res.status(409).json({
+        success: false,
+        message: 'Email already exists'
+      });
+    }
+    console.error("Lead submission error:", error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: error.message
+    });
+  }
+});
+router.post("/waitlist", async (req, res) => {
+  const data = req.body;
+  console.log(data)
+  try {
+
+    // Validate email exists
+    if (!data) {
+      return res.status(400).json({ // Changed from 401 to 400
+        success: false, 
+        message: "Email is required"
+      });
+    }
+
+    // Validate email format
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid email format"
+      });
+    }
+
+    // Create new email document
+    const newEmail = await Email.create({ 
+      name:data.fullName,
+      location:data.location,
+      email:data.email,
+      number:data.whatsapp,
+      reason:data.why,
+      type:data.type
+    });
+    // Set up email transporter (reuse your existing config)
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.zoho.eu',
+      port: 465,
+      secure: true, // true for 465, false for 587
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD
+      },
+      tls: {
+        ciphers: 'SSLv3', // Force older cipher if needed
+        rejectUnauthorized: false // Temporarily for testing
+      }
+    });
+    // Prepare email content
+    const firstName = data.fullName?.split(' ')[0] || 'there';
+    const mailOptions = {
+      from: 'dr.truth@buildydn.com',
+      to: data.email,
+      subject: "Here's Your Secret Weapon 🦷",
+      html: `
+        <p>Hi ${firstName},</p>
+        
+        <p>Your Dentist's Secret Weapon is ready!</p>
+        
+        <p>
+          <a href="https://drive.google.com/uc?export=download&id=1q9FCxsqiJ3LQtYdTBl1Sm4eP-59enVlY">
+            Click here to access the guide.
+          </a>
+        </p>
+        
+        <p>Take your first step toward a smarter, more profitable practice.</p>
+        
+        <p>To your success,<br>
+        Dr. Truth<br>
+        Your Dental Network</p>
+        
+        <p><small>P.S. Want to see how we can help you implement these strategies? Join YDN and see yourself.</small></p>
+      `
+    };
+    // Schedule email to be sent after 5 minutes (300,000 milliseconds)
+    setTimeout(() => {
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error('Error sending delayed email:', error);
+        } else {
+          console.log('Delayed email sent:', info.response);
+        }
+      });
+    }, 5 * 60 * 1000); // 5 minutes delay
     return res.status(201).json({
       success: true,
       message: 'Email saved successfully',

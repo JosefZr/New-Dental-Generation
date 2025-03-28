@@ -13,10 +13,12 @@ import { UserChatProvider } from "./context/ToChatUser.jsx";
 import SunnahProvider from "./context/sunnahContext.jsx";
 const queryClient = new QueryClient();
 import * as PusherPushNotifications from "@pusher/push-notifications-web";
-
+import { HelmetProvider } from 'react-helmet-async';
 createRoot(document.getElementById("root")).render(
   <QueryClientProvider client={queryClient}>
     <StrictMode>
+    <HelmetProvider>
+
       <BrowserRouter>
         <InstructorProvider>
           <CourseProvider>
@@ -44,8 +46,9 @@ createRoot(document.getElementById("root")).render(
               }}
             />
             <ModalProvider>
+            
               <App />
-              
+            
             </ModalProvider>
             </SunnahProvider>
             </UserChatProvider>
@@ -53,6 +56,7 @@ createRoot(document.getElementById("root")).render(
           </CourseProvider>
         </InstructorProvider>
       </BrowserRouter>
+      </HelmetProvider>
     </StrictMode>
   </QueryClientProvider>
 );

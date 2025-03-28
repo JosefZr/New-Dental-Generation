@@ -4,7 +4,6 @@ import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { TimeLineSection } from "@/components";
-import { PathStore } from "@/components";
 import { FinalSection } from "@/components";
 import { Faq } from "@/components";
 import { Footer } from "@/components";
@@ -12,6 +11,7 @@ import OneYear from "./one-year";
 import AskYourself from "./ask-yourself";
 import Exclusive from "./exclusive";
 import Path from "./path";
+import { Seo } from "@/components/Seo";
 
 
 export default function Landing() {
@@ -36,20 +36,29 @@ export default function Landing() {
         }, []);
     
     return (
-    <div className="scrollbar-custom overflow-x-hidden zoom-in-0 bg-[#02040e]">
-        <GlobalNavbar />
+    <>
+        <Seo 
+            title="Your Dental Network - Transform Your Practice"
+            description="Join thousands of dentists revolutionizing their practices with YDN"
+            keywords="dental network, dentist community, practice growth, your dental network"
+        />
+        <div className="scrollbar-custom overflow-x-hidden zoom-in-0 bg-[#02040e]">
+        {params.name ==="dentist"&&<GlobalNavbar />}
         <Hero actor={params.name} />
-        <TimeLineSection actor={params.name} />
-        <OneYear actor={params.name}/>
+        {params.name==="dentist" &&<TimeLineSection actor={params.name} />}
+        {params.name==="dentist" &&<OneYear actor={params.name}/>}
         <Exclusive actor={params.name}/>
-        <AskYourself actor={params.name}/>
-
-        {(params.name === "lab"|| params.name === "store" )?
-            <PathStore actor={params.name}/>:<Path actor={params.name} />
-        }
-        <FinalSection actor={params.name}/>
-        <Faq />
-        <Footer />
+        {params.name==="dentist" && (
+            <>
+                <AskYourself actor={params.name}/>
+                <Path actor={params.name} />
+                <FinalSection actor={params.name}/>
+                <Faq />
+                <Footer />
+            </>
+        )}
     </div>
+    </>
+ 
   )
 }

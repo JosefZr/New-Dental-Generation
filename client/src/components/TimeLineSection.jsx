@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
 const SectionTimeLine = styled.section`
-    background-image: url("https://www.jointherealworld.com/revamp/images/cubes-bg.svg");
+    background-image:url("/backs/squar.webp");
     background-position: 50%;
     background-repeat: no-repeat;
     background-size: cover;
@@ -110,7 +110,7 @@ export default function TimeLineSection({actor}) {
   useReveal('horizontal');
 
   return (
-    <SectionTimeLine>
+    <SectionTimeLine >
           <div className="padding-global " >
             <div className="container-large" >
               <div className="max-sm:w-layout-vflex max-sm:vflex-center-8 items-center text-center ">
@@ -121,10 +121,8 @@ export default function TimeLineSection({actor}) {
             </div>
           </div>
           <TimeLine actor={actor}/>
-          <CtaButton className="mt-10" content="JOIN_YDN & SCALE_NOW"/>
+          <div className="pt-10"><CtaButton  content="JOIN_YDN & SCALE_NOW"/></div>
           <Headers/>
-
-
           {/* <MidleInside>
             <MiddleSicle>
               <IconCercel>

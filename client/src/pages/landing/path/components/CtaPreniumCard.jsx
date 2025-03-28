@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next"
 import { GiLaurelCrown } from "react-icons/gi"
 import "../../exclusive/index.css"
 import "../index.css"
+import { RiMoneyDollarCircleLine } from "react-icons/ri"
+
 export const GetChecks = (actor) => {
   const { t } = useTranslation()
 
@@ -21,7 +23,7 @@ export const GetChecks = (actor) => {
 
 const Cta = styled.div`
     width: 100%;
-    max-width: 500px;
+    max-width: 450px;
     background: url(https://www.jointherealworld.com/card1.png);
     background-position: 50%;
     padding: 31px;
@@ -33,13 +35,15 @@ const Cta = styled.div`
     overflow: hidden;
     border-radius: 12px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
     
-    @media screen and (min-width: 1024px) {
-        min-height: 856px;
+    @media screen and (max-width: 1024px) {
+        margin-top: 20px;
+        width: 100%;
     }
     
-    &:last-child {
-      background-image: url(https://www.jointherealworld.com/card2.png);
+    @media screen and (min-width: 1024px) {
+        min-height: 756px;
     }
     
     &:hover {
@@ -62,13 +66,9 @@ const IconImbedCustom = styled.div`
 
 const SVGPrice = styled.div`
   flex-direction: row;
-  -webkit-text-fill-color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
-  background-image: linear-gradient(126deg, #ff6161, var(--redClaire));
   justify-content: flex-start;
   align-items: center;
-  width: 100%;
+  width: 75%;
   gap: .3rem;
   height: 1.25rem;
   display: flex;
@@ -86,15 +86,34 @@ const SVGPrice = styled.div`
   }
 `
 
+const GradientText = styled.h3`
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-image: linear-gradient(126deg, #ff6161, var(--redClaire));
+  margin-left: 8px;
+`
+
+const GradientIcon = styled.div`
+  background-image: linear-gradient(126deg, #ff7e7e, var(--redClaire));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  svg {
+    font-size: 1.5rem;
+  }
+`
+
 const H2 = styled.h2`
   font-weight: 700;
   line-height: 1;
   font-size: 35px;
   line-height: 32px;
   margin-top: 19px;
-  background: -webkit-linear-gradient(0deg, #fff, hsla(0, 0%, 100%, .61) 70%, hsla(0, 0%, 61%, .6));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 `
 
 const PriceBad = styled.div`
@@ -163,6 +182,7 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  flex: 1;
 `
 
 // eslint-disable-next-line react/prop-types
@@ -177,9 +197,9 @@ export default function CtaPreniumCard({ actor }) {
 
       <ContentWrapper>
         <IconImbedCustom>
-          <GiLaurelCrown className="h-14 w-auto text-my-gold" />
+          <GiLaurelCrown className="h-14 w-auto text-my-red" />
         </IconImbedCustom>
-        <H2 className="text-center">ZIRCONIUM PLAN</H2>
+        <H2 className="text-center text-my-red">ZIRCONIUM PLAN</H2>
         <div className="w-[240px] mx-auto h-[1px] bg-[#383531] mt-8"></div>
         <div className="flex items-center justify-center gap-4 mt-4">
           <PriceBad className="price-bad line-through">€59</PriceBad>
@@ -199,19 +219,11 @@ export default function CtaPreniumCard({ actor }) {
           <FaRegWindowClose className="self-center" />
           <h3>{t(`${actor}.plans.paid.cta`)}</h3>
         </Description>
-        <SVGPrice className="flex items-center  gap-4 mt-4" style={{justifyContent:"center"}}>
-          <img
-            alt="Checkmark"
-            loading="lazy"
-            width="16"
-            height="20"
-            decoding="async"
-            data-nimg="1"
-            className="w-[22px] h-[18px] lg:w-[16px] lg:h-[20px]"
-            src="https://www.jointherealworld.com/lock.svg"
-            style={{ color: "transparent" }}
-          />
-          <h3 className="text-nowrap">{t(`${actor}.plans.paid.cta2`)}</h3>
+        <SVGPrice className="flex items-center gap-4 mt-4 " style={{ justifyContent: "start" }}>
+          <GradientIcon>
+            <RiMoneyDollarCircleLine className="text-my-red"/>
+          </GradientIcon>
+          <GradientText className="text-nowrap">{t(`${actor}.plans.paid.cta2`)}</GradientText>
         </SVGPrice>
         <Description className="flex items-center gap-4 mt-4">
           <Small>Lock in your price before it increases</Small>

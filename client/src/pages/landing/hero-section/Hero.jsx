@@ -164,6 +164,7 @@ import { useEffect, useState } from "react";
 import HeroViddeo from "./components/HeroViddeo";
 import HeroHeader from "./components/HeroHeader";
 import Lines from "./components/Lines";
+import { useParams } from "react-router-dom";
 
 export const GetHeroData = (actor) => {
   const { t } = useTranslation();
@@ -199,7 +200,7 @@ export const GetHeroData = (actor) => {
 
 // eslint-disable-next-line react/prop-types
 export default function Hero({ actor }) {
-
+  const params = useParams()
 
   return (
     <HeroSection>
@@ -207,9 +208,10 @@ export default function Hero({ actor }) {
         <div className="padding-section-medium w-full">
           <Content>
             <HeroHeader actor={actor}/>
-            
-            <HeroViddeo/>
-            <Lines/>
+            { params.name==="dentist"&& (
+              <>
+              <HeroViddeo/> 
+              <Lines/>
               <div className="flex w-full gap-12 lg:gap-0 flex-col lg:flex-row items-center justify-evenly mt-4 lg:mt-32 max-w-[1280px] mx-auto">
                 {/* left content */}
                 <div className="max-w-[320px] pt-2 mt-0">
@@ -217,8 +219,6 @@ export default function Hero({ actor }) {
                   <Title>Stay Stagnant</Title>
                   <Description>
                     • Work long hours for mediocre pay
-                    <br />
-                    • Be trapped in a system that undervalues you
                     <br />
                     • Hope to retire in 50 years after decades of stress
                   </Description>
@@ -248,12 +248,14 @@ export default function Hero({ actor }) {
                         willChange:"height,width,top,left",position:'absolute'
                       }} className="left-[50%] top-[50%] w-[0px] h-[0px] bg-[#ffffff1a] rounded-full 
                                         group-hover:w-[500px] group-hover:h-[500px] duration-500 transition-all 
-                                         pointer-events-none text-center group-hover:left-[calc(50%-250px)] group-hover:top-[calc(50%-250px)]"></div>
+                                        pointer-events-none text-center group-hover:left-[calc(50%-250px)] group-hover:top-[calc(50%-250px)]"></div>
                     </Good>
                   </a> */}
                 </div>
               </div>
-            <CtaButton withSubscribers="true" />
+              <CtaButton withSubscribers="true" />
+              </>)
+            }
           </Content>
         </div>
       </div>

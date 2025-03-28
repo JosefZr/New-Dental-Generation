@@ -42,7 +42,7 @@ const H2 = styled.h2`
   background-clip: text;
   margin-top: 0;
   margin-bottom: 0;
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 600;
   color: var(--whiteGray);
   line-height: 1.1;
@@ -72,8 +72,12 @@ const P = styled.p`
       font-size: 17px;
     font-weight: 400;
     line-height: 25px;
+    letter-spacing: 0.4px;
     color: #ffffffb2;
     font-family: 'Doawnloawd', sans-serif;
+    @media screen and (min-width: 1024px) {
+        font-size: 20px;
+    }
 `
 // eslint-disable-next-line react/prop-types
 export default function FinalSection({actor}) {
@@ -89,10 +93,10 @@ export default function FinalSection({actor}) {
               <H2 className="uppercase text-center gradient-text texture-text">PRICE INCREASING SOON</H2>
             </div>
               <P className="text-center max-w-[761px] mx-auto mt-4 lg:mt-8 text-pretty">
-                <span className="font-bold text-white">The price will be increased to $147 a month shortly.</span>
+                <span className="font-bold text-white">The price will be increased to $59 a month shortly.</span>
                 <br />
                 <br />
-                Enjoy a 2-day free trial and explore all the powerful features inside YDN
+                Enjoy a 2-day free trial and explore all the powerful features inside YDN.
                 <br />
                 <br />
                 <span className="font-bold text-white">Lock in your price today before it’s too late!</span>

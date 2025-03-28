@@ -5,6 +5,7 @@
 :root {
   --gold: #F4EBD0;
   --redClaire:#BC1823;
+  --newBlack:#050510;
   --smallGold:#EDE8D0;
   --white:#EBEBEB;
   --darkBlue:#0d0f18;
@@ -108,7 +109,7 @@ body {
   font-size: 1rem;
   line-height: 1.5;
   color: var(--white);
-  background-color: var(--black);
+  background-color: var(--darkBlue);
   /* background-image: url("../public/backs/full.svg");
   background-repeat: no-repeat;
   background-size: cover; */

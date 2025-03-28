@@ -11,17 +11,32 @@ const FooterSection = styled.footer`
   background-size: cover;
   background-color: #02040e;
 `
-
+const H3 = styled.h3`
+  font-size: 12px;
+  font-weight: 200;
+  line-height: 12px;
+  letter-spacing: .32em;
+  color: #a7a297;
+  margin: 0 auto;
+  font-family: 'Doawnloawd', sans-serif;
+  @media screen and (min-width: 1024px) {
+    font-size: 16px;
+    line-height: 16px;
+  }
+`
 export default function Footer() {
   return (
 
 <FooterSection className="w-full  z-10 mt-8 lg:mt-16 px-4 undefined border-t-[1px] border-[#FFFFFF1A]" style={{position:"relative"}}>
-<div className="max-w-3xl mx-auto mt-10 text-center flex flex-col gap-5">
-            <h1 className="text-xl">Want to know how YDN will solve all your problems and transform your practice?</h1>
-            <Link className="underline text-xl" to="https://docs.google.com/document/d/1I0HeuZD3ewDnBlwKxt64U3qh_t4Nl2uTBXTCItKOC8I/edit?usp=sharing">
-              Here’s how!
-            </Link>
-          </div>
+
+
+  <div className="max-w-5xl mx-auto mt-10 text-center flex flex-col gap-5">
+    <H3 className="uppercase text-center pb-4 reveal-vertical">Still Wondering if YDN is Right for You?</H3>
+    <h1 className="text-xl italic">Want to know <strong>exactly how</strong> YDN will <strong>solve your problems</strong> and <strong>transform your practice?</strong></h1>
+    <Link className="underline text-xl" to="https://docs.google.com/document/d/1I0HeuZD3ewDnBlwKxt64U3qh_t4Nl2uTBXTCItKOC8I/edit?usp=sharing">
+    Don’t guess. Don’t wait. Get the answers now.
+    </Link>
+  </div>
   <div className="max-w-[1236px] mx-auto flex flex-col lg:flex-row justify-between py-[24px] ">
     <div className="my-4 lg:my-16 gap-8 flex flex-col">
       <div className="mt-4 lg:mt-0 flex flex-col lg:flex-row items-center gap-4 lg:gap-[32px]">
@@ -49,7 +64,9 @@ export default function Footer() {
       </div>
       
       <p className="w-full text-white/50 max-w-xl mx-auto px-4 lg:px-0 !text-[14px] lg:!text-[16px] text-center  lg:text-left">
-      YDN is the all-in-one platform designed to simplify, connect, and grow the dental industry. Whether you’re a dentist, dental lab, or supplier, YDN gives you the tools to manage your practice, streamline operations, and expand your professional network—all in one place
+      <i>”<strong >Dentistry Mastery Code </strong> 
+      is the key to becoming a <strong >successful dentist</strong> who runs <strong>a profitable practice</strong> and It’s attainable only through <strong>Building Your Dental Network.</strong>” </i>
+      <br />- <strong>Dr. Truth</strong>
       </p>
       <div className="mt-6 flex justify-center gap-4 lg:justify-start">
           <a

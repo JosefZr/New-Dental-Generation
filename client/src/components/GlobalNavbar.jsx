@@ -1,11 +1,12 @@
-import  { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { size } from '@/lib/mediaQuerys';
-import LanguageSwitcher from './LanguageSwitcher';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
-import { GiEarthAmerica } from 'react-icons/gi';
+"use client"
+
+import { useState } from "react"
+import styled, { keyframes } from "styled-components"
+import { size } from "@/lib/mediaQuerys"
+import { useTranslation } from "react-i18next"
+import { useNavigate } from "react-router-dom"
+import { jwtDecode } from "jwt-decode"
+import { GiEarthAmerica } from "react-icons/gi"
 
 const dropDown = keyframes`
   0% {
@@ -16,7 +17,7 @@ const dropDown = keyframes`
     transform: translateY(0);
     opacity: 1;
   }
-`;
+`
 
 const Navigation = styled.nav`
   opacity: 1;
@@ -35,25 +36,27 @@ const Navigation = styled.nav`
     padding-top: 0;
     position: absolute;
   }
-`;
+`
 
 const Sidebar = styled.div`
   position: fixed;
   top: 0;
-  left: ${({ $isOpen }) => ($isOpen ? '0' : '-100%')};
+  left: ${({ $isOpen }) => ($isOpen ? "0" : "-100%")};
   width: 30%;
   height: 100vh;
-  background-color: #1a1a1a;
+  background-color: rgba(26, 26, 26, 0.2); /* Slightly darker but more transparent */
+  backdrop-filter: blur(10px); /* Strong blur for glass effect */
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
   z-index: 997;
   padding: 6rem 2rem 2rem;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: ${({ $isOpen }) => ($isOpen ? '2px 0 8px rgba(0, 0, 0, 0.2)' : 'none')};
+  box-shadow: ${({ $isOpen }) => ($isOpen ? "0 0 15px rgba(0, 0, 0, 0.3)" : "none")};
+  border-right: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border for glass effect */
 
   @media screen and (max-width: ${size.tablet}) {
     width: 70%;
   }
-`;
-
+`
 
 const Overlay = styled.div`
   position: fixed;
@@ -61,13 +64,14 @@ const Overlay = styled.div`
   left: 0;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.2); /* Very transparent */
   z-index: 996;
-  opacity: ${props => props.isOpen ? 1 : 0};
-  visibility: ${props => props.isOpen ? 'visible' : 'hidden'};
+  opacity: ${(props) => (props.$isOpen ? 1 : 0)};
+  visibility: ${(props) => (props.$isOpen ? "visible" : "hidden")};
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(2px);
-`;
+  backdrop-filter: blur(3px); /* Light blur for background */
+  -webkit-backdrop-filter: blur(3px); /* For Safari */
+`
 
 const MenuItem = styled.div`
   color: var(--white);
@@ -78,10 +82,10 @@ const MenuItem = styled.div`
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   
   &:hover {
-    color: var(--gold);
+    color: var(--redClaire);
     transform: translateX(10px);
   }
-`;
+`
 
 const Boss = styled.div`
   z-index: 999;
@@ -101,7 +105,7 @@ const Boss = styled.div`
     background-color: #c2c2c27d;
     border: 1px solid #c2c2c22b;
   }
-`;
+`
 
 const PaddingGlobal = styled.div`
   padding-left: 2.5rem;
@@ -111,7 +115,7 @@ const PaddingGlobal = styled.div`
   @media screen and (max-width: ${size.tablet}) {
     padding: .25rem 1.25rem;
   }
-`;
+`
 
 const Content = styled.div`
   justify-content: space-between;
@@ -123,7 +127,8 @@ const Content = styled.div`
     height: 100px;
     position: relative;
   }
-`;
+`
+
 const NavLeft = styled.div`
     z-index: 999;
     align-items: center;
@@ -134,6 +139,7 @@ const NavLeft = styled.div`
         /* width: 100%; */
     }
 `
+
 const NavCenter = styled.div`
     justify-content: end;
     display: flex;
@@ -149,6 +155,7 @@ const NavCenter = styled.div`
             /* padding: 0.1rem; */
 }
 `
+
 const NavRight = styled.div`
     /* flex: 1; */
     justify-content: flex-end;
@@ -159,21 +166,24 @@ const NavRight = styled.div`
         position: relative;
     }
 `
+
 const MenuHeader = styled.div`
-  color: var(--gold);
+  color: var(--redClaire);
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 2rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-`;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Text shadow for better readability on glass */
+`
+
 const LoginButton = styled.a`
     opacity: .9;
     text-transform: uppercase;
-    background-color: black;
-    border: 1px solid #a3a3a3;
+    
+    /* border: 1px solid #a3a3a3; */
     padding: .75rem 1rem;
-    color: var(--gold) ;
+    color: var(--redClaire) ;
     font-family: Clashdisplay Variable, sans-serif;
     font-weight: 600;
     transition: all .1s;
@@ -185,36 +195,39 @@ const LoginButton = styled.a`
         padding: .5rem .9rem;
     } 
 `
+
 export default function GlobalNavbar() {
-  const [isLeftMenuOpen, setIsLeftMenuOpen] = useState(false);
-  const navigate = useNavigate();
-  const { t } = useTranslation();
+  const [isLeftMenuOpen, setIsLeftMenuOpen] = useState(false)
+  const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const toggleMenu = () => {
-    setIsLeftMenuOpen(!isLeftMenuOpen);
-  };
-  let token;
-  try {
-    const tokenString = localStorage.getItem("token");
-    token = tokenString ? jwtDecode(tokenString) : null;
-  } catch (error) {
-    console.error("Error decoding token:", error);
-    token = null;
+    setIsLeftMenuOpen(!isLeftMenuOpen)
   }
+
+  let token
+  try {
+    const tokenString = localStorage.getItem("token")
+    token = tokenString ? jwtDecode(tokenString) : null
+  } catch (error) {
+    console.error("Error decoding token:", error)
+    token = null
+  }
+
   const handleLogin = () => {
     if (token) {
-      console.log("channels");
-      navigate("/channels");
+      console.log("channels")
+      navigate("/channels")
     } else {
-      console.log("login");
-      navigate("/login");
+      console.log("login")
+      navigate("/login")
     }
-    setIsLeftMenuOpen(false);
-  };
+    setIsLeftMenuOpen(false)
+  }
 
   const closeMenu = () => {
-    setIsLeftMenuOpen(false);
-  };
+    setIsLeftMenuOpen(false)
+  }
 
   return (
     <>
@@ -242,7 +255,7 @@ export default function GlobalNavbar() {
                       }`}
                     />
                   </div>
-                  <span>Menu</span>
+                  {/* <span>Menu</span> */}
                 </Boss>
               </div>
 
@@ -261,11 +274,11 @@ export default function GlobalNavbar() {
       <Sidebar $isOpen={isLeftMenuOpen}>
         <MenuHeader>Menu</MenuHeader>
         <MenuItem onClick={handleLogin}>{t("login")}</MenuItem>
-        <MenuItem>
+        {/* <MenuItem>
           <LanguageSwitcher intro={true} />
-        </MenuItem>
+        </MenuItem> */}
       </Sidebar>
-
     </>
-  );
+  )
 }
+

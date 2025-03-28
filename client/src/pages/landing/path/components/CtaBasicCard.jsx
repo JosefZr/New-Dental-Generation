@@ -21,7 +21,7 @@ export const GetChecks = (actor) => {
 
 const Cta = styled.div`
   width: 100%;
-  max-width: 512px; /* Match premium card width */
+  max-width: 450px; /* Reduced from 500px */
   background: url(https://www.jointherealworld.com/card1.png);
   background-position: 50%;
   padding: 31px;
@@ -34,7 +34,12 @@ const Cta = styled.div`
   height: 100%;
   
   @media screen and (min-width: 1024px) {
-    min-height: 856px;
+    min-height: 756px;
+  }
+  
+  @media screen and (max-width: 1024px) {
+    margin-top: 20px;
+    width: 100%;
   }
 `
 
@@ -51,7 +56,7 @@ const H3 = styled.h3`
   font-size: 2rem;
   font-weight: 400;
   line-height: 1;
-  background: -webkit-linear-gradient(0deg, #fff, hsla(0, 0%, 100%, .61) 70%, hsla(0, 0%, 61%, .6));
+  background: -webkit-linear-gradient(0deg, #555555, hsla(0, 0%, 100%, .61) 70%, hsla(0, 0%, 61%, .6));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `
@@ -71,7 +76,7 @@ const Description = styled.div`
   font-weight: 500;
   line-height: 18px;
   color: #fff;
-  padding: 0 32px;
+  padding: 0 22px;
   width: 100%;
   
   @media screen and (min-width: 1024px) {
@@ -108,9 +113,9 @@ export default function CtaBasicCard({ actor }) {
     <Cta>
       <ContentWrapper>
         <IconImbedCustom>
-          <GiLaurels className="h-12 w-auto" />
+          <GiLaurels className="h-12 w-auto text-my-gray" />
         </IconImbedCustom>
-        <H3>{t(`${actor}.plans.free.title`)}</H3>
+        <H3 className="uppercase">{t(`${actor}.plans.free.title`)}</H3>
         <div className="w-[240px] mx-auto h-[1px] bg-[#383531] mt-8"></div>
         <div className="flex items-center justify-center gap-4 mt-4">
           <BadPrice>Stay an amateur</BadPrice>
@@ -134,4 +139,3 @@ export default function CtaBasicCard({ actor }) {
     </Cta>
   )
 }
-

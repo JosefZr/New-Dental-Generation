@@ -26,6 +26,8 @@ import ExtendSubscription from "../modals/extend-subscription-modal";
 import DeleteMessage from "../modals/delete-message";
 import LogoutModal from "../modals/logout-modal";
 import LeadsModal from "../modals/leads-modal";
+import WaitListMmodal from "../modals/waitlist-modal";
+import WaitListModal from "../modals/waitlist-modal";
 // import PreviewModal from "../modals/preview-modal";
 
 export const ModalProvider = ({ children })=>{
@@ -68,6 +70,7 @@ export const ModalProvider = ({ children })=>{
             <DeleteMessage/>
             <LogoutModal/>
             <LeadsModal/>
+            <WaitListModal/>
             {/* <PreviewModal/> */}
         </div>
     )

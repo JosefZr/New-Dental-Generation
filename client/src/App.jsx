@@ -28,6 +28,7 @@ import FreeAnalyses from "./pages/FreeAnalyses";
 // import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Landing from "./pages/landing";
+import WaitingList from "./pages/landing/waiting-list";
 
 export default function App() {
   return (
@@ -64,9 +65,10 @@ export default function App() {
         <Route path="/:name" element={<Landing />} />
         <Route path="/privacy" element={<Privacy />} />
 
-        <Route path="/sign-up" element={<Signup />} />
+        <Route path="/sign-up" element={<WaitingList />} />
         <Route path="/chama" element={<SignupAdmins />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/waiting-list" element={<WaitingList/>}/>
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>

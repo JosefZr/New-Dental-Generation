@@ -33,7 +33,7 @@ const CardsContainer = styled.div`
   display: flex;
   flex-direction: column-reverse;
   width: 100%;
-  max-width: 1080px;
+  max-width: 960px;
   margin: 0 auto;
   gap: 2rem;
   padding: 0 1rem;
@@ -53,6 +53,11 @@ const CardWrapper = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
+  
+  @media screen and (max-width: 1024px) {
+    max-width: 450px;
+    margin: 0 auto;
+  }
 `
 
 // eslint-disable-next-line react/prop-types

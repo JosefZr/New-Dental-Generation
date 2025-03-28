@@ -1,6 +1,6 @@
 {
   "identifing": " Identify Who You Are ",
-  "login": "log in",
+  "login": "LOG IN",
   "cta":" Build_Your_Dentlal_Network",
   "faq":{
     "one":{
@@ -11,53 +11,9 @@
       "question":"Who can use YDN ?",
       "responde":"Dentists || Dental Lab Technicians || Dental Suppliers || Students looking for advanced education."
     },
-    "three":{
-      "question":"What is Your Dental Network (YDN) ?",
-      "responde":"Appointment and task management.Financial tracking tools.Online dental community for networking.Advanced dental courses and webinars.Business growth support (marketing, website creation)."
-    },
-    "four":{
-      "question":"How can dental labs and stores benefit from YDN ?",
-      "responde":"Connect with dentists looking for supplies or prosthetics.List and promote products on the online store.Receive direct inquiries from dental professionals."    
-    },
-    "five":{
-      "question":"What is the “Top Dentist” feature ?",
-      "responde":"The “Top Dentist” feature allows experienced dentists to monetize their knowledge by hosting webinars and online courses, reaching a wider audience."    
-    },
     "six":{
       "question":"How does YDN help with business growth ?",
       "responde":"YDN provides specialized tools like: Website creation & branding, Social media & digital ads And Marketing strategies to attract high-paying patients"    
-    },
-    "seven":{
-      "question":"Are there any courses inside YDN?",
-      "responde":"Yes, YDN offers courses on various dental topics, including Implant Dentistry, with subtitles in French.The platform also provides ULTIMATE BUSINESS TRICKS."    
-    },
-    "eight":{
-      "question":"How much does it cost to join YDN ?",
-      "responde":"YDN offers multiple membership plans. The Starter Plan begins at €14.5/month, with more advanced plans available depending on your needs."    
-    },
-    "nine":{
-      "question":"Is my data secure on YDN ?",
-      "responde":"Yes, YDN ensures full privacy and security for its users. Your personal and financial information is protected, and patient communications are encrypted."    
-    },
-    "ten":{
-      "question":"How can I sign up for YDN ?",
-      "responde":"Visit our website at [https://www.buildydn.com/#/sign-up] and select the membership plan that suits your needs. Registration takes only a few minutes.Or contact us directly through Telegram and pay cash or by bank transfer. "    
-    },
-    "eleven":{
-      "question":"Can I cancel my membership ?",
-      "responde":"Yes, you can cancel your membership anytime through your account settings."    
-    },
-    "twelve":{
-      "question":"How does YDN support dental students ?",
-      "responde":"Dental students can access exclusive courses, practical training, and job opportunities to prepare for their careers."    
-    },
-    "thirtin":{
-      "question":" I live in X country. Is it a problem ?",
-      "responde":"Not at all. At Your Dental Network, we help you build valuable relationship, get help from other dentists, also we  teach how to make money, so it doesn’t matter where you are. Your location will only change the currency of your earnings."    
-    },
-    "fourtin":{
-      "question":" I don’t have a lot of time available, can I still apply ?",
-      "responde":"Yes! YDN is designed to save you time by streamlining tasks, connecting you with others, and offering efficient tools for managing your practice."    
     },
     "nm":{
       "question":"Are there any courses inside YDN?",
@@ -67,6 +23,10 @@
       "question":"What is the “DENTISTRY MASTERY CODE” course?",
       "responde":"A proven blueprint for building a high-profit dental business, step by step."
     },
+    "nine":{
+      "question":"Is my data secure on YDN ?",
+      "responde":"Yes, YDN ensures full privacy and security for its users. Your personal and financial information is protected, and patient communications are encrypted."    
+    },
     "sixtin":{
       "question":"What is the “Top Dentist” feature?",
       "responde":"Monetize your knowledge by hosting webinars & courses for a wider audience."
@@ -75,17 +35,21 @@
       "question":"I don’t have a lot of time. Can I still join?",
       "responde":"Yes! YDN is designed to save you time. You only need 30 minutes a day to learn & apply what we teach."
     },
+    "eleven":{
+      "question":"Can I cancel my membership ?",
+      "responde":"Yes, you can cancel your membership anytime through your account settings."    
+    },
     "eightin":{
       "question":"I live in X country. Is that a problem?",
       "responde":"Not at all! Your location only changes the currency of your earnings."
     },
-    "ninetin":{
-      "question":"How does YDN help dental students?",
-      "responde":"Exclusive courses & hands-on training .Job opportunities & career guidance"
+    "twelve":{
+      "question":"How does YDN support dental students ?",
+      "responde":"Dental students can access exclusive courses, practical training, and job opportunities to prepare for their careers."    
     },
     "twanti":{
       "question":"How do I sign up?",
-      "responde":"Click the red button below and choose your plan. Registration takes minutes!"
+      "responde":"Click the red button below and choose your plan, Registration takes minutes!"
     },
     "twantione":{
       "question":"Still have questions?",
@@ -136,12 +100,12 @@
           "description": "Secure, private space for dental professionals. Connect for advice, collaboration, or support. Network with Top Dentists."
         },
         "plan":{
-          "title": "Plan Like a Pro",
-          "description": "Schedule tasks and appointments with ease. Manage dental materials and track supplies. "
+          "title": "Productivity & Scheduling",
+          "description": "Stay disciplined with advanced checklists. Manage dental materials and track supplies."
         },
         "finance":{
-          "title": "Manage Your Finances",
-          "description": " Monitor material costs. Track earnings daily, weekly, or yearly. Automatic payment reminders. "
+          "title": "Financial Management",
+          "description": "Track costs, earnings. Automate payments reminders. "
         },
         "opportunity":{
           "title": "Top Dentist Opportunity",
@@ -149,11 +113,11 @@
         },
         "courses":{
           "title":"Advanced Dental Courses",
-          "description":"High-Quality courses in English with subtitles . Stay updated with the latest dental trends and news."
+          "description":"Build credibility . Master high-level skills (including Implant Dentistry)."
         },
         "growth":{
           "title": "Business Growth Support",
-          "description":"Unlimited Secrets to get rich. Master Your Dental business.You Can Get 1on1 Assistance. Unlimited secrets to get rich."
+          "description":"( AI live chat | AI caller ) Automation. Website creation. Market your practice at **YDN-exclusive prices**."
         }
       }
     },
@@ -166,16 +130,16 @@
       "desc2":"Share cases and collaborate with dentists worldwide.",
       "table":"This platform saves you time, letting you manage your dental practice from your phone  or laptop  anytime, anywhere.",
       "free":{
-        "title":"Free Plan",
+        "title":"Free Access",
         "head":"Stay an amateur",
         "checks":"Basic daily checklist. Track earnings. Free motivational videos.Stay stagnant.Stay unfulfilled.",
         "cta":"Join for free"
       },
       "paid":{
         "title":"The Zirconium Plan",
-        "checks":"Connect with other dentists.Enhance professionalism.Advanced checklists.Money management. Privacy and security. Mystery Feature. Sales access. Save time.",
+        "checks":"Simple, step-by-step tutorials. Proven methods to win. No prior business experience needed. Just action. A custom-built platform.",
         "cta":"Cancel anytime, risk free.",
-        "cta2":"19.9 € /month forever",
+        "cta2":"$19.9/month forever",
         "cta3":"Lock in your price before it increases."
       }
     },
