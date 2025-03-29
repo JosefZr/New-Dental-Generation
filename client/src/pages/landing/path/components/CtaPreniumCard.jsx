@@ -114,6 +114,11 @@ const H2 = styled.h2`
   font-size: 35px;
   line-height: 32px;
   margin-top: 19px;
+  background-image: linear-gradient(126deg, #ff7e7e, var(--redClaire));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
 `
 
 const PriceBad = styled.div`
@@ -197,9 +202,9 @@ export default function CtaPreniumCard({ actor }) {
 
       <ContentWrapper>
         <IconImbedCustom>
-          <GiLaurelCrown className="h-14 w-auto text-my-red" />
+            <GiLaurelCrown className="h-14 w-auto text-my-red" />
         </IconImbedCustom>
-        <H2 className="text-center text-my-red">ZIRCONIUM PLAN</H2>
+        <H2 className="text-center ">ZIRCONIUM PLAN</H2>
         <div className="w-[240px] mx-auto h-[1px] bg-[#383531] mt-8"></div>
         <div className="flex items-center justify-center gap-4 mt-4">
           <PriceBad className="price-bad line-through">€59</PriceBad>

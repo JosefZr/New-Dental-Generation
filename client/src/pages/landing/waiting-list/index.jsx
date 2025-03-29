@@ -52,13 +52,13 @@ export default function WaitingList() {
               Right now, Your Dental Network (YDN) is only available to our current members.
             </div>
             <h1 className="h1 text-color-silver copywriting">YDN 2.0 – Exclusive Access Coming Soon!</h1>
-            <p className="hero_sub-text text-color-silver">
+            <h2 className="hero_sub-text text-color-silver ">
               But we&apos;re getting ready to launch YDN 2.0, a bigger, better, and more powerful version designed to help
               dentists grow, scale, and stress less.
               <br />
               <br />
               Sign up for the waitlist now, and you&apos;ll be the first to know when we open it to new members.
-            </p>
+            </h2>
             <button onClick={()=>{
                 onOpen(MODAL_TYPE.WAITLIST_MODAL)
             }}>

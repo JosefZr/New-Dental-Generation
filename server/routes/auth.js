@@ -346,11 +346,17 @@ router.post("/leads", async (req, res) => {
         message: "Invalid email format"
       });
     }
-
+    const mail = await Email.findOne({email:email,type:type})
+    if(mail){
+      return res.status(400).json({
+        success:false,
+        message:"this email already exists "
+      })
+    }
     // Create new email document
     const newEmail = await Email.create({ email:email, type:type });
      // Set up email transporter (reuse your existing config)
-     const transporter = nodemailer.createTransport({
+    const transporter = nodemailer.createTransport({
       host: 'smtp.zoho.eu',
       port: 465,
       secure: true, // true for 465, false for 587
@@ -360,7 +366,7 @@ router.post("/leads", async (req, res) => {
       },
       tls: {
         ciphers: 'SSLv3', // Force older cipher if needed
-        rejectUnauthorized: false // Temporarily for testing
+        rejectUnauthorized: true // Temporarily for testing
       }
     });
     // Prepare email content
@@ -397,7 +403,7 @@ router.post("/leads", async (req, res) => {
           console.log('Delayed email sent:', info.response);
         }
       });
-    }, 5 * 60 * 1000); // 5 minutes delay
+    }, 5 ); // 5 minutes delay
 
     return res.status(201).json({
       success: true,
@@ -431,7 +437,13 @@ router.post("/waitlist", async (req, res) => {
         message: "Email is required"
       });
     }
-
+    const mail = await Email.findOne({email:data.email,type:data.type})
+    if(mail){
+      return res.status(400).json({
+        success:false,
+        message:"this email already exists "
+      })
+    }
     // Validate email format
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
       return res.status(400).json({
@@ -460,7 +472,7 @@ router.post("/waitlist", async (req, res) => {
       },
       tls: {
         ciphers: 'SSLv3', // Force older cipher if needed
-        rejectUnauthorized: false // Temporarily for testing
+        rejectUnauthorized: true // Temporarily for testing
       }
     });
     // Prepare email content
@@ -498,7 +510,7 @@ router.post("/waitlist", async (req, res) => {
           console.log('Delayed email sent:', info.response);
         }
       });
-    }, 5 * 60 * 1000); // 5 minutes delay
+    }, 5 ); // 5 minutes delay
     return res.status(201).json({
       success: true,
       message: 'Email saved successfully',

@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { size } from "@/lib/mediaQuerys";
 
 const ButtonWrap = styled.div`
-  z-index: 5;
+  z-index: 100;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
   gap: 0.75rem;
+  
 `;
 
 const StyledButton = styled.button`

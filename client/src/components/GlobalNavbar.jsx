@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import styled, { keyframes } from "styled-components"
 import { size } from "@/lib/mediaQuerys"
@@ -233,15 +231,21 @@ export default function GlobalNavbar() {
   }
   const menu = [
     {
-      name:"dentist",
+      id:"dentist",
+      name:"Dentist",
+
       route:"/dentist"
     },
     {
-      name:"lab",
+      id:"lab",
+      name:"Dental Lab",
+
       route:"/lab"
     },
     {
-      name:"store",
+      id:"store",
+      name:"Dental Suppliers",
+
       route:"/store"
     },
   ]
@@ -294,7 +298,7 @@ export default function GlobalNavbar() {
           <MenuItem  
           key={index} 
           onClick={() => navigate(item.route)}
-          $active={params.name === item.name}
+          $active={params.name === item.id}
         >
           {item.name}
         </MenuItem>
