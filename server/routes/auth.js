@@ -357,16 +357,19 @@ router.post("/leads", async (req, res) => {
     const newEmail = await Email.create({ email:email, type:type });
      // Set up email transporter (reuse your existing config)
     const transporter = nodemailer.createTransport({
-      host: 'smtp.zoho.eu',
+      host: 'smtp.zoho.com', // Use main domain instead of .eu
       port: 465,
-      secure: true, // true for 465, false for 587
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD
       },
+      connectionTimeout: 60000, // 60 seconds
+      socketTimeout: 60000,     // 60 seconds
       tls: {
-        ciphers: 'SSLv3', // Force older cipher if needed
-        rejectUnauthorized: true // Temporarily for testing
+        minVersion: 'TLSv1.2',  // Modern TLS version
+        ciphers: 'HIGH:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!SRP:!CAMELLIA',
+        rejectUnauthorized: true
       }
     });
     // Prepare email content
@@ -463,16 +466,19 @@ router.post("/waitlist", async (req, res) => {
     });
     // Set up email transporter (reuse your existing config)
     const transporter = nodemailer.createTransport({
-      host: 'smtp.zoho.eu',
+      host: 'smtp.zoho.com', // Use main domain instead of .eu
       port: 465,
-      secure: true, // true for 465, false for 587
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD
       },
+      connectionTimeout: 60000, // 60 seconds
+      socketTimeout: 60000,     // 60 seconds
       tls: {
-        ciphers: 'SSLv3', // Force older cipher if needed
-        rejectUnauthorized: true // Temporarily for testing
+        minVersion: 'TLSv1.2',  // Modern TLS version
+        ciphers: 'HIGH:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!SRP:!CAMELLIA',
+        rejectUnauthorized: true
       }
     });
     // Prepare email content
