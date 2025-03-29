@@ -329,11 +329,13 @@ router.post("/upload/proffession", uploadPro.single("image"), (req, res) => {
 });
 router.post("/leads", async (req, res) => {
   try {
-    const { email,type } = req.body;
-    
+    console.log('[LEADS] Starting lead processing');
+    const { email, type } = req.body;
+    console.log(`[LEADS] Received request for email: ${email}, type: ${type}`);
     // Validate email exists
     if (!email || !type) {
-      return res.status(400).json({ // Changed from 401 to 400
+      console.log('[LEADS] Validation failed - missing email or type');
+      return res.status(400).json({ 
         success: false, 
         message: "Email is required"
       });
@@ -341,36 +343,40 @@ router.post("/leads", async (req, res) => {
 
     // Validate email format
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      console.log(`[LEADS] Invalid email format: ${email}`);
       return res.status(400).json({
         success: false,
         message: "Invalid email format"
       });
     }
-    const mail = await Email.findOne({email:email,type:type})
+
+    console.log(`[LEADS] Checking existing emails for ${email}`);
+    const mail = await Email.findOne({email: email, type: type});
     if(mail){
+      console.log(`[LEADS] Email already exists: ${email}`);
       return res.status(400).json({
-        success:false,
-        message:"this email already exists "
-      })
+        success: false,
+        message: "This email already exists"
+      });
     }
     // Create new email document
-    const newEmail = await Email.create({ email:email, type:type });
+    console.log(`[LEADS] Creating new email record for ${email}`);
+    const newEmail = await Email.create({ email: email, type: type });
      // Set up email transporter (reuse your existing config)
     const transporter = nodemailer.createTransport({
-      host: 'smtp.zoho.com', // Use main domain instead of .eu
+      host: 'smtp.zoho.eu',
       port: 465,
-      secure: true,
+      secure: true, // true for 465, false for 587
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD
       },
-      connectionTimeout: 60000, // 60 seconds
-      socketTimeout: 60000,     // 60 seconds
       tls: {
-        minVersion: 'TLSv1.2',  // Modern TLS version
-        ciphers: 'HIGH:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!SRP:!CAMELLIA',
-        rejectUnauthorized: true
-      }
+        ciphers: 'SSLv3', // Force older cipher if needed
+        rejectUnauthorized: true // Temporarily for testing
+      },
+      logger: true, // Enable Nodemailer's built-in logging
+      debug: true   // Output SMTP traffic
     });
     // Prepare email content
     const mailOptions = {
@@ -397,30 +403,44 @@ router.post("/leads", async (req, res) => {
         <p><small>P.S. Want to see how we can help you implement these strategies? Join YDN and see yourself.</small></p>
       `
     };
-    // Schedule email to be sent after 5 minutes (300,000 milliseconds)
-    setTimeout(() => {
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.error('Error sending delayed email:', error);
-        } else {
-          console.log('Delayed email sent:', info.response);
-        }
-      });
-    }, 5 ); // 5 minutes delay
+    console.log(`[LEADS] Scheduling email for ${email} `);
 
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error(`[LEADS] Error sending to ${email}:`, {
+          error: error.message,
+          stack: error.stack,
+          code: error.code,
+          response: error.response
+        });
+      } else {
+        console.log(`[LEADS] Email sent to ${email}:`, {
+          messageId: info.messageId,
+          response: info.response
+        });
+      }
+    });
+    console.log(`[LEADS] Successfully processed request for ${email}`);
     return res.status(201).json({
       success: true,
       message: 'Email saved successfully',
       data: newEmail
     });
   } catch (error) {
-    if (error.code === 11000) { // MongoDB duplicate key error
+    console.error(`[LEADS] Critical error:`, {
+      message: error.message,
+      stack: error.stack,
+      code: error.code,
+      requestBody: req.body
+    });
+    
+    if (error.code === 11000) {
       return res.status(409).json({
         success: false,
         message: 'Email already exists'
       });
     }
-    console.error("Lead submission error:", error);
+    
     return res.status(500).json({
       success: false,
       message: 'Internal server error',
@@ -429,26 +449,30 @@ router.post("/leads", async (req, res) => {
   }
 });
 router.post("/waitlist", async (req, res) => {
+  console.log('[WAITLIST] Starting waitlist processing');
   const data = req.body;
-  console.log(data)
+  console.log('[WAITLIST] Received data:', JSON.stringify(data));
   try {
 
     // Validate email exists
     if (!data) {
-      return res.status(400).json({ // Changed from 401 to 400
+      console.log('[WAITLIST] Missing request body');
+      return res.status(400).json({ 
         success: false, 
-        message: "Email is required"
+        message: "Request body is required"
       });
     }
     const mail = await Email.findOne({email:data.email,type:data.type})
     if(mail){
+      console.log(`[WAITLIST] Email exists: ${data.email}`);
       return res.status(400).json({
-        success:false,
-        message:"this email already exists "
-      })
+        success: false,
+        message: "This email already exists"
+      });
     }
     // Validate email format
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+      console.log(`[WAITLIST] Invalid email: ${data.email}`);
       return res.status(400).json({
         success: false,
         message: "Invalid email format"
@@ -456,31 +480,32 @@ router.post("/waitlist", async (req, res) => {
     }
 
     // Create new email document
+    console.log(`[WAITLIST] Creating record for ${data.email}`);
     const newEmail = await Email.create({ 
-      name:data.fullName,
-      location:data.location,
-      email:data.email,
-      number:data.whatsapp,
-      reason:data.why,
-      type:data.type
+      name: data.fullName,
+      location: data.location,
+      email: data.email,
+      number: data.whatsapp,
+      reason: data.why,
+      type: data.type
     });
     // Set up email transporter (reuse your existing config)
     const transporter = nodemailer.createTransport({
-      host: 'smtp.zoho.com', // Use main domain instead of .eu
+      host: 'smtp.zoho.eu',
       port: 465,
       secure: true,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD
       },
-      connectionTimeout: 60000, // 60 seconds
-      socketTimeout: 60000,     // 60 seconds
       tls: {
-        minVersion: 'TLSv1.2',  // Modern TLS version
-        ciphers: 'HIGH:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!SRP:!CAMELLIA',
+        ciphers: 'SSLv3',
         rejectUnauthorized: true
-      }
+      },
+      logger: true,
+      debug: true
     });
+
     // Prepare email content
     const firstName = data.fullName?.split(' ')[0] || 'there';
     const mailOptions = {
@@ -507,22 +532,36 @@ router.post("/waitlist", async (req, res) => {
         <p><small>P.S. Want to see how we can help you implement these strategies? Join YDN and see yourself.</small></p>
       `
     };
+    console.log(`[WAITLIST] Scheduling email for ${data.email}`);
+
     // Schedule email to be sent after 5 minutes (300,000 milliseconds)
-    setTimeout(() => {
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.error('Error sending delayed email:', error);
-        } else {
-          console.log('Delayed email sent:', info.response);
-        }
-      });
-    }, 5 ); // 5 minutes delay
+    console.log(`[WAITLIST] Sending email to ${data.email}`);
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error(`[WAITLIST] Send error for ${data.email}:`, {
+          error: error.message,
+          code: error.code,
+          response: error.response
+        });
+      } else {
+        console.log(`[WAITLIST] Email sent to ${data.email}:`, {
+          messageId: info.messageId,
+          response: info.response
+        });
+      }
+    });
     return res.status(201).json({
       success: true,
       message: 'Email saved successfully',
       data: newEmail
     });
   } catch (error) {
+    console.error(`[WAITLIST] Critical error:`, {
+      message: error.message,
+      stack: error.stack,
+      code: error.code,
+      requestBody: req.body
+    });
     if (error.code === 11000) { // MongoDB duplicate key error
       return res.status(409).json({
         success: false,
