@@ -159,7 +159,7 @@ export default function WaitListModal() {
     const onSubmit = async (data) => {
         console.log(data)
         try {
-            const res = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/auth/waitlist`, {
+            const res = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/emails/waitlist`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

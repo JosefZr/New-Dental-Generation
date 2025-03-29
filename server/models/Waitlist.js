@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const emailSchema = new mongoose.Schema({
+const waitlistSchema = new mongoose.Schema({
   name: { 
     type: String, 
     required: false, 
@@ -12,7 +12,7 @@ const emailSchema = new mongoose.Schema({
   email: { 
     type: String, 
     required: true, 
-    // unique: true 
+    unique: false 
   },
   number:{
     type:Number,
@@ -21,11 +21,6 @@ const emailSchema = new mongoose.Schema({
   why:{
     type:String,
     required: false, 
-  },
-  type:{
-    type:String,
-    required: true, 
-    enum: ['waitlist', 'lead'], // Only allow these values
   },
   date: { 
     type: Date, 
@@ -39,5 +34,5 @@ const emailSchema = new mongoose.Schema({
 })
 
 // Correct way to create and export the model
-const Email = mongoose.model('Email', emailSchema);
-export default Email;
+const Waitlist = mongoose.model('Waitlist', waitlistSchema);
+export default Waitlist;

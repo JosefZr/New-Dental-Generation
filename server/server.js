@@ -21,6 +21,8 @@ import analyseRoute from "./routes/analyse.js"
 import JobRoute from "./routes/Job.js"
 import IstighfarRoute from "./routes/Istighfar.js"
 import rolesRoute from "./routes/roles.js"
+import emailsRoute from "./routes/leads.js"
+
 import logger from "./utils/logger.js";
 import cors from "cors";
 import { ApiError } from "./utils/ApiError.js";
@@ -122,6 +124,7 @@ app.use("/api/v1/analyse",analyseRoute)
 app.use("/api/v1/job",JobRoute)
 app.use("/api/v1/istighfar",IstighfarRoute)
 app.use("/api/v1/roles",rolesRoute)
+app.use("/api/v1/emails",emailsRoute)
 
 // Wrong Api Route handler
 app.use((req, res, next) => {
