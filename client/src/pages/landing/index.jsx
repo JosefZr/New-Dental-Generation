@@ -43,7 +43,7 @@ export default function Landing() {
             keywords="dental network, dentist community, practice growth, your dental network"
         />
         <div className="scrollbar-custom overflow-x-hidden zoom-in-0 bg-[#02040e]">
-        {params.name ==="dentist"&&<GlobalNavbar />}
+        <GlobalNavbar />
         <Hero actor={params.name} />
         {params.name==="dentist" &&<TimeLineSection actor={params.name} />}
         {params.name==="dentist" &&<OneYear actor={params.name}/>}

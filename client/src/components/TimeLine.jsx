@@ -103,7 +103,9 @@ const TimelineLeftWrap = styled.div`
   position: relative;
   animation: ${floatAnimation} 6s ease-in-out infinite; 
   @media screen and (max-width: ${size.mobileL}){
-    width:80%
+    width:100%;
+    margin-top:0rem;
+    height: 15rem;
   }
 `
 
@@ -128,11 +130,9 @@ display: flex;
 
   }
   @media screen and (max-width: ${size.tablet}){
-
-    display: none;
     width: 100%;
     min-width: 100%;
-    min-height: 18rem;
+    min-height: 30rem;
   }
 `
 const Shadow = styled.div`

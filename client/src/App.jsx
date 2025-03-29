@@ -1,5 +1,5 @@
 // App.jsx
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import {
   Chat,
   Intro,
@@ -61,7 +61,7 @@ export default function App() {
 
         </Route>
         <Route path="/success" element={<SuccessPage />} />
-        <Route path="/" element={<Intro />} />
+        <Route path="/" element={<Navigate to="/dentist" replace />} />
         <Route path="/:name" element={<Landing />} />
         <Route path="/privacy" element={<Privacy />} />
 

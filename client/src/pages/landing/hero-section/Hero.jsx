@@ -170,29 +170,29 @@ export const GetHeroData = (actor) => {
   const { t } = useTranslation();
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsSmallScreen(window.innerWidth <= 810); // Adjust this breakpoint as needed
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setIsSmallScreen(window.innerWidth <= 810); // Adjust this breakpoint as needed
+  //   };
 
-    handleResize(); // Run once on mount
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  //   handleResize(); // Run once on mount
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, []);
 
-  const transformTextToLines = (text) => {
-    if (!isSmallScreen) return [text]; // On larger screens, return as is
+  // const transformTextToLines = (text) => {
+  //   if (!isSmallScreen) return [text]; // On larger screens, return as is
 
-    return text
-      .split(".")
-      .map((line, index) => (index === text.split(".").length - 1 ? line.trim() : `${line.trim()}.`))
-      .filter((line) => line.length > 0);
-  };
+  //   return text
+  //     .split(".")
+  //     .map((line, index) => (index === text.split(".").length - 1 ? line.trim() : `${line.trim()}.`))
+  //     .filter((line) => line.length > 0);
+  // };
 
   return [
     {
-      title: transformTextToLines(t(`${actor}.hero.title`)),
-      description: transformTextToLines(t(`${actor}.hero.description`)), // Apply only on small screens
+      title: t(`${actor}.hero.title`),
+      description:t(`${actor}.hero.description`), // Apply only on small screens
     },
   ];
 };

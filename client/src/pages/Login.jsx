@@ -97,16 +97,16 @@ export default function Login() {
             <div className=" flex flex-col items-center">
             <div className="relative lg:mr-3 mx-auto lg:mx-0 max-w-[35vh] max-h-[35vh] rounded-full overflow-hidden mt-[20%]">
                 <img
-                  className="trw-logo w-full h-full object-cover transform scale-[1.39]   max-h-[35vh]"
+                  className="trw-logo w-full h-full object-cover transform scale-[1.39]   max-h-[35vh] max-sm:max-h-[15vh] "
                   src="/signLogo.jpg"
                   alt="logo"
                 />
               </div>
-              <h2 className="mt-[10%] text-center font-bold text-[30px] text-white uppercase">
+              <h2 className="mt-[10%] text-center font-bold text-[30px] max-sm:text-[18px] text-white uppercase">
                 YOUR DENTAL NETWORK
               </h2>
             </div>
-            <div className="w-full max-w-[500px] p-8">
+            <div className="w-full max-w-[500px] p-8 max-sm:p-0">
               <button
                 className="btn font-normal normal-case btn-lg btn-ghost btn-block"
                 onClick={() => navigate("/sign-up")}

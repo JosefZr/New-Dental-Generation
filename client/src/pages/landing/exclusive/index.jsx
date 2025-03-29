@@ -32,6 +32,9 @@ const H2 = styled.h2`
     -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
+    font-size: 25.5px;
+    line-height: 25px;
+    font-weight: 600;
 @media screen and (min-width: 1024px) {
     font-size: 55.5px;
     font-weight: 600;
@@ -66,8 +69,6 @@ const Description = styled.div`
         padding: 12px 30px;
 }
 `
-
-
 const Title= styled.div`
 font-size: 22px;
 grid-column-gap: 0.5rem;
@@ -198,8 +199,6 @@ export const GetTimelineData = (actor) => {
       ];
     }
   };
-  
-
 export default function Exclusive({actor}) {
   useReveal('vertical');
   useReveal('horizontal');
@@ -212,7 +211,7 @@ export default function Exclusive({actor}) {
             <div className="flex flex-col lg:flex-row items-center justify-center gap-2 lg:gap-4">
                 <img alt="Exclusive Features" loading="lazy" width="40" height="52" decoding="async" data-nimg="1" className="h-[30px] lg:h-[52px]" src="https://www.jointherealworld.com/exclusive_lock.svg" style={{color: "transparent"}}/>
                 <H3 className="uppercase text-center my-2 lg:hidden">EXCLUSIVE FEATURES</H3>
-                <H2 className="uppercase text-center gradient-text texture-text max-w-[280px] lg:max-w-[740px] mx-auto lg:mx-0">YOU WILL GET ACCESS TO</H2>
+                <H2 className="uppercase text-center gradient-text texture-text max-w-[480px] lg:max-w-[740px] mx-0 lg:mx-0">YOU WILL GET ACCESS TO</H2>
             </div>
             <>
             {timeline.map((data,index)=>(

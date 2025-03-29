@@ -4,7 +4,7 @@ import { useState } from "react"
 import styled, { keyframes } from "styled-components"
 import { size } from "@/lib/mediaQuerys"
 import { useTranslation } from "react-i18next"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { jwtDecode } from "jwt-decode"
 import { GiEarthAmerica } from "react-icons/gi"
 
@@ -74,7 +74,7 @@ const Overlay = styled.div`
 `
 
 const MenuItem = styled.div`
-  color: var(--white);
+  color: ${props => props.$active ? 'var(--redClaire)' : 'var(--white)'};
   font-size: 1.1rem;
   padding: 1rem 0;
   cursor: pointer;
@@ -84,6 +84,9 @@ const MenuItem = styled.div`
   &:hover {
     color: var(--redClaire);
     transform: translateX(10px);
+  }
+  &.active {
+    color: var(--redClaire);
   }
 `
 
@@ -200,11 +203,11 @@ export default function GlobalNavbar() {
   const [isLeftMenuOpen, setIsLeftMenuOpen] = useState(false)
   const navigate = useNavigate()
   const { t } = useTranslation()
-
+  const params = useParams()
   const toggleMenu = () => {
     setIsLeftMenuOpen(!isLeftMenuOpen)
   }
-
+  console.log(params.name)
   let token
   try {
     const tokenString = localStorage.getItem("token")
@@ -228,7 +231,20 @@ export default function GlobalNavbar() {
   const closeMenu = () => {
     setIsLeftMenuOpen(false)
   }
-
+  const menu = [
+    {
+      name:"dentist",
+      route:"/dentist"
+    },
+    {
+      name:"lab",
+      route:"/lab"
+    },
+    {
+      name:"store",
+      route:"/store"
+    },
+  ]
   return (
     <>
       <Navigation>
@@ -274,9 +290,15 @@ export default function GlobalNavbar() {
       <Sidebar $isOpen={isLeftMenuOpen}>
         <MenuHeader>Menu</MenuHeader>
         <MenuItem onClick={handleLogin}>{t("login")}</MenuItem>
-        {/* <MenuItem>
-          <LanguageSwitcher intro={true} />
-        </MenuItem> */}
+        {menu.map((item, index)=>(
+          <MenuItem  
+          key={index} 
+          onClick={() => navigate(item.route)}
+          $active={params.name === item.name}
+        >
+          {item.name}
+        </MenuItem>
+        ))}
       </Sidebar>
     </>
   )

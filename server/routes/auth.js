@@ -364,13 +364,12 @@ router.post("/leads", async (req, res) => {
       }
     });
     // Prepare email content
-    const firstName = data.fullName?.split(' ')[0] || 'there';
     const mailOptions = {
-      from: 'dr.truth@buildydn.com',
-      to: data.email,
+      from: `${process.env.EMAIL_USER}`,
+      to: email,
       subject: "Here's Your Secret Weapon 🦷",
       html: `
-        <p>Hi ${firstName},</p>
+        <p>Hi there,</p>
         
         <p>Your Dentist's Secret Weapon is ready!</p>
         

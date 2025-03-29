@@ -1,5 +1,4 @@
 import { size } from '@/lib/mediaQuerys';
-import React from 'react'
 import styled from 'styled-components';
 import { GetHeroData } from '../Hero';
 import { Logo } from '@/components';
@@ -45,15 +44,15 @@ const HeroHeading = styled.h1`
 export default function HeroHeader({actor}) {
     const heroData = GetHeroData(actor);
   return (
-    <div className="flex flex-col gap-3 items-center">
+    <div className="flex flex-col gap-3 items-center " style={{
+      maxWidth:"90%"
+    }}>
               <Logo />
               <HeroHeading>
                 {heroData.map((data, index) => (
                   <div key={index}>
                     <h1>
-                      {data.title.map((line, idx) => (
-                        <div key={idx}>{line}</div>
-                      ))}
+                      {data.title}
                     </h1>
                   </div>
                 ))}
@@ -61,9 +60,7 @@ export default function HeroHeader({actor}) {
               <SubParagraph>
                 {heroData.map((data, index) => (
                   <div key={index}>
-                    {data.description.map((line, idx) => (
-                      <div key={idx}>{line}</div>
-                    ))}
+                    {data.description}
                   </div>
                 ))}
               </SubParagraph>

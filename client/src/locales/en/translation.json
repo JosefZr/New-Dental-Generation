@@ -50,11 +50,7 @@
     "twanti":{
       "question":"How do I sign up?",
       "responde":"Click the red button below and choose your plan, Registration takes minutes!"
-    },
-    "twantione":{
-      "question":"Still have questions?",
-      "responde":"Contact support@buildydn.com"
-    }
+    }  
   },
   "plans":{
     "starter":{
