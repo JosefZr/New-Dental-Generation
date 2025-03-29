@@ -562,12 +562,12 @@ router.post("/waitlist", async (req, res) => {
       code: error.code,
       requestBody: req.body
     });
-    if (error.code === 11000) { // MongoDB duplicate key error
-      return res.status(409).json({
-        success: false,
-        message: 'Email already exists'
-      });
-    }
+    // if (error.code === 11000) { // MongoDB duplicate key error
+    //   return res.status(409).json({
+    //     success: false,
+    //     message: 'Email already exists'
+    //   });
+    // }
     console.error("Lead submission error:", error);
     return res.status(500).json({
       success: false,
