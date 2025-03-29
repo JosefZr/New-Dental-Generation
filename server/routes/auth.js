@@ -308,7 +308,6 @@ const uploadPro = multer({
     }
   },
 });
-
 // Endpoint to handle image uploads
 router.post("/upload/proffession", uploadPro.single("image"), (req, res) => {
   try {
@@ -462,14 +461,14 @@ router.post("/waitlist", async (req, res) => {
         message: "Request body is required"
       });
     }
-    const mail = await Email.findOne({email:data.email,type:data.type})
-    if(mail){
-      console.log(`[WAITLIST] Email exists: ${data.email}`);
-      return res.status(400).json({
-        success: false,
-        message: "This email already exists"
-      });
-    }
+    // const mail = await Email.findOne({email:data.email,type:data.type})
+    // if(mail){
+    //   console.log(`[WAITLIST] Email exists: ${data.email}`);
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "This email already exists"
+    //   });
+    // }
     // Validate email format
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
       console.log(`[WAITLIST] Invalid email: ${data.email}`);
@@ -499,11 +498,12 @@ router.post("/waitlist", async (req, res) => {
         pass: process.env.EMAIL_PASSWORD
       },
       tls: {
-        ciphers: 'SSLv3',
+         // Recommended security settings
+        minVersion: 'TLSv1.2',
+        ciphers: 'TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256',
         rejectUnauthorized: true
       },
       logger: true,
-      debug: true
     });
 
     // Prepare email content
