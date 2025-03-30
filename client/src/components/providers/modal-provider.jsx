@@ -28,7 +28,6 @@ import LogoutModal from "../modals/logout-modal";
 import LeadsModal from "../modals/leads-modal";
 import WaitListMmodal from "../modals/waitlist-modal";
 import WaitListModal from "../modals/waitlist-modal";
-// import PreviewModal from "../modals/preview-modal";
 
 export const ModalProvider = ({ children })=>{
     const [isMounted, setIsMounted] = useState(false);

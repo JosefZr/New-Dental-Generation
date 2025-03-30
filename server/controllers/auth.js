@@ -390,6 +390,7 @@ export const updateUserDescription = async (req, res)=>{
   }
 }
 export const deleteJourney = async(req,res)=>{
+  console.log("nami1")
   const {userId,id} = req.body 
   console.log("user:", userId, "   journey:",id)
   if (!userId || !id ) {
@@ -398,18 +399,25 @@ export const deleteJourney = async(req,res)=>{
       message: "Missing required fields.",
     })
   }
+  console.log("nami2 ")
+
   try {
     const user = await User.findOne({ _id: userId });
+  console.log("nami3 ")
+
     if (!user) {
       return res.status(404).json({
         success: false,
         message: "User not found",
       })
     }
+  console.log("nami4 ")
+
     const result = await User.updateOne(
       { _id: userId },
       { $pull: { journey: { _id: id } } }
     );
+    console.log("nami5 ")
 
     if (result.modifiedCount === 0) {
       return res.status(404).json({
@@ -417,6 +425,8 @@ export const deleteJourney = async(req,res)=>{
         message: "Journey entry not found or already deleted.",
       });
     }
+  console.log("nami6 ")
+
     return res.status(200).json({
       success: true,
       message: "Journey entry deleted successfully.",

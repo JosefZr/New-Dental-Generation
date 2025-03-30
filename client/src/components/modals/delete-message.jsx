@@ -9,6 +9,7 @@ export default function DeleteMessage() {
     const userInfo = useAuthUser()
     const socket = useSocketStore((state) => state.socket);
     const { isOpen, onClose, type,data  } = useModal();
+    console.log(data)
     const isModalOpen = isOpen && type === MODAL_TYPE.DELETE_MESSAGE;
     const handleDeleteMessage = async () => {
         try {
@@ -23,8 +24,9 @@ export default function DeleteMessage() {
           } else {
             // Private message deletion
             socket.emit("deletePrivateMessage", { 
-              messageId: data.message._id,
-              senderId: userInfo.userId
+              content: data.message.content,
+              createdAt: data.message.createdAt,
+              senderId: data.message.sender._id
             }, (response) => {
               if (!response.success) toast.error(response.error);
             });

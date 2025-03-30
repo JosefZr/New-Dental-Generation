@@ -138,7 +138,7 @@ export default function LeadsModal() {
             } = useForm();
             const onSubmit = async (data) => {
                 try {
-                const res = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/auth/leads`, {
+                const res = await fetch(`${import.meta.env.VITE_SERVER_API}/api/v1/emails/leads`, {
                     method: "POST",
                     headers: {
                     "Content-Type": "application/json",

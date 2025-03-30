@@ -1,7 +1,7 @@
 import Devider from "@/components/chatComponents/Devider";
 import Message from "@/components/chatComponents/Message";
 import useSocketStore from "@/socketStore";
-import { Plus, X } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { Input } from "@/components/ui/input"
 import { IoIosSend } from "react-icons/io";
 
@@ -21,10 +21,6 @@ import imageCompression from "browser-image-compression";
 
 export default function Chat1({ initialMessages, chanId,cahnTitle }) {
   const userInfo = useAuthUser();
-  console.log(userInfo)
-  const expiryDate = new Date(userInfo.exp*1000);
-  console.log(expiryDate)
-
   const [messages, setMessages] = useState(initialMessages || []);
   const [msgToSend, setMessageToSend] = useState("");
   const [imagesTosnd, setImagesToSnd] = useState([])
@@ -45,18 +41,15 @@ const [editingMessage, setEditingMessage] = useState(null);
   const {onOpen} = useModal()
   const socket = useSocketStore((state) => state.socket);
   const checkAndReconnect = useSocketStore((state) => state.checkAndReconnect);
-  const [isConnected, setIsConnected] = useState(false);
 
   const {isMessagesLoading} = useUserToChatContext()
 // Add this state
 const [isSocketConnected, setIsSocketConnected] = useState(false);
 
-
 // check if there is any socket
 useEffect(() => {
   checkAndReconnect();
 }, []);
-
 
 // Update socket connection handler
 useEffect(() => {
@@ -90,7 +83,6 @@ useEffect(() => {
   };
 }, [socket, chanId]);
 
-
 // In your edit handling
 const handleEditMessage = (message) => {
   setEditingMessage(message);
@@ -101,7 +93,6 @@ const cancelEdit = () => {
   setEditingMessage(null);
   setMessageToSend("");
 };
-
 
 useEffect(() => {
   if (!socket) return ;
@@ -124,8 +115,6 @@ useEffect(() => {
     socket.off("messageUpdated");
   };
 }, [socket]);
-
-
 
  // Function to check if the current user can send messages
 const canSendMessages = () => {
@@ -226,7 +215,6 @@ const handleFileChange = async (event) => {
   setUploadingImages((prev) => ({ ...prev, ...newUploadingState }));
 };
 
-
   const removeImage = (id) => {
     setImages(prevImages => {
       const removedImage = prevImages.find(image => image.id === id);
@@ -248,7 +236,6 @@ const handleFileChange = async (event) => {
       lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
     }, 100);
   };
-
 
   async function storeImages() {
     setDisable(true);
@@ -336,6 +323,7 @@ const handleFileChange = async (event) => {
     }
   }
   function sendMessage() {
+    console.log(userInfo.userId)
     if (!socket) {
       return ; 
     };
@@ -378,10 +366,9 @@ const handleFileChange = async (event) => {
         channelId: chanId,
         images: imagesTosnd,
         type: "text",
-        sender: userInfo?.userId, // Ensure sender is included
+        sender: userInfo.userId, // Ensure sender is included
       });
     }
-    console.log(owner)
       if(owner.type ==="journey"){
         addJourney.mutate({
           userId: userInfo.userId,

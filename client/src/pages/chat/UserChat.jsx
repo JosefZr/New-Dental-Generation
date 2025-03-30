@@ -17,9 +17,9 @@ import imageCompression from "browser-image-compression";
 import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 import useGetSubscriptionStatus from "@/hooks/limitation/useGetSubscriptionStatus";
 import { useAuthUser } from "@/hooks/jwt/useAuthUser";
-
   const MAX_TEXTAREA_HEIGHT = 200; // Set your maximum height here
   const INITIAL_TEXTAREA_HEIGHT = 32; // Start height
+
 export default function UserChat() {
   const {isSidebarOpen, setIsSidebarOpen,userMessages,chatId,isDashboardSidebarOpen,setIsDashboardSidebarOpen} = useContext(UserContext);
 
@@ -47,6 +47,42 @@ export default function UserChat() {
   const checkAndReconnect = useSocketStore((state) => state.checkAndReconnect);
   const [isConnected, setIsConnected] = useState(false);
   const [messages, setMessages] = useState(userMessages || []);
+  const [isSocketConnected, setIsSocketConnected] = useState(false);
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+    setIsDashboardSidebarOpen(!isDashboardSidebarOpen);
+
+  };
+  // check if there is any socket
+useEffect(() => {
+  checkAndReconnect();
+}, []);
+
+// Update socket connection handler
+useEffect(() => {
+  if (!socket) {
+    setIsSocketConnected(false)
+    checkAndReconnect();
+    return ;
+  }; 
+
+  setIsSocketConnected(socket.connected);
+
+  const handleConnect = () => {
+    setIsSocketConnected(true);
+  };
+  const handleDisconnect = () => {
+    setIsSocketConnected(false);
+    checkAndReconnect();
+  }
+  socket.on("connect", handleConnect);
+  socket.on("disconnect", handleDisconnect);
+  return () => {
+    socket.off("connect", handleConnect);
+    socket.off("disconnect", handleDisconnect);
+  };
+}, [socket]);
+
 // In your edit handling
 const handleEditMessage = (message) => {
   setEditingMessage(message);
@@ -57,15 +93,6 @@ const cancelEdit = () => {
   setEditingMessage(null);
   setMessageToSend("");
 };
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-    setIsDashboardSidebarOpen(!isDashboardSidebarOpen);
-
-  };
-
-  useEffect(() => {
-    checkAndReconnect();
-  }, []);
 
 const handleFileChange = async (event) => {
   if (status === "off") {
@@ -282,15 +309,6 @@ const handleFileChange = async (event) => {
       fileInputRef.current.value = '';
     }
   }
-
-  useEffect(() => {
-    if (socket) {
-      setIsConnected(true);
-    } else {
-      setIsConnected(false);
-      checkAndReconnect();
-    }
-  }, [socket]);
   
   useEffect(() => {
     if (!socket || !chatId) return;

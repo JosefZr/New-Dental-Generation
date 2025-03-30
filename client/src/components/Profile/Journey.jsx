@@ -45,16 +45,17 @@ const formatDate = (dateString) => {
       return;
     }
     try {
+      deleteJourney.mutate({
+        userId: userInfo.userId,
+        id:info._id,
+      });
         socket.emit("deleteMessage", {
           content: info.content,
           createdAt: info.date,
           channelId: info.chanId
         })
 
-        deleteJourney.mutate({
-          userId: userInfo.userId,
-          id:info._id,
-        });
+        
     } catch (error) {
       toast.error(error.message);
     }

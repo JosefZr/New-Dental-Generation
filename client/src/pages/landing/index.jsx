@@ -31,7 +31,7 @@ export default function Landing() {
                 clearInterval(timer);
                 onOpen(MODAL_TYPE.LEADS_MODAL);
                 }
-            }, 1000); // Countdown updates every second
+            }, 7000); // Countdown updates every second
             }
         }, []);
     

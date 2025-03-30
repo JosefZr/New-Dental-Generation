@@ -178,7 +178,7 @@ export default function WaitListModal() {
             }
             setIsSent(true)
             localStorage.setItem("emailSubmitted", "true");
-            toast.success(responseData.message || "Thank you for subscribing!");
+            toast.success("Thanks Doc!");
         } catch (error) {
             console.error("Submission error:", error);
             toast.error(error.message || "Failed to submit. Please try again.");
@@ -347,26 +347,32 @@ export default function WaitListModal() {
                             <div className="items-center flex flex-col">
                                 <Text>
                                 <P>
-                                Your Free Guide is On Its Way!  
+                                Congratulations!   
                                 </P>
                                 </Text>
                             </div>
                             <div className="items-center flex flex-col">
                                 <H1>
-                                    Check your inbox, your guide will arrive within 5 minutes. <br /><br />
-                                    <strong>Don&apos;t see it?</strong> Check your SPAM or Promotions folder!
-                                    <br />
-                                    <br />
-                                    <span className="font-semibold">In the meantime...</span>
-                                    <br /><br />
-                                    Take a tour inside the YDN Empire and see how dentists like you are scaling faster, working smarter, and earning more
+                                You’ve taken the first step toward elevating your dental career and unlocking the strategies that will transform your practice and income.
                                 </H1>
                             </div>
                             <div className="items-center flex flex-col">
-                                <Button onClick={()=>{onClose(),setIsSent(false)}}>
-                                    <p className="py-2">Welcome doc! </p>
-                                    </Button>
+                            <Text>
+                                <P>
+                                Congratulations!   
+                                </P>
+                            </Text>
                             </div>
+                            <div className="items-center flex flex-col">
+                                <H1>
+                                In the coming days, we’ll review applications and send exclusive early-access invitations to <strong>selected members.</strong>                                 
+                                <br /><br />    
+                                📬 Check your email (and spam) for updates. 
+                                you don’t want to miss this!
+                                </H1>
+                                
+                            </div>
+                            
                             </div>
                         </div>
                 )}
