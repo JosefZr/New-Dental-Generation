@@ -53,11 +53,12 @@ export const initializeSocket = (server) => {
 
     socket.on("privateMessage", async ({ recipient, content, images }) => {
       const roomId = [socket.user.userId, recipient].sort().join("_");
-
+      console.log("pppp",recipient, content, images)
       // Check if the recipient is currently in the room
       const isRecipientInRoom = io.sockets.adapter.rooms.get(roomId)?.size > 1;
       logger.info("sockets in the room ! :");
       logger.info(io.sockets.adapter.rooms.get(roomId)?.size);
+      console.log("pppp1")
 
       // Save the message to the database with appropriate status
       const message = await saveMessage(
@@ -67,6 +68,7 @@ export const initializeSocket = (server) => {
         images, 
         isRecipientInRoom ? "read" : "sent"
       );
+      console.log("pppp5")
 
       // Emit the message to both sender and recipient
       io.to(roomId).emit("message", message);

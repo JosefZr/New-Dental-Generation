@@ -29,6 +29,7 @@ import FreeAnalyses from "./pages/FreeAnalyses";
 import Privacy from "./pages/Privacy";
 import Landing from "./pages/landing";
 import WaitingList from "./pages/landing/waiting-list";
+import Emails from "./pages/emails";
 
 export default function App() {
   return (
@@ -48,6 +49,8 @@ export default function App() {
             <Route path="user-chat" element={<UserChat/>}/>
             <Route path="users" element={<Users />}/>
             <Route path="analyse" element={<FreeAnalyses/>}/>
+            <Route path="emails" element={<Emails/>}/>
+
           </Route>
           
           <Route path="/profile/:id" element={<Profile />}/>

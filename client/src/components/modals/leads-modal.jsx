@@ -155,7 +155,7 @@ export default function LeadsModal() {
             
                 localStorage.setItem("emailSubmitted", "true");
                 setIsSent(true)
-                toast.success(responseData.message || "Thank you for subscribing!");
+                toast.success("Thanks Doc!");
                 } catch (error) {
                 console.error("Submission error:", error);
                 toast.error(error.message || "Failed to submit. Please try again.");

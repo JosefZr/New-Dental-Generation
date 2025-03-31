@@ -9,6 +9,12 @@ export const saveMessage = async (
   images,
   contentStatus
 ) => {
+  console.log("pppp2", sender,
+    recipient,
+    content,
+    images,
+    contentStatus)
+
   const message = new Message({
     sender,
     recipient,
@@ -17,10 +23,12 @@ export const saveMessage = async (
     status: contentStatus,
   });
   await message.save();
+  console.log("pppp3")
 
   const populatedMessage = await Message.findById(message._id)
     .populate("sender")
     .populate("recipient");
+    console.log("pppp4")
 
   return populatedMessage;
 };

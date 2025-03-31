@@ -37,7 +37,9 @@ export default function DashboardSidebar() {
       { path: '/dashboard/friends', label: 'Friends' },
       { path: '/dashboard/dental-stuff', label: 'Dental Stuff' },
       { path: '/dashboard/quotes', label: 'Quotes' },
-      { path: '/dashboard/users', label: 'Users' }
+      { path: '/dashboard/users', label: 'Users' },
+      { path: '/dashboard/emails', label: 'emails' }
+
     ];
 
     const activeBtn = buttons.find(btn => currentPath.includes(btn.path));
@@ -89,6 +91,11 @@ const renderSidebarButtons = () => {
       icon: IoMdPeople,
       label: 'Free Analyses',
       path: 'analyse',
+      adminOnly: true
+    },{
+      icon: IoMdPeople,
+      label: 'Emails',
+      path: 'emails',
       adminOnly: true
     }
   ];

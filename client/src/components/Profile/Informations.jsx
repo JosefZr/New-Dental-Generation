@@ -108,17 +108,17 @@ const getRoleDisplayName = (role) => {
                 </TooltipProvider>
                 </div>
                 <div className="flex items-end gap-1 text-grey-500 text-sm">
-                <div className="text-my-gold text-[35px] w-[35px] h-[35px] left-[70px]" style={{bottom:"-2px"}}>
+                {/* <div className="text-my-gold text-[35px] w-[35px] h-[35px] left-[70px]" style={{bottom:"-2px"}}>
                     {currentProgress.logo}
-                </div>
-                <span>
+                </div> */}
+                {/* <span>
                     {user.role === "admin" || user.role === "moderator" ? 
                     <FaRegChessKnight className="h-8 w-auto" /> : 
                     user.subscriptionPlan === "freeTrial" ?
                         <GiLaurelCrown className="h-8 w-auto text-my-gray" /> : 
                         <GiLaurelCrown className="h-8 w-auto text-my-gold" />
                     }
-                </span>
+                </span> */}
                 <span className="text-yellow-500 text-[22px] self-center">⚡</span>
                 </div>
             </div>

@@ -45,7 +45,6 @@ export default function UserChat() {
   console.log(userInfo)
   const socket = useSocketStore((state) => state.socket);
   const checkAndReconnect = useSocketStore((state) => state.checkAndReconnect);
-  const [isConnected, setIsConnected] = useState(false);
   const [messages, setMessages] = useState(userMessages || []);
   const [isSocketConnected, setIsSocketConnected] = useState(false);
   const toggleSidebar = () => {
@@ -57,7 +56,16 @@ export default function UserChat() {
 useEffect(() => {
   checkAndReconnect();
 }, []);
+useEffect(() => {
+  const connectSocket = async () => {
+    await checkAndReconnect();
+    setIsSocketConnected(socket?.connected ?? false);
+  };
 
+  if (!socket) {
+    connectSocket();
+  }
+}, [socket]);
 // Update socket connection handler
 useEffect(() => {
   if (!socket) {
@@ -247,6 +255,11 @@ const handleFileChange = async (event) => {
   }
 
   function sendMessage() {
+    if (!isSocketConnected) {
+      console.log("Socket not connected, aborting send");
+      checkAndReconnect(); // Attempt to reconnect
+      return;
+    }
     if(status==='off'){
       onOpen(MODAL_TYPE.LIMITATION_MODAL)
       return
@@ -268,6 +281,11 @@ const handleFileChange = async (event) => {
       // Reset editing state
       setEditingMessage(null);
     }else {
+      console.log({
+        content: msgToSend,
+        recipient: chatId,
+        images: imagesTosnd
+      })
     socket.emit("privateMessage", {
       content: msgToSend,
       recipient: chatId,
@@ -724,7 +742,9 @@ useEffect(() => {
                     onClick={handleSubmit}
                     disabled={disable || isAnyImageUploading || (!msgToSend.trim() && images.length === 0)}
                   >
-                    {isAnyImageUploading ? (
+                    {!isSocketConnected ? (
+                      <div className="text-red-500 text-xs">Connecting...</div>
+                    ) : isAnyImageUploading ? (
                       <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-my-gold"></div>
                     ) : (
                       editingMessage? (

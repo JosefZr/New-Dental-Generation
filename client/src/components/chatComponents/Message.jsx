@@ -152,7 +152,7 @@ export default function Message({ message,chanId ,handleEditMessage}) {
                 <></>
               ):(
                 <button
-                  className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950"
+                  className="h-[2rem] w-[2rem] rounded-full px-[6px] py-[2px] bg-slate-950"
                   onClick={() => {
                     setClickedUserId({
                       userId: userPreview._id,
@@ -162,7 +162,7 @@ export default function Message({ message,chanId ,handleEditMessage}) {
                     navigate("/dashboard/user-chat");
                   }}
                 >
-                  <MdMessage className="text-xl text-center text-my-white" />
+                  <MdMessage className="h-[30px] w-[21px]  text-center text-my-white" />
                 </button>
               ) 
               }
@@ -172,17 +172,17 @@ export default function Message({ message,chanId ,handleEditMessage}) {
               ):(
                 showRemoveButton ? (
                   <button
-                    className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950 text-center"
+                    className="h-[2rem] w-[2rem] rounded-full px-2 bg-slate-950 text-center"
                     onClick={handleDeletePendingRequest}
                   >
-                    <FaUserMinus className="text-2xl text-my-white" />
+                    <FaUserMinus className="h-[32px] w-[20px] items-center justify-center text-my-white" />
                   </button>
                 ) : (
                   <button
                     className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950 text-center"
                     onClick={handleAddFriendRequest}
                   >
-                    <HiUserAdd className="text-2xl text-my-white" />
+                    <HiUserAdd className="h-[33px] w-[24px] text-my-white" />
                   </button>
                 )
               ) }

@@ -147,7 +147,7 @@ const Button2 = styled.button`
     background-color: rgb(0, 0, 0);
 `
 export default function WaitListModal() {
-     const [isSent, setIsSent] = useState(false)
+    const [isSent, setIsSent] = useState(false)
     const {isOpen, onClose, type} = useModal()
     const isModalOpen = isOpen && type === MODAL_TYPE.WAITLIST_MODAL;
     const {
@@ -359,7 +359,7 @@ export default function WaitListModal() {
                             <div className="items-center flex flex-col">
                             <Text>
                                 <P>
-                                Congratulations!   
+                                What happens next?   
                                 </P>
                             </Text>
                             </div>

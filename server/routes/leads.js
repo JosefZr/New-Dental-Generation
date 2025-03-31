@@ -248,4 +248,40 @@ const router = express.Router();
         });
         }
     });
+    router.get("/getLeads",async(req, res)=>{
+        try{
+            const lead = await Leads.find({})
+            if(!lead){
+                res.status(404).json({
+                    success:"false",
+                    message:"no emails found"
+                })
+            }
+            res.status(201).json({
+                success:true,
+                message:"emails founded correctly",
+                data:lead
+            })
+        }catch(error){
+            console.log(error)
+        }
+    })
+    router.get("/getWaitlist",async(req, res)=>{
+        try{
+            const lead = await Waitlist.find({})
+            if(!lead){
+                res.status(404).json({
+                    success:"false",
+                    message:"no emails found"
+                })
+            }
+            res.status(201).json({
+                success:true,
+                message:"emails founded correctly",
+                data:lead
+            })
+        }catch(error){
+            console.log(error)
+        }
+    })
 export default router;
