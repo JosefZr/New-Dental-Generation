@@ -196,6 +196,12 @@ export const GetTimelineData = (actor) => {
           title: t(`${actor}.services.content.growth.title`),
           descriptions: transformDescriptionToTable(t(`${actor}.services.content.growth.description`)),
         },
+        {
+          logo: <FaMoneyBillTrendUp className="h-10 w-12" />,
+          left: "/images/10.webp",
+          title: t(`${actor}.services.content.opportunity.title`),
+          descriptions: transformDescriptionToTable(t(`${actor}.services.content.opportunity.description`)),
+        },
       ];
     }
   };
@@ -216,14 +222,14 @@ export default function Exclusive({actor}) {
             <>
             {timeline.map((data,index)=>(
                 <div key={index} className="max-w-[1170px] mx-auto flex flex-col justify-evenly  gap-4 mt-6 reveal-vertical">
-                <div className="access border-[4px] py-4 px-2 lg:p-0 border-[rgba(255,255,255,.04)] hover:border-[#ffffff4d] hover:bg-[#d9d9d90f] bg-[#d9d9d908] flex relative flex-col lg:flex-row items-start justify-start group transition-all duration-500" >
-                    <figure className=" my-[-50px]" style={{position:"relative"}}>
+                <div className="access lg:w-[100%] border-[4px] py-4 px-2 lg:p-0 border-[rgba(255,255,255,.04)] hover:border-[#ffffff4d] hover:bg-[#d9d9d90f] bg-[#d9d9d908] flex relative flex-col lg:flex-row items-start justify-start group transition-all duration-500" >
+                    <figure className="lg:w-[45%] my-[-50px]" style={{position:"relative"}}>
                         <SmallGlow className=" !top-[30px] lg:!top-[50px] pointer-events-none"></SmallGlow>
                         <div className="min-h-80 max-h-[450px] max-lg:max-h-[370px] relative">
                         <img alt="STEP-BY-STEP LEARNING" loading="lazy" width="571" height="345" decoding="async" data-nimg="1" className=" z-10 mt-4 lg:mt-0 p-8" src={data.left} style={{color:"transparent",position:"relative"}}/>
                         </div>
                     </figure>
-                    <div className="flex flex-col gap-2 py-4 lg:py-8 lg:pl-8 lg:pr-10">
+                    <div className="lg:w-[55%] flex flex-col gap-2 py-4 lg:py-8 lg:pl-8 lg:pr-10">
                         <Title className="title pl-4 lg:pl-0">
                         <Logo>{data.logo}</Logo>
                         {data.title}

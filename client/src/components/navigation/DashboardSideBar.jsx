@@ -38,7 +38,7 @@ export default function DashboardSidebar() {
       { path: '/dashboard/dental-stuff', label: 'Dental Stuff' },
       { path: '/dashboard/quotes', label: 'Quotes' },
       { path: '/dashboard/users', label: 'Users' },
-      { path: '/dashboard/emails', label: 'emails' }
+      { path: '/dashboard/analyse', label: 'emails' }
 
     ];
 
@@ -90,16 +90,10 @@ const renderSidebarButtons = () => {
     {
       icon: IoMdPeople,
       label: 'Free Analyses',
-      path: 'analyse',
+      path: '/dashboard/analyse',
       adminOnly: true
-    },{
-      icon: IoMdPeople,
-      label: 'Emails',
-      path: 'emails',
-      adminOnly: true
-    }
-  ];
-
+    }  ];
+  
   return buttons
     .filter(button => 
       // Show if: button is for everyone OR (button is admin-only AND user is admin)

@@ -9,6 +9,11 @@ const leadsSchema = new mongoose.Schema({
     date: { 
         type: Date, 
         default: Date.now 
+    },
+    type:{
+        type: String, 
+        default: 'lead', // Only allow 'waitlist' or 'leads'
+        required: true 
     }
     },{ 
     // Add compound index instead of unique on email

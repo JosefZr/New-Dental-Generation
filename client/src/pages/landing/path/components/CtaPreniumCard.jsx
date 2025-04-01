@@ -207,8 +207,8 @@ export default function CtaPreniumCard({ actor }) {
         <H2 className="text-center ">ZIRCONIUM PLAN</H2>
         <div className="w-[240px] mx-auto h-[1px] bg-[#383531] mt-8"></div>
         <div className="flex items-center justify-center gap-4 mt-4">
-          <PriceBad className="price-bad line-through">€59</PriceBad>
-          <Price className="price gradient-text-2">€19.9</Price>
+          <PriceBad className="price-bad line-through">$59</PriceBad>
+          <Price className="price gradient-text-2">$19.9</Price>
         </div>
         <div>
           {checks.map((check, index) => (

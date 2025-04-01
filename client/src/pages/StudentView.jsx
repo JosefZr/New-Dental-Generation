@@ -149,16 +149,17 @@ const getFavoriteCourses = () => {
                     {menuItems.map((menuItem, index) => (
                         <button
                             key={index}
-                            className={`flex w-fit flex-1 cursor-pointer rounded-none items-center justify-center transition-all ${
-                                activeTab === menuItem.value
-                                    ? "font-bold text-my-beige border-b-2 border-my-beige"
-                                    : "text-my-gold border-b-2 border-transparent"
-                            }`}
+                            className={`relative flex w-1/3 items-center justify-center py-3 cursor-pointer text-sm`}
                             onClick={() => setActiveTab(menuItem.value)}
                         >
                             <span className="whitespace-nowrap w-full text-md font-medium rounded-md duration-300 flex items-center justify-center h-full">
                                 {menuItem.label}
                             </span>
+                            <div
+                        className={`absolute bottom-0 left-0 z-10 h-1 w-full ${
+                        activeTab === menuItem.value ? "bg-my-gold" : "bg-[#282E33]"
+                        }`}
+                    ></div>
                         </button>
                     ))}
                 </section>

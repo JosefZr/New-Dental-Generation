@@ -1,29 +1,17 @@
-"use client"
-
 import { useGetAllAnalyses } from "@/hooks/analyses/useGetAllAnalyses"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select"
-import { useState, useMemo, useContext } from "react"
+import { useState, useMemo} from "react"
 import { Input } from "@/components/ui/input"
-import { UserContext } from "@/context/UserContext"
-import { GiHamburgerMenu } from "react-icons/gi"
 import { Eye } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useUserToChatContext } from "@/context/ToChatUser"
 import { MODAL_TYPE, useModal } from "@/hooks/useModalStore"
 import { Card, CardContent } from "@/components/ui/card"
 
-export default function FreeAnalyses() {
+export default function Analyse() {
   const { onOpen } = useModal()
   const { data, isLoading, isError, error } = useGetAllAnalyses()
   const [searchTerm, setSearchTerm] = useState("")
   const [serviceFilter, setServiceFilter] = useState("")
-  const { setIsDashboardSidebarOpen } = useContext(UserContext)
-  const { setJobInfos } = useUserToChatContext()
-
-  const toggleSidebar = () => {
-    setIsDashboardSidebarOpen((prev) => !prev)
-  }
-
   const filteredAnalyses = useMemo(() => {
     if (!data) return []
     return data.filter(
@@ -38,21 +26,12 @@ export default function FreeAnalyses() {
   }, [data])
 
   const handlePreview = (analysis) => {
-    setJobInfos(analysis)
-    onOpen(MODAL_TYPE.JOB_DETAILS)
+    onOpen(MODAL_TYPE.JOB_DETAILS,analysis)
   }
 
   return (
-    <div className="w-full pt-5 m-auto">
-      <button
-        className="top-2 left-2 cursor-pointer z-50 p-2 hover:bg-gray-800 rounded-md transition-colors"
-        onClick={toggleSidebar}
-        aria-label="Toggle sidebar"
-      >
-        <GiHamburgerMenu className="text-2xl text-white" />
-      </button>
-
-      <div className="mx-auto mt-14 p-4 md:p-6 rounded-lg shadow-lg">
+    <div className="w-full  m-auto">
+      <div className="mx-auto p-4 md:p-6 rounded-lg shadow-lg">
         <div className="flex flex-col sm:flex-row gap-4 mb-4 max-w-2xl mx-auto">
           <Input
             placeholder="Search by name..."
@@ -126,7 +105,9 @@ export default function FreeAnalyses() {
                         <span>{analysis.name}</span>
                       </div>
                     </td>
-                    <td className="px-4 py-2 break-all">{analysis.email}</td>
+                    <td className="px-4 py-2 break-all">
+                      <a href={`mailto:${analysis.email}`} className="text-blue-500 hover:underline">{analysis.email}</a>
+                    </td>
                     <td className="px-4 py-2">{analysis.company}</td>
                     <td className="px-4 py-2">{analysis.service}</td>
                     <td className="px-4 py-2">{analysis.adSpend}</td>

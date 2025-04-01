@@ -279,28 +279,22 @@ export default function WaitListModal() {
                                 <Input
                                 {...register("whatsapp", {
                                     validate: (value) => {
-                                    // If empty, it's valid (optional field)
+                                    // Optional field - only validate if value exists
                                     if (!value) return true;
                                     
                                     // Check if value contains only digits
                                     if (!/^\d+$/.test(value)) {
-                                        return "Only digits are allowed";
-                                    }
-                                    
-                                    // Check length (8-15 digits)
-                                    if (value.length < 8 || value.length > 15) {
-                                        return "Phone number must be 8-15 digits";
+                                        return "Only numbers are allowed";
                                     }
                                     
                                     return true;
                                     }
                                 })}
-                                placeholder="WhatsApp Number (Digits only, optional)"
+                                placeholder="WhatsApp Number (optional)"
                                 type="tel"
-                                inputMode="numeric"  // Shows numeric keyboard on mobile
-                                pattern="[0-9]*"    // Helps browsers validate as numbers only
+                                inputMode="numeric"
+                                pattern="[0-9]*"
                                 onChange={(e) => {
-                                    // Automatically remove non-digit characters
                                     e.target.value = e.target.value.replace(/\D/g, '');
                                 }}
                                 />

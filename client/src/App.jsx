@@ -2,9 +2,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import {
   Chat,
-  Intro,
   Login,
-  Signup,
   SuccessPage,
 } from "./pages";
 
@@ -24,7 +22,6 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import SignupAdmins from "./pages/SignupAmins";
 import Quotes from "./pages/Quotes";
-import FreeAnalyses from "./pages/FreeAnalyses";
 // import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import Landing from "./pages/landing";
@@ -48,8 +45,8 @@ export default function App() {
             <Route path="quotes" element={<Quotes/>}/>
             <Route path="user-chat" element={<UserChat/>}/>
             <Route path="users" element={<Users />}/>
-            <Route path="analyse" element={<FreeAnalyses/>}/>
-            <Route path="emails" element={<Emails/>}/>
+            <Route path="analyse" element={<Emails/>}/>
+            {/* <Route path="emails" element={<Emails/>}/> */}
 
           </Route>
           

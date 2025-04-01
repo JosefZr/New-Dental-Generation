@@ -11,7 +11,6 @@ export const UserChatProvider = ({ children }) => {
   const [clickedUser, setClickedUserId] = useState({ userId: null, username: null });
   const [initialIndex,setInitialIndex] = useState(0)
   const [imagesToShow, setImagesToShow] = useState([])
-  const [jobInfos, setJobInfos] = useState([])
   const [isMessagesLoading, setIsMessagesLoading] = useState(false)
   const [isPrivateMessagesLoading, setIsPrivateMessagesLoading] = useState(false)
 
@@ -20,7 +19,6 @@ export const UserChatProvider = ({ children }) => {
       clickedUser, setClickedUserId,
       imagesToShow, setImagesToShow,
       initialIndex,setInitialIndex,
-      jobInfos, setJobInfos,
       isMessagesLoading, setIsMessagesLoading,
       isPrivateMessagesLoading, setIsPrivateMessagesLoading
     }}>

@@ -26,8 +26,10 @@ import ExtendSubscription from "../modals/extend-subscription-modal";
 import DeleteMessage from "../modals/delete-message";
 import LogoutModal from "../modals/logout-modal";
 import LeadsModal from "../modals/leads-modal";
-import WaitListMmodal from "../modals/waitlist-modal";
 import WaitListModal from "../modals/waitlist-modal";
+import DeleteLeadModal from "../modals/delete-lead-modal";
+import DeleteWaitlistModal from "../modals/delete-waitlist-modal";
+import WaitlistPreviewModal from "../modals/waitlistPreview";
 
 export const ModalProvider = ({ children })=>{
     const [isMounted, setIsMounted] = useState(false);
@@ -70,6 +72,9 @@ export const ModalProvider = ({ children })=>{
             <LogoutModal/>
             <LeadsModal/>
             <WaitListModal/>
+            <DeleteLeadModal/>
+            <DeleteWaitlistModal/>
+            <WaitlistPreviewModal/>
             {/* <PreviewModal/> */}
         </div>
     )

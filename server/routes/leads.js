@@ -123,6 +123,30 @@ const router = express.Router();
             });
             }
         });
+    router.delete("/lead/delete",async(req, res)=>{
+        const {id} = req.body
+        try{
+            const lead = await Leads.findByIdAndDelete(id)
+            if(!lead){
+                return res.status(404).json({
+                    success:false,
+                    message:"no lead found"
+                })
+            }
+            res.status(201).json({
+                success:true,
+                message:"lead deleted successfully",
+                data:lead
+            })
+        }catch(error){
+            console.log(error)
+            res.status(500).json({
+                success:false,
+                message:"something went wrong",
+                error:error.message
+            })
+        }
+    })
     router.post("/waitlist", async (req, res) => {
         console.log('[WAITLIST] Starting waitlist processing');
         const data = req.body;
@@ -161,7 +185,7 @@ const router = express.Router();
             location: data.location,
             email: data.email,
             number: data.whatsapp,
-            reason: data.why,
+            why: data.reason,
             type: data.type
         });
         // Set up email transporter (reuse your existing config)
@@ -248,6 +272,39 @@ const router = express.Router();
         });
         }
     });
+    router.delete("/waitlist/delete",async(req, res)=>{
+        const {id} = req.body
+        if(!id){
+            return res.status(400).json({
+                success:false,
+                message:"id is required"
+            })
+        }
+        try{
+            const waitlist = await Waitlist.findByIdAndDelete(id)
+
+            if(!waitlist){
+                return res.status(404).json({
+                    success:false,
+                    message:"no waitlist found"
+                })
+            }
+
+            res.status(201).json({
+                success:true,
+                message:"waitlist deleted successfully",
+                data:waitlist
+            })
+
+        }catch(error){
+            console.log(error)
+            res.status(500).json({
+                success:false,
+                message:"something went wrong",
+                error:error.message
+            })
+        }
+    })
     router.get("/getLeads",async(req, res)=>{
         try{
             const lead = await Leads.find({})

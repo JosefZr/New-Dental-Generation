@@ -32,8 +32,9 @@ export const MODAL_TYPE = {
     LOGOUT_MODAL:"logoutModal",
     LEADS_MODAL:"leadsModal",
     WAITLIST_MODAL:"waitListModal",
-    DELETE_EMAIL:"deleteEmail",
-    EMAIL_DETAILS:"emailDetails"
+    DELETE_WAITLIST:"deleteWaitlist",
+    DELETE_LEAD:"deleteLead",
+    WAITLIST_DETAILS:"emailDetails"
   };
 
 export const useModal = create((set)=>({
