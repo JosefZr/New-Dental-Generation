@@ -108,19 +108,18 @@ export default function FreeMarketingAnalysis() {
               <input
                 id="phone"
                 type="tel"
-                inputMode="numeric" // Enables numeric keyboard on mobile
-                pattern="[0-9]*" // Ensures only digits
+                inputMode="numeric"
                 {...register("phone", { 
                   required: "Phone number is required",
                   pattern: {
-                    value: /^[0-9]{10}$/, // Allows only 10-digit numbers
-                    message: "Phone number must be 10 digits"
+                    value: /^[0-9]+$/,
+                    message: "Phone number must contain only numbers"
                   }
                 })}
                 className="w-full px-3 mb-1 py-2 bg-[#2a2a35] border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500"
                 onKeyPress={(e) => {
                   if (!/[0-9]/.test(e.key)) {
-                    e.preventDefault(); // Blocks non-numeric input
+                    e.preventDefault();
                   }
                 }}
               />

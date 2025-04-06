@@ -28,6 +28,12 @@
     max-width: 100%;
     font-family: "Oswald", sans-serif;
 }
+@media screen and (max-width: 720px) {
+    .h1.text-color-silver.business {
+        font-size: 1.5rem;
+    }
+}
+
 @media screen and (max-width: 479px) {
     .h1.text-color-silver.business.desktop-hidden {
         padding-left: .5rem;
@@ -36,21 +42,7 @@
         font-size: 34px;
     }
 }
-@media screen and (max-width: 479px) {
-    .h1.text-color-silver.business {
-        text-align: center;
-        white-space: break-spaces;
-        word-break: keep-all;
-        overflow-wrap: normal;
-        width: 100%;
-        height: auto;
-        padding-left: 1rem;
-        padding-right: 1rem;
-        font-size: 46px;
-        position: static;
-        overflow: visible;
-    }
-}
+
 @media screen and (max-width: 479px) {
     .h1.text-color-silver.desktop-hidden {
         z-index: 2;

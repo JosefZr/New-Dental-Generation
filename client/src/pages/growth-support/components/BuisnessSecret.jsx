@@ -48,7 +48,7 @@ export default function BuisnessSecret() {
       <h3 className="h3-timeline fitness">If you’re loyal, then…</h3>
 
       <h4 className="h4 fitness">…You will UNLOCK This Course only if you’re inside YDN for more than 3 months.</h4>
-      <h2 className="h2 text-color-silver business flex flex-row items-center gap-5">PS: BS only AVAILABLE For Silver Bishop <LiaChessBishopSolid className="text-[5rem]"/> </h2>
+      <h2 className="h2 text-color-silver business flex flex-row max-sm:flex-col-reverse mt-10 items-center gap-5">PS: BS only AVAILABLE For Silver Bishop <LiaChessBishopSolid className="text-[5rem]"/> </h2>
 
     </Hero>
     </div>

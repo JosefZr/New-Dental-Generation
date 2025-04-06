@@ -4,7 +4,8 @@ import path from "path";
 import { createHtmlPlugin } from 'vite-plugin-html'
 
 export default defineConfig({
-  plugins: [react(),createHtmlPlugin({
+  plugins: [react(),
+    createHtmlPlugin({
     minify: true,
     inject: {
       data: {

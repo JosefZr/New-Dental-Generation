@@ -216,16 +216,22 @@ export default function LeadsModal() {
             <div className="items-center flex flex-col">
                 <Text>
                 <P>
-                    The Dentist’s Secret Weapon <br />Try It for FREE 
+                The Dentist’s Secret Weapon  <br /> ( FREE-GUIDE ) 
                 </P>
                 </Text>
             </div>
             <div className="items-center flex flex-col">
                 <H1>
-                Struggling with admin, staff, and patient retention? Experience the ultimate dental practice growth platform—risk-free!
-                </H1>
+                Admin chaos, staff headaches, lowball patients, profit leaks… sound familiar?                </H1>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="items-center flex flex-col">
+                <Text>
+                <P>
+                Grab The Dentist’s Blueprint to Success and discover:
+                </P>
+                </Text>
+            </div>
+            {/* <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="items-center flex flex-col">
                     <Input
                     {...register("email", {
@@ -255,6 +261,11 @@ export default function LeadsModal() {
                 <Button2 >
                 <P>Start Your Free Trial Now!</P>
                 </Button2>
+            </div> */}
+             <div className="items-center flex flex-col">
+                <H1>
+                The biggest problems silently killing your practice
+                fix it all with ONE system (no fluff, just results)</H1>
             </div>
             </div>
         </div>):

@@ -7,7 +7,7 @@ const menuItems = [
         {
             label: "Home",
             value: "Home",
-            component: () => <Home />,
+            component: (props) => <Home {...props} />, // Pass props through
         },
         {
             label: "Solutions",
@@ -55,16 +55,17 @@ export default function BuildScale() {
                     {menuItems.map((menuItem, index) => (
                         <button
                             key={index}
-                            className={`flex w-fit flex-1 cursor-pointer rounded-none items-center justify-center transition-all ${
-                                activeTab === menuItem.value
-                                    ? "font-bold text-my-beige border-b-2 border-my-beige"
-                                    : "text-my-gold border-b-2 border-transparent"
-                            }`}
+                            className={`relative flex w-1/3 items-center justify-center py-3 cursor-pointer text-md transition-all`}
                             onClick={() => setActiveTab(menuItem.value)}
                         >
                             <span className="whitespace-nowrap w-full text-md font-medium rounded-md duration-300 flex items-center justify-center h-full">
                                 {menuItem.label}
                             </span>
+                            <div
+                                className={`absolute bottom-0 left-0 z-10 h-1 w-full transition-all ${
+                                activeTab === menuItem.value ? "bg-my-gold" : "bg-[#282E33]"
+                                }`}
+                            ></div>
                         </button>
                     ))}
                 </section>
@@ -72,7 +73,9 @@ export default function BuildScale() {
 
             {/* Scrollable Tab Content */}
             <div className="flex-1 custom-scroll overflow-y-hidden pb-2 w-full">
-                {menuItems.find((menuItem) => menuItem.value === activeTab)?.component()}
+                {menuItems.find((menuItem) => menuItem.value === activeTab)?.component({
+                    setActiveTab: setActiveTab // Pass the state setter as a prop
+                })}
             </div>
         </div>
     </main>

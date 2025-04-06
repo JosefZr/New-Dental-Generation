@@ -53,7 +53,7 @@ const exclamation =[
     "desc": "Without a big marketing budget, your account often ends up with the intern of an assistant—not ideal."
   },
 ]
-export default function Home() {
+export default function Home({setActiveTab }) {
   return (
     <div>
       <Hero>
@@ -66,7 +66,9 @@ export default function Home() {
               <div style={{
                 transform: "translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)",
                 transformStyle: "preserve-3d",
-              }}>
+              }}
+                onClick={() => setActiveTab("Free Quote")} // Add click handler
+              >
                 YES, I WANT THAT!
               </div>
               <div style={{
@@ -76,7 +78,7 @@ export default function Home() {
             </div>
             <div className="button_glow business"></div>
           </button>
-          <p className="p-24 is-opport">
+          <p className="p-14 is-opport">
             <span className=""><strong>Marketing is important...</strong></span>
             <br />
             <br />
@@ -124,7 +126,9 @@ export default function Home() {
               <div style={{
                 transform: "translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)",
                 transformStyle: "preserve-3d",
-              }}>
+                }}
+                onClick={() => setActiveTab("Free Quote")} // Add click handler
+              >
                 Yes, I WANT THAT!
               </div>
               <div style={{

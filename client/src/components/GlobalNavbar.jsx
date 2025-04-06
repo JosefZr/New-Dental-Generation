@@ -245,9 +245,8 @@ export default function GlobalNavbar() {
     {
       id:"store",
       name:"Dental Suppliers",
-
       route:"/store"
-    },
+    }
   ]
   return (
     <>
@@ -303,6 +302,12 @@ export default function GlobalNavbar() {
           {item.name}
         </MenuItem>
         ))}
+        <MenuItem onClick={()=>{
+          window.open("https://buildydn.wixsite.com/ydn-journal", "_blank")
+          closeMenu()
+        }}>
+          YDN Journal
+        </MenuItem>
       </Sidebar>
     </>
   )

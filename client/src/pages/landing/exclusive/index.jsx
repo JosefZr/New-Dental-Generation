@@ -10,6 +10,9 @@ import { size } from "@/lib/mediaQuerys"
 import { CtaButton } from "@/components"
 import useReveal from "@/hooks/useReveal"
 import { useParams } from "react-router-dom"
+import { MdWorkHistory } from "react-icons/md"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { useState } from "react"
 
 const H3 = styled.h3`
   font-size: 12px;
@@ -132,7 +135,40 @@ const Logo = styled.div`
   margin-right: 4px;
   display: flex;
 `;
+const Content = styled.div`
+    grid-column-gap: 1.75rem;
+    grid-row-gap: 1.75rem;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    position: relative;
+    padding: 1rem;
+    
+    @media screen and (max-width: 768px) {
+        gap: 1rem;
+        padding: 0.75rem;
+    }
+    
+    @media screen and (max-width: 520px) {
+        gap: 0.75rem;
+        padding: 0.5rem;
+    }
+`
+const NavButton = styled.button`
+  background: #bc1823;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
 
+  &:hover {
+    background: #a9464d;
+  }
+`;
 export const GetTimelineData = (actor) => {
     const { t } = useTranslation();
   
@@ -197,7 +233,7 @@ export const GetTimelineData = (actor) => {
           descriptions: transformDescriptionToTable(t(`${actor}.services.content.growth.description`)),
         },
         {
-          logo: <FaMoneyBillTrendUp className="h-10 w-12" />,
+          logo: <MdWorkHistory className="h-10 w-12" />,
           left: "/images/10.webp",
           title: t(`${actor}.services.content.opportunity.title`),
           descriptions: transformDescriptionToTable(t(`${actor}.services.content.opportunity.description`)),
@@ -206,6 +242,13 @@ export const GetTimelineData = (actor) => {
     }
   };
 export default function Exclusive({actor}) {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const images = ["/de1.jpg", "/de2.jpg"]; // Replace with your actual image paths
+  const handleNext = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+  };
+
   useReveal('vertical');
   useReveal('horizontal');
   const params = useParams()
@@ -248,9 +291,34 @@ export default function Exclusive({actor}) {
             }
             </>
         </div>
-            {params.name==="dentist" ?<div className="pt-10">
-              <CtaButton className="mt-10" content="Our_Dentists_Are_Winning!"/>
-            </div>:(
+            {params.name==="dentist" ?
+              <>
+                <div className="pt-10">
+                <Dialog>
+              <DialogTrigger className=" w-full">
+                <CtaButton className="mt-10" content="Our_Dentists_Are_Winning!" defaultAction={false} />
+              </DialogTrigger>
+              <DialogContent className="bg-black border-my-gray max-w-[60%] max-h-[90vh] overflow-y-auto max-lg:max-w-[75%] max-md:max-w-[85%] max-sm:max-w-[95%] max-xs:max-w-[98%] p-4 max-sm:p-3 max-xs:p-2">
+                <Content>
+                  <img 
+                    src={images[currentImageIndex]} 
+                    alt="success story" 
+                    loading="lazy" 
+                    className="mt-5"
+                    style={{ maxWidth: '100%', height: 'auto' }}
+                  />
+                  <NavButton onClick={handleNext}>
+                    Next ({currentImageIndex + 1}/{images.length})
+                  </NavButton>
+                </Content>
+                
+              </DialogContent>
+            </Dialog>
+                
+              </div>
+              <H3 className="uppercase text-center pt-10 text-[16px] mb-2 reveal-vertical">SUCCESS STORY OF THE TOP DENTIST </H3>
+              </>
+            :(
               <div className="relative my-10">
                 <p className="text-white/50 small text-[48px]"style={{lineClamp:"18px"}}>Contact Me Now!</p>
 

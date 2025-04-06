@@ -83,14 +83,30 @@ const StyledButton = styled.button`
     }
 `;
 
-export default function CtaButton({content, withSubscribers = "false" }) {
+export default function CtaButton({ 
+  content, 
+  defaultAction = true,  // Changed default to false
+  withSubscribers = "false", 
+  onClick  // Added onClick prop for custom handlers
+}) {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const handleClick = (e) => {
+    if (onClick) {
+      onClick(e); // Use custom handler if provided
+    }
+    
+    // Only navigate if defaultAction is explicitly true
+    if (defaultAction) {
+      navigate("/sign-up");
+    }
+  };
+
   return (
     <ButtonWrap>
-      <StyledButton onClick={() => navigate("/sign-up")}>
-        {content? content: t('cta') }
+      <StyledButton onClick={handleClick}>
+        {content ? content : t('cta')}
       </StyledButton>
       {withSubscribers === "true" && <Subscribers />}
     </ButtonWrap>

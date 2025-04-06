@@ -4,12 +4,14 @@ import { UserContext } from "@/context/UserContext"
 import { useContext } from "react"
 import { Button } from "../ui/button"
 import { useNavigate } from "react-router-dom"
+import useSocketStore from "@/socketStore"
 
 export default function LogoutModal() {
     const navigate = useNavigate()
     const { setUser } = useContext(UserContext)
     const { isOpen, onClose, type } = useModal()
     const isModalOpen = isOpen && type === MODAL_TYPE.LOGOUT_MODAL
+    const socket = useSocketStore((state) => state.socket);
 
     const handleLogout = async () => {
         try {
@@ -30,6 +32,7 @@ export default function LogoutModal() {
         setUser(null)
         navigate("/login")
         onClose()
+        socket.disconnectSocket()
         } catch (error) {
         console.error("Logout error:", error)
         // Optional: Show error message to user
