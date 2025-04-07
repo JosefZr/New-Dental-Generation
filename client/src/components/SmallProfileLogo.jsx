@@ -7,12 +7,12 @@ export const Logo = styled.div`
 export default function SmallProfileLogo({image}) {
     return (
         <>
-        {image ===`/default-avatar.jpg` ?
+        {image ===`/default-avatar.webp` ?
         (
             <Logo
                 className="rounded-full object-cover"
                 style={{ 
-                    backgroundImage: `url(/default-avatar.jpg)` ,
+                    backgroundImage: `url(/default-avatar.webp)` ,
                     width:"40px",
                     height:"40px"
                 }}

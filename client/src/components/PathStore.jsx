@@ -22,14 +22,14 @@ export const GetChecks = (actor) => {
 
 const SectionPath = styled.section`
     position: relative;
-    background-image: url("/backs/path.svg");
+    background-image: url("/backs/path.webp");
     background-repeat: repeat;
     background-size: cover;
     background-position: center;
-    -webkit-mask-image: url("/backs/path.svg");
+    -webkit-mask-image: url("/backs/path.webp");
     -webkit-mask-size: cover;
     -webkit-mask-repeat: no-repeat;
-    mask-image: url("/backs/path.svg");
+    mask-image: url("/backs/path.webp");
     background-color: rgba(0, 0, 0, 0.5); /* Overlay color */
 background-blend-mode: overlay;
     `

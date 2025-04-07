@@ -182,9 +182,9 @@ const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.comp
         <div className="relative flex px-4 -mt-[55px]" style={{alignSelf:"flex-start",flexDirection:"row" }}>
         {/* Avatar */}
         <div className="flex-shrink-0 rounded-full border-4 border-black overflow-hidden" style={{ width: "88px", height: "88px" }}>
-            {user.avatar === "/default-avatar.jpg"?
+            {user.avatar === "/default-avatar.webp"?
            ( <img
-                src={`/default-avatar.jpg`}
+                src={`/default-avatar.webp`}
                 alt="Avatar"
                 className="w-full h-full object-cover"
             />):

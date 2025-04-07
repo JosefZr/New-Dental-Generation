@@ -42,9 +42,9 @@ export default function MyAccount() {
       <div>
       <div className="flex items-center gap-3">
         <section className="relative flex-shrink-0 rounded-full bg-base-300" style={{width:"62px", height:"62px"}}>
-          {user.avatar ===`/default-avatar.jpg`?
+          {user.avatar ===`/default-avatar.webp`?
             (<img 
-              src={`/default-avatar.jpg`} 
+              src={`/default-avatar.webp`} 
               alt="" className="rounded-full object-cover" 
               style={{width:"62px",height:"62px"}} 
               loading="lazy"

@@ -6,7 +6,7 @@ import CtaHeaders from "./components/CtaHeaders"
 
 const SectionPath = styled.section`
   position: relative;
-  background-image: url("/backs/path.svg");
+  background-image: url("/backs/path.webp");
   background-repeat: repeat;
   background-size: cover;
   background-position: center;

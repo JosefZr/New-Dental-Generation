@@ -23,7 +23,7 @@ export default function LeftSignup() {
     <div className="scrollbar-custom text-center text-[20px] lg:font-bold hidden lg:flex lg:flex-col lg:px-2 lg:text-left lg:mb-none lg:bg-alternate lg:pt-[56px] lg:pb-[54px] lg:sticky lg:top-0 lg:left-0 sm:overflow-y-scroll">
       <div className="relative lg:mr-3 lg:mx-0 rounded-full overflow-hidden max-w-[300px] max-h-[300px] mx-auto self-center mb-5">
         <img
-          src="/signLogo.jpg"
+          src="/signLogo.webp"
           alt="logo"
           className="hidden lg:block trw-logo w-full h-full object-cover transform scale-[1.39] text-center"
         />

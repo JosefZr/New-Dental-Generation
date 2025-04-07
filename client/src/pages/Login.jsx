@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import useSocketStore from "../socketStore";
 const Back = styled.div`
-  background-image: url("/photo_2025-02-03_20-17-15.jpg");
+  background-image: url("/photo_2025-02-03_20-17-15.webp");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: bottom;
@@ -98,7 +98,7 @@ export default function Login() {
             <div className="relative lg:mr-3 mx-auto lg:mx-0 max-w-[35vh] max-h-[35vh] rounded-full overflow-hidden mt-[20%]">
                 <img
                   className="trw-logo w-full h-full object-cover transform scale-[1.39]   max-h-[35vh] max-sm:max-h-[15vh] "
-                  src="/signLogo.jpg"
+                  src="/signLogo.webp"
                   alt="logo"
                 />
               </div>

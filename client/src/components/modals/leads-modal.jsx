@@ -200,7 +200,7 @@ export default function LeadsModal() {
         }}>
             <div className="w-full my-auto">
             <div className="items-center flex flex-col">
-                <img src="/leadsImage.jpg" 
+                <img src="/leadsImage.webp" 
                 style={{
                 width:"500px",
                 display:"block",

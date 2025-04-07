@@ -84,7 +84,7 @@ export default function SignupAdmins() {
             <div className="lg:flex-row lg:h-[114px] lg:text-left flex flex-col mt-[25px] text-primary-content text-center lg:w-full">
                 <img
                 className="trw-logo mx-auto lg:mx-0 lg:mr-3 max-w-[114px] max-h-[114px]"
-                src="/signLogo.jpg"
+                src="/signLogo.webp"
                 alt="logo"
                 />
                 <div>
@@ -102,7 +102,7 @@ export default function SignupAdmins() {
             <div className="lg:flex-row lg:h-[114px] lg:text-left flex flex-col mt-[25px] text-primary-content text-center lg:w-full">
                 <img
                 className="trw-logo mx-auto rounded-full lg:mx-0 lg:mr-3 max-w-[114px] max-h-[114px]"
-                src="/signLogo.jpg"
+                src="/signLogo.webp"
                 alt="logo"
                 />
                 <div>

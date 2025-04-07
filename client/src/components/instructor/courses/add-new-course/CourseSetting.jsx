@@ -110,7 +110,7 @@ async function handleDeleteImage() {
               <div className="relative overflow-hidden rounded-lg border bg-background aspect-video flex items-center justify-center">
                 {imageUrl ? (
                   <img
-                    src={imageUrl || "/signLogo.jpg"}
+                    src={imageUrl || "/signLogo.webp"}
                     alt="Course preview"
                     className="h-full w-full object-cover transition-all hover:scale-105"
                   />

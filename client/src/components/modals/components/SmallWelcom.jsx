@@ -38,9 +38,9 @@ export default function SmallWelcom() {
     <div className="Card Card-side card-compact m-[2px] h-full gap-4 border-transparent  p-4" style={{backgroundColor:"rgba(13 26 37)"}}>
         <section style={{position:"relative"}} className=" flex-shrink-0 rounded-full bg-base-300 ">
             {
-                user.avatar===`/default-avatar.jpg` ?
+                user.avatar===`/default-avatar.webp` ?
                 (
-                    <Logo style={{ backgroundImage: `url(/default-avatar.jpg)` ,width:"61px", height:"61px"}}  className="rounded-full object-cover "  />
+                    <Logo style={{ backgroundImage: `url(/default-avatar.webp)` ,width:"61px", height:"61px"}}  className="rounded-full object-cover "  />
                 ):
                 (
                     <Logo style={{ backgroundImage: `url(${import.meta.env.VITE_SERVER_API}/uploads/${user.avatar})` ,width:"61px", height:"61px"}}  className="rounded-full object-cover "  />

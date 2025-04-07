@@ -244,7 +244,7 @@ export const GetTimelineData = (actor) => {
 export default function Exclusive({actor}) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const images = ["/de1.jpg", "/de2.jpg"]; // Replace with your actual image paths
+  const images = ["/de1.webp", "/de2.webp"]; // Replace with your actual image paths
   const handleNext = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
   };

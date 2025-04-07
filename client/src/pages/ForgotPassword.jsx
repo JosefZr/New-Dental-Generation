@@ -3,7 +3,7 @@ import {  useState } from "react";
 import toast from "react-hot-toast";
 import styled from "styled-components";
 const Back = styled.div`
-  background-image: url("/photo_2025-02-03_20-17-15.jpg");
+  background-image: url("/photo_2025-02-03_20-17-15.webp");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: bottom;
@@ -67,7 +67,7 @@ const handleSubmit = async (e) => {
           <div className="absolute inset-0 max-h-[100vh] overflow-y-auto pt-inset-top pb-inset-bottom flex flex-col items-center justify-center">
             <div className="flex flex-col items-center rounded-full">
               <img
-                src="/signLogo.jpg"
+                src="/signLogo.webp"
                 alt="logo"
                 className="mx-auto mt-[30%] h-[256px] max-h-[35vh] w-auto  rounded-full"
               />

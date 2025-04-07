@@ -90,10 +90,10 @@ const onBackgroundChange = async (e)=>{
             >
             <div className="group relative h-[92px] w-[92px] cursor-pointer rounded-full">
                 <div className="h-[92px] w-[92px] rounded-full">
-                {user.avatar === "/default-avatar.jpg"?
+                {user.avatar === "/default-avatar.webp"?
                 (<Logo
                     className="h-full w-full rounded-full"
-                    style={{ backgroundImage: `url(/default-avatar.jpg` }}
+                    style={{ backgroundImage: `url(/default-avatar.webp` }}
                 />):(
                     (<Logo
                         className="h-full w-full rounded-full"

@@ -18,7 +18,7 @@ export default function TopDentistOpportunity() {
         isSidebarOpen ? "ml-[-72px]" : ""
       }`}
       style={{
-        backgroundImage: `url("/TOP DENTISTS .svg")`,
+        backgroundImage: `url("/TOP DENTISTS .webp")`,
         backgroundSize: "cover",
         backgroundRepeat: "repeat",
       }}

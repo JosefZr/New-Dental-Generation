@@ -124,7 +124,7 @@ const formatDate = (dateString) => {
         ))
       ) : (
         <div className="flex flex-col items-center justify-center p-3">
-          <img src="/jouney.jpg" alt="Journey" className="h-[128px] w-[128px] rounded-full" />
+          <img src="/jouney.webp" alt="Journey" className="h-[128px] w-[128px] rounded-full" />
           <div className="mt-2 text-center text-sm">Their journey is just beginning...</div>
         </div>
       )}

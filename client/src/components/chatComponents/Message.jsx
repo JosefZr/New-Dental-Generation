@@ -125,7 +125,7 @@ export default function Message({ message,chanId ,handleEditMessage}) {
             style={{ width: "40px", height: "40px" }}
             onClick={handleImageClick}
           >
-            {message.sender?.avatar ==="/default-avatar.jpg" ?(
+            {message.sender?.avatar ==="/default-avatar.webp" ?(
               <img
                 src={`${message.sender.avatar}`}
                 className="rounded-full object-cover"

@@ -7,11 +7,11 @@ export const Logo = styled.div`
 export default function BigProfileLogo({image}) {
   return (
     <>
-    {image ===`/default-avatar.jpg` ?
+    {image ===`/default-avatar.webp` ?
     (
       <Logo
         className="h-full w-full rounded-full"
-        style={{ backgroundImage: `url(/default-avatar.jpg)`,width:"51px", height:"51px" }}
+        style={{ backgroundImage: `url(/default-avatar.webp)`,width:"51px", height:"51px" }}
       />
     )
     :(
