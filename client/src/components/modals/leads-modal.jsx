@@ -202,27 +202,18 @@ export default function LeadsModal() {
             <div className="items-center flex flex-col">
                 <img src="/leadsImage.webp" 
                 style={{
-                width:"500px",
-                display:"block",
-                padding:"0",
-                maxWidth:"100%",
-                alignSelf:"center",
-                marginTop:"0px",
-                maxHeight:"100%",
-                borderRadius:"0px",
-                marginBottom:"0px"
-                }}/>
-            </div>
-            <div className="items-center flex flex-col">
-                <Text>
-                <P>
-                The Dentist’s Secret Weapon  <br /> ( FREE-GUIDE ) 
-                </P>
-                </Text>
-            </div>
-            <div className="items-center flex flex-col">
-                <H1>
-                Admin chaos, staff headaches, lowball patients, profit leaks… sound familiar?                </H1>
+                    width: "100%",
+                    height: "300px",
+                    objectFit: "cover",
+                    objectPosition: "top", // <-- this is the key line
+
+                    backgroundPosition: "top center",
+                    borderRadius: "0px",
+                    marginBottom: "0px",
+                    marginTop: "0px",
+                    display: "block",
+                  }}
+                />
             </div>
             <div className="items-center flex flex-col">
                 <Text>
@@ -231,7 +222,13 @@ export default function LeadsModal() {
                 </P>
                 </Text>
             </div>
-            {/* <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="items-center flex flex-col">
+                <H1>
+                The biggest problems silently killing your practice
+                And How to fix it all with ONE system (no fluff, just results)
+               </H1>
+            </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="items-center flex flex-col">
                     <Input
                     {...register("email", {
@@ -261,11 +258,6 @@ export default function LeadsModal() {
                 <Button2 >
                 <P>Start Your Free Trial Now!</P>
                 </Button2>
-            </div> */}
-             <div className="items-center flex flex-col">
-                <H1>
-                The biggest problems silently killing your practice
-                fix it all with ONE system (no fluff, just results)</H1>
             </div>
             </div>
         </div>):
