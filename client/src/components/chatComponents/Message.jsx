@@ -16,6 +16,7 @@ import MessageDate from "./MessageDate";
 import MessageText from "./MessageText";
 import MessageImage from "./MessageImage";
 import MessageTools from "./MessageTools";
+import { LoadingSpinner } from "../LoadingSpinner";
 
 
 export default function Message({ message,chanId ,handleEditMessage}) {
@@ -24,6 +25,7 @@ export default function Message({ message,chanId ,handleEditMessage}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const { setClickedUserId } = useUserToChatContext();
+  const [loading, setLoading] = useState(false);
 
   const handleAddFriendRequest = async () => {
     if (!userPreview?._id) return;
@@ -59,7 +61,8 @@ export default function Message({ message,chanId ,handleEditMessage}) {
   };
   const handleUserData = async () => {
     if (!userPreview?._id) return;
-    
+    setLoading(true);
+
     try {
       const response = await getFriendsRequest(userInfo.userId, userPreview._id);
       if (response.success) {
@@ -69,6 +72,8 @@ export default function Message({ message,chanId ,handleEditMessage}) {
       }
     } catch (error) {
       console.log("Error fetching user data:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -108,17 +113,18 @@ export default function Message({ message,chanId ,handleEditMessage}) {
 
   return (
     <div className="chat-item-wrapper will-change-transform translate-y-0 w-full" style={{position:"relative"}}>
-  <div
-    className="chat-message group relative flex w-full focus:border-primary lg:pr-4 focus:ring"
-    style={{
-      transition: "transform 0.25s ease-out",
-      flexDirection: "row",
-      alignItems: "flex-start",
-    }}
-  >
-    <div className="flex shrink-0 justify-center w-[56px]">
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogTitle>{""}</DialogTitle>
+    <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+    <div
+      className="chat-message group relative flex w-full focus:border-primary lg:pr-4 focus:ring"
+      style={{
+        transition: "transform 0.25s ease-out",
+        flexDirection: "row",
+        alignItems: "flex-start",
+      }}
+    >
+    {/* Avatar Trigger */}
+    <div className="flex shrink-0 justify-center w-[56px]">        
+      <DialogTitle>{""}</DialogTitle>
         <DialogTrigger asChild>
           <div
             className="relative rounded-full block flex-shrink-0 cursor-pointer"
@@ -144,61 +150,9 @@ export default function Message({ message,chanId ,handleEditMessage}) {
             )}
           </div>
         </DialogTrigger>
-        <DialogContent className="border-none rounded-none text-white p-0 bg-my-dark-blue">
-          <DialogDescription className="border-none p-0">
-            {userPreview && <Preview user={userPreview} />}
-            <div className="absolute top-3 right-4 z-[11] flex justify-end gap-1 sm:z-10">
-              {userPreview?._id === userInfo?.userId ?(
-                <></>
-              ):(
-                <button
-                  className="h-[2rem] w-[2rem] rounded-full px-[6px] py-[2px] bg-slate-950"
-                  onClick={() => {
-                    setClickedUserId({
-                      userId: userPreview._id,
-                      username: `${userPreview.firstName} ${userPreview.lastName}`,
-                    });
-                    handleClose();
-                    navigate("/dashboard/user-chat");
-                  }}
-                >
-                  <MdMessage className="h-[30px] w-[21px]  text-center text-my-white" />
-                </button>
-              ) 
-              }
-
-              { userPreview?._id === userInfo?.userId ?(
-                <></>
-              ):(
-                showRemoveButton ? (
-                  <button
-                    className="h-[2rem] w-[2rem] rounded-full px-2 bg-slate-950 text-center"
-                    onClick={handleDeletePendingRequest}
-                  >
-                    <FaUserMinus className="h-[32px] w-[20px] items-center justify-center text-my-white" />
-                  </button>
-                ) : (
-                  <button
-                    className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950 text-center"
-                    onClick={handleAddFriendRequest}
-                  >
-                    <HiUserAdd className="h-[33px] w-[24px] text-my-white" />
-                  </button>
-                )
-              ) }
-
-              <button
-                className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950 text-center"
-                onClick={handleClose}
-              >
-                <IoMdClose className="text-2xl text-my-white" />
-              </button>
-            </div>
-          </DialogDescription>
-        </DialogContent>
-      </Dialog>
     </div>
-
+    
+    {/* Message Content */}
     <div
       className="mb-[2px] inline-block w-full rounded-md border bg-bubble-gradient px-2 py-[4px] border-transparent group"
       style={{
@@ -207,7 +161,13 @@ export default function Message({ message,chanId ,handleEditMessage}) {
       }}
     >
       <div className="flex items-center">
-        <Name message={message}/>
+        <DialogTrigger asChild>
+          <div className="cursor-pointer hover:underline"
+              onClick={() => setPreview(message.sender)}
+            >
+            <Name message={message} />
+          </div>
+        </DialogTrigger>
         <MessageDate message={message}/>
       </div>
       <span className="custom-break-words break-words text-sm">
@@ -217,8 +177,65 @@ export default function Message({ message,chanId ,handleEditMessage}) {
         </div>
       </span>
     </div>
+    </div>
+    <DialogContent className="border-none rounded-none text-white p-0 bg-my-dark-blue">
+  <DialogDescription className="border-none p-0">
+    {loading ? (
+      <div className="p-6 text-center">
+        <LoadingSpinner/>
+      </div>
+    ) : (
+      <>
+        {userPreview && <Preview user={userPreview} />}
+        <div className="absolute top-3 right-4 z-[11] flex justify-end gap-1 sm:z-10">
+          {userPreview?._id !== userInfo?.userId && (
+            <>
+              <button
+                className="h-[2rem] w-[2rem] rounded-full px-[6px] py-[2px] bg-slate-950"
+                onClick={() => {
+                  setClickedUserId({
+                    userId: userPreview._id,
+                    username: `${userPreview.firstName} ${userPreview.lastName}`,
+                  });
+                  handleClose();
+                  navigate("/dashboard/user-chat");
+                }}
+              >
+                <MdMessage className="h-[30px] w-[21px] text-my-white" />
+              </button>
+
+              {showRemoveButton ? (
+                <button
+                  className="h-[2rem] w-[2rem] rounded-full px-2 bg-slate-950 text-center"
+                  onClick={handleDeletePendingRequest}
+                >
+                  <FaUserMinus className="h-[32px] w-[20px] text-my-white" />
+                </button>
+              ) : (
+                <button
+                  className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950 text-center"
+                  onClick={handleAddFriendRequest}
+                >
+                  <HiUserAdd className="h-[33px] w-[24px] text-my-white" />
+                </button>
+              )}
+            </>
+          )}
+          <button
+            className="h-[2rem] w-[2rem] rounded-full px-1 bg-slate-950 text-center"
+            onClick={handleClose}
+          >
+            <IoMdClose className="text-2xl text-my-white" />
+          </button>
+        </div>
+      </>
+    )}
+  </DialogDescription>
+</DialogContent>
+
+        </Dialog>
+
     <MessageTools message={message} chanId={chanId} onEdit={handleEditMessage}/>
   </div>
-</div>
   );
 }
