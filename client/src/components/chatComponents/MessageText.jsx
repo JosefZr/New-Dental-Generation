@@ -69,41 +69,52 @@ export default function MessageText({ message }) {
       )}
       
       {courseUrlData && (
-        <div className="rounded-lg mt-[2px] w-[400px] max-w-[75vw]" style={{
-          backgroundColor: "hsl(210 27.586% 22.745%)"
-        }}>
-          <div className='flex flex-col gap-2 p-3 md:flex-row md:items-center md:justify-between' style={{ height: "100px" }}>
-            <div className="flex flex-1 gap-3">
-              <div className="relative flex cursor-pointer items-center justify-center rounded-full bg-base-100 font-bold text-lg flex-none" 
-                   style={{ height: "56px", width: "56px" }}>
-                <img 
-                  src={`${import.meta.env.VITE_SERVER_API}/uploads/course/${course?.image}`}
-                  alt="Course thumbnail"
-                  className="transform cursor-pointer rounded-full drop-shadow-xl transition-all"
-                />
-              </div>
-
-              <div className=''>
-                {/* Course Title */}
-                <h4 className="line-clamp-3 break-words font-bold text-sm">
-                  {course?.title || "Course Preview"}
-                </h4>
-                
-                {/* Lecture Title */}
-                <p className="line-clamp-1 break-words text-neutral-content text-xs">
-                  {lectureTitle || "Lecture Preview"}
-                </p>
-              </div>
+      <div className="rounded-lg mt-[2px] w-full max-w-[90vw]" style={{
+        backgroundColor: "hsl(210 27.586% 22.745%)"
+      }}>
+        <div className='flex flex-col gap-2 p-3 md:flex-row md:items-center md:justify-between'>
+          <div className="flex flex-1 gap-3">
+            {/* Image container */}
+            <div className="relative flex cursor-pointer items-center justify-center rounded-full bg-base-100 font-bold text-lg flex-none" 
+                style={{ 
+                  height: "56px", 
+                  width: "56px",
+                  minWidth: "56px" // Prevent image shrinkage
+                }}>
+              <img 
+                src={`${import.meta.env.VITE_SERVER_API}/uploads/course/${course?.image}`}
+                alt="Course thumbnail"
+                className="transform cursor-pointer rounded-full drop-shadow-xl transition-all object-cover w-full h-full"
+              />
             </div>
+
+            {/* Text container */}
+            <div className='flex-1 min-w-0'> {/* Add min-w-0 for text truncation */}
+              <h4 className="line-clamp-2 break-words font-bold text-sm">
+                {course?.title || "Course Preview"}
+              </h4>
+              <p className="line-clamp-1 break-words text-neutral-content text-xs mt-1">
+                {lectureTitle || "Lecture Preview"}
+              </p>
+            </div>
+          </div>
+          
+          {/* OPEN button container */}
+          <div className="flex justify-end md:justify-start mt-2 md:mt-0">
             <a
               href={courseUrlData.fullUrl}
-              className="btn btn-sm bg-my-dark-blue hover:bg-slate-900"
+              className="btn btn-sm bg-my-dark-blue hover:bg-slate-900 whitespace-nowrap max-sm:w-full"
+              style={{ 
+                minWidth: "80px", 
+                padding: "0.25rem 0.75rem" 
+              }}
             >
               OPEN
             </a>
           </div>
         </div>
-      )}
+      </div>
+    )}
     </div>
   );
 }

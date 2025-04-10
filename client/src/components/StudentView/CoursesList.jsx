@@ -53,7 +53,7 @@ export default function CoursesList({studentCourseList,isLoading, isError, error
         console.log(courseId)
         const courseProgress = allProgress?.find(prog => prog.courseId === courseId);
         const firstUnwatched = findFirstUnwatchedLecture(courseProgress);
-            navigate(`/course/details/${courseId}/${firstUnwatched.moduleId.moduleId}/${firstUnwatched.lectureId.lectureId}`);
+            navigate(`/course/details/${courseId}/${firstUnwatched?.moduleId?.moduleId}/${firstUnwatched?.lectureId?.lectureId}`);
             // If all lectures are watched, go to course details
     };
     const { searchTerm  } = useContext(CoursesContext);
