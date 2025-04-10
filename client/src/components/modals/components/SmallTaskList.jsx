@@ -213,8 +213,8 @@ export default function SmallTaskList() {
             </button>
         </div>
             
-            <AdvancedCheckList title={"Advanced Check List"} tasks={advanced || []} isLoading={isGettingAdvanced} />
-            <AdvancedCheckList title={"Check List"} tasks={simple || []} isLoading={isGettingSimple} />
+            <AdvancedCheckList title={"Advanced Checklist"} tasks={advanced || []} isLoading={isGettingAdvanced} />
+            <AdvancedCheckList title={"Checklist"} tasks={simple || []} isLoading={isGettingSimple} />
 
         <Dialog open={isNewTaskOpen} onOpenChange={setIsNewTaskOpen}>
             <DialogContent className="bg-[#1A1F24] text-white border-gray-800">

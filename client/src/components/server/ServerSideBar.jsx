@@ -156,9 +156,7 @@ const handlePinChannel = async (channel) => {
   const handleBirClick = ()=>{
     onOpen(MODAL_TYPE.BIR)
   }
-
   const [isFirstCallMade, setIsFirstCallMade] = useState(false);
-
 
   const socket = useSocketStore((state) => state.socket);
   const checkAndReconnect = useSocketStore((state) => state.checkAndReconnect);
@@ -420,7 +418,7 @@ const handlePinChannel = async (channel) => {
               </div>
             )}
             {/* for the algerian channel */}
-            {groupedChannels.algeria.length >= 0 && (
+            {(userInfo.role === 'admin' || (user.region && user.region.toLowerCase() === 'algeria')) && groupedChannels.algeria.length >= 0 && (
               <div className="mx-2">
                 <ServerSection label="Algeria Channels" allowedRole="all"  channelType="algeria">
                   {groupedChannels.algeria.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
@@ -449,7 +447,7 @@ const handlePinChannel = async (channel) => {
               </div>
             )}
             {/* for the russian channel */}
-            {groupedChannels.russia.length >= 0 && (
+            {(userInfo.role === 'admin' || (user.region && user.region.toLowerCase() === 'russia')) && groupedChannels.russia.length >= 0 && (
               <div className="mx-2">
                 <ServerSection label="Russia Channels" allowedRole="all" channelType="russia">
                   {groupedChannels.russia.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
@@ -478,7 +476,7 @@ const handlePinChannel = async (channel) => {
               </div>
             )}
             {/* for the egypt channel */}
-            {groupedChannels.egypt.length >= 0 && (
+            {(userInfo.role === 'admin' || (user.region && user.region.toLowerCase() === 'egypt')) && groupedChannels.egypt.length >= 0 && (
               <div className="mx-2">
                 <ServerSection label="Egypt Channels" allowedRole="all" channelType="egypt">
                   {groupedChannels.egypt.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))
@@ -507,7 +505,7 @@ const handlePinChannel = async (channel) => {
               </div>
             )}
             {/* for the europe channel */}
-            {groupedChannels.europe.length >= 0 && (
+            {(userInfo.role === 'admin' || (user.region && user.region.toLowerCase() === 'europe')) && groupedChannels.europe.length >= 0 && (
               <div className="mx-2">
                 <ServerSection label="Europe Channels" allowedRole="all" channelType="europe">
                   {groupedChannels.europe.sort((a, b) => (b.locked ? 1 : 0) - (a.locked ? 1 : 0))

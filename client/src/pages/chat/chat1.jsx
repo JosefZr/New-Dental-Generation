@@ -781,7 +781,7 @@ const insertFormatting = (symbol) => {
                       />
                     </div>
                   )} */}
-                 <button 
+                <button 
                     className={`bg-slate-700 rounded-full p-[5px] cursor-pointer ${
                       (disable || isAnyImageUploading || !isSocketConnected || 
                       (!msgToSend.trim() && images.length === 0)) ? 
@@ -802,13 +802,35 @@ const insertFormatting = (symbol) => {
                         <IoIosSend  className="text-xl mr-[1px] text-my-gold" />
                       )
                     )}
-                  </button>
-                
+                </button>
               </div>
             </>
               ) : (
-                <div className="w-full text-center py-4 text-gray-500">
-                  {getAccessDeniedMessage()}
+                <div className="w-[90%] text-center py-2 text-gray-500 flex flex-row gap-1 opacity-50 cursor-not-allowed  items-center ">
+                  <form onSubmit={handleSubmit} className="relative block min-h-[32px] rounded-2xl flex-1" style={{
+                    backgroundColor: "hsl(213.53 34% 19.608%)"
+                  }}>
+                    <textarea
+                      ref={textareaRef}
+                      id="chat-input"
+                      style={{ 
+                        minHeight: '18px', 
+                        maxHeight: `${MAX_TEXTAREA_HEIGHT}px`,
+                      }}
+                      className="top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none w-full overflow-y-auto min-h-[18px]"
+                      placeholder={getAccessDeniedMessage()}            
+                      value={msgToSend}
+                      onChange={(e) => {setMessageToSend(e.target.value)}}
+                      onKeyDown={handleKeyDown}
+                      disabled={true}
+                    />
+                  </form>
+                  <button 
+                    className="bg-slate-700 rounded-full p-[5px] cursor-not-allowed"
+                    disabled={true}
+                  >
+                    <IoIosSend className="text-xl mr-[1px] text-gray-500" />
+                  </button>
                 </div>
               )}
             </footer>
