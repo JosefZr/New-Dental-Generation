@@ -112,7 +112,7 @@ export default function Message({ message,chanId ,handleEditMessage}) {
     (friendsRequest.sender === userPreview._id || friendsRequest.receiver === userPreview._id);
 
   return (
-    <div className="chat-item-wrapper will-change-transform translate-y-0 w-full" style={{position:"relative"}}>
+    <div className="group  chat-item-wrapper will-change-transform translate-y-0 w-full" style={{position:"relative"}}>
     <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
     <div
       className="chat-message group relative flex w-full focus:border-primary lg:pr-4 focus:ring"
@@ -177,6 +177,8 @@ export default function Message({ message,chanId ,handleEditMessage}) {
         </div>
       </span>
     </div>
+    <MessageTools message={message} chanId={chanId} onEdit={handleEditMessage}/>
+
     </div>
     <DialogContent className="border-none rounded-none text-white p-0 bg-my-dark-blue">
   <DialogDescription className="border-none p-0">
@@ -232,10 +234,7 @@ export default function Message({ message,chanId ,handleEditMessage}) {
     )}
   </DialogDescription>
 </DialogContent>
-
         </Dialog>
-
-    <MessageTools message={message} chanId={chanId} onEdit={handleEditMessage}/>
   </div>
   );
 }

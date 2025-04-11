@@ -3,9 +3,7 @@ import { Edit, Trash, Pin } from "lucide-react";
 import { ActionTooltip } from "../ui/action-tooltip";
 import { cn } from "@/lib/utils";
 import { jwtDecode } from "jwt-decode";
-import { useContext } from "react";
-import { UserContext } from "@/context/UserContext";
-
+import { useParams } from "react-router-dom";
 export default function ServerChannel({   
   channel,   
   id,
@@ -15,7 +13,6 @@ export default function ServerChannel({
   onPinClick,
   isPinned
 }) {
-  const { clickedChannel } = useContext(UserContext)
   const userInfo = jwtDecode(localStorage.getItem("token"))
 
   const handleDeleteClick = (e) => {
@@ -32,16 +29,17 @@ export default function ServerChannel({
     e.stopPropagation();
     onPinClick();
   }
+  const { channelId } = useParams();
 
   return (
     <div style={{position:"relative"}}>
-      {clickedChannel === id && (
+      {channelId === id && (
         <div className="absolute left-[-8px] top-1/2 transform -translate-y-1/2 bg-my-white rounded-r-full transition-all w-[4px] h-[8px]" />
       )}
       <div
         className={cn(
           "group group  mb-[2px] ml-[2px] flex h-[34px] flex-1 shrink-0  items-center justify-between rounded-md pr-[6px] pl-[2px] cursor-pointer text-[#bdbdbd] hover:bg-zinc-700/10 hover:bg-opacity-50",
-          clickedChannel === id && "bg-zinc-700/50 text-my-white-gray"
+          channelId === id && "bg-zinc-700/50 text-my-white-gray"
         )}
         onClick={onClickChan}
       >

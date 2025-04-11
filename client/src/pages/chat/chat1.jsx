@@ -18,10 +18,13 @@ import PreviewOriginalText from "./components/PreviewOriginalText";
 import { useUserToChatContext } from "@/context/ToChatUser";
 import { LoadingSpinner } from "@/components/server/ServerSideBar";
 import imageCompression from "browser-image-compression";
+import { useParams } from "react-router-dom";
 
-export default function Chat1({ initialMessages, chanId,cahnTitle }) {
+export default function Chat1() {
   const userInfo = useAuthUser();
-  const [messages, setMessages] = useState(initialMessages || []);
+  const { channelId } = useParams();
+  const [channel, setChannel] = useState(null);
+  const [messages, setMessages] = useState([]);
   const [msgToSend, setMessageToSend] = useState("");
   const [imagesTosnd, setImagesToSnd] = useState([])
   const [images, setImages] = useState([])
@@ -46,11 +49,41 @@ const [editingMessage, setEditingMessage] = useState(null);
 // Add this state
 const [isSocketConnected, setIsSocketConnected] = useState(false);
 
-// check if there is any socket
 useEffect(() => {
-  checkAndReconnect();
-}, []);
-
+  const fetchChannelData = async () => {
+    if (!channelId) return;
+    
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_SERVER_API}/api/v1/channels/${channelId}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      );
+      
+      if (response.ok) {
+        if (status === "off"){
+          onOpen(MODAL_TYPE.LIMITATION_MODAL)
+        }
+        else{
+          if (response.ok) {
+            const data = await response.json();
+            setChannel(data.data);
+            setMessages(data.data.messages);
+            scrollToBottom();
+          }
+        }
+        
+      }
+    } catch (error) {
+      console.error("Error fetching channel:", error);
+    }
+  };
+  
+  fetchChannelData();
+}, [channelId]);
 // Update socket connection handler
 useEffect(() => {
   if (!socket) {
@@ -64,8 +97,8 @@ useEffect(() => {
   const handleConnect = () => {
     setIsSocketConnected(true);
 
-    if (chanId) {
-      socket.emit("joinGroup", chanId);
+    if (channelId) {
+      socket.emit("joinGroup", channelId);
     }
   };
 
@@ -81,9 +114,9 @@ useEffect(() => {
     socket.off("connect", handleConnect);
     socket.off("disconnect", handleDisconnect);
   };
-}, [socket, chanId]);
+}, [socket, channelId]);
 
-// In your edit handling
+// In your edit handlingz
 const handleEditMessage = (message) => {
   setEditingMessage(message);
   setMessageToSend(message.content || "");
@@ -323,66 +356,72 @@ const handleFileChange = async (event) => {
     }
   }
   function sendMessage() {
-    console.log(userInfo.userId)
+    console.log(userInfo.userId);
+    // Check if socket is null or disconnected
     if (!socket) {
-      return ; 
-    };
-
-    if (!isSocketConnected) {
-      console.log("Socket not connected");
+      console.error("Socket not initialized");
+      checkAndReconnect();
       return;
     }
-    
-    if (!chanId || !userInfo?.userId) {
-      console.log("Missing channel ID or user ID");
+  
+    // Then check connection status
+    if (!socket.connected) {
+      console.log("Socket disconnected. Attempting to reconnect...");
+      checkAndReconnect();
+      socket.connect(); // Manually trigger connection
       return;
     }
-    if(status==='off'){
-      onOpen(MODAL_TYPE.LIMITATION_MODAL)
+  
+  
+    if (!channelId) {
+      console.log("Missing channel ID");
+      return;
     }
-    else{
-      if (!msgToSend.trim() && !imagesTosnd) return;
-
-      console.log(imagesTosnd , msgToSend)
-      if(!msgToSend || !chanId  || !userInfo.userId){
-        console.log('no msgToSend or chanId or userId')
-        return
-      }
-      
-      if (editingMessage) {
-        // Emit update message event with content and timestamp
-        socket.emit("updateMessage", {
-          originalContent: editingMessage.content,
-          originalDate: editingMessage.createdAt, // Use actual date property from your message object
-          newContent: msgToSend,
-          channelId: chanId,
-        });
-    
-        // Reset editing state
-        setEditingMessage(null);
-      }else {
+  
+    if (!userInfo?.userId) {
+      console.log("Missing user ID");
+      return;
+    }
+  
+    if (status === 'off') {
+      onOpen(MODAL_TYPE.LIMITATION_MODAL);
+      return;
+    }
+  
+    if (!msgToSend.trim() && images.length === 0) return;
+  
+    if (editingMessage) {
+      socket.emit("updateMessage", {
+        originalContent: editingMessage.content,
+        originalDate: editingMessage.createdAt,
+        newContent: msgToSend,
+        channelId: channelId,
+      });
+      setEditingMessage(null);
+    } else {
       socket.emit("channelMessage", {
         content: msgToSend,
-        channelId: chanId,
+        channelId: channelId,
         images: imagesTosnd,
         type: "text",
-        sender: userInfo.userId, // Ensure sender is included
+        sender: userInfo.userId,
       });
     }
-      if(owner.type ==="journey"){
-        addJourney.mutate({
-          userId: userInfo.userId,
-          content:msgToSend,
-          images:imagesTosnd,
-          chanTitle:cahnTitle,
-          chanId:chanId,
-        });
-      }
+  
+    if (owner.type === "journey") {
+      addJourney.mutate({
+        userId: userInfo.userId,
+        content: msgToSend,
+        images: imagesTosnd,
+        chanTitle: channel.title,
+        chanId: channelId,
+      });
     }
-    setMessageToSend("")
-    setImages([])
-    setImagesToSnd([])
-    adjustTextareaHeight(); // Force height reset
+  
+    setMessageToSend("");
+    setImages([]);
+    setImagesToSnd([]);
+    adjustTextareaHeight();
   }
 
   const handleSubmit = async (e) => {
@@ -417,28 +456,28 @@ const handleFileChange = async (event) => {
     }
   };
 
-  // tracking the last message to scroll to it
-  useEffect(() => {
-    if (!socket && !chanId) return;
-    setMessages(initialMessages);
-  }, [initialMessages]);
+  // // tracking the last message to scroll to it
+  // useEffect(() => {
+  //   if (!socket && !channelId) return;
+  //   setMessages(initialMessages);
+  // }, [initialMessages]);
 
   useEffect(() => {
     setMessages([]);
     scrollToBottom();
-  }, [chanId]);
+  }, [channelId]);
 
   useEffect(()=>{
   },[owner])
 
   useEffect(() => {
-    if (!socket && !chanId) return;
+    if (!socket || !socket.connected || !channelId) return;
 
     //console.log("passed");
-    socket.emit("joinGroup", chanId);
+    socket.emit("joinGroup", channelId);
 
     socket.on("channelMessage", (msg) => {
-      if (msg.channelId === chanId) {
+      if (msg.channelId === channelId) {
         setMessages((prev) => [...prev, msg]);
       }
       if (msg.sender._id === userInfo.userId) {
@@ -450,7 +489,7 @@ const handleFileChange = async (event) => {
       socket.off("message");
       socket.off("channelMessage");
     };
-  }, [socket, chanId, initialMessages]);
+  }, [socket, channelId]);
 
 // In Chat1 component's messageDeleted handler
 useEffect(() => {
@@ -471,7 +510,7 @@ useEffect(() => {
   return () => {
     socket.off("messageDeleted", handleMessageDeleted);
   };
-}, [socket, chanId]);
+}, [socket, channelId]);
 
  async function handleKeyDown(e) {
   if (e.key === 'Enter' && e.shiftKey) {
@@ -519,7 +558,7 @@ useEffect(() => {
   }, [imagesTosnd]);
 
   const fetchMoreMessages = async () => {
-    if (isFetching || !chanId || preventFetch) return;
+    if (isFetching || !channelId || preventFetch) return;
     const container = containerRef.current;
 
     if (container.scrollTop != 0 || isFetching) return;
@@ -528,7 +567,7 @@ useEffect(() => {
     try {
       let nextPage = page + 1;
       const response = await fetch(
-        `${import.meta.env.VITE_SERVER_API}/api/v1/channels/${chanId}?page=${nextPage}`,
+        `${import.meta.env.VITE_SERVER_API}/api/v1/channels/${channelId}?page=${nextPage}`,
         {
           method: "GET",
           headers: {
@@ -667,7 +706,7 @@ const insertFormatting = (symbol) => {
         <div className=" h-full flex-1 bg-neutral "style={{position:"relative"}}>
           <div className=" top-0 right-0 left-0 z-20 flex flex-col" style={{position:"absolute"}}>
             {/* for the title of the channel */}
-            <MessageHeader cahnTitle ={cahnTitle}/>
+            <MessageHeader cahnTitle ={channel?.title}/>
             {/* for the new messages not watched */}
           </div>
 
@@ -688,7 +727,7 @@ const insertFormatting = (symbol) => {
                       const isLastMessage = index === messages.length - 1;
                       return (
                         <div key={index}>
-                          <Message message={message} chanId={chanId} handleEditMessage={handleEditMessage}/>
+                          <Message message={message} chanId={channelId } handleEditMessage={handleEditMessage}/>
                           <Devider />
                           <div
                             ref={isLastMessage ? lastMessageRef : null}
@@ -764,7 +803,7 @@ const insertFormatting = (symbol) => {
                       maxHeight: `${MAX_TEXTAREA_HEIGHT}px`,
                     }}
                     className="top-0 left-0 resize-none border-none bg-transparent px-3 py-[6px] text-sm outline-none w-full overflow-y-auto min-h-[18px]"
-                    placeholder={isAnyImageUploading ? "Uploading images..." : `Message ${cahnTitle}`}            
+                    placeholder={isAnyImageUploading ? "Uploading images..." : `Message ${channel?.title}`}            
                     value={msgToSend}
                     onChange={(e) => {setMessageToSend(e.target.value)}}
                     onKeyDown={handleKeyDown}

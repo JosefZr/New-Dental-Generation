@@ -1,6 +1,6 @@
 import { NavigationSidebar } from "@/components/navigation"
 import ServerSideBar from "@/components/server/ServerSideBar"
-import { Outlet, useLocation } from "react-router-dom"
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom"
 import Chat1 from "./chat/chat1"
 import { useContext, useState } from "react"
 import { UserContext } from "@/context/UserContext"
@@ -12,11 +12,11 @@ import GrowthSupport from "./growth-support"
 import Sunnah from "./Sunnah"
 
 export default function Chat() {
-  const [messages, setMessages] = useState([])
-  const [channelID, setChannelID] = useState(null)
-  const [channelName, setChannelName] = useState(null)
+  const { channelId } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const { isSidebarOpen } = useContext(UserContext)
-  const location = useLocation()
 
   const isPlanLikeProRoute = location.pathname.includes("/chat2")
   const isPaymentReminder = location.pathname.includes("/chat3")
@@ -49,9 +49,6 @@ export default function Chat() {
           }}
         >
           <ServerSideBar
-            fetchMessages={setMessages}
-            clickedChannelID={setChannelID}
-            clickChannelName={setChannelName}
           />
         </div>
       )}
@@ -84,7 +81,7 @@ export default function Chat() {
             <div className="flex-1">
               <Outlet />
               <div className="flex-1 h-full">
-                <Chat1 initialMessages={messages} chanId={channelID} cahnTitle={channelName} />
+                <Chat1 />
               </div>
             </div>
           </>

@@ -1,10 +1,15 @@
 // components/chatComponents/MessageText.jsx
+import { UserContext } from '@/context/UserContext';
 import { useGetAllCourses } from '@/hooks/courses/useGetAllCourses';
 import DOMPurify from 'dompurify';
-import { useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function MessageText({ message }) {
+  const navigate = useNavigate();
+
   const { data: studentCourseList } = useGetAllCourses();
+  const {channels} = useContext(UserContext)
 
   // Extract course, module, and lecture IDs from URL
   const courseUrlData = useMemo(() => {
@@ -42,22 +47,94 @@ export default function MessageText({ message }) {
     return { course, lectureTitle: foundLectureTitle };
   }, [studentCourseList, courseUrlData]);
 
-  // Modified markdown parsing to remove URL
+// Add click handler for channel mentions
+useEffect(() => {
+  const handleChannelClick = (e) => {
+    if (e.target.classList.contains('channel-mention')) {
+      e.preventDefault();
+      const channelId = e.target.dataset.channelid;
+      navigate(`/channels/${channelId}`);
+    }
+  };
+
+  document.addEventListener('click', handleChannelClick);
+  return () => document.removeEventListener('click', handleChannelClick);
+}, [navigate]);
+  
+const parseChannelMentions = (text) => {
+  if (!text || !channels) return text;
+
+  return text.replace(/#([a-zA-Z0-9-_]+)/g, (match, channelName) => {
+    const cleanChannelName = channelName.replace(/[^\w-]/g, '').trim().toLowerCase();
+    const channel = channels.find(c =>
+      c.title.toLowerCase().trim().replace(/[^\w-]/g, '') === cleanChannelName
+    );
+
+    return channel 
+      ? `<a href="/channels/${channel._id}" class="channel-mention" data-channelid="${channel._id}" style="color: #4299e1; cursor: pointer; text-decoration: underline;">#${channelName.trim()}</a>`
+      : match;
+  });
+};
+
+  // 2. Enhanced markdown parser with debugging
   const parseSimpleMarkdown = (text) => {
     if (!text) return '';
-    return text
-      .replace(/(http|https):\/\/[^\s]+course\/details\/([a-f0-9]{24})\/([a-f0-9]{24})\/([a-f0-9]{24})/g, '')
+    
+    // Step 1: Process channel mentions
+    let processedText = parseChannelMentions(text);
+    
+    // Step 2: Remove course URLs
+    processedText = processedText.replace(
+      /(http|https):\/\/[^\s]+course\/details\/([a-f0-9]{24})\/([a-f0-9]{24})\/([a-f0-9]{24})/g, 
+      ''
+    );
+    
+    // Step 3: Process markdown formatting
+    return processedText
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*([^*<>]*?)\*/g, '<em>$1</em>')
       .replace(/\n/g, '<br>');
   };
 
-  const formattedContent = useMemo(() => ({
-    __html: DOMPurify.sanitize(
-      parseSimpleMarkdown(message.content || ''),
-      { ALLOWED_TAGS: ['b', 'strong', 'i', 'em', 'br'] }
-    )
-  }), [message.content]);
+  // 3. Memoized content with safe HTML
+  const formattedContent = useMemo(() => {
+    const rawHTML = parseSimpleMarkdown(message.content || '');
+    
+    // Add debug logging
+    console.log('Original content:', message.content);
+    console.log('Processed HTML:', rawHTML);
+    
+    return {
+      __html: DOMPurify.sanitize(rawHTML, {
+        ALLOWED_TAGS: ['b', 'strong', 'i', 'em', 'br', 'a'],
+        ALLOWED_ATTR: ['href', 'class', 'style', 'data-channelid']
+      })
+    };
+  }, [message.content, channels]);
+
+  // 4. Robust click handler with error boundaries
+  useEffect(() => {
+    const handleChannelClick = (e) => {
+      // Use closest() to handle nested elements
+      const target = e.target.closest('.channel-mention');
+      if (!target) return;
+      
+      e.preventDefault();
+      const channelId = target.dataset.channelid;
+      
+      if (!channelId) {
+        console.error('Channel ID missing in:', target);
+        return;
+      }
+      
+      console.log('Navigating to channel:', channelId);
+      navigate(`/channels/${channelId}`);
+    };
+  
+    document.addEventListener('click', handleChannelClick);
+    return () => document.removeEventListener('click', handleChannelClick);
+  }, [navigate]);
+
 
   return (
     <div className="space-y-2">

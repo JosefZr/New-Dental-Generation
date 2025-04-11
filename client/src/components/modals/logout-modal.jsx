@@ -30,6 +30,11 @@ export default function LogoutModal() {
         // Clear client-side storage
         localStorage.removeItem("token")
         setUser(null)
+          // Proper socket cleanup
+        if (socket) {
+            socket.emit("logout");
+            socket.disconnect();
+        }
         navigate("/login")
         onClose()
         socket.disconnectSocket()

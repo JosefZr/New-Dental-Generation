@@ -241,6 +241,10 @@ export const initializeSocket = (server) => {
         });
       }
     });
+    socket.on("logout", () => {
+      socket.leaveAll(); 
+      socket.disconnect(true); 
+    });
     socket.on("disconnect", () => {
       logger.info(`User disconnected: ${socket.user.userId}`);
     });

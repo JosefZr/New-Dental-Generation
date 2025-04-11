@@ -18,6 +18,7 @@ import SmallProfileLogo from "../SmallProfileLogo";
 import useGetSubscriptionStatus from "@/hooks/limitation/useGetSubscriptionStatus";
 import { useUserToChatContext } from "@/context/ToChatUser";
 import useSocketStore from "@/socketStore";
+import { useNavigate } from "react-router-dom";
 
 export const Logo = styled.div`
     background-position: center center;
@@ -28,17 +29,15 @@ export const Logo = styled.div`
     <div className="animate-spin rounded-full border-t-4 border-blue-500 w-12 h-12"></div>
   </div>
 );
-export default function ServerSideBar({
-  fetchMessages,
-  clickedChannelID,
-  clickChannelName,
-}) {
+export default function ServerSideBar() {
+  const navigate = useNavigate();
+
   const {channels, setChannels,user} = useContext(UserContext)
   const {setIsMessagesLoading} = useUserToChatContext()
   const getDaysDifference = (createdAt) => {
     const created = new Date(createdAt);
     const now = new Date();
-    
+
     // Reset time portion to ensure accurate day calculation
     created.setHours(0, 0, 0, 0);
     now.setHours(0, 0, 0, 0);
@@ -53,7 +52,7 @@ const currentProgress = progress.find(stage =>
     diffDays <= stage.maxDays
 ) || progress[progress.length - 1];
 
-  const { setOwner, setUpdateChannel, setClickedChannel } = useContext(UserContext);
+  const { setOwner, setUpdateChannel } = useContext(UserContext);
   const { data, isLoading, isError } = useGetAllChannels();
   const deleteTask = useDeleteChannel();
   const { onOpen } = useModal();
@@ -84,43 +83,17 @@ const currentProgress = progress.find(stage =>
   const { isSidebarOpen, setIsSidebarOpen } = useContext(UserContext);
   const status = useGetSubscriptionStatus()
 
-  const handleChannelClick = async (id, title) => {
-    setIsMessagesLoading(true)
-    // fetchMessages([]);
-    setClickedChannel(id)
-      // Only toggle sidebar on mobile devices (width <= 620px)
-      if (window.innerWidth <= 620) {
-        setIsSidebarOpen(!isSidebarOpen);
-      }
-
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_SERVER_API}/api/v1/channels/${id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: localStorage.getItem("token").toString(),
-          },
-        }
-      );
-      clickedChannelID(id);
-      clickChannelName(title);
-      
-      if (status === "off"){
-        onOpen(MODAL_TYPE.LIMITATION_MODAL)
-      }
-      else{
-        if (response.ok) {
-          const data = await response.json();
-          fetchMessages(data.data.messages);
-        }
-      }
-      setIsMessagesLoading(false)
-    } catch (error) {
-      console.error("Error fetching messages:", error);
-    }
-  };
+// ServerSideBar.jsx
+const handleChannelClick = async (id) => {
+  setIsMessagesLoading(true);
+  navigate(`/channels/${id}`);
+  
+  if (window.innerWidth <= 620) {
+    setIsSidebarOpen(!isSidebarOpen);
+  }
+  
+  setIsMessagesLoading(false);
+};
 const handlePinChannel = async (channel) => {
   console.log("clicked")
     try {
@@ -229,7 +202,7 @@ const handlePinChannel = async (channel) => {
                       memberRole=""
                       onEditClick={()=>handleEditChannel(chan)}
                       onDeleteClick={() => handleDeleteChannel(chan._id)}
-                      onClickChan={() => {handleChannelClick(chan._id, chan.title) 
+                      onClickChan={() => {navigate(`/channels/${chan._id}`)
                         setOwner({
                           ownerId: chan.owner,
                           allowedUsers: chan.allowedUsers,
@@ -262,7 +235,7 @@ const handlePinChannel = async (channel) => {
                     isPinned={channel.locked}
                     onDeleteClick={() => handleDeleteChannel(channel._id)}
                     onClickChan={() => {
-                      handleChannelClick(channel._id, channel.title);
+                      navigate(`/channels/${channel._id}`)
                       setOwner({
                         ownerId: channel.owner,
                         allowedUsers: channel.allowedUsers,
@@ -290,7 +263,7 @@ const handlePinChannel = async (channel) => {
                       onPinClick={()=>handlePinChannel(channel)}
                       isPinned={channel.locked}
                       onClickChan={() => {
-                        handleChannelClick(channel._id, channel.title);
+                        navigate(`/channels/${channel._id}`)
                         setOwner({
                           ownerId: channel.owner,
                           allowedUsers: channel.allowedUsers,
@@ -319,7 +292,7 @@ const handlePinChannel = async (channel) => {
                     isPinned={channel.locked}
                     onDeleteClick={() => handleDeleteChannel(channel._id)}
                     onClickChan={() => {
-                      handleChannelClick(channel._id, channel.title);
+                      navigate(`/channels/${channel._id}`)
                       setOwner({
                         ownerId: channel.owner,
                         allowedUsers: channel.allowedUsers,
@@ -348,7 +321,7 @@ const handlePinChannel = async (channel) => {
                     isPinned={channel.locked}
                     onDeleteClick={() => handleDeleteChannel(channel._id)}
                     onClickChan={() => {
-                      handleChannelClick(channel._id, channel.title);
+                      navigate(`/channels/${channel._id}`)
                       setOwner({
                         ownerId: channel.owner,
                         allowedUsers: channel.allowedUsers,
@@ -376,7 +349,7 @@ const handlePinChannel = async (channel) => {
                       onPinClick={()=>handlePinChannel(channel)}
                       isPinned={channel.locked}
                       onClickChan={() => {
-                        handleChannelClick(channel._id, channel.title);
+                        navigate(`/channels/${channel._id}`)
                         setOwner({
                           ownerId: channel.owner,
                           allowedUsers: channel.allowedUsers,
@@ -404,7 +377,7 @@ const handlePinChannel = async (channel) => {
                       onPinClick={()=>handlePinChannel(channel)}
                       isPinned={channel.locked}
                       onClickChan={() => {
-                        handleChannelClick(channel._id, channel.title);
+                        navigate(`/channels/${channel._id}`)
                         setOwner({
                           ownerId: channel.owner,
                           allowedUsers: channel.allowedUsers,
@@ -433,7 +406,7 @@ const handlePinChannel = async (channel) => {
                       onPinClick={()=>handlePinChannel(channel)}
                       isPinned={channel.locked}
                       onClickChan={() => {
-                        handleChannelClick(channel._id, channel.title);
+                        navigate(`/channels/${channel._id}`)
                         setOwner({
                           ownerId: channel.owner,
                           allowedUsers: channel.allowedUsers,
@@ -462,7 +435,7 @@ const handlePinChannel = async (channel) => {
                       onPinClick={()=>handlePinChannel(channel)}
                       isPinned={channel.locked}
                       onClickChan={() => {
-                        handleChannelClick(channel._id, channel.title);
+                        navigate(`/channels/${channel._id}`)
                         setOwner({
                           ownerId: channel.owner,
                           allowedUsers: channel.allowedUsers,
@@ -491,7 +464,7 @@ const handlePinChannel = async (channel) => {
                       onPinClick={()=>handlePinChannel(channel)}
                       isPinned={channel.locked}
                       onClickChan={() => {
-                        handleChannelClick(channel._id, channel.title);
+                        navigate(`/channels/${channel._id}`)
                         setOwner({
                           ownerId: channel.owner,
                           allowedUsers: channel.allowedUsers,
@@ -520,7 +493,7 @@ const handlePinChannel = async (channel) => {
                       onPinClick={()=>handlePinChannel(channel)}
                       isPinned={channel.locked}
                       onClickChan={() => {
-                        handleChannelClick(channel._id, channel.title);
+                        navigate(`/channels/${channel._id}`)
                         setOwner({
                           ownerId: channel.owner,
                           allowedUsers: channel.allowedUsers,

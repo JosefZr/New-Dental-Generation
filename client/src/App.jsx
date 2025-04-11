@@ -51,7 +51,7 @@ export default function App() {
           </Route>
           
           <Route path="/profile/:id" element={<Profile />}/>
-          <Route path="/channels" element={<Chat />}/>
+          <Route path="/channels/:channelId?" element={<Chat />} />
           <Route path="/chat2/*" element={<Chat />} />
           <Route path="/chat3/*" element={<Chat />} />
           <Route path="/growth-support/*" element={<Chat />} />
