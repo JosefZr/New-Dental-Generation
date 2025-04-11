@@ -1,8 +1,8 @@
 import { NavigationSidebar } from "@/components/navigation"
 import ServerSideBar from "@/components/server/ServerSideBar"
-import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom"
+import { Outlet, useLocation} from "react-router-dom"
 import Chat1 from "./chat/chat1"
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { UserContext } from "@/context/UserContext"
 import PlanLikePro from "./PlanLikePro"
 import PaymentReminder from "./PaymentReminder"
@@ -12,8 +12,6 @@ import GrowthSupport from "./growth-support"
 import Sunnah from "./Sunnah"
 
 export default function Chat() {
-  const { channelId } = useParams();
-  const navigate = useNavigate();
   const location = useLocation();
 
   const { isSidebarOpen } = useContext(UserContext)

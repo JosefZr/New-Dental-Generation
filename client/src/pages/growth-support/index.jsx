@@ -1,8 +1,8 @@
 import { UserContext } from "@/context/UserContext";
 import { useContext, useState } from "react";
 import BuildScale from "./components/BuildScale";
-import BuisnessSecret from "./components/BuisnessSecret";
-import MindMastery from "./components/MindMastery";
+// import BuisnessSecret from "./components/BuisnessSecret";
+// import MindMastery from "./components/MindMastery";
 import { GiHamburgerMenu } from "react-icons/gi";
 
     const menuItems = [
@@ -12,18 +12,18 @@ import { GiHamburgerMenu } from "react-icons/gi";
 
             component: () => <BuildScale />,
         },
-        {
-            label: "Business Secrets",
-            value: "Business Secrets",
+        // {
+        //     label: "Business Secrets",
+        //     value: "Business Secrets",
 
-            component: () => <BuisnessSecret />,
-        },
-        {
-            label: "Mind Mastery",
-            value: "Mind Mastery",
+        //     component: () => <BuisnessSecret />,
+        // },
+        // {
+        //     label: "Mind Mastery",
+        //     value: "Mind Mastery",
 
-            component: () => <MindMastery />,
-        },
+        //     component: () => <MindMastery />,
+        // },
     ];
 export default function GrowthSupport() {
     const [activeTab, setActiveTab] = useState("Build and Scale"); // Default active tab
@@ -36,18 +36,25 @@ export default function GrowthSupport() {
     <div className={`min-h-screen bg-[#0B1015] text-white transition-transform duration-300 ${
             isSidebarOpen ?"ml-[-72px] ":""
         }`}>
-            <div className="flex items-center">
-                <button className="p-2 hover:bg-gray-800 rounded-full" onClick={toggleSidebar} id="push">
-                    <GiHamburgerMenu className=" text-2xl text-white" />
-                </button>
-            </div>
         {/* <NavigationBar /> */}
         <main className=" w-full h-full overflow-y-auto transition-transform duration-300">
             <div className="h-screen flex flex-col">
                 {/* Sticky Navigation Tabs */}
-                <div className="sticky z-10 bg-my-dark-blue">
+                <div className=" z-10 bg-my-dark-blue" style={{
+                    position:"sticky",
+                    top:0,
+                    left:0,
+                    right:0,
+                    zIndex:10,
+                }}>
+                    
                     {/* Desktop Tabs */}
                     <section className=" flex h-12 font-medium w-full gap-4 max-sm:gap-1 px-3 max-sm:px-0 my-3">
+                    <div className="flex items-center">
+                        <button className="p-2 hover:bg-gray-800 rounded-full" onClick={toggleSidebar} id="push">
+                            <GiHamburgerMenu className=" text-2xl text-white" />
+                        </button>
+                    </div>
                         {menuItems.map((menuItem, index) => (
                             <button
                                 key={index}
@@ -65,6 +72,7 @@ export default function GrowthSupport() {
                                 </span>
                             </button>
                         ))}
+                        
                     </section>
                 </div>
                 {/* Scrollable Tab Content */}

@@ -36,7 +36,7 @@ const exclamation =[
     "desc": '”Target the right audience with precision campaigns." -Meta ads-”'
   },
 ]
-export default function Solutions() {
+export default function Solutions({setActiveTab}) {
   return (
     <div>
       <Hero>
@@ -65,7 +65,9 @@ export default function Solutions() {
               <div style={{
                 transform: "translate3d(0px, 0%, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg)",
                 transformStyle: "preserve-3d",
-              }}>
+              }}
+              onClick={() => setActiveTab("Free Quote")} // Add click handler
+              >
                 YES, I WANT THAT!
               </div>
               <div style={{

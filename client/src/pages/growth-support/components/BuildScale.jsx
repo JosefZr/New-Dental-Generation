@@ -12,7 +12,7 @@ const menuItems = [
         {
             label: "Solutions",
             value: "Solutions",
-            component: () => <Solutions />,
+            component: (props) => <Solutions  {...props}/>,
         },
         {
             label: "Free Quote",
@@ -23,12 +23,18 @@ const menuItems = [
 export default function BuildScale() {
       const [activeTab, setActiveTab] = useState("Home"); // Default active tab
     return (
-    <div className={`min-h-screen bg-[#0B1015] text-white transition-transform duration-300 `}>
-        {/* <NavigationBar /> */}
-        <main className=" w-full h-full overflow-y-auto transition-transform duration-300">
-            <div className="h-screen flex flex-col">
-                {/* Sticky Navigation Tabs */}
-                <div className="sticky z-10 bg-my-dark-blue">
+        <div className="min-h-screen bg-[#0B1015] text-white">
+            <main className="w-full h-full">
+                <div className="h-screen flex flex-col">
+                        {/* Sticky Navigation Tabs */}
+                        <div 
+                    className="z-10 bg-my-dark-blue"
+                    style={{
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 10
+                    }}
+                >
                     {/* Desktop Tabs */}
                     {/* <section className=" flex h-12 font-medium w-full gap-4 px-3 my-3">
                         {menuItems.map((menuItem, index) => (
@@ -51,7 +57,7 @@ export default function BuildScale() {
                     </section> */}
 
               {/* Mobile Tabs */}
-                <section className=" flex font-medium h-[40px] max-w-[100vw] min-w-1">
+                <section className=" flex font-medium h-[40px] max-w-[100vw] min-w-1" >
                     {menuItems.map((menuItem, index) => (
                         <button
                             key={index}
@@ -72,7 +78,7 @@ export default function BuildScale() {
             </div>
 
             {/* Scrollable Tab Content */}
-            <div className="flex-1 custom-scroll overflow-y-hidden pb-2 w-full">
+            <div className="flex-1  pb-2 w-full ">
                 {menuItems.find((menuItem) => menuItem.value === activeTab)?.component({
                     setActiveTab: setActiveTab // Pass the state setter as a prop
                 })}
