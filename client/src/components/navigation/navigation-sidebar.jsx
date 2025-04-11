@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "../ui/scroll-area";
 import NavigationItem from "./NavigationItem";
-import { GiEarthAfricaEurope, GiTakeMyMoney } from "react-icons/gi";
+import { GiEarthAmerica, GiTakeMyMoney } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 import ProfileImage from "../chatComponents/ProfileImage";
 import { useContext, useEffect, useState } from "react";
@@ -67,7 +67,7 @@ export default function NavigationSidebar() {
   const servers = [
     {
       id: "channels",
-      imageUrl: <GiEarthAfricaEurope className="object-cover w-full h-full" />,
+      imageUrl: <GiEarthAmerica className="object-cover w-full h-full" />,
     },
     {
       id: "chat2",
@@ -82,10 +82,6 @@ export default function NavigationSidebar() {
       imageUrl: <FaMoneyBillTrendUp className="object-cover w-[90%] h-[90%] items-center text-center mx-auto" />
     },
     {
-      id: "top-dentist-opportunity",
-      imageUrl: <FaRegChessQueen className="object-cover w-[90%] h-[90%] items-center text-center mx-auto" />
-    },
-    {
       id: "job-opportunities",
       imageUrl: <MdWorkHistory className="object-cover w-[90%] h-[90%] items-center text-center mx-auto" />
     },
@@ -96,6 +92,12 @@ export default function NavigationSidebar() {
     servers.push({
       id: "sunnah",
       imageUrl: <FaUssunnah className="object-cover w-[90%] h-[90%] items-center text-center mx-auto" />,
+    });
+  }
+  if (Settings?.settings?.topDentist) {
+    servers.push({
+      id: "top-dentist-opportunity",
+      imageUrl: <FaRegChessQueen className="object-cover w-[90%] h-[90%] items-center text-center mx-auto" />
     });
   }
 

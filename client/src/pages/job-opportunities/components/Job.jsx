@@ -20,6 +20,7 @@ const Container= styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
+    margin: 10px 0;
     max-width: 80rem;
     margin-left: auto;
     margin-right: auto;
@@ -220,21 +221,21 @@ export default function Job() {
                         </>
                         )}
 
-            <div className="p-24 is-opport mobile-hidden text-[2rem] max-md:text-[1.3rem]" 
+            {/* <div className="p-24 is-opport mobile-hidden text-[2rem] max-md:text-[1.3rem]" 
                 style={{
                     fontFamily:"Urbanist, serif"
                 }}>
                     Now, You Just did The First Step towards your success, 
                     You gotta do the second step “ Go to the local chats and Build New connections yourself, and try to get connected with many other dentists’’ 
-            </div>
-            <h3 className="h3-timeline text-[2rem] text-center">‘’Luck Isn’t Real… Make Your OWN Luck’’ Dr.Truth </h3>
+            </div> */}
+            {/* <h3 className="h3-timeline text-[2rem] text-center">‘’Luck Isn’t Real… Make Your OWN Luck’’ Dr.Truth </h3>
             <h3 className="h3-timeline text-[2rem] text-center">What about The 3rd Step !? </h3>
             <div className="p-24 is-opport mobile-hidden text-[2rem] max-md:text-[1.3rem]" 
                 style={{
                     fontFamily:"Urbanist, serif"
                 }}>
                     Be LoYAL To The Platform that changed your life, after 3 months you’ll unlock The Business Secrets Module and once you do that, You will Be The Guy That Makes Money from The Sky. 
-            </div>
+            </div> */}
             </Container>
             
         </Global>

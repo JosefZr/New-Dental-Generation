@@ -23,6 +23,10 @@ const SettingsSchema = new mongoose.Schema({
     Sunnah:{
         type:Boolean,
         default: false
+    },
+    topDentist:{
+        type:Boolean,
+        default: false
     }
 },{
     timestamps: true

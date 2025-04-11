@@ -156,5 +156,43 @@ router.patch("/sunnah", async (req, res) => {
         return res.status(500).json({ message: "Error updating sunnah", error });
     }
 });
+router.patch("/topDentist", async (req, res) => {
+    console.log("Incoming request body:", req.body);
+    const { userId } = req.body;
 
+    if (!userId) {
+        return res.status(400).json({ message: "User ID and Sunnah are required" });
+    }
+
+    try {
+        // Log current settings before update
+        const currentSettings = await Settings.findOne({ userId });
+        console.log("Current settings:", currentSettings);
+
+        const updateTopDentist = await Settings.findOneAndUpdate(
+            { userId },
+            { topDentist: !currentSettings.topDentist },  // Toggle Sunnah
+            { 
+                new: true,
+                runValidators: true
+            }
+        );
+
+        // Log updated settings
+        console.log("Updated settings:", updateTopDentist);
+
+        if (!updateTopDentist) {
+            return res.status(404).json({ message: "Settings not found", success: false });
+        }
+
+        return res.status(200).json({
+            message: "top dentist updated successfully",
+            updateTopDentist,
+            success: true,
+        });
+    } catch (error) {
+        console.error("Error updating top dentist:", error);
+        return res.status(500).json({ message: "Error updating top dentist", error });
+    }
+});
 export default router;
