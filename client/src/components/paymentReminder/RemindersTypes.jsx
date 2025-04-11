@@ -113,9 +113,9 @@ export default function RemindersTypes({tasks }) {
                                             <div className="">
                                                 <Label>Title</Label>
                                                 <Input
-                                                    placeholder="Dental Sepplie Name "
+                                                    placeholder={newTaskData.type ? `Write ${newTaskData.type} Name` : "Write Payment Name"}
                                                     className="bg-[#0B1015] border-gray-800 "
-                                                    value={newTaskData.title || ""} // Fallback to an empty string if undefined
+                                                    value={newTaskData.title || ""}
                                                     onChange={(e) => handleTaskInputChange("title", e.target.value)}
                                                 />
                                             </div>

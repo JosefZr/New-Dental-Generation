@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Check, ChevronDown, MoreHorizontal, Trash, Pencil, LucideCalendar } from 'lucide-react'
+import { Check, ChevronDown, Trash, Pencil, LucideCalendar } from 'lucide-react'
 import { jwtDecode } from "jwt-decode"
-import {DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuTrigger} from "@/components/ui/dropdown-menu"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
@@ -94,7 +93,7 @@ export default function PaymentCheckList({tasks = [], isLoading, title,money}) {
                                         backgroundColor: "#282F35",
                                     }} >
                                         <span className="mr-auto flex items-center px-1 pr-3 font-semibold">
-                                            {title}
+                                            {title} 
                                         </span>
                                         <Button
                                             variant="ghost"

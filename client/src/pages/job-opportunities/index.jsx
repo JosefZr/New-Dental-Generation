@@ -36,11 +36,11 @@ export default function JobOpportunities() {
                 </button>
             </div>
             <main className=" w-full h-full overflow-y-auto transition-transform duration-300">
-            <div className="h-screen flex flex-col">
+            <div className="h-screen flex flex-col ">
                 {/* Sticky Navigation Tabs */}
                 <div className="sticky z-10 bg-my-dark-blue">
                     {/* Desktop Tabs */}
-                    <section className=" flex h-auto font-medium w-full gap-4 max-sm:gap-1 px-3 max-sm:px-0 my-3">
+                    <section className=" flex flex-col sm:flex-row h-auto font-medium w-full gap-4 max-sm:gap-1 px-3 max-sm:px-0 my-3">
                         {menuItems.map((menuItem, index) => (
                             <button
                                 key={index}
@@ -93,7 +93,7 @@ export default function JobOpportunities() {
                 </div>
     
                 {/* Scrollable Tab Content */}
-                <div className="flex-1 custom-scroll overflow-y-auto">
+                <div className="flex-1 custom-scroll overflow-y-auto ">
                     {menuItems.find((menuItem) => menuItem.value === activeTab)?.component()}
                 </div>
             </div>
