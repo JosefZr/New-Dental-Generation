@@ -64,6 +64,7 @@ export default function RemindersTypes({tasks }) {
                                         <span className="mr-auto flex items-center px-1 pr-3 font-semibold text-my-white">
                                             Payment Reminder
                                         </span>
+                                        {/* n */}
                                         <Button
                                             variant="ghost"
                                             size="sm"
