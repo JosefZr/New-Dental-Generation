@@ -1,8 +1,6 @@
 import { useState, useMemo } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Search, Filter } from 'lucide-react';
@@ -10,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 import { useGetAllJobs } from "@/hooks/job/useGetAllJobs";
 import useGetSubscriptionStatus from "@/hooks/limitation/useGetSubscriptionStatus";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/Select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export default function Staff() {
   const { data, isLoading, isError, error } = useGetAllJobs();
