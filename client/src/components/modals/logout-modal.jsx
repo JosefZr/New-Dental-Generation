@@ -35,8 +35,14 @@ export default function LogoutModal() {
             socket.emit("logout");
             socket.disconnect();
         }
-        navigate("/login")
+        
         onClose()
+
+        navigate("/login");
+        setTimeout(() => {
+          window.location.reload();
+        }, 100);
+        
         socket.disconnectSocket()
         } catch (error) {
         console.error("Logout error:", error)
