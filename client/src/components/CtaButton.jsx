@@ -91,8 +91,30 @@ export default function CtaButton({
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
-
+  const isPixelLoaded = () => {
+    return typeof window !== 'undefined' && 
+           window.fbq && 
+           window.fbq.loaded === true;
+  };
+  
   const handleClick = (e) => {
+    // Meta Pixel tracking
+    if (isPixelLoaded() && !e.target.dataset.pixelFired) {
+      e.target.dataset.pixelFired = true;
+      
+      window.fbq('track', 'Lead', {
+        content_category: 'CTA Click',    // snake_case
+        content_name: 'Main CTA Button',   // snake_case
+        value: 0.00,
+        currency: 'USD',
+        page_path: window.location.pathname,
+      });
+
+      setTimeout(() => {
+        e.target.dataset.pixelFired = false;
+      }, 1000);
+    }
+      
     if (onClick) {
       onClick(e); // Use custom handler if provided
     }

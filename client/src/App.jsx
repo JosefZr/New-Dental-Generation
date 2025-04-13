@@ -1,5 +1,5 @@
 // App.jsx
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import {
   Chat,
   Login,
@@ -27,8 +27,11 @@ import Privacy from "./pages/Privacy";
 import Landing from "./pages/landing";
 import WaitingList from "./pages/landing/waiting-list";
 import Emails from "./pages/emails";
+import usePixel from "./hooks/pixel/usePixel";
 
 export default function App() {
+  usePixel(); // Add this at top level
+
   return (
       <Routes>
         <Route element={<ProtectedRoutes/>}>
