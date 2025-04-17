@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { GiLaurelCrown } from "react-icons/gi";
-import { FaRegChessKnight } from "react-icons/fa6";
 import { LiaChessBishopSolid, LiaChessKingSolid, LiaChessPawnSolid, LiaChessQueenSolid, LiaChessRookSolid } from "react-icons/lia";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import { LiaChessKnightSolid } from "react-icons/lia";
@@ -8,6 +7,7 @@ import Informations from "./Informations";
 import Journey from "./Journey";
 import { useState } from "react";
 import { calculatePercentage, getColor, getCurrentProgress, getDaysDifference, getNextProgress, getRank } from "@/utils/progressUtils";
+import { MdOutlineVerified } from "react-icons/md";
 
 export const progress=[
     {
@@ -197,7 +197,7 @@ const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.comp
             )
             }
                 <TooltipProvider>
-                    <Tooltip>
+                    <Tooltip delayDuration={0}>
                         <TooltipTrigger asChild> 
                         <div className="absolute text-my-gold  text-[35px] w-[35px] h-[35px] left-[70px]" style={{bottom:"-2px"}}>
                         {user.role==="admin" ?(
@@ -274,22 +274,42 @@ const ActiveComponent = menuItems.find((menu) => menu.value === activeTab)?.comp
                 </TooltipProvider>
         </div>
         {/* Name and Icon */}
-        <div className="inline-flex items-center mb-7 ml-5 max-w-[230px] font-bold text-lg text-white sm:max-w-none  flex-row justify-center">
-        <div className="flex items-center gap-1">
-            <span className="text-lg font-bold" style={{
+        <div className="inline-flex items-center mb-7 ml-2 max-w-[230px] font-bold text-lg text-white sm:max-w-none ">
+            <span style={{
                 color:getColor(diffDays,user)
             }}>{user.firstName} {user.lastName}</span>
-            <span >
+            <span className="mt-1 ml-1 flex items-center justify-center text-my-gold" style={{width:"auto", height:"20px"}}>
                 {
-                user.role ==="admin" && user.role==="moderator"? 
-                <FaRegChessKnight className="h-8 w-auto "/>:
-                    user.subscriptionPlan==="freeTrial" ?
-                        <GiLaurelCrown className=" h-8 w-auto text-my-gray"/> :
-                        <GiLaurelCrown className=" h-8 w-auto text-my-gold"/>
+                user.role ==="admin" || user.role === "moderator"? 
+                    <TooltipProvider>
+                        <Tooltip delayDuration={0}>
+                            <TooltipTrigger asChild>
+                                <span className="text-my-gold"><MdOutlineVerified/></span>
+                            </TooltipTrigger>
+                            <TooltipContent className="bg-black rounded-sm text-xs text-center py-[3px] px-[5px] ">
+                            <p className="text-my-white ">Verified build ydn staff account </p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>:
+                    // user.role==="moderator"?(
+                    //     <>
+                    //         <span className="text-my-gold"><FaRegChessKnight /></span>
+                    //         <TooltipProvider>
+                    //             <Tooltip delayDuration={0}>
+                    //                 <TooltipTrigger asChild>
+                    //                     <span className="text-my-gold"><MdOutlineVerified/></span>
+                    //                 </TooltipTrigger>
+                    //                 <TooltipContent className="bg-black rounded-sm text-xs text-center py-[3px] px-[5px] ">
+                    //                 <p className="text-my-white ">Verified build ydn staff account </p>
+                    //                 </TooltipContent>
+                    //             </Tooltip>
+                    //             </TooltipProvider>
+                    //     </>):
+                            user.subscriptionPlan==="freeTrial" ?
+                                <GiLaurelCrown className=" h-8 w-auto text-my-gray"/> :
+                                <GiLaurelCrown className=" h-8 w-auto text-my-gold"/>
                 }
             </span>
-            <span className="text-yellow-500">⚡</span>
-        </div>
         </div>
         </div>
 

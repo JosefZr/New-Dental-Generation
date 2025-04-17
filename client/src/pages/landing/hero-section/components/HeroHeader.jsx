@@ -22,7 +22,7 @@ const HeroHeading = styled.h1`
   background-color: white;
   text-transform: uppercase;
   background-position: 50%;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-size: cover;
   -webkit-text-fill-color: transparent;
   background-image: url("/backs/heading-texture_1heading-texture.webp");

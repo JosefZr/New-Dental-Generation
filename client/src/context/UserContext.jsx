@@ -45,7 +45,7 @@ const UserProvider = ({ children }) => {
     const [channels, setChannels] = useState([]);
     const [onSettingsToggle, setOnSettingsToggle] = useState(false)
     const [clickedChannel, setClickedChannel] = useState(false)
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isDashboardSidebarOpen,setIsDashboardSidebarOpen] = useState(false);
     const [isDhaboardOpen, setIsDhaboardOpen]= useState("")
     const [isNewTaskOpen, setIsNewTaskOpen] = useState(false);

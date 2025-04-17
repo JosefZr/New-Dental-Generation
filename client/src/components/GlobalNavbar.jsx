@@ -205,7 +205,6 @@ export default function GlobalNavbar() {
   const toggleMenu = () => {
     setIsLeftMenuOpen(!isLeftMenuOpen)
   }
-  console.log(params.name)
   let token
   try {
     const tokenString = localStorage.getItem("token")
@@ -231,15 +230,18 @@ export default function GlobalNavbar() {
   }
   const menu = [
     {
+      id:"growth",
+      name:"Growth Support",
+      route:"/growthSupport"
+    },
+    {
       id:"dentist",
       name:"Dentist",
-
       route:"/dentist"
     },
     {
       id:"lab",
       name:"Dental Lab",
-
       route:"/lab"
     },
     {

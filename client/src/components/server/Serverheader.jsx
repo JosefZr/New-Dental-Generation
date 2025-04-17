@@ -91,14 +91,14 @@ export default function ServerHeader() {
           </DropdownMenuContent>
         </DropdownMenu> */}
       
-        <div
-          onClick={handleNavigation}
-          className="flex items-cente cursor-pointer bg-my-gold justify-center text-my-black py-2 font-bold text-lg gap-2"
-        >
-          <Landmark />
-          SKILL UP
-        </div>
-      {/* // )} */}
+      <div
+  onClick={handleNavigation}
+  className="flex items-center cursor-pointer bg-gradient-to-r from-[#e6cd73]  to-[#ffecae] justify-center text-my-black py-2 font-bold text-lg gap-2"
+>
+  <Landmark />
+  SKILL UP
+</div>
+
     </div>
   );
 }

@@ -1,8 +1,6 @@
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
-import { progress } from "./Preview";
-import { FaRegChessKnight } from "react-icons/fa6";
-import { GiLaurelCrown } from "react-icons/gi";
+import {  GiTakeMyMoney } from "react-icons/gi";
 import { CiCirclePlus } from "react-icons/ci";
 import { MODAL_TYPE, useModal } from "@/hooks/useModalStore";
 import { useGetAllOtherRoles } from "@/hooks/roles/useGetAllOtherRoles";
@@ -10,7 +8,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/UserContext";
 import { useLocation } from "react-router-dom";
 import { useAuthUser } from "@/hooks/jwt/useAuthUser";
-
+import { GrAchievement } from "react-icons/gr";
 export default function Informations({ user }) {
   const { onOpen } = useModal();
   const { userPreview } = useContext(UserContext);
@@ -31,26 +29,6 @@ console.log(userInfo.role)
       setLocalRoles(data.moreRole);
     }
   }, [data]);
-
-  const getDaysDifference = (createdAt) => {
-    const created = new Date(createdAt);
-    const now = new Date();
-    
-    // Reset time portion to ensure accurate day calculation
-    created.setHours(0, 0, 0, 0);
-    now.setHours(0, 0, 0, 0);
-    
-    const diffTime = Math.abs(now - created);
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
-  };
-
-  const diffDays = getDaysDifference(user.createdAt);
-
-  // Find current progress stage
-  const currentProgress = progress.find(stage => 
-    diffDays <= stage.maxDays
-  ) || progress[progress.length - 1];
 
   // Helper function to get role color
   const getRoleColor = (role) => {
@@ -84,7 +62,7 @@ const getRoleDisplayName = (role) => {
 };
 
     return (
-        <div className="h-[370px] overflow-y-auto p-[24px] swipe-dialog-scroll-descendant w-full">
+        <div className="h-[370px] overflow-y-auto p-[24px] swipe-dialog-scroll-descendant w-full gap-2 flex flex-col  ">
         <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between ">
@@ -108,18 +86,14 @@ const getRoleDisplayName = (role) => {
                 </TooltipProvider>
                 </div>
                 <div className="flex items-end gap-1 text-grey-500 text-sm">
-                {/* <div className="text-my-gold text-[35px] w-[35px] h-[35px] left-[70px]" style={{bottom:"-2px"}}>
-                    {currentProgress.logo}
-                </div> */}
-                {/* <span>
-                    {user.role === "admin" || user.role === "moderator" ? 
-                    <FaRegChessKnight className="h-8 w-auto" /> : 
-                    user.subscriptionPlan === "freeTrial" ?
-                        <GiLaurelCrown className="h-8 w-auto text-my-gray" /> : 
-                        <GiLaurelCrown className="h-8 w-auto text-my-gold" />
-                    }
-                </span> */}
-                <span className="text-yellow-500 text-[22px] self-center">⚡</span>
+                    <span>
+                        {user.role === "moderator" ? 
+                            <GrAchievement className="h-5 w-auto text-my-gray" /> : 
+                                user.role === "admin" ?
+                                    (< ></> ): 
+                                        <GiTakeMyMoney className="h-8 w-auto text-my-gray" /> 
+                        }
+                    </span>
                 </div>
             </div>
             </div> 

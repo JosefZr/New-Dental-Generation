@@ -17,7 +17,7 @@ return (
         <div className="flex w-full items-center font-medium">
         <div className="flex items-center justify-center gap-3">
             <div className="flex items-center gap-3 font-medium cursor-pointer">
-            <GiHamburgerMenu className=" text-2xl"onClick={toggleSidebar}/>
+                <GiHamburgerMenu className=" max-sm:block hidden text-2xl"onClick={toggleSidebar}/>
             <span className="flex items-center gap-[2px]">
                 {cahnTitle}
             </span>

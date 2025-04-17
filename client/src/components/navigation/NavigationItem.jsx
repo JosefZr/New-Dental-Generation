@@ -25,7 +25,7 @@ export default function NavigationItem({ id, imageUrl }) {
       <Tooltip>
         <TooltipTrigger asChild>
           <Link to={`/${id}`}>
-            <button className="group relative flex items-center hover:bg-slate-900 py-3">
+            <button className="group relative flex items-center hover:bg-slate-900 py-3 w-full">
               <div
                 className={cn(
                   "absolute left-0 bg-my-white rounded-r-full transition-all w-[4px]",
@@ -34,11 +34,11 @@ export default function NavigationItem({ id, imageUrl }) {
               />
               <div
                 className={cn(
-                  "relative flex mx-3 h-[48px] rounded-[24px] group-hover:rounded-[16px] transition-all overflow-hidden",
-                  isActive ? "bg-my-white/10" : "bg-transparent rounded-[16px]"
+                  "relative flex mx-3 h-[40px] w-auto transition-all overflow-hidden",
+                  isActive ? "bg-my-white/10" : "bg-transparent "
                 )}
               >
-                <div className={`${isActive ? "opacity-100":"opacity-60" }  object-cover w-full h-full text-my-gold `}>
+                <div className={`${isActive ? "opacity-100 text-my-gold":"opacity-60 text-[##8ca4b5]" }  object-cover w-full h-full  `}>
                   {imageUrl}
                 </div>
               </div>

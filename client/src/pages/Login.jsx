@@ -75,7 +75,6 @@ export default function Login() {
     const res = await fetchUserData(formData);
     console.log(res)
     if (res){
-
       const token = localStorage.getItem("token"); 
       const userInfo = jwtDecode(token);
       setUser(userInfo)

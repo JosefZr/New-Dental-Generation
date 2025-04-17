@@ -582,7 +582,7 @@ useEffect(() => {
                 <div className="flex w-full items-center font-medium">
                   <div className="flex items-center justify-center gap-3">
                     <div className="flex items-center gap-3 font-medium">
-                      <GiHamburgerMenu className=" text-2xl cursor-pointer"onClick={toggleSidebar}/>
+                      <GiHamburgerMenu className="max-sm:block hidden text-2xl cursor-pointer"onClick={toggleSidebar}/>
                       <p className="flex items-center gap-[2px]">
                         <span className="text-slate-500 pr-1 pt-1 ">@</span> 
                         {recipient}

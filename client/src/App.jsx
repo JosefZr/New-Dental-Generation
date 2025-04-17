@@ -28,6 +28,7 @@ import Landing from "./pages/landing";
 import WaitingList from "./pages/landing/waiting-list";
 import Emails from "./pages/emails";
 import usePixel from "./hooks/pixel/usePixel";
+import GrowthSupport from "./pages/growth-support";
 
 export default function App() {
   usePixel(); // Add this at top level
@@ -66,6 +67,8 @@ export default function App() {
         <Route path="/success" element={<SuccessPage />} />
         <Route path="/" element={<Navigate to="/dentist" replace />} />
         <Route path="/:name" element={<Landing />} />
+        <Route path="/growthSupport" element={<GrowthSupport />} />
+
         <Route path="/privacy" element={<Privacy />} />
 
         <Route path="/sign-up" element={<WaitingList />} />

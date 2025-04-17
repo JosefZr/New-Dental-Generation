@@ -1,0 +1,74 @@
+.hash-background {
+    background: repeating-linear-gradient(135deg,#2b334079, #2b334079 1px, transparent 2px, transparent 6px);
+}
+.plus-sign {
+    position: relative;
+    width: 21px;
+    height: 21px;
+}
+.plus-sign:before {
+    width: 100%;
+    height: 3px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+}
+.plus-sign:after {
+    width: 3px;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+}
+.plus-sign:after, .plus-sign:before {
+    content: "";
+    position: absolute;
+    background: var(--stroke-2);
+}
+
+.subtitle, .subtitle-container {
+    display: inline-block;
+    clip-path: polygon(22px 0, 100% 0, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%, 0 22px);
+}
+.subtitle-container {
+    background: hsla(0, 0%, 100%, .3);
+    padding: 4px;
+}
+
+.subtitle {
+    background: #818181;
+    padding: 1px 2px;
+}
+.subtitle-background {
+    position: relative;
+    padding: 15px 22px;
+    background: radial-gradient(129.3% 129.3% at 2.03% 8.33%, #505050 0, #181b26 100%);
+    text-align: center;
+    color: #fff;
+    clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+}
+@media screen and (min-width: 1024px) {
+    .subtitle-background {
+        padding: 13px 52px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .subtitle h3 {
+        font-size: 18px;
+    }
+}
+@media screen and (min-width: 1024px) {
+    .subtitle h3, p {
+        line-height: 28px;
+    }
+}
+.subtitle h3 {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 12px;
+    letter-spacing: -.03em;
+    background: -webkit-linear-gradient(91.73deg, #fff 48.53%, hsla(0, 0%, 100%, .21) 180.86%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

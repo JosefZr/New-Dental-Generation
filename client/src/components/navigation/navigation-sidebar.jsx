@@ -211,8 +211,11 @@ useEffect(() => {
         <Tooltip>
           <TooltipTrigger asChild>
             <div
-              className="relative flex h-[64px] w-full items-center justify-center transition-opacity cursor-pointer"
+              className=" flex h-[40px] w-[40px]  items-center justify-center transition-opacity cursor-pointer"
               onClick={() => navigate("/dashboard")}
+              style={{
+                position:"relative"
+              }}
             >
               <ProfileImage image={user.avatar} />
             </div>
@@ -226,7 +229,7 @@ useEffect(() => {
 
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="bg-gray-700 rounded-full h-[50px] p-2 border-[1px] border-my-gold cursor-pointer" onClick={handleAssistance}>
+            <div className="bg-gray-700 rounded-full h-[40px] p-2 border-[1px] border-my-gold cursor-pointer" onClick={handleAssistance}>
               <GiFlatPawPrint className="object-cover w-[100%] h-[100%] items-center text-center mx-auto" />
             </div>
           </TooltipTrigger>
@@ -238,7 +241,7 @@ useEffect(() => {
         </Tooltip>
       </TooltipProvider>
 
-      <Separator className="h-[2px] bg-zinc-700 rounded-md w-10 mx-auto" />
+      <Separator className="h-[2px] bg-[#17242d] rounded-md w-10 mx-auto" />
       
       {isLoadingSettings ? (
         <LoadingSpinner/>
@@ -257,7 +260,7 @@ useEffect(() => {
               <TooltipTrigger asChild>
                 <div className="cursor-pointer py-2 text-my-gold">        
                   <FaPlus 
-                    className="object-cover w-[50%] h-[50%] items-center text-center mx-auto" 
+                    className="object-cover w-[40%] h-[40%] items-center text-center mx-auto" 
                     onClick={() => {
                       onOpen(MODAL_TYPE.ADD_MODAL)
                     }}
@@ -265,16 +268,18 @@ useEffect(() => {
                   />
                 </div>
               </TooltipTrigger>
-              <TooltipContent side="right">
-                Add New Channel
-              </TooltipContent>
+              <TooltipContent side="right"  className="text-md py-[2px] font-semibold bg-black" style={{
+                fontFamily: "inter, system-ui, sans-serif"
+            }}>
+              Add New Channel
+          </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </ScrollArea>
       )}
 
-      <div className="pb-3 mt-auto flex flex-col items-center gap-4">
-        <Separator className="h-[2px] bg-zinc-700 rounded-md w-10 mx-auto" />
+      <div className="pb-4 mt-auto flex flex-col items-center gap-4">
+        <Separator className="h-[3px] bg-[#17242d] rounded-md w-10 mx-auto" />
 {isInstallable && (
   <TooltipProvider delayDuration={0}>
     <Tooltip>

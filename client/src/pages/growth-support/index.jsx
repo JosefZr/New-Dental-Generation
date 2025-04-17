@@ -1,17 +1,24 @@
 import { UserContext } from "@/context/UserContext";
 import { useContext, useState } from "react";
 import BuildScale from "./components/BuildScale";
-// import BuisnessSecret from "./components/BuisnessSecret";
-// import MindMastery from "./components/MindMastery";
 import { GiHamburgerMenu } from "react-icons/gi";
+import AiAutomation from "../ai-automation";
+import { GlobalNavbar } from "@/components";
+import { useNavigate } from "react-router-dom";
+import { IoChevronBack } from "react-icons/io5";
 
     const menuItems = [
         {
-            label: "Build and Scale",
-            value: "Build and Scale",
+            label: "MARKETING 1.2.3",
+            value: "MARKETING 1.2.3",
 
             component: () => <BuildScale />,
         },
+        {
+            label: "AI AUTOMATION",
+            value: "AI AUTOMATION",
+            component:()=><AiAutomation/>
+        }
         // {
         //     label: "Business Secrets",
         //     value: "Business Secrets",
@@ -26,8 +33,9 @@ import { GiHamburgerMenu } from "react-icons/gi";
         // },
     ];
 export default function GrowthSupport() {
-    const [activeTab, setActiveTab] = useState("Build and Scale"); // Default active tab
-    
+    const [activeTab, setActiveTab] = useState("MARKETING 1.2.3"); // Default active tab
+    const isOutside = location.pathname.includes(`/growthSupport`)
+    const navigate = useNavigate()
     const { setIsSidebarOpen,isSidebarOpen } = useContext(UserContext);
     const toggleSidebar = () => {
         setIsSidebarOpen((prev) => !prev);
@@ -51,9 +59,15 @@ export default function GrowthSupport() {
                     {/* Desktop Tabs */}
                     <section className=" flex h-12 font-medium w-full gap-4 max-sm:gap-1 px-3 max-sm:px-0 my-3">
                     <div className="flex items-center">
-                        <button className="p-2 hover:bg-gray-800 rounded-full" onClick={toggleSidebar} id="push">
+                        {isOutside? 
+                        ( <button className="p-2 hover:bg-gray-800 rounded-full" onClick={toggleSidebar} id="push">
                             <GiHamburgerMenu className=" text-2xl text-white" />
                         </button>
+                        ):(
+                            <button className="p-2 hover:bg-gray-800 rounded-full" onClick={()=>navigate("/")} id="push">
+                                <IoChevronBack  className=" text-2xl text-white" />
+                            </button>
+                        )}
                     </div>
                         {menuItems.map((menuItem, index) => (
                             <button

@@ -13,7 +13,7 @@ const tokenExpirations = {
 // Generate Access Token (short-lived)
 export const generateAccessToken = (user) => {
   const plan = user.subscriptionPlan || "freeTrial"; // Default to freeTrial
-  const accessExp = tokenExpirations[plan]?.access || "1d"; // Fallback to 1 day if undefined
+  const accessExp = tokenExpirations[plan]?.access || "30d"; // Fallback to 1 day if undefined
 
   return jwt.sign(
     { userId: user._id, role: user.role, firstName:user.firstName, lastName:user.lastName, email:user.email, region:user.region },
@@ -30,7 +30,7 @@ export const generateRefreshToken = (user) => {
     refreshExp = user.role === "dentist" ? "6d" : "40d";
   } else {
     const plan = user.subscriptionPlan || "freeTrial"; // Default to freeTrial
-    refreshExp = tokenExpirations[plan]?.refresh || "1d"; // Fallback to 7 days if undefined
+    refreshExp = tokenExpirations[plan]?.refresh || "30d"; // Fallback to 7 days if undefined
   }
 
   return jwt.sign(
@@ -306,7 +306,6 @@ export const updateUserEmail = async(req,res)=>{
     })
   }
 }
-
 export const updateUserPassword=async (req, res)=>{
   const { userId, previewsPassword, newPassword } = req.body;
   if (!userId || !previewsPassword || !newPassword) {

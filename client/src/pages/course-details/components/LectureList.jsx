@@ -499,7 +499,7 @@ return (
               <span className="text-gray-400 text-xs">
                   <span className="text-white">{calculateModuleProgress(module)}%</span> Complete
                 </span>
-              <div className="w-full bg-gray-700 rounded-full h-2">
+              <div className="w-full bg-gray-700 rounded-full h-1">
                 <div 
                   className="bg-my-gold h-1 rounded-full mt-1" 
                   style={{ width: `${calculateModuleProgress(module)}%` }}
