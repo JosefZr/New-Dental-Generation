@@ -81,13 +81,13 @@ export default function SmallSection2({top, title, p, button}) {
             </div>
         </div>
         <div className="lg:p-[60px] p-2 w-full " style={{position:"relative"}}>
-        <div className="flex justify-center mt-2">
+        {button && <div className="flex justify-center mt-2">
             <Link>
                 <Div className="hover:scale-105 duration-300 transition-all">
                     <Button className="hover:scale-105 duration-300 transition-all">{button}</Button>
                 </Div>
             </Link>
-        </div>
+        </div>}
         </div>
         
         </>
