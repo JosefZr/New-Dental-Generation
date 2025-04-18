@@ -349,7 +349,7 @@ export default function Services() {
                                             </div>
                                             </div>
                                             <div className="flex items-center py-4 px-3 lg:p-6 border-t-[1px] border-t-[#2b3340]">
-                                            <P className="!text-[13px] lg:!text-[16px] max-w-[40%]" dangerouslySetInnerHTML={{ __html: item.p }} />
+                                            <P className="!text-[13px] lg:!text-[16px] sm:max-w-[40%]" dangerouslySetInnerHTML={{ __html: item.p }} />
                                             </div>
                                         </div>
                                         {item.img && (
@@ -357,31 +357,31 @@ export default function Services() {
                                         )}
                                         {item.video && (
                                             <div className="border-x-[1px] border-[#2b3340]">
-                                                                    <div className=" w-full group min-h-[200px]" style={{position:"relative"}}>
-                                                                        <div className=" undefined" style={{position:"relative"}}>
-                                                                            <div className=" w-full  undefined" style={{position:"relative"}}>
-                                                                                <div className="max-w-[100%]  undefined" style={{position:"relative"}}>
-                                                                                    <div className="w-full  lg:hidden undefined" style={{position:"relative", paddingTop:"56.25%"}}>
-                                                                                    <iframe 
-                                                                                        src={`https://player.vimeo.com/video/${videoId}?autoplay=0&loop=0&byline=0&title=0`}
-                                                                                        frameBorder="0"
-                                                                                        height={"100%"}
-                                                                                        width={"100%"}
-                                                                                        style={{
-                                                                                            position:"absolute",
-                                                                                            inset:"0px",
-                                                                                            width:"100%",
-                                                                                            height:"100%",
-                                                                                        }}
-                                                                                        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-                                                                                        allowFullScreen="true"
-                                                                                    ></iframe>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
+                                                <div className=" w-full group min-h-[200px]" style={{position:"relative"}}>
+                                                    <div className=" undefined" style={{position:"relative"}}>
+                                                        <div className=" w-full  undefined" style={{position:"relative"}}>
+                                                            <div className="max-w-[100%]  undefined" style={{position:"relative"}}>
+                                                                <div className="w-full  lg:hidden undefined" style={{position:"relative", paddingTop:"56.25%"}}>
+                                                                <iframe 
+                                                                    src={`https://player.vimeo.com/video/${videoId}?autoplay=0&loop=0&byline=0&title=0`}
+                                                                    frameBorder="0"
+                                                                    height={"100%"}
+                                                                    width={"100%"}
+                                                                    style={{
+                                                                        position:"absolute",
+                                                                        inset:"0px",
+                                                                        width:"100%",
+                                                                        height:"100%",
+                                                                    }}
+                                                                    allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                                                                    allowFullScreen="true"
+                                                                ></iframe>
                                                                 </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                     )}
                                         </article>
                                     </div>

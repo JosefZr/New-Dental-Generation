@@ -5,6 +5,10 @@ const P = styled.p`
     font-weight: 500;
     line-height: 26px;
     color: hsla(0, 0%, 100%, .7);
+    strong {
+        color: #fff;
+        font-weight: 600;
+    }
 @media screen and (min-width: 1024px) {
         font-size: 22px;
     }

@@ -50,6 +50,10 @@ const P = styled.p`
     font-weight: 500;
     line-height: 26px;
     color: hsla(0, 0%, 100%, .7);
+    strong {
+        color: #fff;
+        font-weight: 600;
+    }
 `
 export default function SmallSection2({top, title, p, button}) {
     return (
@@ -63,6 +67,7 @@ export default function SmallSection2({top, title, p, button}) {
                             </h3>
                         </div>
                     </div>
+                    
                     <TexturedText title={title}/>
             </div>
         </div>

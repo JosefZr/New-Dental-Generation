@@ -31,8 +31,7 @@ export default function Section2() {
                                 title="Turn Cold Visitors Into Paying Patients"
                                 p="You didn’t spend a decade perfecting clinical skills…<br/>…just to lose patients because 'Luna' took a lunch break. <br/><br/>
                                     Appointments missed. Reviews lost. Referrals bleeding out. <br/><br/>
-                                    Not because you’re bad at what you do..
-                                    ..<Strong>But<strong/> because you’re still running things the old way.
+                                    Not because you’re bad at what you do....<Strong>But<strong/> because you’re still running things the old way.
                                 "
                                 button="BOOK YOUR FREE DEMO"
                                 cutted="true"
@@ -75,10 +74,10 @@ export default function Section2() {
                                     title="Turn Cold Visitors Into Paying Patients"
                                     p="You didn’t spend a decade perfecting clinical skills…<br/>…just to lose patients because 'Luna' took a lunch break. <br/><br/>
                                         Appointments missed. Reviews lost. Referrals bleeding out. <br/><br/>
-                                        Not because you’re bad at what you do..
-                                        ..<Strong>But<strong/> because you’re still running things the old way.
+                                        Not because you’re bad at what you do....<Strong>But<strong/> because you’re still running things the old way.
                                     "
                                     button="BOOK YOUR FREE DEMO"
+                                    cutted="true"
                                 />
                                 </div>
                             </div>

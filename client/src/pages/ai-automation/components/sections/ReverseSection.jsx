@@ -74,14 +74,18 @@ export default function ReverseSection() {
                                 style={{position:"absolute", color:"transparent"}}
                             />
                                 <SmallSection2
-                                    top="Let’s Be Real" 
-                                    title="Turn Cold Visitors Into Paying Patients"
-                                    p="You didn’t spend a decade perfecting clinical skills…<br/>…just to lose patients because 'Luna' took a lunch break. <br/><br/>
-                                        Appointments missed. Reviews lost. Referrals bleeding out. <br/><br/>
-                                        Not because you’re bad at what you do..<br/>
-                                        ..<Strong>But<strong/> because you’re still running things the old way.
+                                    top="Time’s Running Out" 
+                                    title="The world’s moving fast, and AI isn’t coming. It’s already here."
+                                    p="
+                                        Dental clinics are evolving.
+                                        Automation is replacing receptionists.
+                                        Patients expect instant replies, 24/7 access, and flawless service.
+                                        <br/><br/>
+                                        If you’re still running your clinic like it’s 2012…<br/>
+                                        You’re already behind.
                                     "
                                     button="BOOK YOUR FREE DEMO"
+                                    cutted="true"
                                 />
                                 </div>
                             </div>
