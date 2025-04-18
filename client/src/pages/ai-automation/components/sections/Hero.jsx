@@ -12,6 +12,9 @@ const Special = styled.h1`
     font-size: 10px;
     line-height: 30px;
     letter-spacing: -3%;
+    @media screen and (max-width: 991px) {
+        display: none;
+    }
 `
 export default function Hero() {
     return (
@@ -25,6 +28,45 @@ export default function Hero() {
                 className="max-h-[100%] h-[100%] opacity-5 w-full object-cover top-0 left-0 pointer-events-none"
                 style={{position:"absolute"}}
             />
+            {/* navbar */}
+            <div className=" w-full pointer-events-none hidden lg:block" style={{position:"relative"}}>
+                <nav className="text-sm">
+                    <div className="w-full border-b-[1px] border-b-stroke undefined">
+                        <article className="w-full max-w-[1428px] mx-auto px-[15px] lg:px-[41px] lg:border-x-[1px] lg:border-stroke "style={{position:"relative"}}>
+                            <WideLeftShades/>
+                            <div className="border-x-[1px] border-stroke">
+                                <div className="justify-between flex w-full" style={{position:"relative"}}>
+                                    <div className="z-40 flex justify-center items-center transition-all duration-500 false p-6 border-r-stroke border-r-[1px]" style={{position:"relative"}}></div>
+                                    <div className="flex flex-col justify-center items-center">
+                                        <div className="border-[6px] border-white/50 rounded-full">
+                                            <div className="border-[3px] border-white rounded-full">
+                                                <img className="w-[60px] h-[60px] rounded-full" src="/ai/autobank.webp" alt="" height={168} width={168}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a className="flex justify-end pointer-events-auto items-center p-6 border-l-stroke border-l-[1px]" ></a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </nav>
+            </div>
+            <div className=" w-full pointer-events-none lg:hidden z-50" style={{position:"relative"}}>
+                <div className="text-sm">
+                    <div className="justify-between flex w-full " style={{position:"relative"}}>
+                        <div className=" z-40 flex justify-center items-center transition-all duration-500 false p-6" style={{position:"relative"}}></div>
+                        <div className="flex flex-col justify-center items-center">
+                            <div className="border-[6px] border-white/50 rounded-full">
+                                <div className="border-[3px] border-white rounded-full">
+                                    <img className="w-[30px] h-[30px] rounded-full" src="/ai/autobank.webp" alt="" height={168} width={168}/>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="" className="flex justify-end pointer-events-auto items-center p-6"></a>
+                    </div>
+                </div>
+            </div>
+
             <div className="w-full border-b-[1px] border-b-[#2b3340] hidden lg:block">
                 <article className="w-full max-w-[1428px] mx-auto px-[15px] lg:px-[41px] lg:border-x-[1px] lg:border-[#2b3340] " style={{position:"relative"}}>
                     <WideLeftShades/>
@@ -52,7 +94,7 @@ export default function Hero() {
                     <SmallLeftShades/>
                     <div className="border-x-[1px] border-[#2b3340]">
                         <div className=" w-full group min-h-[200px]" style={{position:"relative"}}>
-                            <Special className="top-[-48px] left-[calc(50%-42px)]" style={{position:"absolute"}}>in Less Than 48h</Special>
+                            <Special className="top-[-48px] left-[calc(50%-42px)] " style={{position:"absolute"}}>in Less Than 48h</Special>
                             <div className=" undefined" style={{position:"relative"}}>
                                 <div className=" w-full  undefined" style={{position:"relative"}}>
                                     <div className="max-w-[100%]  undefined" style={{position:"relative"}}>

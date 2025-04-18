@@ -6,6 +6,7 @@
   --gold: #F4EBD0;
   --from:#a6a6a6;
   --to:#ffffff;
+  --stroke:#2b3340;
   --redClaire:#BC1823;
   --newBlack:#050510;
   --smallGold:#EDE8D0;
@@ -111,7 +112,7 @@ body {
   font-size: 1rem;
   line-height: 1.5;
   color: var(--white);
-  background-color: var(--darkBlue);
+  background-color: #01020b;
   /* background-image: url("../public/backs/full.svg");
   background-repeat: no-repeat;
   background-size: cover; */

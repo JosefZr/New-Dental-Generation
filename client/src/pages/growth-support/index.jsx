@@ -43,7 +43,7 @@ export default function GrowthSupport() {
         setIsSidebarOpen((prev) => !prev);
     };
     return (
-    <div className={`min-h-screen bg-[#0B1015] text-white transition-transform duration-300 ${
+    <div className={`min-h-screen bg-[#01020b] text-white transition-transform duration-300 ${
             isSidebarOpen ?"ml-[-72px] ":""
         }`}>
         {/* <NavigationBar /> */}

@@ -20,6 +20,7 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				'my-gold': 'var(--gold)',
 				'my-from': 'var(--from)',
+				"stroke":"var(--stroke)",
 				'my-to': 'var(--to)',
 				'my-small-gold': 'var(--smallGold)',
 				'my-gray': 'var(--gray)',

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import styled from "styled-components"
+import Top from "./Top"
 
 const Texture = styled.h1`
     margin-top: 2rem;
@@ -58,17 +59,7 @@ export default function SmallLeftContent({top, title, p, button}) {
     return (
         <div>
         <>
-            <div className="px-4 mt-[-70px] flex justify-center pointer-events-none">
-                <div className="subtitle-container">
-                    <div className="subtitle">
-                        <div className="subtitle-background">
-                            <h3>
-                            {top}
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Top top ={top}/>
             <Texture className="mt-2 capitalize text-center">{title}</Texture>
             <P className="mt-2 text-center px-4 text-pretty" dangerouslySetInnerHTML={{ __html: p }} />               
             <div className="flex mt-4 justify-center pb-8">

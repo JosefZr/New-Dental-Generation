@@ -5,12 +5,15 @@ const Special = styled.h1`
     font-size: 10px;
     line-height: 30px;
     letter-spacing: -3%;
+    @media screen and (max-width: 991px) {
+        display: none;
+    }
 `
 export default function RightVideo() {
     return (
         <div className="w-1/2 pl-[60px]">
             <figure className=" w-full h-[100%] group" style={{position:"relative"}}>
-                <Special className="top-[-48px] left-[calc(50%-42px)]" style={{position:"absolute"}}>in Less Than 48h</Special>
+                <Special className="top-[-48px] left-[calc(50%-42px)] hidden" style={{position:"absolute"}}>Your website is your waiting room.</Special>
                 <div className="h-[100%]" style={{position:"relative"}}>
                     <div className=" w-full  h-[100%]" style={{position:"relative"}}>
                         <div style={{position:"relative"}} className="max-w-[100%] h-[100%]">

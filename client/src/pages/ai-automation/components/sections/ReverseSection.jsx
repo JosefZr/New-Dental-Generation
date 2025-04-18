@@ -11,15 +11,6 @@ export default function ReverseSection() {
     useReveal('horizontal');
     return (
         <div className="reveal-vertical" style={{position:"relative",fontFamily:"'Funnel Display', sans-serif"}}>
-        <img 
-            src="/ai/carbon_bg.webp" 
-            alt="carbon fiber bg" 
-            width="1736" 
-            height="943" 
-            loading="lazy" 
-            className="max-h-[100%] h-[100%] opacity-5 w-full object-cover top-0 left-0 pointer-events-none"
-            style={{position:"absolute"}}
-        />
         <div className="w-full border-b-[1px] border-b-[#2b3340] hidden lg:block">
             <article className="w-full max-w-[1428px] mx-auto px-[15px] lg:px-[41px] lg:border-x-[1px] lg:border-[#2b3340] " style={{position:"relative"}}>
                 <WideLeftShades/>
