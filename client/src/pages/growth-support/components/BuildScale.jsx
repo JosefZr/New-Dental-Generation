@@ -69,7 +69,7 @@ export default function BuildScale() {
                             </span>
                             <div
                                 className={`absolute bottom-0 left-0 z-10 h-1 w-full transition-all ${
-                                activeTab === menuItem.value ? "bg-my-gold" : "bg-[#282E33]"
+                                activeTab === menuItem.value ? "bg-gradient-to-r from-[#a6a6a6] to-[#ffffff]" : "bg-[#282E33]"
                                 }`}
                             ></div>
                         </button>

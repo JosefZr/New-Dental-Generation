@@ -3,7 +3,7 @@ import "../../../styles/fonts.css"
 import { useTranslation } from "react-i18next"
 import { LiaUniversitySolid } from "react-icons/lia"
 import { SiLeaderprice, SiSimplelogin } from "react-icons/si"
-import { FaMoneyBillTrendUp, FaRegChessKnight, FaRegChessQueen, FaRegHandshake, FaUsers } from "react-icons/fa6"
+import { FaMoneyBillTrendUp, FaRegChessKnight, FaRegHandshake } from "react-icons/fa6"
 import { GiTakeMyMoney } from "react-icons/gi"
 import ReactMarkdown from 'react-markdown';
 import { size } from "@/lib/mediaQuerys"

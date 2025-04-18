@@ -94,7 +94,7 @@ const DynamicScheduler = ({ events }) => {
           
         </div>
         <button 
-            className="btn btn-square btn-md group rounded-md border-none bg-my-gold hover:bg-my-beige text-black" 
+            className="btn btn-square btn-md group rounded-md border-none bg-gradient-to-r from-my-from to-my-to hover:bg-my-beige text-black" 
             onClick={() => setIsNewTaskOpen(true)}
           >
             <IoCalendarNumber className='text-lg'/>

@@ -1,5 +1,5 @@
 // App.jsx
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import {
   Chat,
   Login,
@@ -68,9 +68,7 @@ export default function App() {
         <Route path="/" element={<Navigate to="/dentist" replace />} />
         <Route path="/:name" element={<Landing />} />
         <Route path="/growthSupport" element={<GrowthSupport />} />
-
         <Route path="/privacy" element={<Privacy />} />
-
         <Route path="/sign-up" element={<WaitingList />} />
         <Route path="/chama" element={<SignupAdmins />} />
         <Route path="/login" element={<Login />} />

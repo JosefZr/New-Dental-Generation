@@ -3,22 +3,22 @@ import { useContext, useState } from "react";
 import BuildScale from "./components/BuildScale";
 import { GiHamburgerMenu } from "react-icons/gi";
 import AiAutomation from "../ai-automation";
-import { GlobalNavbar } from "@/components";
-import { useNavigate } from "react-router-dom";
+// import { GlobalNavbar } from "@/components";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IoChevronBack } from "react-icons/io5";
 
     const menuItems = [
+        {
+            label: "AI AUTOMATION",
+            value: "AI AUTOMATION",
+            component:()=><AiAutomation/>
+        },
         {
             label: "MARKETING 1.2.3",
             value: "MARKETING 1.2.3",
 
             component: () => <BuildScale />,
         },
-        {
-            label: "AI AUTOMATION",
-            value: "AI AUTOMATION",
-            component:()=><AiAutomation/>
-        }
         // {
         //     label: "Business Secrets",
         //     value: "Business Secrets",
@@ -33,8 +33,10 @@ import { IoChevronBack } from "react-icons/io5";
         // },
     ];
 export default function GrowthSupport() {
-    const [activeTab, setActiveTab] = useState("MARKETING 1.2.3"); // Default active tab
+      const location = useLocation()
+    const [activeTab, setActiveTab] = useState("AI AUTOMATION"); // Default active tab
     const isOutside = location.pathname.includes(`/growthSupport`)
+    console.log(isOutside)
     const navigate = useNavigate()
     const { setIsSidebarOpen,isSidebarOpen } = useContext(UserContext);
     const toggleSidebar = () => {
@@ -55,11 +57,10 @@ export default function GrowthSupport() {
                     right:0,
                     zIndex:10,
                 }}>
-                    
                     {/* Desktop Tabs */}
                     <section className=" flex h-12 font-medium w-full gap-4 max-sm:gap-1 px-3 max-sm:px-0 my-3">
                     <div className="flex items-center">
-                        {isOutside? 
+                        {!isOutside? 
                         ( <button className="p-2 hover:bg-gray-800 rounded-full" onClick={toggleSidebar} id="push">
                             <GiHamburgerMenu className=" text-2xl text-white" />
                         </button>
@@ -74,7 +75,7 @@ export default function GrowthSupport() {
                                 key={index}
                                 className={`flex flex-1 cursor-pointer items-center rounded-md justify-center transition-all p-6 max-sm:p-0 ${
                                     activeTab === menuItem.value
-                                        ? "text-my-black font-semibold bg-my-gold hover:bg-my-gold/80"
+                                        ? "text-my-black font-semibold bg-gradient-to-r from-[#a6a6a6] to-[#ffffff] hover:bg-my-gold/80"
                                         : "text-my-white-gray bg-[#1d2932] hover:bg-[#1d2932]/80"
                                 }`}
                                 onClick={() => setActiveTab(menuItem.value)}

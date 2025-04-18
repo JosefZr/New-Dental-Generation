@@ -49,7 +49,7 @@ export default function Welcome() {
                     </div>
                 </section>
                 <section className="flex min-h-[40px] flex-1 flex-col items-baseline justify-between sm:min-h-[56px]">
-                    <div className="subtitle font-light text-base opacity-80">Welcome,</div>
+                    <div className="font-light text-base opacity-80">Welcome,</div>
                     <div className="text-xl sm:font-medium sm:text-2xl uppercase">{user.firstName} {user.lastName}</div>
                 </section>
                 </div>

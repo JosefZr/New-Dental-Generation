@@ -19,6 +19,8 @@ export default {
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
 				'my-gold': 'var(--gold)',
+				'my-from': 'var(--from)',
+				'my-to': 'var(--to)',
 				'my-small-gold': 'var(--smallGold)',
 				'my-gray': 'var(--gray)',
 				'my-white': 'var(--white)',

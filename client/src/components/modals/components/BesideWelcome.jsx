@@ -52,7 +52,7 @@ export default function BesideWelcome() {
             <div>
             <div className="">
                 <span className="font-normal opacity-50 text-xl">My Subscription: </span>
-                <div className="bg-my-gold h-10 w-full mt-3 rounded-md text-black text-center flex justify-center items-center font-semibold text-lg uppercase">
+                <div className="bg-gradient-to-r from-my-from to-my-to h-10 w-full mt-3 rounded-md text-black text-center flex justify-center items-center font-semibold text-lg uppercase">
                     <div className="">{timeLeft}</div>
                 </div>
             </div>

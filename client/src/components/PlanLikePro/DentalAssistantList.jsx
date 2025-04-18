@@ -132,7 +132,7 @@ export default function DentalAssistantList() {
                         )}
                     </div>
                     <button 
-                        className="rounded-md bg-my-gold hover:bg-my-gold hover:opacity-90 text-center flex justify-center items-center h-14 w-14" 
+                        className="rounded-md bg-gradient-to-r from-my-from to-my-to hover:bg-my-gold hover:opacity-90 text-center flex justify-center items-center h-14 w-14" 
                         onClick={handleCreateTask}
                     >
                         <LucidePlus className=" text-black " />

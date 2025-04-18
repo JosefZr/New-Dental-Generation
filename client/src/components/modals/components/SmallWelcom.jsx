@@ -51,7 +51,7 @@ export default function SmallWelcom() {
             </div>
         </section>
         <section className="flex min-h-[40px] flex-1 flex-col items-baseline justify-between sm:min-h-[56px]">
-            <div className="subtitle font-light text-lg opacity-80">Welcome,</div>
+            <div className="font-light text-lg opacity-80">Welcome,</div>
             <div className="text-3xl font-medium uppercase">{user.firstName} {user.lastName}</div>
         </section>  
     </div>

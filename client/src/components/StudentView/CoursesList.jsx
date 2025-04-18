@@ -111,7 +111,7 @@ export default function CoursesList({studentCourseList,isLoading, isError, error
                                 key={index}
                                 className="group flex"
                             >
-                                <div className="rounded-l-md bg-slate-600/90 p-[3px] duration-300 group-hover:bg-my-gold"></div>
+                                <div className="rounded-l-md bg-slate-600/90 p-[3px] duration-300 group-hover:bg-gradient-to-t group-hover:from-my-from group-hover:to-my-to"></div>
                                 <div
                                     className="h-full w-full rounded-md rounded-l-none p-5 sm:px-7 sm:py-6 cursor-pointer"
                                     style={{ backgroundColor: "rgb(13 26 37)" }}

@@ -23,7 +23,7 @@
 .plus-sign:after, .plus-sign:before {
     content: "";
     position: absolute;
-    background: var(--stroke-2);
+    background: #626b79;
 }
 
 .subtitle, .subtitle-container {

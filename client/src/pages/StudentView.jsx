@@ -11,7 +11,27 @@ import { FaRegBookmark } from "react-icons/fa6";
 import { useAuthUser } from "@/hooks/jwt/useAuthUser";
 import FavList from "@/components/StudentView/FavList";
 import { useGetAllUserProgress } from "@/hooks/courses/useGetAllUserProgress";
-
+import styled from "styled-components";
+// 1. Create a properly styled background container
+const BackgroundContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("/ai/carbon_bg.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity:0.05;
+  z-index: -1; /* Ensure it stays behind other content */
+`;
+const ContentWrapper = styled.div`
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  overflow: auto;
+`;
 export default function StudentViewCommonLayout() {
     const userInfo = useAuthUser()
     const { setAllProgress, allProgress } = useContext(CoursesContext);
@@ -114,9 +134,12 @@ const getFavoriteCourses = () => {
     ];
 
     return (
-        <div className="h-screen flex flex-col">
+       <>
+       {/* Background layer */}
+      <BackgroundContainer className="animate-fade-slide-up" />
+        <ContentWrapper >
             {/* Sticky Header */}
-            <div className="sticky top-0 z-20 bg-my-dark-blue">
+            <div className="sticky top-0 z-20 ">
                 <Header studentCourseList={studentCourseList} allProgress={allProgress} />
             </div>
 
@@ -129,7 +152,7 @@ const getFavoriteCourses = () => {
                             key={index}
                             className={`flex flex-1 cursor-pointer items-center rounded-md justify-center transition-all p-6 ${
                                 activeTab === menuItem.value
-                                    ? "text-my-black font-semibold bg-my-gold hover:bg-my-gold/80"
+                                    ? "text-my-black font-semibold bg-gradient-to-r from-[#a6a6a6] to-[#ffffff] hover:bg-my-gold/80"
                                     : "text-my-white-gray bg-[#1d2932] hover:bg-[#1d2932]/80"
                             }`}
                             onClick={() => setActiveTab(menuItem.value)}
@@ -157,7 +180,7 @@ const getFavoriteCourses = () => {
                             </span>
                             <div
                         className={`absolute bottom-0 left-0 z-10 h-1 w-full ${
-                        activeTab === menuItem.value ? "bg-my-gold" : "bg-[#282E33]"
+                        activeTab === menuItem.value ? "bg-gradient-to-r from-my-from to-my-to" : "bg-[#282E33]"
                         }`}
                     ></div>
                         </button>
@@ -169,6 +192,7 @@ const getFavoriteCourses = () => {
             <div className="flex-1 custom-scroll overflow-y-auto py-2 ">
                 {menuItems.find((menuItem) => menuItem.value === activeTab)?.component()}
             </div>
-        </div>
+        </ContentWrapper>
+       </>
     );
 }

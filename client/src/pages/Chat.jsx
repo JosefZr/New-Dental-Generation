@@ -30,7 +30,7 @@ export default function Chat() {
           isSidebarOpen ? "-translate-x-full" : "translate-x-0"
         }`}
         style={{
-          backgroundColor:"hsl(211.3 46.939% 9.6078%)"
+          backgroundColor:"#0d1825"
         }}
       >
         <NavigationSidebar />
