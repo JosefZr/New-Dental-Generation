@@ -20,7 +20,7 @@ export default function AfterServices() {
                                             top="Think about it" 
                                             title="And the Best Part?"
                                             p="
-                                                All of this runs quietly in the background..
+                                                All of this runs quietly in the background..<br/>
                                                 ..so you can focus on what actually matters: <strong>treating patients.</strong>
                                                 <br/><br/>
                                                 While you're drilling, scaling, diagnosing...<br/>
@@ -30,7 +30,7 @@ export default function AfterServices() {
                                         />
                                         <div className="w-1/2 border-l-[1px] border-l-[#2b3340] top-0 right-0 max-h-[100%] overflow-hidden" style={{position:"absolute"}}>
                                             <img 
-                                                src="https://www.cobratate.com/jointherealworld/thinkabout.png" 
+                                                src="/ai/YDN Hall of Fame.webp" 
                                                 alt="Section Timeout Background" 
                                                 style={{color:"transparent"}} 
                                                 className="object-cover h-[100%] w-full"
@@ -52,7 +52,7 @@ export default function AfterServices() {
                             <div className="border-x-[1px] border-[#2b3340]">
                         <div className="lg:hidden pt-12 pb-8" style={{position:"relative"}}>
                             <img 
-                                src="https://www.cobratate.com/jointherealworld/thinkabout.png" 
+                                src="/ai/YDN Hall of Fame.webp" 
                                 alt="carbon fiber bg" 
                                 width="1334" 
                                 height="1642" 

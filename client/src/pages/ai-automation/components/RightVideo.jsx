@@ -13,13 +13,13 @@ export default function RightVideo() {
     return (
         <div className="w-1/2 pl-[60px]">
             <figure className=" w-full h-[100%] group" style={{position:"relative"}}>
-                <Special className="top-[-48px] left-[calc(50%-42px)] hidden" style={{position:"absolute"}}>Your website is your waiting room.</Special>
+                <Special className="top-[-48px] left-[calc(50%-42px)] capitalize" style={{position:"absolute"}}>Your website is your waiting room.</Special>
                 <div className="h-[100%]" style={{position:"relative"}}>
                     <div className=" w-full  h-[100%]" style={{position:"relative"}}>
                         <div style={{position:"relative"}} className="max-w-[100%] h-[100%]">
                             <div className="w-full h-full hidden lg:block" style={{position:"relative", paddingTop:"56.338%"}}>
                                 <iframe 
-                                    src="https://player.vimeo.com/video/1046354505?h=fe92c2a68a&autoplay=1&muted=1&loop=1" 
+                                    src="https://vimeo.com/1046354505/fe92c2a68a" 
                                     frameBorder="0"
                                     height={"100%"}
                                     width={"100%"}

@@ -32,9 +32,9 @@ export default function ReverseSection() {
                                 cutted="true"
                             />
                             {/* <RightVideo/> */}
-                            <div className="w-1/2 border-l-[1px] border-l-[#2b3340] top-0 left-0 max-h-[100%] overflow-hidden" style={{position:"absolute"}}>
+                            <div className="w-1/2 border-l-[1px] border-l-[#2b3340] top-[20%] left-0 max-h-[100%] overflow-hidden" style={{position:"absolute"}}>
                                 <img 
-                                    src="https://www.cobratate.com/jointherealworld/section3.png" 
+                                    src="/public/ai/2.jpeg" 
                                     alt="Section Timeout Background" 
                                     style={{color:"transparent"}} 
                                     className="object-cover h-[100%] w-full"
@@ -56,7 +56,7 @@ export default function ReverseSection() {
                     <div className="border-x-[1px] border-[#2b3340]">
                         <div className="lg:hidden pt-12 pb-8" style={{position:"relative"}}>
                             <img 
-                                src="https://www.cobratate.com/jointherealworld/section3.png" 
+                                src="/public/ai/2.jpeg" 
                                 alt="carbon fiber bg" 
                                 width="1334" 
                                 height="1642" 

@@ -53,12 +53,12 @@ const Button = styled.button`
 export default function LeftContent2({top, title, p, button, cutted}) {
     return (
         <div className={`${cutted?"w-2/5":"w-1/2"}`}>
-            <Subtitle top ={top}/>
+            {top &&<Subtitle top ={top}/>}
             <HeroHeading dangerouslySetInnerHTML={{ __html: title }}/>   
             <Paragraph p={p}/>
             <div className="flex mt-8 ">
                 <Link>
-                    <Div className="hover:scale-105 duration-300 transition-all pb-8">
+                    <Div className="hover:scale-105 duration-300 transition-all ">
                         <Button className="hover:scale-105 duration-300 transition-all">{button}</Button>
                     </Div>
                 </Link>

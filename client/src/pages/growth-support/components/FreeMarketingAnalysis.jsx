@@ -1,5 +1,4 @@
 import { useCreateAnalysis } from "@/hooks/analyses/useCreateAnalysis"
-import { useAuthUser } from "@/hooks/jwt/useAuthUser"
 import { useForm } from "react-hook-form"
 import styled from "styled-components"
 
@@ -15,8 +14,6 @@ const FormContainer = styled.div`
 `
 
 export default function FreeMarketingAnalysis() {
-    const userInfo = useAuthUser();
-  const userId = userInfo.userId;
   const createAnalysis = useCreateAnalysis();
 
   const {
@@ -26,24 +23,16 @@ export default function FreeMarketingAnalysis() {
     formState: { errors },
   } = useForm();
 
-  // Check if the user has already submitted in the last 24 hours
-  const lastSubmissionTime = localStorage.getItem(`lastSubmission_${userId}`);
-  const isDisabled = lastSubmissionTime 
-    ? Date.now() - Number(lastSubmissionTime) < 24 * 60 * 60 * 1000 
-    : false;
+
 
   const onSubmit = (data) => {
-    if (isDisabled) {
-      alert("You can only submit this form once every 24 hours.");
-      return;
-    }
+   
     // Include userId in the submission data
-    const formData = { ...data, userId };
+    const formData = { ...data };
 
     createAnalysis.mutate(formData, {
       onSuccess: () => {
         reset(); // Reset form after successful submission
-        localStorage.setItem(`lastSubmission_${userId}`, Date.now()); // Store submission time
       },
     });
   };
@@ -52,9 +41,7 @@ export default function FreeMarketingAnalysis() {
     <Text className="min-h-screen bg-my-dark-blue text-gray-100 flex items-center justify-center p-4">
       <FormContainer className="w-full max-w-2xl p-8">
 
-        {isDisabled ? (
-          <p className="text-gray-400 text-xl text-center">You have already submitted the form. Please try again after 24 hours.</p>
-        ) : createAnalysis.isLoading ? (
+        { createAnalysis.isLoading ? (
           <div className="flex flex-col items-center">
             <span className="animate-spin border-4 border-white border-t-transparent rounded-full w-12 h-12"></span>
             <p className="mt-4 text-gray-400">Submitting your request...</p>
@@ -183,9 +170,9 @@ export default function FreeMarketingAnalysis() {
             <button
               type="submit"
               className={`mt-4 px-4 py-2 rounded-lg text-white flex items-center justify-center gap-2 ${
-                isDisabled || createAnalysis.isLoading ? "bg-gray-500 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
+                createAnalysis.isLoading ? "bg-gray-500 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"
               }`}
-              disabled={isDisabled || createAnalysis.isLoading} // Disable button while submitting
+              disabled={ createAnalysis.isLoading} // Disable button while submitting
             >
               {createAnalysis.isLoading && (
                 <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>

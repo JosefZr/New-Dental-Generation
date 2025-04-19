@@ -60,13 +60,13 @@ export default function SmallSection2({top, title, p, button}) {
         <>
         <div className="lg:p-[60px] p-2 w-full " >
             <div className="flex flex-col items-center z-10 "style={{position:"relative"}}>
-                    <div className="subtitle">
+                    {top &&<div className="subtitle">
                         <div className="subtitle-background">
                             <h3>
                                 {top}
                             </h3>
                         </div>
-                    </div>
+                    </div>}
                     
                     <TexturedText title={title}/>
             </div>

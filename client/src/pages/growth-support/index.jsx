@@ -33,7 +33,7 @@ import { IoChevronBack } from "react-icons/io5";
         // },
     ];
 export default function GrowthSupport() {
-      const location = useLocation()
+    const location = useLocation()
     const [activeTab, setActiveTab] = useState("AI AUTOMATION"); // Default active tab
     const isOutside = location.pathname.includes(`/growthSupport`)
     console.log(isOutside)

@@ -82,7 +82,7 @@ export default function LeftContent({top, title, p, button, cutted}) {
             <P className={` mt-8  ${cutted?"max-w-[408px]":""}`} dangerouslySetInnerHTML={{ __html: p }} />
             <div className="flex mt-8 ">
                 <Link>
-                    <Div className="hover:scale-105 duration-300 transition-all pb-8">
+                    <Div className="hover:scale-105 duration-300 transition-all ">
                         <Button className="hover:scale-105 duration-300 transition-all">{button}</Button>
                     </Div>
                 </Link>

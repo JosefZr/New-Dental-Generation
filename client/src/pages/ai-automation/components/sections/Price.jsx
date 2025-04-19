@@ -86,9 +86,9 @@ export default function Prices() {
                     </div> */}
                     <div className="flex border-t-[1px] border-t-[#2b3340]">
                         <div className="w-1/2 border-r-[1px] border-r-[#2b3340]">
-                            <div className="lg:p-[60px] p-2 w-full "style={{position:"relative"}}>
+                            <div className="lg:p-[10px] mt-16 p-2 w-full "style={{position:"relative"}}>
                                 <div className="flex justify-center items-center flex-col">
-                                    <Texture className="my-2 capitalize text-center">Why It Matters:</Texture>                                    
+                                    <Texture className="my-2 capitalize text-center justify-self-end">Why It Matters:</Texture>                                    
                                 </div>
                             </div>
                         </div>
@@ -138,7 +138,7 @@ export default function Prices() {
                                         </div>
                                         <div className="flex gap-4 items-center">
                                             <MdOutlineDone height="1rem" width="1rem"/>
-                                            <P1 >Run a modern, sharp, professional clinic that *actually* feels ahead of the curve...</P1>
+                                            <P1 >Run a modern, sharp, professional clinic that <i>actually</i> feels ahead of the curve...</P1>
                                         </div>
                                         
                                     </div>

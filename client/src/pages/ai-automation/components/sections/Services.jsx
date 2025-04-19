@@ -1,7 +1,6 @@
 import useReveal from "@/hooks/useReveal";
 import WideLeftShades from "../Shades/WideLeftShades";
 import Subtitle from "../Subtitle";
-import TexturedText from "../TexturedText";
 import styled from "styled-components";
 import GlowSquares from "../Shades/GlowSquares";
 import { GiSpiderWeb } from "react-icons/gi";
@@ -77,17 +76,36 @@ const Texture = styled.h5`
         line-height: 24px;
     }
 `
+const HeroHeading = styled.h1`
+    margin-top: 2rem;
+    background-color: white;
+    text-transform: capitalize;
+    background-position: 50%;
+    background-repeat: repeat;
+    -webkit-text-fill-color: transparent;
+    background-image: url("/backs/heading-texture_1heading-texture.webp");
+    background-clip: text;
+    font-size: 55px;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    line-height: 50px;
+    text-align: center;
+    @media screen and (max-width: 991px) {
+        font-size: 30px;
+        line-height: 34px;
+    }
+`;
 const Items = [
     {
         title:"Professional Website",
         icon:<GiSpiderWeb/>,
-        p:"Fast, modern, mobile-ready. <strong className='text-white'>Built to impress. Built to convert. </strong>Because your site *is* your first impression.",
-        img:"https://www.cobratate.com/jointherealworld/copywriting_1.png",
+        p:"Fast, modern, mobile-ready.<br/> <strong className='text-white'>Built to impress. Built to convert. </strong>Because your site <i>is</i> your first impression.",
+        img:"/ai/6.jpeg",
     },
     {
         title:"AI Chat Assistant",
         icon:<img src="	https://www.cobratate.com/jointherealworld/cacm_icon.svg"/>,
-        p:"<strong className='text-white'>Never miss another lead—even at 2 AM </strong> Answers questions, handles objections, collects patient info. It’s trained on your services and runs nonstop.No scripts. No sick days. Just performance.",
+        p:"<strong className='text-white'>Never miss another lead—even at 2 AM </strong> Answers questions, handles objections, collects patient info. It’s trained on your services and runs nonstop. No scripts. No sick days. Just performance.",
         video:"https://vimeo.com/1038091773",
     },
     {
@@ -99,20 +117,20 @@ const Items = [
     {
         title:"Auto-Scheduling & Reminders",
         icon:<RiCalendarScheduleFill/>,
-        p:"<strong className='text-white'>Fill your calendar without lifting a finger. </strong>Patients pick a time. The system sends reminders. They show up. You stay focused. No-shows drop. Simple as that.",
-        img:"https://www.cobratate.com/jointherealworld/copywriting_1.png",
+        p:"<strong className='text-white'>Fill your calendar without lifting a finger. </strong>Patients pick a time. The system sends reminders. They show up. You stay focused.</br> No-shows drop. Simple as that.",
+        img:"/public/ai/3.jpeg",
     },
     {
         title:"AI Receptionist (Text or Voice)",
         icon:<BsRobot/>,
-        p:"<strong className='text-white'>Your front desk, upgraded. </strong>Responds instantly through text or voice. Handles basic tasks, sends updates, keeps things moving. Works 24/7. Never complains.",
-        img:"https://www.cobratate.com/jointherealworld/copywriting_1.png",
+        p:"<strong className='text-white'>Your front desk, upgraded. </strong> </br>Responds instantly through text or voice. Handles basic tasks, sends updates, keeps things moving.</br> Works 24/7. Never complains.",
+        img:"/ai/4.webp",
     },
     {
         title:"Client Database + Follow-Ups",
         icon:<TbDatabaseDollar/>,
-        p:"<strong className='text-white'>Every lead saved. Every opportunity followed up. </strong>Build your patient list automatically. Track who booked, who didn’t, and follow up with precision. More booked consults. Less chaos.",
-        img:"https://www.cobratate.com/jointherealworld/copywriting_1.png",
+        p:"<strong className='text-white'>Every lead saved. Every opportunity followed up. </strong></br> Build your patient list automatically. Track who booked, who didn’t, and follow up with precision.</br> More booked consults. Less chaos.",
+        img:"/ai/5.webp",
     },
 ]
 export default function Services() {
@@ -172,7 +190,10 @@ export default function Services() {
                 <div className="flex flex-col items-center justify-center">
                   <Subtitle top="That ends today." />
                 </div>
-                <TexturedText title="Here’s How We Fix It — Fast." />
+                <HeroHeading >
+                    Here’s How We Fix It — Fast.
+                </HeroHeading>   
+
                 <P className="mt-4 max-w-[550px] text-center mx-auto" dangerouslySetInnerHTML={{ __html: "Every tool below is designed to save time, lock in more patients, and make your clinic run like a machine." }} />
               </div>
             </div>
@@ -207,7 +228,7 @@ export default function Services() {
                                     <>
                                         <img 
                                             src={item.icon.props.src} 
-                                            className="h-[48px] w-auto hidden lg:block transition-all duration-500"
+                                            className="h-[48px] w-auto hidden lg:block transition-all  duration-500"
                                             alt={item.title}
                                         />
                                         <img 
@@ -236,7 +257,15 @@ export default function Services() {
                                 </div>
                             </div>
                             {item.img && (
-                                <img src={item.img} alt={item.title} width="416" height="300" className="w-full" />
+                                <img src={item.img} alt={item.title} width="416" height="300" className="w-full "style={{
+                                    maxHeight: "240px",
+                                    objectFit: "cover",
+                                    backgroundPosition:"top",
+                                    backgroundPositionY:"top",
+                                    backgroundRepeat:"no-repeat",
+                                    backgroundSize:"cover",
+                                    objectPosition: "center",
+                                }} />
                             )}
                             {item.video && (
                             <VideoWrapper>

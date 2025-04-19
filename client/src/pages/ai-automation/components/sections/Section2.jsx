@@ -18,11 +18,11 @@ export default function Section2() {
                     <div className="lg:p-[60px] p-2 w-full" style={{position:"relative"}}>
                         <div className="flex">
                             <LeftContent2 
-                                top="Let’s Be Real" 
-                                title="Turn Cold Visitors Into Paying Patients"
-                                p="You didn’t spend a decade perfecting clinical skills…<br/>…just to lose patients because 'Luna' took a lunch break. <br/><br/>
+                                // top="Let’s Be Real" 
+                                title="Let’s Be Real"
+                                p="You didn’t spend a decade perfecting clinical skills…<br/>…just to lose patients because <i>Luna</i> took a lunch break. <br/><br/>
                                     Appointments missed. Reviews lost. Referrals bleeding out. <br/><br/>
-                                    Not because you’re bad at what you do....<Strong>But<strong/> because you’re still running things the old way.
+                                    Not because you’re bad at what you do..<br/>..<Strong>But<strong/> because you’re still running things the old way.
                                 "
                                 button="BOOK YOUR FREE DEMO"
                                 cutted="true"
@@ -30,10 +30,10 @@ export default function Section2() {
                             {/* <RightVideo/> */}
                             <div className="w-1/2 border-l-[1px] border-l-[#2b3340] top-0 right-0 max-h-[100%] overflow-hidden" style={{position:"absolute"}}>
                                 <img 
-                                    src="https://www.cobratate.com/jointherealworld/section2.png" 
+                                    src="/ai/1.jpeg" 
                                     alt="Section Timeout Background" 
                                     style={{color:"transparent"}} 
-                                    className="object-cover h-[100%] w-full"
+                                    className="object-center  h-[100%] w-full  bg-contain  pointer-events-none z-0 opacity-75 "
                                     loading="lazy"
                                     width={1334}
                                     height={1642}
@@ -52,7 +52,7 @@ export default function Section2() {
                     <div className="border-x-[1px] border-[#2b3340]">
                         <div className="lg:hidden pt-12 pb-8" style={{position:"relative"}}>
                             <img 
-                                src="https://www.cobratate.com/jointherealworld/section2.png" 
+                                src="/ai/1.jpeg" 
                                 alt="carbon fiber bg" 
                                 width="1334" 
                                 height="1642" 
@@ -61,11 +61,11 @@ export default function Section2() {
                                 style={{position:"absolute", color:"transparent"}}
                             />
                                 <SmallSection2
-                                    top="Let’s Be Real" 
-                                    title="Turn Cold Visitors Into Paying Patients"
-                                    p="You didn’t spend a decade perfecting clinical skills…<br/>…just to lose patients because 'Luna' took a lunch break. <br/><br/>
+                                      // top="Let’s Be Real" 
+                                    title="Let’s Be Real"
+                                    p="You didn’t spend a decade perfecting clinical skills…<br/>…just to lose patients because <i>Luna</i> took a lunch break. <br/><br/>
                                         Appointments missed. Reviews lost. Referrals bleeding out. <br/><br/>
-                                        Not because you’re bad at what you do....<Strong>But<strong/> because you’re still running things the old way.
+                                        Not because you’re bad at what you do..<br/>..<Strong>But<strong/> because you’re still running things the old way.
                                     "
                                     button="BOOK YOUR FREE DEMO"
                                     cutted="true"
