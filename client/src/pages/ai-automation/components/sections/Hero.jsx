@@ -9,7 +9,7 @@ import SmallLeftShades from "../Shades/SmallLeftShades";
 import SmallRightShades from "../Shades/SmallRightShades";
 import { size } from "@/lib/mediaQuerys";
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 const Special = styled.h1`
     color: hsla(0, 0%, 100%, .21);
     font-size: 10px;
@@ -275,7 +275,18 @@ export default function Hero() {
                                             </div>
                                         </div>
                                     </div>
-                                    <a className="flex justify-end pointer-events-auto items-center p-6 border-l-stroke border-l-[1px]" ></a>
+                                    <div className=" flex justify-end pointer-events-auto items-center p-6 border-l-stroke border-l-[1px]" style={{position:"relative"}}>
+                                        <div onClick={toggleMenu} className="group cursor-pointer">
+                                            <div className="border-[4px] border-[#2b334079]">
+                                                <div className="border-[2px] border-[#2b3340be]">
+                                                <Link to={"https://buildydn.com/#/login"} className="group cursor-pointer text-white flex items-center gap-4 pointer-events-auto transition-all duration-300 border-stroke hover:border-[#6a6d6f] border-[1px] hover:bg-[#202326] py-1 px-3 w-auto">
+                                                    <img src="https://www.cobratate.com/jointherealworld/login_icon.png" alt="za" className="w-[28px] h-[28px]" width={56} height={56} />
+                                                    <p className="text-sm">LOGIN</p>
+                                                </Link>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <WideRightShades/>
@@ -318,12 +329,23 @@ export default function Hero() {
                         <div className="flex flex-col justify-center items-center">
                             <div className="border-[6px] border-white/50 rounded-full">
                                 <div className="border-[3px] border-white rounded-full">
-                                    <img className="w-[30px] h-[30px] rounded-full" src="/ai/autobank.webp" alt="" height={168} width={168}/>
+                                    <img className="w-[50px] h-[50px] rounded-full scale-150" src="/ai/autobank.webp" alt="" height={168} width={168}/>
                                 </div>
                             </div>
                         </div>
-                        <a href="" className="flex justify-end pointer-events-auto items-center p-6"></a>
-                    </div>
+                        <div className=" z-40 flex justify-center items-center transition-all duration-500 false p-6" style={{position:"relative"}}>
+                            <div onClick={toggleMenu} className="group cursor-pointer">
+                                <div className="border-[4px] border-[#2b334079]">
+                                    <div className="border-[2px] border-[#2b3340be]">
+                                    <Link to={"https://buildydn.com/#/login"} target="_blank" className="group cursor-pointer text-white flex items-center gap-4 pointer-events-auto transition-all duration-300 border-stroke hover:border-[#6a6d6f] border-[1px] hover:bg-[#202326] py-1 px-3 w-auto">
+                                        <img src="https://www.cobratate.com/jointherealworld/login_icon.png" alt="za" className="w-[28px] h-[28px]" width={56} height={56} />
+                                        <p className="text-sm">LOGIN</p>
+                                    </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
                 </div>
             </div>
 
